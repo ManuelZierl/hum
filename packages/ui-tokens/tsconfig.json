@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "jsx": "react",
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
