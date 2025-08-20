@@ -4,7 +4,7 @@ import MessageListItem from './MessageListItem';
 
 const DemoScreen: React.FC = () => {
   const messages = [
-    { id: 1, sender: 'them', text: 'Hello!', timestamp: '09:41', status: 'read' },
+    { id: 1, sender: 'them', text: 'Hello!', timestamp: '09:41' },
     { id: 2, sender: 'me', text: 'Hi there!', timestamp: '09:42', status: 'sent' },
     {
       id: 3,
