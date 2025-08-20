@@ -1,0 +1,57 @@
+export type PaymentStringType = 'bolt11' | 'bolt12' | 'lnurl' | 'lightning';
+
+const BECH32_CHARS = '[02-9ac-hj-np-z]';
+
+const bolt11Regex = new RegExp(`^ln(?!url|o|r|i)[a-z0-9]+1${BECH32_CHARS}+$/, 'i');
+const bolt12Regex = new RegExp(`^ln(o|r|i)[a-z0-9]*1${BECH32_CHARS}+$/, 'i');
+const lnurlRegex = new RegExp(`^lnurl${BECH32_CHARS}+$`, 'i');
+
+function isBolt11(str: string): boolean {
+  return bolt11Regex.test(str);
+}
+
+function isBolt12(str: string): boolean {
+  return bolt12Regex.test(str);
+}
+
+function isLnurl(str: string): boolean {
+  return lnurlRegex.test(str);
+}
+
+export function normalizeInvoice(str: string): string {
+  return str.trim().replace(/^lightning:/i, '').toLowerCase();
+}
+
+export function detectPaymentStrings(text: string): { type: PaymentStringType; value: string }[] {
+  const results: { type: PaymentStringType; value: string }[] = [];
+
+  // Detect lightning: URIs first
+  const lightningPattern = /lightning:([^\s]+)/gi;
+  let match: RegExpExecArray | null;
+  while ((match = lightningPattern.exec(text))) {
+    const candidate = normalizeInvoice(match[1]);
+    if (isBolt11(candidate) || isBolt12(candidate) || isLnurl(candidate)) {
+      results.push({ type: 'lightning', value: match[0] });
+    }
+  }
+
+  // Remove lightning: URIs to avoid duplicate detection
+  const sanitized = text.replace(/lightning:[^\s]+/gi, ' ');
+
+  const bolt11Pattern = /\bln(?!url|o|r|i)[a-z0-9]+1[02-9ac-hj-np-z]+\b/gi;
+  while ((match = bolt11Pattern.exec(sanitized))) {
+    results.push({ type: 'bolt11', value: match[0] });
+  }
+
+  const bolt12Pattern = /\bln(o|r|i)[a-z0-9]*1[02-9ac-hj-np-z]+\b/gi;
+  while ((match = bolt12Pattern.exec(sanitized))) {
+    results.push({ type: 'bolt12', value: match[0] });
+  }
+
+  const lnurlPattern = /\blnurl[02-9ac-hj-np-z]+\b/gi;
+  while ((match = lnurlPattern.exec(sanitized))) {
+    results.push({ type: 'lnurl', value: match[0] });
+  }
+
+  return results;
+}
