@@ -1,0 +1,11 @@
+{
+  "name": "mchat",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "tsc -p packages/chat-types/tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
