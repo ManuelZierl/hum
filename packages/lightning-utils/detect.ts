@@ -5,7 +5,14 @@ const BECH32_CHARS = '[02-9ac-hj-np-z]';
 const bolt11Regex = new RegExp(`^ln(?!url|o|r|i)[a-z0-9]+1${BECH32_CHARS}+$`, 'i');
 const bolt12Regex = new RegExp(`^ln(o|r|i)[a-z0-9]*1${BECH32_CHARS}+$`, 'i');
 const lnurlRegex = new RegExp(`^lnurl1${BECH32_CHARS}{10,}$`, 'i');
+// Extracted regex pattern strings for consistency
+const BOLT11_PATTERN_STR = `ln(?!url|o|r|i)[a-z0-9]+1${BECH32_CHARS}+`;
+const BOLT12_PATTERN_STR = `ln(o|r|i)[a-z0-9]*1${BECH32_CHARS}+`;
+const LNURL_PATTERN_STR = `lnurl1${BECH32_CHARS}{10,}`;
 
+const bolt11Regex = new RegExp(`^${BOLT11_PATTERN_STR}$`, 'i');
+const bolt12Regex = new RegExp(`^${BOLT12_PATTERN_STR}$`, 'i');
+const lnurlRegex = new RegExp(`^${LNURL_PATTERN_STR}$`, 'i');
 function isBolt11(str: string): boolean {
   return bolt11Regex.test(str);
 }
