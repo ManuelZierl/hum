@@ -1,6 +1,6 @@
 # Security Policy
 
-We take the security of this project seriously. If you discover a vulnerability, please contact us at security@example.com.
+We take the security of this project seriously. If you discover a vulnerability, please contact us at security@yourdomain.com.
 
 We will acknowledge your report within 3 working days and aim to provide a remediation plan within 7 working days.
 
