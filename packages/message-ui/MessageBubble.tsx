@@ -5,7 +5,7 @@ export type MessageBubbleProps = {
   sender: 'me' | 'them';
   text: string;
   timestamp: string;
-  status: string;
+  status: 'sent' | 'delivered' | 'read' | '';
   isReply?: boolean;
   isSelected?: boolean;
 };
