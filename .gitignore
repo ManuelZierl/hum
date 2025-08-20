@@ -27,3 +27,5 @@ web-build/
 # Rust
 target/
 **/target/
+native/rust/target/
+
