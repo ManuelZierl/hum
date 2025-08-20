@@ -14,7 +14,15 @@ const withMatrixCore: ConfigPlugin = (config) => {
     console.log('with-matrix-core: Android configuration placeholder');
     return c;
   }]);
+import { ConfigPlugin } from '@expo/config-plugins';
 
+/**
+ * Stub Expo config plugin for future Matrix core integration.
+ * Currently logs intended changes without modifying native projects.
+ */
+const withMatrixCore: ConfigPlugin = (config) => {
+  console.log('with-matrix-core: iOS configuration placeholder');
+  console.log('with-matrix-core: Android configuration placeholder');
   return config;
 };
 
