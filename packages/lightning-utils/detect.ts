@@ -55,7 +55,17 @@ export function detectPaymentStrings(text: string): { type: PaymentStringType; v
     results.push({ type: 'bolt12', value: match[0] });
   }
 
-  const lnurlPattern = /\blnurl1[02-9ac-hj-np-z]{10,}\b/gi;
+  const bolt11Pattern = new RegExp(`\\b${BOLT11_REGEX_STR}\\b`, 'gi');
+  while ((match = bolt11Pattern.exec(sanitized))) {
+    results.push({ type: 'bolt11', value: match[0] });
+  }
+
+  const bolt12Pattern = new RegExp(`\\b${BOLT12_REGEX_STR}\\b`, 'gi');
+  while ((match = bolt12Pattern.exec(sanitized))) {
+    results.push({ type: 'bolt12', value: match[0] });
+  }
+
+  const lnurlPattern = new RegExp(`\\b${LNURL_REGEX_STR}\\b`, 'gi');
   while ((match = lnurlPattern.exec(sanitized))) {
     results.push({ type: 'lnurl', value: match[0] });
   }
