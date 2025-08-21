@@ -15,4 +15,10 @@ export function track(event: string, props?: TelemetryProps): void {
     void event;
     void props;
   }
+export function track(_event: string, _props?: TelemetryProps): void {
+  if (process.env.ENABLE_TELEMETRY === 'true') {
+    // Telemetry backend not implemented yet.
+    // This is a placeholder to be replaced when telemetry is added.
+    // Parameters intentionally unused.
+  }
 }
