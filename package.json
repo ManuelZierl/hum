@@ -16,7 +16,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,json,md}": [
       "prettier --write",
-      "eslint --cache --fix"
+      "eslint -c .eslintrc.js --cache --fix"
     ]
   },
   "private": true,
