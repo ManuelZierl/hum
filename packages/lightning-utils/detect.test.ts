@@ -1,4 +1,4 @@
-import { detectPaymentStrings, normalizeInvoice } from './detect';
+import { detectPaymentStrings, normalizeInvoice } from '.';
 
 describe('detectPaymentStrings positives', () => {
   const positives = [
