@@ -29,4 +29,4 @@ cd "$WORKSPACE_DIR"
 echo "Building for iOS target $TARGET..."
 cargo build --release --target "$TARGET" --target-dir "$OUTPUT_DIR"
 
-echo "Build artifacts are located in $OUTPUT_DIR"
+echo "Build artifacts are located in $OUTPUT_DIR/$TARGET"
