@@ -23,6 +23,7 @@ case "$ARCH" in
   arm64-v8a) TARGET_TRIPLE=aarch64-linux-android ;;
   armeabi-v7a) TARGET_TRIPLE=armv7-linux-androideabi ;;
   x86_64) TARGET_TRIPLE=x86_64-linux-android ;;
+  x86) TARGET_TRIPLE=i686-linux-android ;;
   *) echo "Unsupported Android architecture: $ARCH"; exit 1 ;;
 esac
 
