@@ -1,2 +1,33 @@
-node_modules
-packages/*/dist
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+packages/*/node_modules/
+packages/*/dist/
+
+# React Native / Expo
+.expo/
+.expo-shared/
+android/
+ios/
+web-build/
+*.jks
+*.keystore
+*.p8
+*.p12
+*.pfx
+*.mobileprovision
+
+# Environment files
+.env
+.DS_Store
+
+# Rust
+target/
+**/target/
+native/rust/target/
