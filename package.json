@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "test": "tsc -p packages/chat-types/tsconfig.json"
+    "test": "jest",
+    "typecheck": "tsc -p packages/chat-types/tsconfig.json"
   },
   "devDependencies": {
     "@types/jest": "^29.5.2",
