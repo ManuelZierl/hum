@@ -34,14 +34,14 @@ impl SqliteStore {
 impl IMatrixStore for SqliteStore {
     async fn put_session(&self, session: &Session) -> CoreResult<()> {
         let json = serde_json::to_string(session)?;
-        let conn = self.conn.lock().unwrap();
+        let conn = self.conn.lock().map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         conn.execute("DELETE FROM session", [])?;
         conn.execute("INSERT INTO session (data) VALUES (?1)", [json])?;
         Ok(())
     }
 
     async fn get_session(&self) -> CoreResult<Option<Session>> {
-        let conn = self.conn.lock().unwrap();
+        let conn = self.conn.lock().map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         let mut stmt = conn.prepare("SELECT data FROM session LIMIT 1")?;
         let opt: Option<String> = stmt.query_row([], |row| row.get(0)).optional()?;
         let session = opt.map(|json| serde_json::from_str(&json)).transpose()?;
