@@ -1,9 +1,7 @@
 {
   "name": "@mchat/message-ui",
   "version": "0.1.0",
-  "dependencies": {
-    "@mchat/ui-tokens": "*"
-  }
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
