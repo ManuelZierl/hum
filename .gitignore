@@ -17,6 +17,10 @@ packages/*/dist/
 .expo-shared/
 android/
 ios/
+!native/ln-core/android/
+!native/ln-core/android/**
+!native/ln-core/ios/
+!native/ln-core/ios/**
 web-build/
 *.jks
 *.keystore
