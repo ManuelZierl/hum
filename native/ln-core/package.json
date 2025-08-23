@@ -1,0 +1,20 @@
+{
+  "name": "@mchat/ln-core",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./with-ln-core": {
+      "types": "./dist/with-ln-core.d.ts",
+      "default": "./dist/with-ln-core.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}
