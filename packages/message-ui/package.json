@@ -1,7 +1,6 @@
 {
   "name": "@mchat/message-ui",
   "version": "0.1.0",
-  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -13,5 +12,12 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mchat/ui-tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
   }
 }
