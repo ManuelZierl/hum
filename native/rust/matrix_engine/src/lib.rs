@@ -91,9 +91,12 @@ impl Engine {
                 .and_then(|ev| ev.origin_server_ts())
                 .map(|ts| ts.to_string())
                 .unwrap_or_else(|| "unknown".to_owned());
-            println!("- {} (last event: {})", name, ts);
+            summaries.push(RoomSummary {
+                name,
+                last_event: ts,
+            });
         }
-        Ok(())
+        Ok(summaries)
     }
 
     pub async fn sync_for(&self, duration: Duration) -> Result<()> {
