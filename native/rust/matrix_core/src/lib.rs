@@ -1,4 +1,10 @@
-pub fn sum(left: i32, right: i32) -> i32 {
+//! Entry points for the `matrix_core` FFI.
+//!
+//! Functions exposed from this crate follow the conventions in `FFI.md` and map
+//! directly to methods in the future Expo Module API.
+
+#[no_mangle]
+pub extern "C" fn matrix_core_sum(left: i32, right: i32) -> i32 {
     left + right
 }
 
@@ -8,6 +14,6 @@ mod tests {
 
     #[test]
     fn it_adds() {
-        assert_eq!(sum(1, 1), 2);
+        assert_eq!(matrix_core_sum(1, 1), 2);
     }
 }
