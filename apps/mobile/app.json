@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "mchat",
+    "slug": "mchat",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",

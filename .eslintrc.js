@@ -5,7 +5,13 @@ module.exports = {
     'react-native/react-native': true,
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'react-native', 'prettier'],
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'react-hooks',
+    'react-native',
+    'prettier',
+  ],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -18,5 +24,9 @@ module.exports = {
     react: {
       version: 'detect',
     },
+  },
+  rules: {
+    'react-native/no-color-literals': 'off',
+    'react-native/sort-styles': 'off',
   },
 };
