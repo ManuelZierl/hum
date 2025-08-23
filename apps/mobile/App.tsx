@@ -1,6 +1,6 @@
 import React from 'react';
-import WelcomeScreen from './src/screens/WelcomeScreen';
+import RootNavigator from './src/navigation';
 
 export default function App() {
-  return <WelcomeScreen />;
+  return <RootNavigator />;
 }
