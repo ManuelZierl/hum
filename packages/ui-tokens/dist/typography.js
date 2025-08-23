@@ -1,6 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typography = void 0;
+/**
+ * Typography tokens including font families, sizes and weights.
+ *
+ * ```ts
+ * const { typography } = useTheme();
+ * const styles = { fontSize: typography.fontSize.md };
+ * ```
+ */
 exports.typography = {
     fontFamily: 'System',
     fontSize: {

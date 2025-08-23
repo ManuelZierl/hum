@@ -1,16 +1,24 @@
+/**
+ * Typography tokens including font families, sizes and weights.
+ *
+ * ```ts
+ * const { typography } = useTheme();
+ * const styles = { fontSize: typography.fontSize.md };
+ * ```
+ */
 export declare const typography: {
-    fontFamily: string;
-    fontSize: {
-        xs: number;
-        sm: number;
-        md: number;
-        lg: number;
-        xl: number;
+    readonly fontFamily: "System";
+    readonly fontSize: {
+        readonly xs: 12;
+        readonly sm: 14;
+        readonly md: 16;
+        readonly lg: 20;
+        readonly xl: 24;
     };
-    fontWeight: {
-        regular: string;
-        medium: string;
-        bold: string;
+    readonly fontWeight: {
+        readonly regular: "400";
+        readonly medium: "500";
+        readonly bold: "700";
     };
 };
 export type Typography = typeof typography;
