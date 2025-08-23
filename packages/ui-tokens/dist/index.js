@@ -14,12 +14,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ThemedText = exports.useTheme = exports.ThemeProvider = void 0;
+exports.useTheme = exports.ThemeProvider = void 0;
 __exportStar(require("./colors"), exports);
 __exportStar(require("./spacing"), exports);
 __exportStar(require("./typography"), exports);
 var ThemeProvider_1 = require("./ThemeProvider");
 Object.defineProperty(exports, "ThemeProvider", { enumerable: true, get: function () { return ThemeProvider_1.ThemeProvider; } });
 Object.defineProperty(exports, "useTheme", { enumerable: true, get: function () { return ThemeProvider_1.useTheme; } });
-var ThemedText_1 = require("./ThemedText");
-Object.defineProperty(exports, "ThemedText", { enumerable: true, get: function () { return ThemedText_1.ThemedText; } });

@@ -10,6 +10,7 @@ dist/
 build/
 packages/*/node_modules/
 packages/*/dist/
+**/dis
 
 # React Native / Expo
 .expo/

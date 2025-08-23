@@ -39,18 +39,22 @@ const colors_1 = require("./colors");
 const spacing_1 = require("./spacing");
 const typography_1 = require("./typography");
 const ThemeContext = (0, react_1.createContext)({
-    colors: colors_1.lightColors,
+    colors: colors_1.colors.light,
     spacing: spacing_1.spacing,
     typography: typography_1.typography,
 });
+/**
+ * Wraps your application and provides design tokens via React context.
+ */
 const ThemeProvider = ({ children, mode = 'light' }) => {
     const value = {
-        colors: mode === 'light' ? colors_1.lightColors : colors_1.darkColors,
+        colors: colors_1.colors[mode],
         spacing: spacing_1.spacing,
         typography: typography_1.typography,
     };
     return react_1.default.createElement(ThemeContext.Provider, { value: value }, children);
 };
 exports.ThemeProvider = ThemeProvider;
+/** Hook to access the current {@link Theme}. */
 const useTheme = () => (0, react_1.useContext)(ThemeContext);
 exports.useTheme = useTheme;

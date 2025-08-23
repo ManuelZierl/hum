@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { spacing, typography, useTheme } from '@mchat/ui-tokens';
 
 export type MessageBubbleProps = {
   sender: 'me' | 'them';
   text: string;
   timestamp: string;
-  status: 'sent' | 'delivered' | 'read' | '';
+  status?: 'sent' | 'delivered' | 'read';
   isReply?: boolean;
   isSelected?: boolean;
 };
@@ -19,19 +20,31 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   isSelected,
 }) => {
   const isMe = sender === 'me';
+  const { colors } = useTheme();
+
   return (
     <View
       style={[
         styles.container,
         isMe ? styles.meContainer : styles.themContainer,
+        { backgroundColor: isMe ? colors.primary : colors.background },
         isSelected && styles.selected,
+        isSelected && { borderColor: colors.primary },
       ]}
     >
-      {isReply && <Text style={styles.reply}>Reply</Text>}
-      <Text style={styles.text}>{text}</Text>
+      {isReply && (
+        <Text style={[styles.reply, { color: colors.text, opacity: 0.6 }]}>Reply</Text>
+      )}
+      <Text style={[styles.text, { color: colors.text }]}>{text}</Text>
       <View style={styles.metaRow}>
-        <Text style={styles.timestamp}>{timestamp}</Text>
-        {isMe && <Text style={styles.status}>{status}</Text>}
+        <Text style={[styles.timestamp, { color: colors.text, opacity: 0.6 }]}>
+          {timestamp}
+        </Text>
+        {isMe && status && (
+          <Text style={[styles.status, { color: colors.text, opacity: 0.6 }]}>
+            {status}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -40,46 +53,40 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 const styles = StyleSheet.create({
   container: {
     maxWidth: '80%',
-    marginVertical: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 16,
+    marginVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: spacing.md,
   },
   meContainer: {
     alignSelf: 'flex-end',
-    backgroundColor: '#dcf8c6',
   },
   themContainer: {
     alignSelf: 'flex-start',
-    backgroundColor: '#fff',
   },
   selected: {
-    borderColor: '#007AFF',
-    borderWidth: 2,
+    borderWidth: spacing.xs / 2,
   },
   reply: {
-    fontSize: 12,
-    color: '#555',
-    marginBottom: 4,
+    fontSize: typography.fontSize.xs,
+    marginBottom: spacing.xs,
   },
   text: {
-    fontSize: 16,
-    color: '#000',
+    fontSize: typography.fontSize.md,
   },
   metaRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 4,
+    marginTop: spacing.xs,
   },
   timestamp: {
-    fontSize: 10,
-    color: '#555',
+    fontSize: typography.fontSize.xs,
   },
   status: {
-    fontSize: 10,
-    color: '#555',
-    marginLeft: 4,
+    fontSize: typography.fontSize.xs,
+    marginLeft: spacing.xs,
   },
 });
 
 export default MessageBubble;
+

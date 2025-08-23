@@ -1,3 +1,11 @@
+/**
+ * Typography tokens including font families, sizes and weights.
+ *
+ * ```ts
+ * const { typography } = useTheme();
+ * const styles = { fontSize: typography.fontSize.md };
+ * ```
+ */
 export const typography = {
   fontFamily: 'System',
   fontSize: {
@@ -12,6 +20,6 @@ export const typography = {
     medium: '500',
     bold: '700',
   },
-};
+} as const;
 
 export type Typography = typeof typography;
