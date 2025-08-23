@@ -26,25 +26,25 @@ impl MemStore {
 #[async_trait::async_trait]
 impl IMatrixStore for MemStore {
     async fn put_session(&self, session: &Session) -> CoreResult<()> {
-        let mut guard = self.session.lock().unwrap();
+        let mut guard = self.session.lock().map_err(|e| anyhow!(e.to_string()))?;
         *guard = Some(session.clone());
         Ok(())
     }
 
     async fn get_session(&self) -> CoreResult<Option<Session>> {
-        Ok(self.session.lock().unwrap().clone())
+        Ok(self.session.lock().map_err(|e| anyhow!(e.to_string()))?.clone())
     }
 
     async fn put_room_state(&self, room_id: &str, state: &RoomState) -> CoreResult<()> {
         self.room_state
             .lock()
-            .unwrap()
+            .map_err(|e| anyhow!(e.to_string()))?
             .insert(room_id.to_string(), state.clone());
         Ok(())
     }
 
     async fn get_room_state(&self, room_id: &str) -> CoreResult<Option<RoomState>> {
-        Ok(self.room_state.lock().unwrap().get(room_id).cloned())
+        Ok(self.room_state.lock().map_err(|e| anyhow!(e.to_string()))?.get(room_id).cloned())
     }
 
     async fn append_timeline_events(
