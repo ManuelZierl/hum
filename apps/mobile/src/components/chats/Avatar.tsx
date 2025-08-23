@@ -8,11 +8,15 @@ interface Props {
 }
 
 export default function Avatar({ title, avatarUri, size = 48 }: Props) {
-  const initials = title
-    .split(' ')
-    .map((p) => p[0])
-    .join('')
-    .toUpperCase();
+  const initials =
+    !title || !title.trim()
+      ? ''
+      : title
+          .split(' ')
+          .filter((p) => p.trim().length > 0)
+          .map((p) => p[0])
+          .join('')
+          .toUpperCase();
 
   if (avatarUri) {
     return (
