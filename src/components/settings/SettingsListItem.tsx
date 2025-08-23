@@ -4,14 +4,20 @@ import { View, Text, StyleSheet, TouchableOpacity, useColorScheme } from 'react-
 interface Props {
   label: string;
   onPress?: () => void;
+  accessibilityHint?: string;
 }
 
-const SettingsListItem = ({ label, onPress }: Props) => {
+const SettingsListItem = ({ label, onPress, accessibilityHint }: Props) => {
   const scheme = useColorScheme();
   const colors = scheme === 'dark' ? darkColors : lightColors;
 
   return (
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} onPress={onPress}>
+    <TouchableOpacity
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityHint={accessibilityHint || `Activates ${label}`}
+      onPress={onPress}
+    >
       <View style={[styles.container, { borderBottomColor: colors.border, backgroundColor: colors.card }]}> 
         <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
         <Text style={[styles.chevron, { color: colors.subtext }]}>›</Text>
