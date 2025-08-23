@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { spacing } from '@mchat/ui-tokens';
 import MessageBubble, { MessageBubbleProps } from './MessageBubble';
 
 export type MessageListItemProps = MessageBubbleProps;
@@ -12,8 +13,8 @@ const MessageListItem: React.FC<MessageListItemProps> = (props) => (
 
 const styles = StyleSheet.create({
   row: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs / 2,
   },
 });
 
