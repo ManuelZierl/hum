@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "typecheck": "tsc -p packages/chat-types/tsconfig.json"
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky install",
