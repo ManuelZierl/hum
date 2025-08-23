@@ -1,1 +1,3 @@
-export { detectPaymentStrings, normalizeInvoice, PaymentStringType } from './detect';
+export { detectPaymentStrings, normalizeInvoice } from './detect';
+export type { PaymentString, PaymentStringType } from './detect';
+
