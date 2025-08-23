@@ -4,8 +4,8 @@
 //! directly to methods in the future Expo Module API.
 
 #[no_mangle]
-pub extern "C" fn matrix_core_sum(left: i32, right: i32) -> i32 {
-    left + right
+pub extern "C" fn matrix_core_sum(left: i32, right: i32) -> MatrixResult<i32> {
+    MatrixResult::Ok(left + right)
 }
 
 #[cfg(test)]
