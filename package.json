@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "typecheck": "tsc -p packages/chat-types/tsconfig.json"
+    "typecheck": "tsc -p packages/chat-types/tsconfig.json",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky install",
@@ -45,6 +45,6 @@
     "eslint-plugin-react-native": "^5.0.0",
     "husky": "^9.0.10",
     "lint-staged": "^15.2.0",
-    "prettier": "^3.3.2">>>>>> main
+    "prettier": "^3.3.2"
   }
 }
