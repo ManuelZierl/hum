@@ -34,23 +34,34 @@ impl SqliteStore {
 impl IMatrixStore for SqliteStore {
     async fn put_session(&self, session: &Session) -> CoreResult<()> {
         let json = serde_json::to_string(session)?;
-        let conn = self.conn.lock().map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         conn.execute("DELETE FROM session", [])?;
         conn.execute("INSERT INTO session (data) VALUES (?1)", [json])?;
         Ok(())
     }
 
     async fn get_session(&self) -> CoreResult<Option<Session>> {
-        let conn = self.conn.lock().map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         let mut stmt = conn.prepare("SELECT data FROM session LIMIT 1")?;
         let opt: Option<String> = stmt.query_row([], |row| row.get(0)).optional()?;
-        let session = opt.map(|json| serde_json::from_str(&json)).transpose()?;
+        let session = opt
+            .map(|json| serde_json::from_str::<Session>(&json))
+            .transpose()?;
         Ok(session)
     }
 
     async fn put_room_state(&self, room_id: &str, state: &RoomState) -> CoreResult<()> {
         let json = serde_json::to_string(state)?;
-        let conn = self.conn.lock().unwrap();
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         conn.execute(
             "INSERT INTO room_state (room_id, data) VALUES (?1, ?2)
              ON CONFLICT(room_id) DO UPDATE SET data=excluded.data",
@@ -60,10 +71,15 @@ impl IMatrixStore for SqliteStore {
     }
 
     async fn get_room_state(&self, room_id: &str) -> CoreResult<Option<RoomState>> {
-        let conn = self.conn.lock().unwrap();
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         let mut stmt = conn.prepare("SELECT data FROM room_state WHERE room_id = ?1")?;
         let opt: Option<String> = stmt.query_row([room_id], |row| row.get(0)).optional()?;
-        let state = opt.map(|json| serde_json::from_str(&json)).transpose()?;
+        let state = opt
+            .map(|json| serde_json::from_str::<RoomState>(&json))
+            .transpose()?;
         Ok(state)
     }
 
@@ -72,7 +88,10 @@ impl IMatrixStore for SqliteStore {
         room_id: &str,
         events: &[MatrixEvent],
     ) -> CoreResult<()> {
-        let mut conn = self.conn.lock().unwrap();
+        let mut conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         let tx = conn.transaction()?;
         let mut idx: i64 = tx.query_row(
             "SELECT COALESCE(MAX(idx), -1) FROM timeline WHERE room_id = ?1",
@@ -97,7 +116,10 @@ impl IMatrixStore for SqliteStore {
         start: usize,
         end: usize,
     ) -> CoreResult<Vec<MatrixEvent>> {
-        let conn = self.conn.lock().unwrap();
+        let conn = self
+            .conn
+            .lock()
+            .map_err(|e| crate::error::CoreError::MutexPoisoned(e.to_string()))?;
         let mut stmt = conn.prepare(
             "SELECT data FROM timeline WHERE room_id = ?1 AND idx >= ?2 AND idx < ?3 ORDER BY idx ASC",
         )?;
