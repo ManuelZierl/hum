@@ -27,6 +27,7 @@ pub use store::sqlite::SqliteStore;
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(feature = "mem-store")]
     use futures::executor::block_on;
 
     #[cfg(feature = "mem-store")]

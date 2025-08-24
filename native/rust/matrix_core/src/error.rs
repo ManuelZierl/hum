@@ -12,6 +12,9 @@ pub enum CoreError {
     #[cfg(feature = "sqlite")]
     #[error(transparent)]
     Sqlite(#[from] rusqlite::Error),
+    /// Mutex was poisoned
+    #[error("mutex poisoned: {0}")]
+    MutexPoisoned(String),
 }
 
 /// Convenient result type used throughout the crate.

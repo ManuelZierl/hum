@@ -3,7 +3,7 @@ use std::sync::Mutex;
 
 use super::IMatrixStore;
 use crate::{
-    error::CoreResult,
+    error::{CoreError, CoreResult},
     events::{MatrixEvent, RoomState},
     session::Session,
 };
@@ -26,25 +26,37 @@ impl MemStore {
 #[async_trait::async_trait]
 impl IMatrixStore for MemStore {
     async fn put_session(&self, session: &Session) -> CoreResult<()> {
-        let mut guard = self.session.lock().map_err(|e| CoreError::PoisonedLock(e.to_string()))?;
+        let mut guard = self
+            .session
+            .lock()
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?;
         *guard = Some(session.clone());
         Ok(())
     }
 
     async fn get_session(&self) -> CoreResult<Option<Session>> {
-        Ok(self.session.lock().map_err(|e| CoreError::PoisonedLock(e.to_string()))?.clone())
+        Ok(self
+            .session
+            .lock()
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?
+            .clone())
     }
 
     async fn put_room_state(&self, room_id: &str, state: &RoomState) -> CoreResult<()> {
         self.room_state
             .lock()
-            .map_err(|e| CoreError::PoisonedLock(e.to_string()))?
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?
             .insert(room_id.to_string(), state.clone());
         Ok(())
     }
 
     async fn get_room_state(&self, room_id: &str) -> CoreResult<Option<RoomState>> {
-        Ok(self.room_state.lock().map_err(|e| CoreError::PoisonedLock(e.to_string()))?.get(room_id).cloned())
+        Ok(self
+            .room_state
+            .lock()
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?
+            .get(room_id)
+            .cloned())
     }
 
     async fn append_timeline_events(
@@ -52,7 +64,10 @@ impl IMatrixStore for MemStore {
         room_id: &str,
         events: &[MatrixEvent],
     ) -> CoreResult<()> {
-        let mut timelines = self.timelines.lock().unwrap();
+        let mut timelines = self
+            .timelines
+            .lock()
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?;
         let timeline = timelines.entry(room_id.to_string()).or_default();
         timeline.extend_from_slice(events);
         Ok(())
@@ -64,7 +79,10 @@ impl IMatrixStore for MemStore {
         start: usize,
         end: usize,
     ) -> CoreResult<Vec<MatrixEvent>> {
-        let timelines = self.timelines.lock().unwrap();
+        let timelines = self
+            .timelines
+            .lock()
+            .map_err(|e| CoreError::MutexPoisoned(e.to_string()))?;
         let timeline = timelines.get(room_id).cloned().unwrap_or_default();
         let slice = timeline.into_iter().skip(start).take(end - start).collect();
         Ok(slice)
