@@ -88,3 +88,81 @@ impl IMatrixStore for MemStore {
         Ok(slice)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use futures::executor::block_on;
+    use std::sync::Arc;
+
+    fn sample_session() -> Session {
+        Session {
+            user_id: "@user:example.org".to_owned(),
+            device_id: "DEVICEID".to_owned(),
+            access_token: Some("token".to_owned()),
+        }
+    }
+
+    fn sample_events(room_id: &str) -> Vec<MatrixEvent> {
+        vec![
+            MatrixEvent::Message {
+                room_id: room_id.to_string(),
+                sender: "alice".into(),
+                body: "hi".into(),
+            },
+            MatrixEvent::Message {
+                room_id: room_id.to_string(),
+                sender: "bob".into(),
+                body: "hello".into(),
+            },
+        ]
+    }
+
+    #[test]
+    fn put_and_get_session_roundtrip() {
+        let store = MemStore::new();
+        let session = sample_session();
+        block_on(store.put_session(&session)).unwrap();
+        let retrieved = block_on(store.get_session()).unwrap();
+        assert_eq!(retrieved, Some(session));
+    }
+
+    #[test]
+    fn put_and_get_room_state_roundtrip() {
+        let store = MemStore::new();
+        let room_id = "!room:example.org";
+        let state = RoomState {
+            name: Some("name".into()),
+            topic: Some("topic".into()),
+        };
+        block_on(store.put_room_state(room_id, &state)).unwrap();
+        let retrieved = block_on(store.get_room_state(room_id)).unwrap();
+        assert_eq!(retrieved, Some(state));
+    }
+
+    #[test]
+    fn append_and_slice_timeline() {
+        let store = MemStore::new();
+        let room_id = "!room:example.org";
+        let events = sample_events(room_id);
+        block_on(store.append_timeline_events(room_id, &events)).unwrap();
+        let slice = block_on(store.get_timeline_slice(room_id, 0, events.len())).unwrap();
+        assert_eq!(slice, events);
+    }
+
+    #[test]
+    fn mutex_poisoning_returns_error() {
+        let store = Arc::new(MemStore::new());
+        let store_for_thread = Arc::clone(&store);
+
+        // Poison the session mutex by panicking while holding the lock.
+        let _ = std::thread::spawn(move || {
+            let _guard = store_for_thread.session.lock().unwrap();
+            panic!("poison mutex");
+        })
+        .join();
+
+        let err = block_on(store.get_session()).unwrap_err();
+        assert!(matches!(err, CoreError::MutexPoisoned(_)));
+    }
+}
