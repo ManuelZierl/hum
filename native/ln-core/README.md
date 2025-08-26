@@ -6,8 +6,8 @@ package path `com.mchat.lncore`.
 
 ## Current status
 
-Only a minimal Expo Modules stub is provided for iOS. It exposes a
-single `ping()` function that returns a static `"pong"` string. This
+Only a minimal Expo Modules stub is provided. It exposes a
+single `ping()` function that returns a static `"ok"` string. This
 serves as a placeholder so other parts of the project can link against
 the module while the real Lightning functionality is built.
 
