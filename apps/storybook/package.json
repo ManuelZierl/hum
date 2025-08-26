@@ -1,0 +1,22 @@
+{
+  "name": "@mchat/storybook",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android"
+  },
+  "dependencies": {
+    "expo": "~51.0.0",
+    "react": "18.2.0",
+    "react-native": "0.73.6",
+    "@mchat/message-ui": "workspace:*",
+    "@mchat/ui-tokens": "workspace:*",
+    "@mchat/lightning-ui": "workspace:*",
+    "@storybook/react-native": "^6.5.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  }
+}

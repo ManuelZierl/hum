@@ -8,7 +8,10 @@
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "storybook:start": "npm --prefix apps/storybook start",
+    "storybook:ios": "npm --prefix apps/storybook run ios",
+    "storybook:android": "npm --prefix apps/storybook run android"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +27,8 @@
   },
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.2",
