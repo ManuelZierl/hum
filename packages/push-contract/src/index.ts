@@ -27,9 +27,56 @@ export interface NotificationPayload {
   unread_count?: number;
 }
 
+export interface FcmMessage {
+  /** Target device token */
+  token: string;
+  /** Transported notification payload */
+  data: NotificationPayload;
+  /** Optional display notification */
+  notification?: {
+    title?: string;
+    body?: string;
+  };
+}
+
+export interface ApnsMessage {
+  /** Target device token */
+  token: string;
+  /** Standard APNs aps dictionary */
+  aps: {
+    alert: {
+      title: string;
+      body: string;
+    };
+    badge?: number;
+  };
+  /** Custom data sent alongside the aps dictionary */
+  data: NotificationPayload;
+}
+
 /**
- * Mock function that simulates sending a push notification.
+ * Helper to create an FCM message
  */
-export function sendTestPush(token: PushToken): void {
-  console.log(`Mock push to ${token.platform} token ${token.value}`);
+export function createFcmMessage(
+  token: string,
+  payload: NotificationPayload,
+  notification?: { title?: string; body?: string },
+): FcmMessage {
+  return { token, data: payload, notification };
+}
+
+/**
+ * Helper to create an APNs message
+ */
+export function createApnsMessage(
+  token: string,
+  payload: NotificationPayload,
+  alert: { title: string; body: string },
+  badge?: number,
+): ApnsMessage {
+  return {
+    token,
+    aps: { alert, badge },
+    data: payload,
+  };
 }
