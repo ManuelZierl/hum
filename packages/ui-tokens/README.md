@@ -1,4 +1,5 @@
 # @mchat/ui-tokens
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](../../LICENSE)
 
 Design tokens shared across mchat clients. Provides color, spacing and typography scales along with a minimal `ThemeProvider`.
 
@@ -55,3 +56,7 @@ import { lightColors, spacing, typography } from '@mchat/ui-tokens';
 ```
 
 No circular dependencies exist within this package, keeping the tokens portable and framework agnostic.
+
+## Peer Dependencies
+
+Requires `react` (>=18).

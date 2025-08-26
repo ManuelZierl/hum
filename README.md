@@ -10,6 +10,18 @@ This repository currently contains the initial project skeleton.
 - [Architecture Decision Records](docs/adr/)
 - [Development Setup](docs/dev-setup.md)
 
+## Packages
+
+| Package | Description |
+| --- | --- |
+| [@mchat/a11y-utils](packages/a11y-utils/README.md) | Accessibility utilities |
+| [@mchat/chat-types](packages/chat-types/README.md) | Shared chat domain TypeScript definitions |
+| [@mchat/lightning-ui](packages/lightning-ui/README.md) | Lightning Network UI components |
+| [@mchat/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities |
+| [@mchat/message-ui](packages/message-ui/README.md) | Chat message UI components |
+| [@mchat/push-contract](packages/push-contract/README.md) | Types for push notification contract |
+| [@mchat/ui-tokens](packages/ui-tokens/README.md) | Design tokens for consistent theming |
+
 ## Project Map
 
 | Path | Purpose |
