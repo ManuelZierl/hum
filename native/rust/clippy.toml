@@ -1,2 +1,3 @@
-# Configure clippy lints (placeholder)
-
+# Clippy lints configuration for this workspace.
+# Treat all warnings as errors to keep the codebase tidy.
+deny-warnings = true
