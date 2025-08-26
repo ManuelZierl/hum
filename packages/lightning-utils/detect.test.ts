@@ -10,12 +10,18 @@ describe('detectPaymentStrings positives', () => {
     { text: 'scan lnurl1dp68gurn8ghj7mrww4exctnvd3skw', types: ['lnurl'] },
     { text: 'uppercase LNURL1DP68GURN8GHJ7MRWW4EXCTNVD3SKW', types: ['lnurl'] },
     { text: 'use lightning:lnbc1p0pppppppp', types: ['lightning'] },
-    { text: 'lightning:LNURL1DP68GURN8GHJ7MRWW4EXCTNVD3SKW', types: ['lightning'] },
-    { text: 'two invoices lnbc1p0pppppppp and lntb1p0pppppppp', types: ['bolt11', 'bolt11'] }
+    {
+      text: 'lightning:LNURL1DP68GURN8GHJ7MRWW4EXCTNVD3SKW',
+      types: ['lightning'],
+    },
+    {
+      text: 'two invoices lnbc1p0pppppppp and lntb1p0pppppppp',
+      types: ['bolt11', 'bolt11'],
+    },
   ];
 
   test.each(positives)('%#', ({ text, types }) => {
-    expect(detectPaymentStrings(text).map(r => r.type)).toEqual(types);
+    expect(detectPaymentStrings(text).map((r) => r.type)).toEqual(types);
   });
 });
 
@@ -30,17 +36,19 @@ describe('detectPaymentStrings negatives', () => {
     'bitcoin:bc1abc',
     'LNURL1DP68GU RN8GHJ7MRWW4EXCTNVD3SKW',
     'lightning:lnbc',
-    'just text'
+    'just text',
   ];
 
-  test.each(negatives)('%#', text => {
+  test.each(negatives)('%#', (text) => {
     expect(detectPaymentStrings(text)).toHaveLength(0);
   });
 });
 
 describe('normalizeInvoice', () => {
   test('removes lightning prefix', () => {
-    expect(normalizeInvoice('lightning:LNBC1P0PPPPPPPP')).toBe('lnbc1p0pppppppp');
+    expect(normalizeInvoice('lightning:LNBC1P0PPPPPPPP')).toBe(
+      'lnbc1p0pppppppp',
+    );
   });
 
   test('trims and lowercases', () => {
@@ -48,8 +56,8 @@ describe('normalizeInvoice', () => {
   });
 
   test('handles lnurl', () => {
-    expect(normalizeInvoice('LIGHTNING:lnurl1DP68GURN8GHJ7MRWW4EXCTNVD3SKW')).toBe(
-      'lnurl1dp68gurn8ghj7mrww4exctnvd3skw'
-    );
+    expect(
+      normalizeInvoice('LIGHTNING:lnurl1DP68GURN8GHJ7MRWW4EXCTNVD3SKW'),
+    ).toBe('lnurl1dp68gurn8ghj7mrww4exctnvd3skw');
   });
 });

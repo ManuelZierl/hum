@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'expo-modules-core' {
   export class EventEmitter {
     constructor(...args: any[]);
-    addListener(eventName: string, listener: (...args: any[]) => void): Subscription;
+    addListener(
+      eventName: string,
+      listener: (...args: any[]) => void,
+    ): Subscription;
   }
   export interface Subscription {
     remove(): void;

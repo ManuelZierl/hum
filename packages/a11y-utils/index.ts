@@ -1,4 +1,7 @@
-export function accessibleLabel(text: string, extras?: string | string[]): string {
+export function accessibleLabel(
+  text: string,
+  extras?: string | string[],
+): string {
   if (!extras) {
     return text;
   }

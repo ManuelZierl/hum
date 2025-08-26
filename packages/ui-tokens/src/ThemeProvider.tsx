@@ -28,14 +28,19 @@ export type ThemeProviderProps = {
 /**
  * Wraps your application and provides design tokens via React context.
  */
-export const ThemeProvider = ({ children, mode = 'light' }: ThemeProviderProps) => {
+export const ThemeProvider = ({
+  children,
+  mode = 'light',
+}: ThemeProviderProps) => {
   const value: Theme = {
     colors: colors[mode],
     spacing,
     typography,
   };
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 };
 
 /** Hook to access the current {@link Theme}. */

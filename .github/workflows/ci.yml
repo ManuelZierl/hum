@@ -13,8 +13,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - uses: pnpm/action-setup@v2
         with:
@@ -63,6 +61,8 @@ jobs:
           components: rustfmt, clippy
 
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: native/rust -> native/rust/target
 
       - name: Format
         run: cargo fmt --all -- --check

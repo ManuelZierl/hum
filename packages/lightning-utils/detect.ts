@@ -41,7 +41,10 @@ function isLnurl(str: string): boolean {
  * trimming surrounding whitespace and lowercasing the result.
  */
 export function normalizeInvoice(str: string): string {
-  return str.trim().replace(/^lightning:/i, '').toLowerCase();
+  return str
+    .trim()
+    .replace(/^lightning:/i, '')
+    .toLowerCase();
 }
 
 /**
@@ -85,4 +88,3 @@ export function detectPaymentStrings(text: string): PaymentString[] {
 
   return results;
 }
-
