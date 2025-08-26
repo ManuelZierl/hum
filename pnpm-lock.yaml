@@ -169,6 +169,10 @@ importers:
         version: 5.9.2
 
   packages/ui-tokens:
+    dependencies:
+      react-native:
+        specifier: '*'
+        version: 0.74.0(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))(@types/react@18.2.79)(react@18.2.0)
     devDependencies:
       '@types/react':
         specifier: ^18.0.0
