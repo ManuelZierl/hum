@@ -28,7 +28,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "native/*"
   ],
   "devDependencies": {
     "@types/jest": "^29.5.2",
