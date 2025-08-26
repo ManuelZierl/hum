@@ -24,7 +24,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.nav}>
         {(['shell', 'chats', 'conversation', 'settings'] as Screen[]).map((s) => (
           <Pressable key={s} onPress={() => setScreen(s)} style={styles.navButton}>
