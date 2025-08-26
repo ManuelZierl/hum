@@ -13,10 +13,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -27,4 +23,12 @@
     "url": "https://github.com/mchat/mchat/issues"
   },
   "homepage": "https://github.com/mchat/mchat#readme"
+
+  "dependencies": {
+    "@mchat/ui-tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
 }

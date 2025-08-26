@@ -1,18 +1,14 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
 
-const withMatrixCorePlugin = './plugins/with-matrix-core'; // Example custom plugin
-
-export default ({ config }: ConfigContext): ExpoConfig => {
-  const withMatrixCore = process.env.WITH_MATRIX_CORE === 'true';
-
-  return {
-    ...config,
-    name: config.name ?? 'mchat',
-    slug: config.slug ?? 'mchat',
-    plugins: [
-      ...(config.plugins ?? []),
-      // Add additional Expo config plugins here
-      ...(withMatrixCore ? [withMatrixCorePlugin] : []),
-    ],
-  };
-};
+// To experiment with the Matrix Core config plugin:
+// 1. Set WITH_MATRIX_CORE=true in your environment.
+// 2. Uncomment the line in the plugins array below.
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  name: config.name ?? 'mchat',
+  slug: config.slug ?? 'mchat',
+  plugins: [
+    ...(config.plugins ?? []),
+    // './plugins/with-matrix-core',
+  ],
+});
