@@ -13,5 +13,14 @@
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
-  "dependencies": {}
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mchat/mchat",
+    "directory": "packages/lightning-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/mchat/mchat/issues"
+  },
+  "homepage": "https://github.com/mchat/mchat#readme"
 }

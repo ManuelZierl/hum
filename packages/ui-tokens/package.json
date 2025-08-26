@@ -18,5 +18,15 @@
   "devDependencies": {
     "typescript": "^5.0.0",
     "@types/react": "^18.0.0"
-  }
+  },
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mchat/mchat",
+    "directory": "packages/ui-tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/mchat/mchat/issues"
+  },
+  "homepage": "https://github.com/mchat/mchat#readme"
 }

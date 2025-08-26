@@ -19,5 +19,15 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
-  }
+  },
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mchat/mchat",
+    "directory": "packages/message-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/mchat/mchat/issues"
+  },
+  "homepage": "https://github.com/mchat/mchat#readme"
 }

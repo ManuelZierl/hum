@@ -6,5 +6,15 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.json"
-  }
+  },
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mchat/mchat",
+    "directory": "packages/chat-types"
+  },
+  "bugs": {
+    "url": "https://github.com/mchat/mchat/issues"
+  },
+  "homepage": "https://github.com/mchat/mchat#readme"
 }
