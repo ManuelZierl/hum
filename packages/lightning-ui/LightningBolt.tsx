@@ -6,9 +6,13 @@ export type LightningBoltProps = {
   label?: string;
 };
 
-const LightningBolt: React.FC<LightningBoltProps> = ({ label = 'Lightning' }) => {
+const LightningBolt: React.FC<LightningBoltProps> = ({
+  label = 'Lightning',
+}) => {
   const { colors } = useTheme();
-  return <Text style={[styles.text, { color: colors.primary }]}>⚡ {label}</Text>;
+  return (
+    <Text style={[styles.text, { color: colors.primary }]}>⚡ {label}</Text>
+  );
 };
 
 const styles = StyleSheet.create({
