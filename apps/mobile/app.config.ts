@@ -11,6 +11,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: config.orientation ?? 'portrait',
   userInterfaceStyle: config.userInterfaceStyle ?? 'light',
   assetBundlePatterns: config.assetBundlePatterns ?? ['**/*'],
+  ios: {
+    ...(config.ios ?? {}),
+    bundleIdentifier: config.ios?.bundleIdentifier ?? 'com.hum.mchat',
+  },
+  android: {
+    ...(config.android ?? {}),
+    package: config.android?.package ?? 'com.hum.mchat',
+  },
   plugins: [
     ...(config.plugins ?? []),
     // './plugins/with-matrix-core',
