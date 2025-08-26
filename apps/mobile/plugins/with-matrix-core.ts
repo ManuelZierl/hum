@@ -19,6 +19,7 @@ const withMatrixCore: ConfigPlugin = (config) => {
     'ios',
     async (c) => {
       console.log('with-matrix-core: iOS configuration placeholder');
+      // TODO: Inject Matrix Core XCFramework into Xcode project.
       return c;
     },
   ]);
@@ -27,6 +28,7 @@ const withMatrixCore: ConfigPlugin = (config) => {
     'android',
     async (c) => {
       console.log('with-matrix-core: Android configuration placeholder');
+      // TODO: Inject Matrix Core AAR into Gradle project.
       return c;
     },
   ]);
