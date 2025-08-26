@@ -7,6 +7,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: config.name ?? 'mchat',
   slug: config.slug ?? 'mchat',
+  version: config.version ?? '1.0.0',
+  orientation: config.orientation ?? 'portrait',
+  userInterfaceStyle: config.userInterfaceStyle ?? 'light',
+  assetBundlePatterns: config.assetBundlePatterns ?? ['**/*'],
   plugins: [
     ...(config.plugins ?? []),
     // './plugins/with-matrix-core',

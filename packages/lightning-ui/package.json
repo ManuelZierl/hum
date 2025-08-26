@@ -4,6 +4,9 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -22,13 +25,12 @@
   "bugs": {
     "url": "https://github.com/mchat/mchat/issues"
   },
-  "homepage": "https://github.com/mchat/mchat#readme"
-
+  "homepage": "https://github.com/mchat/mchat#readme",
   "dependencies": {
     "@mchat/ui-tokens": "workspace:*"
   },
   "peerDependencies": {
-    "react": "*",
+    "react": ">=18",
     "react-native": "*"
   }
 }

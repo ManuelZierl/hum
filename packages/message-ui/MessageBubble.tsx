@@ -27,21 +27,23 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       style={[
         styles.container,
         isMe ? styles.meContainer : styles.themContainer,
-        { backgroundColor: isMe ? colors.primary : colors.background },
+        { backgroundColor: isMe ? colors.primary : colors.surface },
         isSelected && styles.selected,
         isSelected && { borderColor: colors.primary },
       ]}
     >
       {isReply && (
-        <Text style={[styles.reply, { color: colors.text, opacity: 0.6 }]}>Reply</Text>
+        <Text style={[styles.reply, styles.faded, { color: colors.text }]}>
+          Reply
+        </Text>
       )}
       <Text style={[styles.text, { color: colors.text }]}>{text}</Text>
       <View style={styles.metaRow}>
-        <Text style={[styles.timestamp, { color: colors.text, opacity: 0.6 }]}>
+        <Text style={[styles.timestamp, styles.faded, { color: colors.text }]}>
           {timestamp}
         </Text>
         {isMe && status && (
-          <Text style={[styles.status, { color: colors.text, opacity: 0.6 }]}>
+          <Text style={[styles.status, styles.faded, { color: colors.text }]}>
             {status}
           </Text>
         )}
@@ -86,7 +88,9 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.xs,
     marginLeft: spacing.xs,
   },
+  faded: {
+    opacity: 0.6,
+  },
 });
 
 export default MessageBubble;
-

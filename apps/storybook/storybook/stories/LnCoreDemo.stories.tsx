@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
-import LnCore, { addPaymentUpdatedListener, LnInvoice, Payment } from '../../native/ln-core';
+import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { storiesOf } from '@storybook/react-native';
+import LnCore, {
+  addPaymentUpdatedListener,
+  LnInvoice,
+  Payment,
+} from '@mchat/ln-core';
 
-const LnCoreDemoScreen: React.FC = () => {
-  const [info, setInfo] = useState<{ pubkey: string; alias: string; connected: boolean } | null>(null);
+const LnCoreDemo = () => {
+  const [info, setInfo] = useState<{
+    pubkey: string;
+    alias: string;
+    connected: boolean;
+  } | null>(null);
   const [invoice, setInvoice] = useState<LnInvoice | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
 
@@ -13,7 +22,9 @@ const LnCoreDemoScreen: React.FC = () => {
       LnCore.listPayments().then(setPayments);
     });
     const sub = addPaymentUpdatedListener((evt) => {
-      setPayments((prev) => prev.map((p) => (p.id === evt.id ? { ...p, status: evt.status } : p)));
+      setPayments((prev) =>
+        prev.map((p) => (p.id === evt.id ? { ...p, status: evt.status } : p)),
+      );
     });
     return () => sub.remove();
   }, []);
@@ -31,19 +42,23 @@ const LnCoreDemoScreen: React.FC = () => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ marginBottom: 8 }}>
-        {info ? `Node ${info.alias} (${info.pubkey.slice(0, 8)}...)` : 'Initializing...'}
+    <View style={styles.container}>
+      <Text style={styles.heading}>
+        {info
+          ? `Node ${info.alias} (${info.pubkey.slice(0, 8)}...)`
+          : 'Initializing...'}
       </Text>
       <Button title="Create Invoice" onPress={handleCreate} />
       {invoice && (
         <>
-          <Text selectable style={{ marginVertical: 8 }}>{invoice.bolt11}</Text>
+          <Text selectable style={styles.invoice}>
+            {invoice.bolt11}
+          </Text>
           <Button title="Pay Invoice" onPress={handlePay} />
         </>
       )}
       <FlatList
-        style={{ marginTop: 16 }}
+        style={styles.list}
         data={payments}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -54,4 +69,11 @@ const LnCoreDemoScreen: React.FC = () => {
   );
 };
 
-export default LnCoreDemoScreen;
+storiesOf('Lightning UI', module).add('LnCore Demo', () => <LnCoreDemo />);
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16 },
+  heading: { marginBottom: 8 },
+  invoice: { marginVertical: 8 },
+  list: { marginTop: 16 },
+});

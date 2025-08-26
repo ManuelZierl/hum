@@ -29,3 +29,9 @@ cargo test
 These commands operate purely on Rust code without coupling to the JS
 packages.
 
+## Cargo.lock Policy
+
+Because this workspace currently contains only library crates, the
+`Cargo.lock` file is not committed. Library consumers will generate
+their own lockfiles. If a binary or CLI target is added in the future,
+`Cargo.lock` should be reintroduced and kept in version control.
