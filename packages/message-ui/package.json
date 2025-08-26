@@ -9,6 +9,9 @@
       "default": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json"
@@ -17,7 +20,7 @@
     "@mchat/ui-tokens": "workspace:*"
   },
   "peerDependencies": {
-    "react": "*",
+    "react": ">=18",
     "react-native": "*"
   },
   "license": "AGPL-3.0-only",

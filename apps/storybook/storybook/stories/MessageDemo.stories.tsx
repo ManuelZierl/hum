@@ -1,13 +1,20 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { spacing, useTheme } from '@mchat/ui-tokens';
-import MessageListItem from './MessageListItem';
+import { storiesOf } from '@storybook/react-native';
+import { ThemeProvider, spacing, useTheme } from '@mchat/ui-tokens';
+import { MessageListItem } from '@mchat/message-ui';
 
-const DemoScreen: React.FC = () => {
+const MessageDemo = () => {
   const { colors } = useTheme();
   const messages = [
     { id: 1, sender: 'them', text: 'Hello!', timestamp: '09:41' },
-    { id: 2, sender: 'me', text: 'Hi there!', timestamp: '09:42', status: 'sent' },
+    {
+      id: 2,
+      sender: 'me',
+      text: 'Hi there!',
+      timestamp: '09:42',
+      status: 'sent',
+    },
     {
       id: 3,
       sender: 'me',
@@ -27,7 +34,7 @@ const DemoScreen: React.FC = () => {
 
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
+      style={[styles.container, { backgroundColor: colors.surface }]}
       contentContainerStyle={styles.content}
     >
       {messages.map((msg) => (
@@ -46,4 +53,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DemoScreen;
+storiesOf('Message UI', module).add('Demo', () => (
+  <ThemeProvider>
+    <MessageDemo />
+  </ThemeProvider>
+));
