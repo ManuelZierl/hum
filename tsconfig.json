@@ -1,8 +1,14 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "declaration": true,
-    "outDir": "dist"
-  },
-  "include": ["packages/**/*"]
+  "files": [],
+  "references": [
+    { "path": "./apps/mobile" },
+    { "path": "./packages/a11y-utils" },
+    { "path": "./packages/chat-types" },
+    { "path": "./packages/lightning-ui" },
+    { "path": "./packages/lightning-utils" },
+    { "path": "./packages/message-ui" },
+    { "path": "./packages/push-contract" },
+    { "path": "./packages/ui-tokens" },
+    { "path": "./native/ln-core" }
+  ]
 }
