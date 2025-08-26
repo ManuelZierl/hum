@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-native": "*"
+    "react-native": ">=0.75"
   },
   "license": "AGPL-3.0-only",
   "repository": {
@@ -29,9 +29,5 @@
   "bugs": {
     "url": "https://github.com/mchat/mchat/issues"
   },
-  "homepage": "https://github.com/mchat/mchat#readme",
-  "peerDependencies": {
-    "react": ">=18",
-    "react-native": "*"
-  }
+  "homepage": "https://github.com/mchat/mchat#readme"
 }

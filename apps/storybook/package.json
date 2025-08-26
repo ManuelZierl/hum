@@ -3,20 +3,30 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
+    "start": "storybook dev -p 7007",
     "ios": "expo run:ios",
     "android": "expo run:android"
   },
   "dependencies": {
-    "expo": "~51.0.0",
-    "react": "18.2.0",
-    "react-native": "0.73.6",
+    "@babel/runtime": "7.28.3",
+    "@mchat/lightning-ui": "workspace:*",
     "@mchat/message-ui": "workspace:*",
     "@mchat/ui-tokens": "workspace:*",
-    "@mchat/lightning-ui": "workspace:*",
-    "@storybook/react-native": "^6.5.4"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-native-web": "~0.19.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@storybook/addon-actions": "^8.3.5",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/preview-api": "8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@vitejs/plugin-react": "^4.7.0",
+    "babel-preset-expo": "11.0.15",
+    "typescript": "^5.4.0",
+    "vite": "^5.4.19"
   }
 }

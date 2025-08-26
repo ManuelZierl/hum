@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-native": "*"
+    "react-native": ">=0.75"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
