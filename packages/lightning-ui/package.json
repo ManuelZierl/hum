@@ -1,8 +1,8 @@
 {
   "name": "@mchat/lightning-ui",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

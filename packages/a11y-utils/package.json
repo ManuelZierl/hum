@@ -1,8 +1,8 @@
 {
   "name": "@mchat/a11y-utils",
   "version": "0.1.0",
-  "private": true,
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -15,6 +15,10 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": "*"
   },
   "license": "AGPL-3.0-only",
   "repository": {
