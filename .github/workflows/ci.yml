@@ -10,6 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable pnpm
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
@@ -49,8 +51,9 @@ jobs:
           components: rustfmt, clippy
 
       - uses: Swatinem/rust-cache@v2
+        working-directory: native/rust
         with:
-          workspaces: native/rust -> native/rust/target
+          workspaces: . -> target
 
       - name: Format
         run: cargo fmt --all -- --check
