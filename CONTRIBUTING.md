@@ -2,6 +2,7 @@
 
 ## How we work
 Describe how to get involved and the development workflow.
+Avoid committing IDE-specific folders (e.g., `.idea/`).
 
 ## Commit style
 Use concise, conventional commit messages (e.g., `feat:`, `fix:`, `chore:`).
