@@ -51,9 +51,9 @@ jobs:
           components: rustfmt, clippy
 
       - uses: Swatinem/rust-cache@v2
-        working-directory: native/rust
         with:
-          workspaces: . -> target
+          workspaces: |
+            native/rust -> native/rust/target
 
       - name: Format
         run: cargo fmt --all -- --check
