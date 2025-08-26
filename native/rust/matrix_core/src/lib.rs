@@ -27,7 +27,7 @@ pub use store::sqlite::SqliteStore;
 #[cfg(test)]
 mod tests {
     use super::*;
-    #[cfg(feature = "mem-store")]
+    #[cfg(any(feature = "mem-store", feature = "sqlite"))]
     use futures::executor::block_on;
 
     #[cfg(feature = "mem-store")]
@@ -78,6 +78,78 @@ mod tests {
         block_on(store.append_timeline_events("!r:example.org", &events)).unwrap();
         let slice = block_on(store.get_timeline_slice("!r:example.org", 0, 2)).unwrap();
         assert_eq!(slice, events);
+    }
+
+    #[cfg(feature = "sqlite")]
+    #[test]
+    fn sqlite_session_persist_roundtrip() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("test.db");
+        let session = Session {
+            user_id: "@alice:example.org".into(),
+            device_id: "DEVICEID".into(),
+            access_token: Some("token".into()),
+        };
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            block_on(store.put_session(&session)).unwrap();
+        }
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            let loaded = block_on(store.get_session()).unwrap().unwrap();
+            assert_eq!(loaded, session);
+        }
+    }
+
+    #[cfg(feature = "sqlite")]
+    #[test]
+    fn sqlite_room_state_persist_roundtrip() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("test.db");
+        let state = RoomState {
+            name: Some("My Room".into()),
+            topic: None,
+        };
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            block_on(store.put_room_state("!r:example.org", &state)).unwrap();
+        }
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            let loaded = block_on(store.get_room_state("!r:example.org"))
+                .unwrap()
+                .unwrap();
+            assert_eq!(loaded, state);
+        }
+    }
+
+    #[cfg(feature = "sqlite")]
+    #[test]
+    fn sqlite_timeline_append_and_slice_persist() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("test.db");
+        let events = vec![
+            MatrixEvent::Message {
+                room_id: "!r:example.org".into(),
+                sender: "@a:ex".into(),
+                body: "hi".into(),
+            },
+            MatrixEvent::Message {
+                room_id: "!r:example.org".into(),
+                sender: "@b:ex".into(),
+                body: "hey".into(),
+            },
+        ];
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            block_on(store.append_timeline_events("!r:example.org", &events)).unwrap();
+        }
+        {
+            let store = SqliteStore::open(&path).unwrap();
+            let slice =
+                block_on(store.get_timeline_slice("!r:example.org", 0, 2)).unwrap();
+            assert_eq!(slice, events);
+        }
     }
 
     #[test]
