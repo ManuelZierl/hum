@@ -1,11 +1,31 @@
 # Rust Workspace
 
-This directory bootstraps the Rust core for the project. It defines a Cargo workspace
-that will later expose Matrix and other functionality over FFI.
+This directory hosts the project's Rust workspace. It is intentionally
+isolated from the JavaScript/TypeScript codebase so Rust crates can
+evolve independently.
 
-- Uses the stable Rust toolchain.
-- Currently contains a single crate, `matrix_core`, with placeholder code and tests.
-- `cargo check` verifies the workspace builds.
-- `cargo test` runs the unit tests.
+## Layout
 
-This workspace is self-contained and ready for further expansion.
+- `Cargo.toml` – workspace manifest listing member crates. New crates should
+  live in their own folders here (siblings of `matrix_core`) and be added to the
+  `members` array.
+- `matrix_core/` – core library crate with placeholder code and tests.
+- `build-scripts/` – helper scripts for building native artifacts, including
+  `build-android.sh`, `build-ios.sh`, and a `Makefile`.
+- `rust-toolchain.toml` – pins the stable Rust toolchain.
+- `rustfmt.toml` – formatting configuration.
+- `clippy.toml` – lints configuration; warnings are denied.
+
+## Commands
+
+From this directory you can run:
+
+```sh
+cargo metadata
+cargo check
+cargo test
+```
+
+These commands operate purely on Rust code without coupling to the JS
+packages.
+
