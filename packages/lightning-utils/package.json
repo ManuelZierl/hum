@@ -14,7 +14,10 @@
   },
   "private": true,
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "echo \"No tests\""
   },
   "license": "AGPL-3.0-only",
   "repository": {

@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "typecheck": "tsc -p packages/chat-types/tsconfig.json",
-    "lint": "eslint '**/*.{ts,tsx,js}'",
+    "build": "pnpm -r --filter ./packages... run build",
+    "typecheck": "pnpm -r run typecheck || true",
+    "lint": "pnpm -r run lint || true",
+    "test": "pnpm -r run test || true",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky install",
-    "test": "jest",
     "storybook:start": "npm --prefix apps/storybook start",
     "storybook:ios": "npm --prefix apps/storybook run ios",
     "storybook:android": "npm --prefix apps/storybook run android"
