@@ -5,7 +5,7 @@ public class LnCoreModule: Module {
     Name("LnCore")
 
     AsyncFunction("ping") {
-      "pong"
+      "ok"
     }
   }
 }
