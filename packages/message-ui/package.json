@@ -24,8 +24,7 @@
     "react-native": ">=0.75"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
-    "@types/react-native": "^0.73.0"
+    "@types/react": "^19.1.12"
   },
   "license": "AGPL-3.0-only",
   "repository": {
