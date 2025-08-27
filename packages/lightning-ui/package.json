@@ -16,6 +16,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-native": "^0.73.0"
+  },
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -30,6 +34,8 @@
     "@mchat/ui-tokens": "workspace:*"
   },
   "peerDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.73.0",
     "react": ">=18",
     "react-native": ">=0.75"
   }
