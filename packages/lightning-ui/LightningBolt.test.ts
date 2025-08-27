@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/// <reference path="./test-types.d.ts" />
-
 import LightningBolt from './LightningBolt';
 
 jest.mock('react-native', () => ({
@@ -33,4 +31,3 @@ describe('LightningBolt', () => {
     expect(element.props.children).toEqual(['⚡ ', 'Zap']);
   });
 });
-
