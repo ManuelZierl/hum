@@ -1,15 +1,18 @@
-import React from 'react';
 import Avatar from '../../../../../apps/mobile/src/components/chats/Avatar';
 
 jest.mock('react-native', () => {
-  const React = jest.requireActual('react');
-  const create = (name: string) => ({ children, ...props }: any) =>
-    React.createElement(name, props, children);
+  type ElementProps = Record<string, unknown> & { children?: unknown };
+  const create =
+    (name: string) =>
+    ({ children, ...props }: ElementProps) => ({
+      type: name,
+      props: { ...props, children },
+    });
   return {
     View: create('View'),
     Text: create('Text'),
     Image: create('Image'),
-    StyleSheet: { create: (styles: any) => styles },
+    StyleSheet: { create: (styles: Record<string, unknown>) => styles },
   };
 });
 
