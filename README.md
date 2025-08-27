@@ -42,6 +42,14 @@ This repository currently contains the initial project skeleton.
 | docs/push-contract.md | Push notification contract details |
 | docs/ui-previews | UI component previews |
 
+## Storybook & Mobile Development
+
+Storybook (`apps/storybook`) uses React 19 and Vite 5. All Storybook packages are pinned to version 8.6.14 to keep internal imports stable. Vite aliases map `react-native` to `react-native-web` and point `@mchat/*` workspace packages to their `src/` folders so stories can import components directly.
+
+Add new stories using [Component Story Format](https://storybook.js.org/docs/react/api/csf) under `apps/storybook/storybook/stories`. Legacy `storiesOf` stories should be renamed to `*.skip` to keep the indexer clean.
+
+When running Storybook you may see peer warnings from `react-native-web` expecting React 18; these are safe to ignore while using React 19.
+
 ## Contributing Flow
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. In short: fork the repo, create a branch, commit your changes, and open a pull request for review.
