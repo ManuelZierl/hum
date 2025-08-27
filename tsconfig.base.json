@@ -13,6 +13,7 @@
     "paths": {
       "@apps/*": ["apps/*/src"],
       "@packages/*": ["packages/*/src"],
+      "@mchat/*": ["packages/*/src"],
       "@native/*": ["native/*/src"]
     }
   },
