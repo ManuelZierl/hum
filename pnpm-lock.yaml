@@ -15,7 +15,7 @@ importers:
         specifier: ^30.0.0
         version: 30.0.0
       '@types/react':
-        specifier: ~19.0.14
+        specifier: 19.0.14
         version: 19.0.14
       '@types/react-native':
         specifier: 0.73.0
