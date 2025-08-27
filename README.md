@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./imgs/logo-transparent.svg" alt="mchat logo" width="200" />
+</p>
+
 # mchat
 
 Placeholder for mchat, an open-source, privacy-first, federated messenger
@@ -12,35 +16,35 @@ This repository currently contains the initial project skeleton.
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| [@mchat/a11y-utils](packages/a11y-utils/README.md) | Accessibility utilities |
-| [@mchat/chat-types](packages/chat-types/README.md) | Shared chat domain TypeScript definitions |
-| [@mchat/lightning-ui](packages/lightning-ui/README.md) | Lightning Network UI components |
-| [@mchat/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities |
-| [@mchat/message-ui](packages/message-ui/README.md) | Chat message UI components |
-| [@mchat/push-contract](packages/push-contract/README.md) | Types for push notification contract |
-| [@mchat/ui-tokens](packages/ui-tokens/README.md) | Design tokens for consistent theming |
+| Package                                                      | Description                               |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| [@mchat/a11y-utils](packages/a11y-utils/README.md)           | Accessibility utilities                   |
+| [@mchat/chat-types](packages/chat-types/README.md)           | Shared chat domain TypeScript definitions |
+| [@mchat/lightning-ui](packages/lightning-ui/README.md)       | Lightning Network UI components           |
+| [@mchat/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities        |
+| [@mchat/message-ui](packages/message-ui/README.md)           | Chat message UI components                |
+| [@mchat/push-contract](packages/push-contract/README.md)     | Types for push notification contract      |
+| [@mchat/ui-tokens](packages/ui-tokens/README.md)             | Design tokens for consistent theming      |
 
 ## Project Map
 
-| Path | Purpose |
-| ---- | ------- |
-| apps/mobile | React Native mobile application |
-| packages/a11y-utils | Accessibility utilities |
-| packages/chat-types | Shared chat domain TypeScript definitions |
-| packages/lightning-ui | Lightning Network UI components |
-| packages/lightning-utils | Lightning Network helper utilities |
-| packages/message-ui | Chat message UI components |
-| packages/push-contract | Types for push notification contract |
-| packages/ui-tokens | Design tokens for consistent theming |
-| native/ln-core | Mock Lightning node core for Expo modules |
-| native/rust | Rust workspace for core functionality |
-| docs/adr | Architecture decision records |
-| docs/a11y-checklist.md | Accessibility checklist |
-| docs/dev-setup.md | Development environment setup |
-| docs/push-contract.md | Push notification contract details |
-| docs/ui-previews | UI component previews |
+| Path                     | Purpose                                   |
+| ------------------------ | ----------------------------------------- |
+| apps/mobile              | React Native mobile application           |
+| packages/a11y-utils      | Accessibility utilities                   |
+| packages/chat-types      | Shared chat domain TypeScript definitions |
+| packages/lightning-ui    | Lightning Network UI components           |
+| packages/lightning-utils | Lightning Network helper utilities        |
+| packages/message-ui      | Chat message UI components                |
+| packages/push-contract   | Types for push notification contract      |
+| packages/ui-tokens       | Design tokens for consistent theming      |
+| native/ln-core           | Mock Lightning node core for Expo modules |
+| native/rust              | Rust workspace for core functionality     |
+| docs/adr                 | Architecture decision records             |
+| docs/a11y-checklist.md   | Accessibility checklist                   |
+| docs/dev-setup.md        | Development environment setup             |
+| docs/push-contract.md    | Push notification contract details        |
+| docs/ui-previews         | UI component previews                     |
 
 ## Storybook and Mobile
 
@@ -61,4 +65,3 @@ Start the Expo app with `pnpm -F mobile start -- --clear`.
 ## Contributing Flow
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. In short: fork the repo, create a branch, commit your changes, and open a pull request for review.
-
