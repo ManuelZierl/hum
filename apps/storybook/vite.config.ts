@@ -7,8 +7,9 @@ const r = (...p: string[]) => path.resolve(__dirname, ...p);
 /**
  * NOTE:
  * Storybook 8.6 sometimes trips Vite on 'storybook/internal/preview/runtime'.
- * We alias it to the public preview API, and ensure SB packages are *not*
- * pre-bundled by optimizeDeps. This prevents the internal import error.
+ * If that happens again, alias it to Storybook's own runtime file to mirror
+ * the package export. SB packages are also excluded from optimizeDeps to avoid
+ * pre-bundling issues.
  */
 export default defineConfig({
   plugins: [react()],
@@ -16,11 +17,8 @@ export default defineConfig({
     alias: {
       'react-native': 'react-native-web',
       '@mchat/ui-tokens': r('../../packages/ui-tokens/src'),
-      '@mchat/lightning-ui': r('../../packages/lightning-ui/src'),
-      '@mchat/message-ui': r('../../packages/message-ui/src'),
-
-      // Fix: resolve SB internal virtual import
-      'storybook/internal/preview/runtime': '@storybook/preview-api',
+      '@mchat/lightning-ui': r('../../packages/lightning-ui'),
+      '@mchat/message-ui': r('../../packages/message-ui'),
     },
   },
   optimizeDeps: {
