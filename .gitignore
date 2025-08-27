@@ -11,7 +11,8 @@ dist/
 build/
 packages/*/node_modules/
 packages/*/dist/
-**/dis
+**/dist
+.eslintcache
 
 # React Native / Expo
 .expo/
