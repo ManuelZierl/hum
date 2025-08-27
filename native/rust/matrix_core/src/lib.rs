@@ -146,8 +146,7 @@ mod tests {
         }
         {
             let store = SqliteStore::open(&path).unwrap();
-            let slice =
-                block_on(store.get_timeline_slice("!r:example.org", 0, 2)).unwrap();
+            let slice = block_on(store.get_timeline_slice("!r:example.org", 0, 2)).unwrap();
             assert_eq!(slice, events);
         }
     }
