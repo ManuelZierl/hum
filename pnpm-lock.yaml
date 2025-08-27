@@ -145,6 +145,9 @@ importers:
       babel-preset-expo:
         specifier: 11.0.15
         version: 11.0.15(@babel/core@7.28.3)(@babel/preset-env@7.28.3(@babel/core@7.28.3))
+      storybook:
+        specifier: 8.6.14
+        version: 8.6.14(prettier@3.6.2)
       typescript:
         specifier: ^5.4.0
         version: 5.8.3
