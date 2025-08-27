@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
   ],
   docs: { autodocs: true },
+  typescript: { reactDocgen: false },
   core: { disableTelemetry: true },
 };
 export default config;

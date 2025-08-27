@@ -50,6 +50,7 @@ This repository currently contains the initial project skeleton.
 - Vite aliases map `react-native` to `react-native-web` and `@mchat/*` packages to their `src` directories so Storybook can bundle TypeScript directly.
 - Add new stories using [Component Story Format](https://storybook.js.org/docs/react/writing-stories/introduction) under `apps/storybook/storybook/stories`. Rename any legacy `storiesOf` files to `*.stories.tsx.skip`.
 - `react-native-web` logs peer dependency warnings for React 18; these are safe to ignore when using React 19.
+- TypeScript prop extraction is disabled (`reactDocgen: false`) to avoid `jsdoc-type-pratt-parser` runtime errors with React 19.
 
 Run Storybook with `pnpm -F storybook start`.
 
