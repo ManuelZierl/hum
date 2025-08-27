@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { ThemeProvider } from '@mchat/ui-tokens';
 import { LightningBolt } from '@mchat/lightning-ui';

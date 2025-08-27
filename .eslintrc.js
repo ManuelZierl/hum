@@ -12,14 +12,7 @@ module.exports = {
     'react-native',
     'prettier',
   ],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:react-native/all',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:react-native/all', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
   settings: {
     react: {
       version: 'detect',
