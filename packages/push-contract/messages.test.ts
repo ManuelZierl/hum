@@ -15,13 +15,21 @@ describe('createFcmMessage', () => {
 
   test('creates message without notification', () => {
     const msg = createFcmMessage('token123', payload);
-    expect(msg).toEqual({ token: 'token123', data: payload, notification: undefined });
+    expect(msg).toEqual({
+      token: 'token123',
+      data: payload,
+      notification: undefined,
+    });
   });
 
   test('creates message with notification', () => {
     const notification = { title: 'Hello', body: 'World' };
     const msg = createFcmMessage('token123', payload, notification);
-    expect(msg).toEqual({ token: 'token123', data: payload, notification });
+    expect(msg).toEqual({
+      token: 'token123',
+      data: payload,
+      notification,
+    });
   });
 });
 
@@ -38,12 +46,19 @@ describe('createApnsMessage', () => {
 
   test('creates message without badge', () => {
     const msg = createApnsMessage('token456', payload, alert);
-    expect(msg).toEqual({ token: 'token456', aps: { alert, badge: undefined }, data: payload });
+    expect(msg).toEqual({
+      token: 'token456',
+      aps: { alert, badge: undefined },
+      data: payload,
+    });
   });
 
   test('creates message with badge', () => {
     const msg = createApnsMessage('token456', payload, alert, 5);
-    expect(msg).toEqual({ token: 'token456', aps: { alert, badge: 5 }, data: payload });
+    expect(msg).toEqual({
+      token: 'token456',
+      aps: { alert, badge: 5 },
+      data: payload,
+    });
   });
 });
-
