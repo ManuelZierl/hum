@@ -3,7 +3,9 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/packages'],
   testMatch: ['**/*.test.ts'],
-  transform: {
-    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.base.json' }],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.base.json',
+    },
   },
 };
