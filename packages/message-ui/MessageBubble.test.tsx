@@ -8,11 +8,17 @@ jest.mock('react-native', () => {
   return { View, Text, StyleSheet };
 });
 
-jest.mock('@mchat/ui-tokens', () => ({
-  spacing: { xs: 2, sm: 4, md: 8 },
-  typography: { fontSize: { xs: 10, md: 14 } },
-  useTheme: () => ({ colors: { primary: 'blue', surface: 'white', text: 'black' } }),
-}), { virtual: true });
+jest.mock(
+  '@mchat/ui-tokens',
+  () => ({
+    spacing: { xs: 2, sm: 4, md: 8 },
+    typography: { fontSize: { xs: 10, md: 14 } },
+    useTheme: () => ({
+      colors: { primary: 'blue', surface: 'white', text: 'black' },
+    }),
+  }),
+  { virtual: true },
+);
 
 function render(element: any): any {
   if (element == null || typeof element !== 'object') return element;
@@ -33,12 +39,17 @@ function extractText(node: any): any[] {
   if (typeof node === 'string' || typeof node === 'number') return [node];
   const children = node.props?.children || [];
   return Array.isArray(children)
-    ? children.reduce((acc: any[], cur: any) => acc.concat(extractText(cur)), [] as any[])
+    ? children.reduce(
+        (acc: any[], cur: any) => acc.concat(extractText(cur)),
+        [] as any[],
+      )
     : extractText(children);
 }
 
 function flatten(style: any): any {
-  return Array.isArray(style) ? style.reduce((acc: any, cur: any) => Object.assign(acc, cur), {}) : style;
+  return Array.isArray(style)
+    ? style.reduce((acc: any, cur: any) => Object.assign(acc, cur), {})
+    : style;
 }
 
 describe('MessageBubble', () => {
@@ -49,16 +60,14 @@ describe('MessageBubble', () => {
   };
 
   it('renders text, timestamp, and status for sender "me"', () => {
-    const tree = render(
-      MessageBubble({ ...baseProps, status: 'read' })
-    );
+    const tree = render(MessageBubble({ ...baseProps, status: 'read' }));
     const texts = extractText(tree);
     expect(texts).toEqual(expect.arrayContaining(['Hello', '10:00', 'read']));
   });
 
   it('omits status for sender "them"', () => {
     const tree = render(
-      MessageBubble({ ...baseProps, sender: 'them', status: 'read' })
+      MessageBubble({ ...baseProps, sender: 'them', status: 'read' }),
     );
     const texts = extractText(tree);
     expect(texts).toEqual(expect.arrayContaining(['Hello', '10:00']));
@@ -66,20 +75,15 @@ describe('MessageBubble', () => {
   });
 
   it('renders reply indicator when isReply is true', () => {
-    const tree = render(
-      MessageBubble({ ...baseProps, isReply: true })
-    );
+    const tree = render(MessageBubble({ ...baseProps, isReply: true }));
     const texts = extractText(tree);
     expect(texts).toContain('Reply');
   });
 
   it('applies selection styles when selected', () => {
-    const tree = render(
-      MessageBubble({ ...baseProps, isSelected: true })
-    );
+    const tree = render(MessageBubble({ ...baseProps, isSelected: true }));
     const style = flatten(tree.props.style);
     expect(style.borderWidth).toBeDefined();
     expect(style.borderColor).toBe('blue');
   });
 });
-

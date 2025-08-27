@@ -9,11 +9,17 @@ jest.mock('react-native', () => {
   return { View, Text, StyleSheet };
 });
 
-jest.mock('@mchat/ui-tokens', () => ({
-  spacing: { xs: 2, sm: 4, md: 8 },
-  typography: { fontSize: { xs: 10, md: 14 } },
-  useTheme: () => ({ colors: { primary: 'blue', surface: 'white', text: 'black' } }),
-}), { virtual: true });
+jest.mock(
+  '@mchat/ui-tokens',
+  () => ({
+    spacing: { xs: 2, sm: 4, md: 8 },
+    typography: { fontSize: { xs: 10, md: 14 } },
+    useTheme: () => ({
+      colors: { primary: 'blue', surface: 'white', text: 'black' },
+    }),
+  }),
+  { virtual: true },
+);
 
 function render(element: any): any {
   if (element == null || typeof element !== 'object') return element;
@@ -34,12 +40,17 @@ function extractText(node: any): any[] {
   if (typeof node === 'string' || typeof node === 'number') return [node];
   const children = node.props?.children || [];
   return Array.isArray(children)
-    ? children.reduce((acc: any[], cur: any) => acc.concat(extractText(cur)), [] as any[])
+    ? children.reduce(
+        (acc: any[], cur: any) => acc.concat(extractText(cur)),
+        [] as any[],
+      )
     : extractText(children);
 }
 
 function flatten(style: any): any {
-  return Array.isArray(style) ? style.reduce((acc: any, cur: any) => Object.assign(acc, cur), {}) : style;
+  return Array.isArray(style)
+    ? style.reduce((acc: any, cur: any) => Object.assign(acc, cur), {})
+    : style;
 }
 
 describe('MessageListItem', () => {
@@ -59,4 +70,3 @@ describe('MessageListItem', () => {
     expect(texts).toContain('Howdy');
   });
 });
-
