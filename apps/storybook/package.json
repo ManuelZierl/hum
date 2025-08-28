@@ -1,5 +1,5 @@
 {
-  "name": "@mchat/storybook",
+  "name": "@hum/storybook",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@babel/runtime": "7.28.3",
-    "@mchat/lightning-ui": "workspace:*",
-    "@mchat/message-ui": "workspace:*",
-    "@mchat/ui-tokens": "workspace:*",
+    "@hum/lightning-ui": "workspace:*",
+    "@hum/message-ui": "workspace:*",
+    "@hum/ui-tokens": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native-web": "~0.19.13"

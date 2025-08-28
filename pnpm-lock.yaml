@@ -99,13 +99,13 @@ importers:
       '@babel/runtime':
         specifier: 7.28.3
         version: 7.28.3
-      '@mchat/lightning-ui':
+      '@hum/lightning-ui':
         specifier: workspace:*
         version: link:../../packages/lightning-ui
-      '@mchat/message-ui':
+      '@hum/message-ui':
         specifier: workspace:*
         version: link:../../packages/message-ui
-      '@mchat/ui-tokens':
+      '@hum/ui-tokens':
         specifier: workspace:*
         version: link:../../packages/ui-tokens
       react:
@@ -174,7 +174,7 @@ importers:
 
   packages/lightning-ui:
     dependencies:
-      '@mchat/ui-tokens':
+      '@hum/ui-tokens':
         specifier: workspace:*
         version: link:../ui-tokens
       react:
@@ -195,7 +195,7 @@ importers:
 
   packages/message-ui:
     dependencies:
-      '@mchat/ui-tokens':
+      '@hum/ui-tokens':
         specifier: workspace:*
         version: link:../ui-tokens
       react:

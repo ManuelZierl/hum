@@ -5,7 +5,7 @@ import LnCore, {
   addPaymentUpdatedListener,
   LnInvoice,
   Payment,
-} from '@mchat/ln-core';
+} from '@hum/ln-core';
 
 const LnCoreDemo = () => {
   const [info, setInfo] = useState<{

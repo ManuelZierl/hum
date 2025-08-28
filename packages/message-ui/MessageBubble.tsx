@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { spacing, typography, useTheme } from '@mchat/ui-tokens';
+import { spacing, typography, useTheme } from '@hum/ui-tokens';
 
 export type MessageBubbleProps = {
   sender: 'me' | 'them';

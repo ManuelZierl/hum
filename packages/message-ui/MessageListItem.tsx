@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { spacing } from '@mchat/ui-tokens';
+import { spacing } from '@hum/ui-tokens';
 import MessageBubble, { MessageBubbleProps } from './MessageBubble';
 
 export type MessageListItemProps = MessageBubbleProps;

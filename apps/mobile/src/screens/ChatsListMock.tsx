@@ -125,7 +125,7 @@ export default function ChatsListMock() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>mChat</Text>
+        <Text style={styles.headerTitle}>hum</Text>
         <Text style={styles.headerIcon}>🔍</Text>
       </View>
       <View style={styles.tabs}>

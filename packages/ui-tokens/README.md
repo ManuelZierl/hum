@@ -1,12 +1,13 @@
-# @mchat/ui-tokens
+# @hum/ui-tokens
+
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](../../LICENSE)
 
-Design tokens shared across mchat clients. Provides color, spacing and typography scales along with a minimal `ThemeProvider`.
+Design tokens shared across hum clients. Provides color, spacing and typography scales along with a minimal `ThemeProvider`.
 
 ## Installation
 
 ```sh
-npm install @mchat/ui-tokens
+npm install @hum/ui-tokens
 ```
 
 ## Usage
@@ -14,7 +15,7 @@ npm install @mchat/ui-tokens
 Wrap your application with the `ThemeProvider` and access tokens via `useTheme`:
 
 ```tsx
-import { ThemeProvider, useTheme } from '@mchat/ui-tokens';
+import { ThemeProvider, useTheme } from '@hum/ui-tokens';
 
 const Box = () => {
   const { colors, spacing, typography } = useTheme();
@@ -52,7 +53,7 @@ The `mode` prop toggles between the `light` and `dark` color palettes. Each pale
 Import tokens individually if you need static values without React context:
 
 ```ts
-import { lightColors, spacing, typography } from '@mchat/ui-tokens';
+import { lightColors, spacing, typography } from '@hum/ui-tokens';
 ```
 
 No circular dependencies exist within this package, keeping the tokens portable and framework agnostic.

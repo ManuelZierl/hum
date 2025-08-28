@@ -10,7 +10,7 @@ jest.mock('react-native', () => {
 });
 
 jest.mock(
-  '@mchat/ui-tokens',
+  '@hum/ui-tokens',
   () => ({
     spacing: { xs: 2, sm: 4, md: 8 },
     typography: { fontSize: { xs: 10, md: 14 } },

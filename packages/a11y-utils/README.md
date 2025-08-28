@@ -1,19 +1,19 @@
-# @mchat/a11y-utils
+# @hum/a11y-utils
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](../../LICENSE)
 
-Accessibility helpers for building inclusive mchat clients.
+Accessibility helpers for building inclusive hum clients.
 
 ## Installation
 
 ```sh
-npm install @mchat/a11y-utils
+npm install @hum/a11y-utils
 ```
 
 ## Usage
 
 ```ts
-import { accessibleLabel, hitSlop } from '@mchat/a11y-utils';
+import { accessibleLabel, hitSlop } from '@hum/a11y-utils';
 
 accessibleLabel('Send', 'button');
 hitSlop(8);

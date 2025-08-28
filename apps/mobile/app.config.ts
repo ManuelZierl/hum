@@ -5,8 +5,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 // 2. Uncomment the line in the plugins array below.
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: config.name ?? 'mchat',
-  slug: config.slug ?? 'mchat',
+  name: config.name ?? 'hum',
+  slug: config.slug ?? 'hum',
   version: config.version ?? '1.0.0',
   orientation: config.orientation ?? 'portrait',
   userInterfaceStyle: config.userInterfaceStyle ?? 'light',

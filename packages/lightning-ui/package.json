@@ -1,5 +1,5 @@
 {
-  "name": "@mchat/lightning-ui",
+  "name": "@hum/lightning-ui",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -23,15 +23,15 @@
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mchat/mchat",
+    "url": "https://github.com/hum/hum",
     "directory": "packages/lightning-ui"
   },
   "bugs": {
-    "url": "https://github.com/mchat/mchat/issues"
+    "url": "https://github.com/hum/hum/issues"
   },
-  "homepage": "https://github.com/mchat/mchat#readme",
+  "homepage": "https://github.com/hum/hum#readme",
   "dependencies": {
-    "@mchat/ui-tokens": "workspace:*"
+    "@hum/ui-tokens": "workspace:*"
   },
   "peerDependencies": {
     "@types/react": "^18.0.0",

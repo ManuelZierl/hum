@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { View, Text } from 'react-native';
-import { ThemeProvider, useTheme } from '@mchat/ui-tokens';
+import { ThemeProvider, useTheme } from '@hum/ui-tokens';
 
 const Demo: React.FC = () => {
   const { colors, spacing, typography } = useTheme();
@@ -29,4 +29,3 @@ export const Basic: Story = {
     </ThemeProvider>
   ),
 };
-

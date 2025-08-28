@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { ThemeProvider } from '@mchat/ui-tokens';
-import { LightningBolt } from '@mchat/lightning-ui';
+import { ThemeProvider } from '@hum/ui-tokens';
+import { LightningBolt } from '@hum/lightning-ui';
 
 const meta: Meta<typeof LightningBolt> = {
   title: 'Lightning/LightningBolt',
@@ -19,4 +19,3 @@ export const Basic: Story = {
   ),
   args: { label: 'Bolt' },
 };
-

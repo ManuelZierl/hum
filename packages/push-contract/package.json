@@ -1,5 +1,5 @@
 {
-  "name": "@mchat/push-contract",
+  "name": "@hum/push-contract",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,11 +22,11 @@
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mchat/mchat",
+    "url": "https://github.com/hum/hum",
     "directory": "packages/push-contract"
   },
   "bugs": {
-    "url": "https://github.com/mchat/mchat/issues"
+    "url": "https://github.com/hum/hum/issues"
   },
-  "homepage": "https://github.com/mchat/mchat#readme"
+  "homepage": "https://github.com/hum/hum#readme"
 }
