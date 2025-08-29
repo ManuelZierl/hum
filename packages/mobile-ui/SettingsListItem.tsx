@@ -1,13 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+} from 'react-native';
 
-interface Props {
+export interface SettingsListItemProps {
   label: string;
   onPress?: () => void;
   accessibilityHint?: string;
 }
 
-const SettingsListItem = ({ label, onPress, accessibilityHint }: Props) => {
+const SettingsListItem = ({
+  label,
+  onPress,
+  accessibilityHint,
+}: SettingsListItemProps) => {
   const scheme = useColorScheme();
   const colors = scheme === 'dark' ? darkColors : lightColors;
 
@@ -18,7 +28,12 @@ const SettingsListItem = ({ label, onPress, accessibilityHint }: Props) => {
       accessibilityHint={accessibilityHint || `Activates ${label}`}
       onPress={onPress}
     >
-      <View style={[styles.container, { borderBottomColor: colors.border, backgroundColor: colors.card }]}> 
+      <View
+        style={[
+          styles.container,
+          { borderBottomColor: colors.border, backgroundColor: colors.card },
+        ]}
+      >
         <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
         <Text style={[styles.chevron, { color: colors.subtext }]}>›</Text>
       </View>
@@ -26,8 +41,18 @@ const SettingsListItem = ({ label, onPress, accessibilityHint }: Props) => {
   );
 };
 
-const lightColors = { card: '#ffffff', text: '#000000', subtext: '#777777', border: '#e0e0e0' };
-const darkColors = { card: '#1c1c1c', text: '#ffffff', subtext: '#aaaaaa', border: '#333333' };
+const lightColors = {
+  card: '#ffffff',
+  text: '#000000',
+  subtext: '#777777',
+  border: '#e0e0e0',
+};
+const darkColors = {
+  card: '#1c1c1c',
+  text: '#ffffff',
+  subtext: '#aaaaaa',
+  border: '#333333',
+};
 
 const styles = StyleSheet.create({
   container: {

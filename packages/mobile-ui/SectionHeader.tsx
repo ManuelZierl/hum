@@ -1,15 +1,17 @@
 import React from 'react';
 import { Text, StyleSheet, useColorScheme } from 'react-native';
 
-interface Props {
+export interface SectionHeaderProps {
   title: string;
 }
 
-const SectionHeader = ({ title }: Props) => {
+const SectionHeader = ({ title }: SectionHeaderProps) => {
   const scheme = useColorScheme();
   const colors = scheme === 'dark' ? darkColors : lightColors;
 
-  return <Text style={[styles.header, { color: colors.subtext }]}>{title}</Text>;
+  return (
+    <Text style={[styles.header, { color: colors.subtext }]}>{title}</Text>
+  );
 };
 
 const lightColors = { subtext: '#555555' };

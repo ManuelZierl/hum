@@ -8,10 +8,11 @@ import {
   RefreshControl,
   useColorScheme,
 } from 'react-native';
-import ChatListItem, {
+import {
+  ChatListItem,
   getItemLayout,
   ChatListItemProps,
-} from '../components/chats/ChatListItem';
+} from '@mchat/message-ui';
 
 const mockChats: (ChatListItemProps & { id: string })[] = [
   {

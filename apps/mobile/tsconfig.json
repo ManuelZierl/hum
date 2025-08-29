@@ -3,6 +3,10 @@
   "compilerOptions": {
     "jsx": "react-native",
     "types": ["react", "react-native"],
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@mchat/message-ui": ["packages/message-ui"],
+      "@mchat/mobile-ui": ["packages/mobile-ui"]
+    }
   }
 }

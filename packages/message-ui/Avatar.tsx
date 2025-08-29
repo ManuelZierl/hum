@@ -1,13 +1,13 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet } from 'react-native';
 
-interface Props {
+export interface AvatarProps {
   title: string;
   avatarUri?: string;
   size?: number;
 }
 
-export default function Avatar({ title, avatarUri, size = 48 }: Props) {
+export default function Avatar({ title, avatarUri, size = 48 }: AvatarProps) {
   const initials =
     !title || !title.trim()
       ? ''
