@@ -9,7 +9,7 @@ import { type } from './typography';
 type Scheme = 'light' | 'dark';
 type Theme = {
   scheme: Scheme;
-  colors: (typeof colors)['light'];
+  colors: (typeof colors)[Scheme];
   spacing: typeof spacing;
   radius: typeof radius;
   type: typeof type;
