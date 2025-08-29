@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Accordion renders without crashing 1`] = `
+{
+  "props": {
+    "children": [
+      {
+        "props": {
+          "children": [
+            {
+              "props": {
+                "accessibilityRole": "button",
+                "accessibilityState": {
+                  "expanded": true,
+                },
+                "children": [
+                  {
+                    "props": {
+                      "children": [
+                        {
+                          "props": {
+                            "children": [
+                              "Item 1",
+                            ],
+                            "style": [
+                              {
+                                "fontSize": 16,
+                                "fontWeight": "500",
+                              },
+                              {
+                                "color": "#000000",
+                              },
+                              undefined,
+                            ],
+                          },
+                          "type": "Text",
+                        },
+                        {
+                          "props": {
+                            "children": [
+                              "⌄",
+                            ],
+                            "style": [
+                              {
+                                "color": "#FECA1A",
+                                "fontSize": 16,
+                                "transform": [
+                                  {
+                                    "rotate": "0deg",
+                                  },
+                                ],
+                              },
+                              {
+                                "transform": [
+                                  {
+                                    "rotate": "180deg",
+                                  },
+                                ],
+                              },
+                            ],
+                          },
+                          "type": "Text",
+                        },
+                      ],
+                      "style": {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "space-between",
+                      },
+                    },
+                    "type": "View",
+                  },
+                ],
+                "onPress": [Function],
+                "style": [
+                  {
+                    "paddingVertical": 12,
+                  },
+                  undefined,
+                ],
+              },
+              "type": "Pressable",
+            },
+            {
+              "props": {
+                "children": [
+                  "Content 1",
+                ],
+                "style": [
+                  {
+                    "paddingBottom": 16,
+                  },
+                  undefined,
+                ],
+              },
+              "type": "View",
+            },
+          ],
+          "style": [
+            {
+              "borderBottomWidth": 1,
+            },
+            {
+              "borderColor": "#e5e5e5",
+            },
+            undefined,
+          ],
+        },
+        "type": "View",
+      },
+    ],
+    "style": undefined,
+  },
+  "type": "View",
+}
+`;
