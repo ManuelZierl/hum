@@ -1,6 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, useColorScheme, Animated, ScrollView } from 'react-native';
-import TabBarMock from '../components/shell/TabBarMock';
+import {
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  Animated,
+  ScrollView,
+} from 'react-native';
+import { TabBarMock } from '@mchat/mobile-ui';
 
 const ShellMock = () => {
   const scheme = useColorScheme();
@@ -10,15 +17,28 @@ const ShellMock = () => {
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
-        Animated.timing(shimmer, { toValue: 1, duration: 1000, useNativeDriver: true }),
-        Animated.timing(shimmer, { toValue: 0.3, duration: 1000, useNativeDriver: true }),
+        Animated.timing(shimmer, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shimmer, {
+          toValue: 0.3,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
       ]),
     ).start();
   }, [shimmer]);
 
   return (
-    <View style={[styles.screen, { backgroundColor: colors.background }]}> 
-      <View style={[styles.topBar, { backgroundColor: colors.card, borderBottomColor: colors.border }]}> 
+    <View style={[styles.screen, { backgroundColor: colors.background }]}>
+      <View
+        style={[
+          styles.topBar,
+          { backgroundColor: colors.card, borderBottomColor: colors.border },
+        ]}
+      >
         <Text style={[styles.title, { color: colors.text }]}>mChat</Text>
         <View style={styles.topIcons}>
           <Text style={[styles.topIcon, { color: colors.subtext }]}>🔍</Text>
@@ -26,13 +46,23 @@ const ShellMock = () => {
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={[styles.card, { backgroundColor: colors.card, shadowColor: colors.shadow }]}> 
-          <Text style={[styles.cardText, { color: colors.text }]}>This is the shell</Text>
+        <View
+          style={[
+            styles.card,
+            { backgroundColor: colors.card, shadowColor: colors.shadow },
+          ]}
+        >
+          <Text style={[styles.cardText, { color: colors.text }]}>
+            This is the shell
+          </Text>
         </View>
         {[0, 1, 2, 3].map((i) => (
           <Animated.View
             key={i}
-            style={[styles.placeholder, { backgroundColor: colors.placeholder, opacity: shimmer }]}
+            style={[
+              styles.placeholder,
+              { backgroundColor: colors.placeholder, opacity: shimmer },
+            ]}
           />
         ))}
       </ScrollView>

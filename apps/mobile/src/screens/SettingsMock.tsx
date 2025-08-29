@@ -1,15 +1,19 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, useColorScheme } from 'react-native';
-import ProfileCard from '../components/settings/ProfileCard';
-import SectionHeader from '../components/settings/SectionHeader';
-import SettingsListItem from '../components/settings/SettingsListItem';
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native';
+import { ProfileCard, SectionHeader, SettingsListItem } from '@mchat/mobile-ui';
 
 const SettingsMock = () => {
   const scheme = useColorScheme();
   const colors = scheme === 'dark' ? darkColors : lightColors;
 
   return (
-    <ScrollView style={[styles.screen, { backgroundColor: colors.background }]}> 
+    <ScrollView style={[styles.screen, { backgroundColor: colors.background }]}>
       <ProfileCard name="Jane Doe" handle="@jane" />
       <View style={styles.section}>
         <SectionHeader title="Account" />
@@ -39,7 +43,9 @@ const SettingsMock = () => {
       </View>
       <View style={styles.footer}>
         <Text style={[styles.version, { color: colors.subtext }]}>v0.0.0</Text>
-        <Text style={[styles.license, { color: colors.subtext }]}>Open source, no telemetry</Text>
+        <Text style={[styles.license, { color: colors.subtext }]}>
+          Open source, no telemetry
+        </Text>
       </View>
     </ScrollView>
   );

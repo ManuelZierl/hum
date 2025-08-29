@@ -6,7 +6,8 @@
     "paths": {
       "@mchat/ui-tokens": ["../../packages/ui-tokens/src"],
       "@mchat/lightning-ui": ["../../packages/lightning-ui"],
-      "@mchat/message-ui": ["../../packages/message-ui"]
+      "@mchat/message-ui": ["../../packages/message-ui"],
+      "@mchat/mobile-ui": ["../../packages/mobile-ui"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"]

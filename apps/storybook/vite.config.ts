@@ -19,6 +19,7 @@ export default defineConfig({
       '@mchat/ui-tokens': r('../../packages/ui-tokens/src'),
       '@mchat/lightning-ui': r('../../packages/lightning-ui'),
       '@mchat/message-ui': r('../../packages/message-ui'),
+      '@mchat/mobile-ui': r('../../packages/mobile-ui'),
     },
   },
   optimizeDeps: {

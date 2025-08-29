@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-interface Props {
+export interface UnreadBadgeProps {
   count: number;
 }
 
-export default function UnreadBadge({ count }: Props) {
+export default function UnreadBadge({ count }: UnreadBadgeProps) {
   const display = count > 99 ? '99+' : String(count);
 
   return (

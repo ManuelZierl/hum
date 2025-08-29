@@ -1,17 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, useColorScheme } from 'react-native';
 
-interface Props {
+export interface ProfileCardProps {
   name: string;
   handle: string;
 }
 
-const ProfileCard = ({ name, handle }: Props) => {
+const ProfileCard = ({ name, handle }: ProfileCardProps) => {
   const scheme = useColorScheme();
   const colors = scheme === 'dark' ? darkColors : lightColors;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.card, shadowColor: colors.shadow }]}> 
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.card, shadowColor: colors.shadow },
+      ]}
+    >
       <View style={[styles.avatar, { backgroundColor: colors.avatar }]} />
       <View style={styles.info}>
         <Text style={[styles.name, { color: colors.text }]}>{name}</Text>
@@ -22,8 +27,20 @@ const ProfileCard = ({ name, handle }: Props) => {
   );
 };
 
-const lightColors = { card: '#ffffff', text: '#000000', subtext: '#555555', avatar: '#cccccc', shadow: '#000000' };
-const darkColors = { card: '#222222', text: '#ffffff', subtext: '#aaaaaa', avatar: '#444444', shadow: '#000000' };
+const lightColors = {
+  card: '#ffffff',
+  text: '#000000',
+  subtext: '#555555',
+  avatar: '#cccccc',
+  shadow: '#000000',
+};
+const darkColors = {
+  card: '#222222',
+  text: '#ffffff',
+  subtext: '#aaaaaa',
+  avatar: '#444444',
+  shadow: '#000000',
+};
 
 const styles = StyleSheet.create({
   container: {

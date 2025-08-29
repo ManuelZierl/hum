@@ -1,4 +1,4 @@
-import UnreadBadge from '../../../../../apps/mobile/src/components/chats/UnreadBadge';
+import UnreadBadge from './UnreadBadge';
 
 jest.mock('react-native', () => {
   type ElementProps = Record<string, unknown> & { children?: unknown };

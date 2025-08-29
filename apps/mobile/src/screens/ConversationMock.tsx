@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import ConversationHeader from '../components/conversation/ConversationHeader';
-import MessageBubble, {
+import {
+  ConversationHeader,
+  MessageBubble,
   MessageBubbleProps,
-} from '../components/conversation/MessageBubble';
-import DaySeparator from '../components/conversation/DaySeparator';
-import ComposerMock from '../components/conversation/ComposerMock';
+  DaySeparator,
+  ComposerMock,
+} from '@mchat/message-ui';
 
 const messages: Array<
   | { id: string; type: 'separator'; label: string }
@@ -16,32 +17,31 @@ const messages: Array<
     id: '1',
     sender: 'them',
     text: 'Hey, are we still on for tonight?',
-    time: '09:41',
+    timestamp: '09:41',
   },
   {
     id: '2',
     sender: 'me',
     text: 'Absolutely! Looking forward to catching up later. This is a bit longer to wrap across lines.',
-    time: '09:42',
+    timestamp: '09:42',
     status: 'delivered',
   },
-  { id: '3', sender: 'them', text: '👍', time: '09:43' },
+  { id: '3', sender: 'them', text: '👍', timestamp: '09:43' },
   { id: 'sep2', type: 'separator', label: 'Today' },
   {
     id: '4',
     sender: 'me',
     isReply: true,
-    replyPreviewText: 'Hey, are we still on for tonight?',
     text: 'Yep, leaving in 5.',
-    time: '17:10',
+    timestamp: '17:10',
     status: 'sent',
   },
-  { id: '5', sender: 'them', imageMock: true, time: '17:12' },
+  { id: '5', sender: 'them', text: '[image]', timestamp: '17:12' },
   {
     id: '6',
     sender: 'me',
     text: 'See you soon! 👋',
-    time: '17:13',
+    timestamp: '17:13',
     status: 'read',
   },
 ];

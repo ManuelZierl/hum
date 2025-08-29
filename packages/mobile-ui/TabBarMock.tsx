@@ -12,11 +12,18 @@ const TabBarMock = () => {
   ];
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.card, borderTopColor: colors.border }]}> 
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.card, borderTopColor: colors.border },
+      ]}
+    >
       {tabs.map((tab) => (
         <View key={tab.label} style={styles.tab}>
           <Text style={styles.icon}>{tab.icon}</Text>
-          <Text style={[styles.label, { color: colors.text }]}>{tab.label}</Text>
+          <Text style={[styles.label, { color: colors.text }]}>
+            {tab.label}
+          </Text>
         </View>
       ))}
     </View>
