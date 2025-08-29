@@ -45,3 +45,4 @@ target/
 native/rust/target/
 # IDE
 .idea/
+.eslintcache

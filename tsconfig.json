@@ -2,13 +2,7 @@
   "files": [],
   "references": [
     { "path": "./apps/mobile" },
-    { "path": "./packages/a11y-utils" },
-    { "path": "./packages/chat-types" },
-    { "path": "./packages/lightning-ui" },
-    { "path": "./packages/lightning-utils" },
-    { "path": "./packages/message-ui" },
-    { "path": "./packages/push-contract" },
-    { "path": "./packages/ui-tokens" },
+    { "path": "./packages/ui-components" },
     { "path": "./native/ln-core" }
   ]
 }

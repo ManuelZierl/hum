@@ -105,18 +105,9 @@ importers:
       '@babel/runtime':
         specifier: 7.28.3
         version: 7.28.3
-      '@mchat/lightning-ui':
+      '@hum/ui-components':
         specifier: workspace:*
-        version: link:../../packages/lightning-ui
-      '@mchat/message-ui':
-        specifier: workspace:*
-        version: link:../../packages/message-ui
-      '@mchat/mobile-ui':
-        specifier: workspace:*
-        version: link:../../packages/mobile-ui
-      '@mchat/ui-tokens':
-        specifier: workspace:*
-        version: link:../../packages/ui-tokens
+        version: link:../../packages/ui-components
       react:
         specifier: ^19.0.0
         version: 19.1.1
@@ -170,38 +161,6 @@ importers:
         specifier: '*'
         version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
 
-  packages/a11y-utils:
-    dependencies:
-      react:
-        specifier: '>=18'
-        version: 19.1.1
-      react-native:
-        specifier: '>=0.75'
-        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-
-  packages/chat-types: {}
-
-  packages/lightning-ui:
-    dependencies:
-      '@mchat/ui-tokens':
-        specifier: workspace:*
-        version: link:../ui-tokens
-      react:
-        specifier: '>=18'
-        version: 19.1.1
-      react-native:
-        specifier: '>=0.75'
-        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.1.12
-        version: 19.1.12
-      '@types/react-native':
-        specifier: ^0.73.0
-        version: 0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-
-  packages/lightning-utils: {}
-
   packages/message-ui:
     dependencies:
       '@mchat/ui-tokens':
@@ -242,6 +201,22 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.8.3
+
+  packages/ui-components:
+    dependencies:
+      react:
+        specifier: '>=18'
+        version: 19.1.1
+      react-native:
+        specifier: '>=0.75'
+        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.12
+        version: 19.1.12
+      '@types/react-native':
+        specifier: ^0.73.0
+        version: 0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
 
   packages/ui-tokens:
     dependencies:

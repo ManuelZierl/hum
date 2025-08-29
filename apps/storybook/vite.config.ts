@@ -16,10 +16,7 @@ export default defineConfig({
   resolve: {
     alias: {
       'react-native': 'react-native-web',
-      '@mchat/ui-tokens': r('../../packages/ui-tokens/src'),
-      '@mchat/lightning-ui': r('../../packages/lightning-ui'),
-      '@mchat/message-ui': r('../../packages/message-ui'),
-      '@mchat/mobile-ui': r('../../packages/mobile-ui'),
+      '@hum/ui-components': r('../../packages/ui-components/'),
     },
   },
   optimizeDeps: {

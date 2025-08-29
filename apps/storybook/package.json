@@ -9,10 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.28.3",
-    "@mchat/lightning-ui": "workspace:*",
-    "@mchat/message-ui": "workspace:*",
-    "@mchat/mobile-ui": "workspace:*",
-    "@mchat/ui-tokens": "workspace:*",
+    "@hum/ui-components": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native-web": "~0.19.13"
