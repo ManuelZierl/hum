@@ -1,4 +1,4 @@
-import Avatar from '../../../../../apps/mobile/src/components/chats/Avatar';
+import Avatar from './Avatar';
 
 jest.mock('react-native', () => {
   type ElementProps = Record<string, unknown> & { children?: unknown };
