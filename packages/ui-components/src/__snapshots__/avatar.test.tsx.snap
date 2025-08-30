@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Avatar renders fallback and matches snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+      data-testid="avatar"
+      role="img"
+      style="width: 40px; height: 40px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;"
+      tabindex="0"
+    >
+      <div
+        class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+        data-testid="fallback"
+        style="background-color: rgb(236, 236, 240);"
+      >
+        <div
+          class="css-text-146c3p1 r-textAlign-q4m81j"
+          dir="auto"
+          style="color: rgb(113, 113, 130); font-size: 16px; font-weight: 500;"
+        >
+          AB
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
