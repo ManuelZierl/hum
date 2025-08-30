@@ -12,7 +12,8 @@
     "@hum/ui-components": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-native-web": "~0.19.13"
+    "react-native-web": "~0.21.1",
+    "react-native": ">=0.75"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
