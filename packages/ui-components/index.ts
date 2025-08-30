@@ -6,3 +6,4 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from './src/accordion';
+export type { AccordionProps } from './src/accordion';

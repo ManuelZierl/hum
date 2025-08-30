@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@testing-library/react':
+        specifier: 16.3.0
+        version: 16.3.0(@testing-library/dom@10.4.0)(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.34.0
@@ -15,8 +19,8 @@ importers:
         specifier: ^30.0.0
         version: 30.0.0
       '@types/react':
-        specifier: ~19.0.14
-        version: 19.0.14
+        specifier: ^19.1.12
+        version: 19.1.12
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.0.0
         version: 8.41.0(@typescript-eslint/parser@8.41.0(eslint@9.34.0)(typescript@5.8.3))(eslint@9.34.0)(typescript@5.8.3)
@@ -68,12 +72,6 @@ importers:
       '@babel/runtime':
         specifier: 7.28.3
         version: 7.28.3
-      '@mchat/message-ui':
-        specifier: workspace:*
-        version: link:../../packages/message-ui
-      '@mchat/mobile-ui':
-        specifier: workspace:*
-        version: link:../../packages/mobile-ui
       '@react-native-async-storage/async-storage':
         specifier: 2.1.2
         version: 2.1.2(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.1.1))
@@ -114,16 +112,19 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.1(react@19.1.1)
+      react-native:
+        specifier: '>=0.75'
+        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
       react-native-web:
-        specifier: ~0.19.13
-        version: 0.19.13(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: ~0.21.1
+        version: 0.21.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.28.3
       '@storybook/addon-docs':
         specifier: 9.1.3
-        version: 9.1.3(@types/react@19.0.14)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))
+        version: 9.1.3(@types/react@19.1.12)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))
       '@storybook/addon-links':
         specifier: 9.1.3
         version: 9.1.3(react@19.1.1)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))
@@ -161,51 +162,13 @@ importers:
         specifier: '*'
         version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
 
-  packages/message-ui:
-    dependencies:
-      '@mchat/ui-tokens':
-        specifier: workspace:*
-        version: link:../ui-tokens
-      react:
-        specifier: '>=18'
-        version: 19.1.1
-      react-native:
-        specifier: '>=0.75'
-        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.1.12
-        version: 19.1.12
-      '@types/react-native':
-        specifier: ^0.73.0
-        version: 0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-
-  packages/mobile-ui:
-    dependencies:
-      react:
-        specifier: '>=18'
-        version: 19.1.1
-      react-native:
-        specifier: '>=0.75'
-        version: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.1.12
-        version: 19.1.12
-      '@types/react-native':
-        specifier: ^0.73.0
-        version: 0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-
-  packages/push-contract:
-    devDependencies:
-      typescript:
-        specifier: ^5.3.3
-        version: 5.8.3
-
   packages/ui-components:
     dependencies:
+      '@testing-library/jest-dom':
+        specifier: 6.8.0
+        version: 6.8.0
       react:
-        specifier: '>=18'
+        specifier: ^19.0.0
         version: 19.1.1
       react-native:
         specifier: '>=0.75'
@@ -214,25 +177,6 @@ importers:
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.12
-      '@types/react-native':
-        specifier: ^0.73.0
-        version: 0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-
-  packages/ui-tokens:
-    dependencies:
-      react-native:
-        specifier: '>=0.75'
-        version: 0.79.5(@babel/core@7.28.3)(@types/react@18.3.24)(react@18.2.0)
-    devDependencies:
-      '@types/react':
-        specifier: ^18.0.0
-        version: 18.3.24
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
 
 packages:
 
@@ -1948,6 +1892,21 @@ packages:
     resolution: {integrity: sha512-WgXcWzVM6idy5JaftTVC8Vs83NKRmGJz4Hqs4oyOuO2J4r/y79vvKZsb+CaGyCSEbUPI6OsewfPd0G1A0/TUZQ==}
     engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
 
+  '@testing-library/react@16.3.0':
+    resolution: {integrity: sha512-kFSyxiEDwv1WLl2fgsq6pPBbw5aWKrsY2/noi1Id0TK0UParSF62oFQFGHXIyaG4pp2tEub/Zlel+fjjZILDsw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@testing-library/dom': ^10.0.0
+      '@types/react': ^18.0.0 || ^19.0.0
+      '@types/react-dom': ^18.0.0 || ^19.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@testing-library/user-event@14.6.1':
     resolution: {integrity: sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==}
     engines: {node: '>=12', npm: '>=6'}
@@ -2010,16 +1969,6 @@ packages:
 
   '@types/node@24.3.0':
     resolution: {integrity: sha512-aPTXCrfwnDLj4VvXrm+UUCQjNEvJgNA8s5F1cvwQU+3KNltTOkBm1j30uNLyqqPNe7gE3KFzImYoZEfLhp4Yow==}
-
-  '@types/prop-types@15.7.15':
-    resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
-
-  '@types/react-native@0.73.0':
-    resolution: {integrity: sha512-6ZRPQrYM72qYKGWidEttRe6M5DZBEV5F+MHMHqd4TTYx0tfkcdrUFGdef6CCxY0jXU7wldvd/zA/b0A/kTeJmA==}
-    deprecated: This is a stub types definition. react-native provides its own type definitions, so you do not need this installed.
-
-  '@types/react@18.3.24':
-    resolution: {integrity: sha512-0dLEBsA1kI3OezMBF8nSsb7Nk19ZnsyE1LLhB8r27KbgU5H4pvuqZLdtE+aUkJVoXgTVuA+iLIwmZ0TuK4tx6A==}
 
   '@types/react@19.0.14':
     resolution: {integrity: sha512-ixLZ7zG7j1fM0DijL9hDArwhwcCb4vqmePgwtV0GfnkHRSCUEv4LvzarcTdhoqgyMznUx/EhoTUv31CKZzkQlw==}
@@ -3176,9 +3125,6 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fast-loops@1.1.4:
-    resolution: {integrity: sha512-8dbd3XWoKCTms18ize6JmQF1SFnnfj5s0B7rRry22EofgMu7B6LKHVh+XfFqFGsqnbH54xgeO83PzpKI+ODhlg==}
-
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
 
@@ -3472,8 +3418,8 @@ packages:
   ini@1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
 
-  inline-style-prefixer@6.0.4:
-    resolution: {integrity: sha512-FwXmZC2zbeeS7NzGjJ6pAiqRhXR0ugUShSNb6GApMl6da0/XGc4MOJsoWAywia52EEWbXNSy0pzkwz/+Y+swSg==}
+  inline-style-prefixer@7.0.1:
+    resolution: {integrity: sha512-lhYo5qNTQp3EvSSp3sRvXMbVQTLrvGV6DycRMJ5dm2BLMiJ30wpXKdDdgX+GmJZ5uQMucwRKHamXSst3Sj/Giw==}
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -4642,11 +4588,11 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-web@0.19.13:
-    resolution: {integrity: sha512-etv3bN8rJglrRCp/uL4p7l8QvUNUC++QwDbdZ8CB7BvZiMvsxfFIRM1j04vxNldG3uo2puRd6OSWR3ibtmc29A==}
+  react-native-web@0.21.1:
+    resolution: {integrity: sha512-BeNsgwwe4AXUFPAoFU+DKjJ+CVQa3h54zYX77p7GVZrXiiNo3vl03WYDYVEy5R2J2HOPInXtQZB5gmj3vuzrKg==}
     peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
 
   react-native@0.79.5:
     resolution: {integrity: sha512-jVihwsE4mWEHZ9HkO1J2eUZSwHyDByZOqthwnGrVZCh6kTQBCm4v8dicsyDa6p0fpWNE5KicTcpX/XXl0ASJFg==}
@@ -4665,10 +4611,6 @@ packages:
 
   react-refresh@0.17.0:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
-    engines: {node: '>=0.10.0'}
-
-  react@18.2.0:
-    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
     engines: {node: '>=0.10.0'}
 
   react@19.1.1:
@@ -7276,10 +7218,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@mdx-js/react@3.1.0(@types/react@19.0.14)(react@19.1.1)':
+  '@mdx-js/react@3.1.0(@types/react@19.1.12)(react@19.1.1)':
     dependencies:
       '@types/mdx': 2.0.13
-      '@types/react': 19.0.14
+      '@types/react': 19.1.12
       react: 19.1.1
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -7589,15 +7531,6 @@ snapshots:
 
   '@react-native/normalize-colors@0.79.5': {}
 
-  '@react-native/virtualized-lists@0.79.5(@types/react@18.3.24)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@18.3.24)(react@18.2.0))(react@18.2.0)':
-    dependencies:
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      react: 18.2.0
-      react-native: 0.79.5(@babel/core@7.28.3)(@types/react@18.3.24)(react@18.2.0)
-    optionalDependencies:
-      '@types/react': 18.3.24
-
   '@react-native/virtualized-lists@0.79.5(@types/react@19.0.14)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.1.1))(react@19.1.1)':
     dependencies:
       invariant: 2.2.4
@@ -7702,9 +7635,9 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@storybook/addon-docs@9.1.3(@types/react@19.0.14)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))':
+  '@storybook/addon-docs@9.1.3(@types/react@19.1.12)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))':
     dependencies:
-      '@mdx-js/react': 3.1.0(@types/react@19.0.14)(react@19.1.1)
+      '@mdx-js/react': 3.1.0(@types/react@19.1.12)(react@19.1.1)
       '@storybook/csf-plugin': 9.1.3(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))
       '@storybook/icons': 1.4.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@storybook/react-dom-shim': 9.1.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(storybook@9.1.3(@testing-library/dom@10.4.0)(prettier@3.6.2)(vite@5.4.19(@types/node@24.3.0)(lightningcss@1.27.0)(terser@5.43.1)))
@@ -7797,6 +7730,15 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
+  '@testing-library/react@16.3.0(@testing-library/dom@10.4.0)(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@babel/runtime': 7.28.3
+      '@testing-library/dom': 10.4.0
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+    optionalDependencies:
+      '@types/react': 19.1.12
+
   '@testing-library/user-event@14.6.1(@testing-library/dom@10.4.0)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -7870,25 +7812,6 @@ snapshots:
   '@types/node@24.3.0':
     dependencies:
       undici-types: 7.10.0
-
-  '@types/prop-types@15.7.15': {}
-
-  '@types/react-native@0.73.0(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)':
-    dependencies:
-      react-native: 0.79.5(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.1)
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@react-native-community/cli'
-      - '@types/react'
-      - bufferutil
-      - react
-      - supports-color
-      - utf-8-validate
-
-  '@types/react@18.3.24':
-    dependencies:
-      '@types/prop-types': 15.7.15
-      csstype: 3.1.3
 
   '@types/react@19.0.14':
     dependencies:
@@ -9305,8 +9228,6 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-loops@1.1.4: {}
-
   fastq@1.19.1:
     dependencies:
       reusify: 1.1.0
@@ -9610,10 +9531,9 @@ snapshots:
 
   ini@1.3.8: {}
 
-  inline-style-prefixer@6.0.4:
+  inline-style-prefixer@7.0.1:
     dependencies:
       css-in-js-utils: 3.1.0
-      fast-loops: 1.1.4
 
   internal-slot@1.1.0:
     dependencies:
@@ -11080,12 +11000,12 @@ snapshots:
       react: 19.1.1
       react-native: 0.79.5(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.1.1)
 
-  react-native-web@0.19.13(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  react-native-web@0.21.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@babel/runtime': 7.28.3
       '@react-native/normalize-colors': 0.74.89
       fbjs: 3.0.5
-      inline-style-prefixer: 6.0.4
+      inline-style-prefixer: 7.0.1
       memoize-one: 6.0.0
       nullthrows: 1.1.1
       postcss-value-parser: 4.2.0
@@ -11094,54 +11014,6 @@ snapshots:
       styleq: 0.1.3
     transitivePeerDependencies:
       - encoding
-
-  react-native@0.79.5(@babel/core@7.28.3)(@types/react@18.3.24)(react@18.2.0):
-    dependencies:
-      '@jest/create-cache-key-function': 29.7.0
-      '@react-native/assets-registry': 0.79.5
-      '@react-native/codegen': 0.79.5(@babel/core@7.28.3)
-      '@react-native/community-cli-plugin': 0.79.5
-      '@react-native/gradle-plugin': 0.79.5
-      '@react-native/js-polyfills': 0.79.5
-      '@react-native/normalize-colors': 0.79.5
-      '@react-native/virtualized-lists': 0.79.5(@types/react@18.3.24)(react-native@0.79.5(@babel/core@7.28.3)(@types/react@18.3.24)(react@18.2.0))(react@18.2.0)
-      abort-controller: 3.0.0
-      anser: 1.4.10
-      ansi-regex: 5.0.1
-      babel-jest: 29.7.0(@babel/core@7.28.3)
-      babel-plugin-syntax-hermes-parser: 0.25.1
-      base64-js: 1.5.1
-      chalk: 4.1.2
-      commander: 12.1.0
-      event-target-shim: 5.0.1
-      flow-enums-runtime: 0.0.6
-      glob: 7.2.3
-      invariant: 2.2.4
-      jest-environment-node: 29.7.0
-      memoize-one: 5.2.1
-      metro-runtime: 0.82.5
-      metro-source-map: 0.82.5
-      nullthrows: 1.1.1
-      pretty-format: 29.7.0
-      promise: 8.3.0
-      react: 18.2.0
-      react-devtools-core: 6.1.5
-      react-refresh: 0.14.2
-      regenerator-runtime: 0.13.11
-      scheduler: 0.25.0
-      semver: 7.7.2
-      stacktrace-parser: 0.1.11
-      whatwg-fetch: 3.6.20
-      ws: 6.2.3
-      yargs: 17.7.2
-    optionalDependencies:
-      '@types/react': 18.3.24
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@react-native-community/cli'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
 
   react-native@0.79.5(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.1.1):
     dependencies:
@@ -11242,10 +11114,6 @@ snapshots:
   react-refresh@0.14.2: {}
 
   react-refresh@0.17.0: {}
-
-  react@18.2.0:
-    dependencies:
-      loose-envify: 1.4.0
 
   react@19.1.1: {}
 

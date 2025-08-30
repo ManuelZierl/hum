@@ -1,12 +1,14 @@
 import React from 'react';
-import renderer, { act } from 'react-test-renderer';
 import { Text } from 'react-native';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-  AccordionProps,
+  type AccordionProps,
 } from './accordion';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { colors } from './theme/colors';
@@ -15,7 +17,7 @@ function renderAccordion(
   scheme: 'light' | 'dark' = 'light',
   props?: Partial<AccordionProps>,
 ) {
-  return renderer.create(
+  return render(
     <ThemeProvider forcedScheme={scheme}>
       <Accordion {...props}>
         <AccordionItem value="item1">
@@ -31,38 +33,47 @@ function renderAccordion(
   );
 }
 
-describe('Accordion', () => {
+describe('Accordion (RTL)', () => {
   it('renders closed by default', () => {
-    const tree = renderAccordion();
-    expect(tree.toJSON()).toMatchSnapshot();
+    const { baseElement } = renderAccordion();
+    expect(screen.queryByTestId('content1')).not.toBeInTheDocument();
+    // Keep a light snapshot of the initial DOM if you want parity with the old test
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('opens on press and calls onValueChange', () => {
     const onValueChange = jest.fn();
-    const tree = renderAccordion('light', { onValueChange });
-    const trigger = tree.root.findByProps({ testID: 'trigger1' });
-    expect(() => tree.root.findByProps({ testID: 'content1' })).toThrow();
-    act(() => trigger.props.onPress());
+    renderAccordion('light', { onValueChange });
+
+    // RN Web maps Pressable with accessibilityRole="button" to a DOM button role
+    const trigger = screen.getByTestId('trigger1');
+    // Before click: content is not there
+    expect(screen.queryByTestId('content1')).not.toBeInTheDocument();
+
+    // Fire a click on the trigger
+    fireEvent.click(trigger);
+
+    // Callback and content should be present
     expect(onValueChange).toHaveBeenCalledWith('item1');
-    expect(tree.root.findByProps({ testID: 'content1' })).toBeTruthy();
-    expect(trigger.props.accessibilityRole).toBe('button');
+    expect(screen.getByTestId('content1')).toBeInTheDocument();
+
+    // Role sanity check — getByRole should also find it
+    expect(
+      screen.getByRole('button', { name: /trigger/i }),
+    ).toBeInTheDocument();
   });
 
   it('applies theme colors', () => {
-    const light = renderAccordion('light');
-    const lightStyle = light.root.findByProps({ children: 'Trigger' }).props
-      .style;
-    const lightColor = Array.isArray(lightStyle)
-      ? lightStyle[0].color
-      : lightStyle.color;
-    expect(lightColor).toBe(colors.light.foreground);
+    // LIGHT
+    const { unmount } = renderAccordion('light');
+    const lightText = screen.getByText('Trigger');
+    // RN Web inlines styles; jest-dom can assert them
+    expect(lightText).toHaveStyle({ color: colors.light.foreground });
+    unmount();
 
-    const dark = renderAccordion('dark');
-    const darkStyle = dark.root.findByProps({ children: 'Trigger' }).props
-      .style;
-    const darkColor = Array.isArray(darkStyle)
-      ? darkStyle[0].color
-      : darkStyle.color;
-    expect(darkColor).toBe(colors.dark.foreground);
+    // DARK
+    renderAccordion('dark');
+    const darkText = screen.getByText('Trigger');
+    expect(darkText).toHaveStyle({ color: colors.dark.foreground });
   });
 });

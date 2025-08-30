@@ -17,10 +17,13 @@
     "build": "tsc -p tsconfig.json"
   },
   "peerDependencies": {
-    "react": ">=18",
+    "react": "^19.0.0",
     "react-native": ">=0.75"
   },
   "devDependencies": {
     "@types/react": "^19.1.12"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "6.8.0"
   }
 }

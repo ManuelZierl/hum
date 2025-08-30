@@ -3,7 +3,10 @@
   "compilerOptions": {
     "declaration": true,
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM"],
+    "types": ["jest", "@testing-library/jest-dom"]
   },
-  "include": ["index.ts"]
+  "include": ["src", "**/*.ts", "**/*.tsx"]
 }

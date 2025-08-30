@@ -6,8 +6,8 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-  AccordionProps,
 } from '@hum/ui-components';
+import type { AccordionProps } from '@hum/ui-components';
 
 const ExampleAccordion: React.FC<AccordionProps> = (props) => (
   <Accordion {...props}>
@@ -34,7 +34,10 @@ const meta: Meta<typeof ExampleAccordion> = {
   title: 'Components/Accordion',
   component: ExampleAccordion,
   argTypes: {
-    type: { control: { type: 'select', options: ['single', 'multiple'] } },
+    type: {
+      control: 'select',
+      options: ['single', 'multiple'],
+    },
   },
   args: { type: 'single' },
 };
