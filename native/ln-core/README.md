@@ -24,4 +24,3 @@ This package will be linked into the app via an Expo Config Plugin
 (`with-ln-core`) which will configure the native build to include the
 module on both Android and iOS. The config plugin will be added in a
 future update.
-

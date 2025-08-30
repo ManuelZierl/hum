@@ -7,6 +7,7 @@
     "typecheck": "tsc -p packages/ui-components/tsconfig.json",
     "lint": "eslint 'packages/**/*.{ts,tsx,js}'",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
+    "format:check": "prettier --check '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky",
     "test": "jest",
     "build": "pnpm -r --filter './packages/*' build",

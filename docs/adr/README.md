@@ -3,6 +3,7 @@
 This folder stores Architecture Decision Records (ADRs) for the project.
 
 ## How to add a new ADR
+
 1. Choose the next sequential number and create a file named `NNNN-your-title.md`.
 2. Use the following sections:
    - **Status**: `Accepted`, `Proposed`, etc.

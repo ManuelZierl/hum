@@ -15,7 +15,6 @@ const preview: Preview = {
 
   tags: ['autodocs'],
   decorators: [
-
     (Story) => (
       <ThemeProvider forcedScheme="light">
         <Story />
