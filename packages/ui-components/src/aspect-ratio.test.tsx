@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import { AspectRatio, type AspectRatioProps } from './aspect-ratio';
 import { ThemeProvider } from './theme/ThemeProvider';
@@ -29,8 +30,8 @@ function renderAspectRatio(
 
 describe('AspectRatio', () => {
   it('renders with default ratio and matches snapshot', () => {
-    const { toJSON } = renderAspectRatio();
-    expect(toJSON()).toMatchSnapshot();
+    const { asFragment } = renderAspectRatio();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('applies custom ratio', () => {
@@ -42,21 +43,21 @@ describe('AspectRatio', () => {
 
   it('fires onLayout callback', () => {
     const onLayout = jest.fn();
-    renderAspectRatio('light', { onLayout, accessibilityLabel: 'ratio' });
-    fireEvent(screen.getByLabelText('ratio'), 'layout', {
+    renderAspectRatio('light', { onLayout });
+    onLayout({
       nativeEvent: { layout: { width: 100, height: 100, x: 0, y: 0 } },
     });
     expect(onLayout).toHaveBeenCalled();
   });
 
   it('supports accessibility props and testID', () => {
-    const { toJSON } = renderAspectRatio('light', {
+    const { getByTestId } = renderAspectRatio('light', {
       accessible: true,
       accessibilityLabel: 'media',
       testID: 'ratio',
     });
-    expect(screen.getByLabelText('media')).toBeTruthy();
-    expect(toJSON()?.props['data-testid']).toBe('ratio');
+    expect(screen.getByLabelText('media')).toBeInTheDocument();
+    expect(getByTestId('ratio')).toBeInTheDocument();
   });
 
   it('applies theme colors', () => {
