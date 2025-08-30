@@ -2,12 +2,18 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "declaration": true,
-    "rootDir": ".",
+    "rootDir": "..",
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM"],
     "types": ["jest", "react", "react-native"]
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
-  "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
+  "include": ["src", "../ui-components/src/**/*", "**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "../ui-components/src/**/*.test.ts",
+    "../ui-components/src/**/*.test.tsx"
+  ]
 }

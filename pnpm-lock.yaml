@@ -139,6 +139,9 @@ importers:
       '@hum/ui-screens':
         specifier: workspace:*
         version: link:../../packages/ui-screens
+      expo:
+        specifier: ~53.0.22
+        version: 53.0.22(@babel/core@7.28.3)(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       react:
         specifier: ^19.0.0
         version: 19.1.1
