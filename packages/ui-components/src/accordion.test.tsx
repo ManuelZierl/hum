@@ -2,6 +2,9 @@ import React from 'react';
 import { Text } from 'react-native';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+// Temporary workaround for missing Jest DOM matcher typings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const expectAny = expect as any;
 
 import {
   Accordion,
@@ -21,9 +24,8 @@ function renderAccordion(
     <ThemeProvider forcedScheme={scheme}>
       <Accordion {...props}>
         <AccordionItem value="item1">
-          <AccordionTrigger testID="trigger1">
-            <Text>Trigger</Text>
-          </AccordionTrigger>
+          {/* eslint-disable-next-line react-native/no-raw-text */}
+          <AccordionTrigger testID="trigger1">Trigger</AccordionTrigger>
           <AccordionContent testID="content1">
             <Text>Content</Text>
           </AccordionContent>
@@ -36,9 +38,9 @@ function renderAccordion(
 describe('Accordion (RTL)', () => {
   it('renders closed by default', () => {
     const { baseElement } = renderAccordion();
-    expect(screen.queryByTestId('content1')).not.toBeInTheDocument();
+    expectAny(screen.queryByTestId('content1')).not.toBeInTheDocument();
     // Keep a light snapshot of the initial DOM if you want parity with the old test
-    expect(baseElement).toMatchSnapshot();
+    expectAny(baseElement).toMatchSnapshot();
   });
 
   it('opens on press and calls onValueChange', () => {
@@ -48,17 +50,17 @@ describe('Accordion (RTL)', () => {
     // RN Web maps Pressable with accessibilityRole="button" to a DOM button role
     const trigger = screen.getByTestId('trigger1');
     // Before click: content is not there
-    expect(screen.queryByTestId('content1')).not.toBeInTheDocument();
+    expectAny(screen.queryByTestId('content1')).not.toBeInTheDocument();
 
     // Fire a click on the trigger
     fireEvent.click(trigger);
 
     // Callback and content should be present
-    expect(onValueChange).toHaveBeenCalledWith('item1');
-    expect(screen.getByTestId('content1')).toBeInTheDocument();
+    expectAny(onValueChange).toHaveBeenCalledWith('item1');
+    expectAny(screen.getByTestId('content1')).toBeInTheDocument();
 
     // Role sanity check — getByRole should also find it
-    expect(
+    expectAny(
       screen.getByRole('button', { name: /trigger/i }),
     ).toBeInTheDocument();
   });
@@ -68,12 +70,12 @@ describe('Accordion (RTL)', () => {
     const { unmount } = renderAccordion('light');
     const lightText = screen.getByText('Trigger');
     // RN Web inlines styles; jest-dom can assert them
-    expect(lightText).toHaveStyle({ color: colors.light.foreground });
+    expectAny(lightText).toHaveStyle({ color: colors.light.foreground });
     unmount();
 
     // DARK
     renderAccordion('dark');
     const darkText = screen.getByText('Trigger');
-    expect(darkText).toHaveStyle({ color: colors.dark.foreground });
+    expectAny(darkText).toHaveStyle({ color: colors.dark.foreground });
   });
 });
