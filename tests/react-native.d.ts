@@ -5,15 +5,38 @@ declare module 'react-native' {
   export const Text: React.FC<any>;
   export const Image: React.FC<any>;
   export const Pressable: React.FC<any>;
+  export const Modal: React.FC<any>;
   export const Animated: any;
-  export const StyleSheet: { create: (styles: any) => any };
+  export const StyleSheet: {
+    create: (styles: any) => any;
+    absoluteFillObject: any;
+  };
   export type StyleProp<T> = any;
   export interface ViewStyle {}
   export interface TextStyle {}
-  export interface ViewProps {}
-  export interface PressableProps {
-    disabled?: boolean;
+  export interface ViewProps {
+    style?: any;
     [key: string]: any;
   }
+  export interface TextProps {
+    style?: any;
+    [key: string]: any;
+  }
+  export interface PressableProps {
+    disabled?: boolean;
+    onPress?: (e: any) => void;
+    style?: any;
+    [key: string]: any;
+  }
+  export interface GestureResponderEvent {}
   export function useColorScheme(): 'light' | 'dark';
+}
+
+declare module 'react-native-safe-area-context' {
+  export const useSafeAreaInsets: () => {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
 }
