@@ -29,6 +29,7 @@ const config: StorybookConfig = {
       dirname(fileURLToPath(import.meta.url)),
       '..',
       '..',
+      '..',
       'packages',
       'ui-components',
       'index.ts',
