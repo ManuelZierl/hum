@@ -13,6 +13,8 @@ module.exports = {
   },
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
+    '@hum/ui-components': '<rootDir>/packages/ui-components/index.ts',
+    '@hum/ui-screens': '<rootDir>/packages/ui-screens/index.ts',
     '^@hum/(.*)$': '<rootDir>/packages/$1/src',
   },
 };

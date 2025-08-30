@@ -26,6 +26,14 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['storybook', '@storybook/*'],
     include: ['react', 'react-dom', 'react-native-web'],
+    esbuildOptions: {
+      loader: {
+        '.js': 'tsx',
+      },
+    },
+  },
+  esbuild: {
+    loader: 'tsx',
   },
   ssr: {
     noExternal: ['storybook', '@storybook/*'],
