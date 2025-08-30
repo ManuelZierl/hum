@@ -17,6 +17,10 @@
       "types": "./dist/message-bubble.d.ts",
       "default": "./dist/message-bubble.js"
     },
+    "./bottom-navigation-item": {
+      "types": "./dist/bottom-navigation-item.d.ts",
+      "default": "./dist/bottom-navigation-item.js"
+    },
     "./theme/ThemeProvider": {
       "types": "./dist/theme/ThemeProvider.d.ts",
       "default": "./dist/theme/ThemeProvider.js"
