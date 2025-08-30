@@ -91,6 +91,16 @@ const config: StorybookConfig = {
       replacement: join(inlineStylePrefixerSrc, 'index.js'),
     };
 
+    const styleqDist = join(getAbsolutePath('styleq'), 'dist');
+    const styleqAlias = {
+      find: /^styleq$/,
+      replacement: join(styleqDist, 'styleq.js'),
+    };
+    const styleqSubAlias = {
+      find: /^styleq\/(.*)$/,
+      replacement: join(styleqDist, '$1'),
+    };
+
     const existingAlias = Array.isArray(viteConfig.resolve.alias)
       ? viteConfig.resolve.alias
       : Object.entries(viteConfig.resolve.alias ?? {}).map(
@@ -106,6 +116,8 @@ const config: StorybookConfig = {
       normalizeColorAlias,
       inlineStylePrefixerAlias,
       inlineStylePrefixerRootAlias,
+      styleqAlias,
+      styleqSubAlias,
       ...existingAlias,
     ];
 
