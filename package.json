@@ -11,6 +11,9 @@
     "test": "jest",
     "build": "pnpm -r --filter './packages/*' build",
     "storybook:start": "npm --prefix apps/storybook start",
+    "storybook:dev": "pnpm --dir apps/storybook exec storybook dev -p 6006 --ci",
+    "storybook:build": "pnpm --dir apps/storybook exec storybook build -o ../../storybook-static",
+    "test:sb:e2e": "playwright test",
     "storybook:ios": "npm --prefix apps/storybook run ios",
     "storybook:android": "npm --prefix apps/storybook run android"
   },
@@ -50,6 +53,8 @@
     "husky": "^9.0.10",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.1.1",
+    "@playwright/test": "^1.51.2",
+    "start-server-and-test": "^2.0.3",
     "lint-staged": "^16.1.5",
     "prettier": "^3.3.2",
     "react": "^19.1.1",
