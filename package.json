@@ -77,5 +77,11 @@
   },
   "dependencies": {
     "@testing-library/react": "16.3.0"
+  },
+  "pnpm": {
+    "trustedDependencies": [
+      "esbuild",
+      "unrs-resolver"
+    ]
   }
 }
