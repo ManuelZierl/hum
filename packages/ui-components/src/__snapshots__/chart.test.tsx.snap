@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ChartTooltipContent renders and matches snapshot 1`] = `
+<div
+  aria-label="chart-«r0»"
+  className="css-view-g5y9jx r-aspectRatio-1ts5s6y r-flex-13awgt0 r-justifyContent-1777fci"
+  dir={null}
+  ref={[Function]}
+>
+  <div
+    aria-label="tooltip"
+    className="css-view-g5y9jx r-borderWidth-rs99b7 r-boxShadow-1yv2962"
+    data-testid="tooltip"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "borderBottomColor": "rgba(0,0,0,0.10)",
+        "borderBottomLeftRadius": "10px",
+        "borderBottomRightRadius": "10px",
+        "borderLeftColor": "rgba(0,0,0,0.10)",
+        "borderRightColor": "rgba(0,0,0,0.10)",
+        "borderTopColor": "rgba(0,0,0,0.10)",
+        "borderTopLeftRadius": "10px",
+        "borderTopRightRadius": "10px",
+        "paddingBottom": "4px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "4px",
+      }
+    }
+  >
+    <div
+      className="css-text-146c3p1"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "fontWeight": "500",
+        }
+      }
+    >
+      Visitors
+    </div>
+    <div
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginTop": "4px",
+        }
+      }
+    >
+      <div
+        className="css-view-g5y9jx r-flexDirection-18u37iz r-marginBottom-15zivkp r-alignItems-1awozwy"
+        dir={null}
+        ref={[Function]}
+      >
+        <div
+          aria-label="indicator-0"
+          className="css-view-g5y9jx r-borderRadius-1jkafct r-borderWidth-rs99b7 r-height-1or9b2r r-marginRight-1kb76zh r-width-5soawk"
+          dir={null}
+          ref={[Function]}
+          style={
+            {
+              "backgroundColor": "rgba(254,202,26,1.00)",
+              "borderBottomColor": "rgba(254,202,26,1.00)",
+              "borderLeftColor": "rgba(254,202,26,1.00)",
+              "borderRightColor": "rgba(254,202,26,1.00)",
+              "borderTopColor": "rgba(254,202,26,1.00)",
+            }
+          }
+        />
+        <div
+          className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+          dir={null}
+          ref={[Function]}
+        >
+          <div
+            className="css-view-g5y9jx r-flexShrink-1wbh5a2"
+            dir={null}
+            ref={[Function]}
+          >
+            <div
+              className="css-text-146c3p1"
+              dir="auto"
+              ref={[Function]}
+              style={
+                {
+                  "color": "rgba(113,113,130,1.00)",
+                  "fontSize": "12px",
+                }
+              }
+            >
+              Visitors
+            </div>
+          </div>
+          <div
+            className="css-text-146c3p1"
+            dir="auto"
+            ref={[Function]}
+            style={
+              {
+                "color": "rgba(10,10,10,1.00)",
+                "fontFamily": "monospace,monospace",
+                "fontSize": "12px",
+                "fontWeight": "500",
+              }
+            }
+          >
+            100
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
