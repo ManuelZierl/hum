@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
+<div
+  className="css-view-g5y9jx r-borderTopWidth-5kkj8d r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj"
+  dir={null}
+  ref={[Function]}
+  role="tablist"
+  style={
+    {
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderTopColor": "rgba(0,0,0,0.10)",
+      "paddingBottom": "0px",
+    }
+  }
+>
+  <div
+    className="css-view-g5y9jx r-flexDirection-18u37iz"
+    dir={null}
+    ref={[Function]}
+  >
+    <button
+      aria-label="Chats"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "minHeight": "60px",
+          "paddingBottom": "12px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "12px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <div
+        className="css-view-g5y9jx r-position-bnwqim"
+        dir={null}
+        ref={[Function]}
+      >
+        <div
+          className="css-text-146c3p1"
+          dir="auto"
+          ref={[Function]}
+          style={
+            {
+              "color": "rgba(254,202,26,1.00)",
+              "fontSize": "24px",
+            }
+          }
+        >
+          💬
+        </div>
+      </div>
+      <div
+        className="css-text-146c3p1 r-textAlign-q4m81j"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(254,202,26,1.00)",
+            "fontSize": "12px",
+            "marginTop": "4px",
+          }
+        }
+      >
+        Chats
+      </div>
+    </button>
+    <button
+      aria-label="Lightning"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "minHeight": "60px",
+          "paddingBottom": "12px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "12px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <div
+        className="css-view-g5y9jx r-position-bnwqim"
+        dir={null}
+        ref={[Function]}
+      >
+        <div
+          className="css-text-146c3p1"
+          dir="auto"
+          ref={[Function]}
+          style={
+            {
+              "color": "rgba(113,113,130,1.00)",
+              "fontSize": "24px",
+            }
+          }
+        >
+          ⚡
+        </div>
+      </div>
+      <div
+        className="css-text-146c3p1 r-textAlign-q4m81j"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(113,113,130,1.00)",
+            "fontSize": "12px",
+            "marginTop": "4px",
+          }
+        }
+      >
+        Lightning
+      </div>
+    </button>
+    <button
+      aria-label="Settings"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "minHeight": "60px",
+          "paddingBottom": "12px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "12px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <div
+        className="css-view-g5y9jx r-position-bnwqim"
+        dir={null}
+        ref={[Function]}
+      >
+        <div
+          className="css-text-146c3p1"
+          dir="auto"
+          ref={[Function]}
+          style={
+            {
+              "color": "rgba(113,113,130,1.00)",
+              "fontSize": "24px",
+            }
+          }
+        >
+          ⚙️
+        </div>
+      </div>
+      <div
+        className="css-text-146c3p1 r-textAlign-q4m81j"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(113,113,130,1.00)",
+            "fontSize": "12px",
+            "marginTop": "4px",
+          }
+        }
+      >
+        Settings
+      </div>
+    </button>
+  </div>
+</div>
+`;

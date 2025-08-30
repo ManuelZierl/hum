@@ -15,6 +15,7 @@
       "@packages/*": ["packages/*/src"],
       "@mchat/*": ["packages/*/src"],
       "@native/*": ["native/*/src"],
+      "@hum/ui-components": ["packages/ui-components/index.ts"],
       "@hum/ui-components/*": ["packages/ui-components/src/*"],
       "@hum/ui-screens": ["packages/ui-screens/src/index.ts"],
       "@hum/ui-screens/*": ["packages/ui-screens/src/*"]
