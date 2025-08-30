@@ -1,11 +1,17 @@
+/* eslint-env node */
+/* eslint-disable no-undef */
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   roots: ['<rootDir>/packages', '<rootDir>/tests'],
   testMatch: ['**/*.test.ts', '**/*.test.tsx'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.base.json',
-    },
+  transform: {
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      { tsconfig: '<rootDir>/tsconfig.jest.json' },
+    ],
+  },
+  moduleNameMapper: {
+    '^react-native$': 'react-native-web',
   },
 };
