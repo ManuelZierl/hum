@@ -34,3 +34,5 @@ export { Badge } from './src/badge';
 export type { BadgeProps, BadgeVariant } from './src/badge';
 export { AspectRatio } from './src/aspect-ratio';
 export type { AspectRatioProps } from './src/aspect-ratio';
+export { MessageBubble } from './src/message-bubble';
+export type { MessageBubbleProps } from './src/message-bubble';
