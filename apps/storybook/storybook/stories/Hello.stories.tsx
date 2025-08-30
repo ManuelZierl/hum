@@ -1,11 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
-const Card: React.FC<{ label?: string }> = ({ label = 'Hello Storybook 👋' }) => (
-  <div style={{
-    fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
-    padding: 24, borderRadius: 12, border: '1px solid #ddd', minWidth: 280
-  }}>
+const Card: React.FC<{ label?: string }> = ({
+  label = 'Hello Storybook 👋',
+}) => (
+  <div
+    style={{
+      fontFamily:
+        'system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
+      padding: 24,
+      borderRadius: 12,
+      border: '1px solid #ddd',
+      minWidth: 280,
+    }}
+  >
     <h3 style={{ margin: 0, marginBottom: 12 }}>Demo</h3>
     <p style={{ margin: 0 }}>{label}</p>
   </div>
