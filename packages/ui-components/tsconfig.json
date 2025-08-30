@@ -6,7 +6,7 @@
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM"],
-    "types": ["jest"]
+    "types": ["jest", "react", "react-native"]
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
