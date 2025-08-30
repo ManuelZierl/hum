@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Text } from 'react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import {
   BottomNavigation,
   type BottomNavigationProps,
@@ -32,37 +31,34 @@ function renderNav(
 
 describe('BottomNavigation Screen', () => {
   it('renders and matches snapshot', () => {
-    const { toJSON } = renderNav();
-    expect(toJSON()).toMatchSnapshot();
+    const { asFragment } = renderNav();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
     const { getByLabelText } = renderNav('light', { onTabChange });
-    fireEvent.press(getByLabelText('Lightning'));
+    fireEvent.click(getByLabelText('Lightning'));
     expect(onTabChange).toHaveBeenCalledWith('lightning');
   });
 
   it('shows badge count', () => {
-    const { UNSAFE_getAllByType } = renderNav('light', { chatsBadgeCount: 4 });
-    const texts = UNSAFE_getAllByType(Text).map((t) => t.props.children);
-    expect(texts).toContain(4);
+    const { getByText } = renderNav('light', { chatsBadgeCount: 4 });
+    expect(getByText('4')).toBeInTheDocument();
   });
 
   it('applies theme colors', () => {
-    const { UNSAFE_getAllByType, rerender } = renderNav('light');
-    const label = UNSAFE_getAllByType(Text).find(
-      (t) => t.props.children === 'Lightning',
-    );
-    expect(label).toHaveStyle({ color: colors.light.mutedForeground });
+    const { getByText, rerender } = renderNav('light');
+    expect(getByText('Lightning')).toHaveStyle({
+      color: colors.light.mutedForeground,
+    });
     rerender(
       <ThemeProvider forcedScheme="dark">
         <BottomNavigation {...baseProps} />
       </ThemeProvider>,
     );
-    const updated = UNSAFE_getAllByType(Text).find(
-      (t) => t.props.children === 'Lightning',
-    );
-    expect(updated).toHaveStyle({ color: colors.dark.mutedForeground });
+    expect(getByText('Lightning')).toHaveStyle({
+      color: colors.dark.mutedForeground,
+    });
   });
 });
