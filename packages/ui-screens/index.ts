@@ -5,3 +5,6 @@ export { BottomNavigation } from './src/BottomNavigation';
 export type { BottomNavigationProps } from './src/BottomNavigation';
 export { TopBar } from './src/TopBar';
 export type { TopBarProps } from './src/TopBar';
+export { ChatsScreen } from './src/ChatsScreen';
+export type { ChatsScreenProps, Chat } from './src/ChatsScreen';
+export { mockChats } from './src/ChatsScreen';

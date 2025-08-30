@@ -38,3 +38,5 @@ export { MessageBubble } from './src/message-bubble';
 export type { MessageBubbleProps } from './src/message-bubble';
 export { BottomNavItem } from './src/bottom-navigation-item';
 export type { BottomNavItemProps } from './src/bottom-navigation-item';
+export { ListRow } from './src/list-row';
+export type { ListRowProps } from './src/list-row';
