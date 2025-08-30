@@ -23,9 +23,12 @@
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
+    "@types/react-native": "0.73.0",
     "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "6.8.0"
+    "@testing-library/jest-dom": "6.8.0",
+    "@hum/ui-components": "workspace:*",
+    "@expo/vector-icons": "14.1.0"
   }
 }

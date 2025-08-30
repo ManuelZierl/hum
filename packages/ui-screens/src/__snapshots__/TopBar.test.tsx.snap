@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TopBar renders and matches snapshot 1`] = `
+<div
+  className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+  dir={null}
+  ref={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "paddingBottom": "16px",
+      "paddingLeft": "16px",
+      "paddingRight": "16px",
+      "paddingTop": "16px",
+    }
+  }
+>
+  <button
+    aria-label="More options"
+    className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+    dir={null}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    ref={[Function]}
+    role="button"
+    tabIndex={0}
+    type="button"
+  />
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+    dir={null}
+    ref={[Function]}
+  >
+    <button
+      aria-label="Open camera"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "marginRight": "16px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    />
+    <button
+      aria-label="Add"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-borderRadius-a1yn9n r-height-1mwlp6a r-justifyContent-1777fci r-width-18tzken"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "backgroundColor": "rgba(254,202,26,1.00)",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    />
+  </div>
+</div>
+`;
