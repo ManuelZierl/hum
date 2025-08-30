@@ -64,6 +64,19 @@ const config: StorybookConfig = {
       replacement: safeAreaSrc,
     };
 
+    const normalizeColorSrc = join(
+      getAbsolutePath('react-native-web'),
+      'dist',
+      'exports',
+      'StyleSheet',
+      'compiler',
+      'normalizeColor.js',
+    );
+    const normalizeColorAlias = {
+      find: /^@react-native\/normalize-colors$/,
+      replacement: normalizeColorSrc,
+    };
+
     const existingAlias = Array.isArray(viteConfig.resolve.alias)
       ? viteConfig.resolve.alias
       : Object.entries(viteConfig.resolve.alias ?? {}).map(
@@ -76,6 +89,7 @@ const config: StorybookConfig = {
       uiScreensAlias,
       uiScreensSubAlias,
       safeAreaAlias,
+      normalizeColorAlias,
       ...existingAlias,
     ];
 
