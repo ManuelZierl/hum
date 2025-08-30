@@ -12,6 +12,9 @@ build/
 packages/*/node_modules/
 packages/*/dist/
 **/dis
+storybook-static/
+playwright-report/
+test-results/
 
 # React Native / Expo
 .expo/

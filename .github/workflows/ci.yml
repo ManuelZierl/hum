@@ -71,3 +71,30 @@ jobs:
 
       - name: Test with sqlite
         run: cargo test --features sqlite
+
+  storybook-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: corepack enable pnpm
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - run: corepack enable pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build Storybook
+        run: pnpm storybook:build
+
+      - name: Run Storybook smoke tests
+        run: SB_STATIC=1 pnpm test:sb:e2e
