@@ -7,7 +7,6 @@ export {
   AccordionContent,
 } from './src/accordion';
 export type { AccordionProps } from './src/accordion';
-
 export {
   AlertDialog,
   AlertDialogPortal,
@@ -22,3 +21,6 @@ export {
   AlertDialogCancel,
 } from './src/alert-dialog';
 export type { AlertDialogProps } from './src/alert-dialog';
+export { Alert, AlertTitle, AlertDescription } from './src/alert';
+export type { AlertProps, AlertVariant } from './src/alert';
+
