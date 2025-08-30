@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
+    "@types/react-native": "0.73.0",
     "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
