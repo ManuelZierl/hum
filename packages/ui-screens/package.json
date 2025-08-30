@@ -26,6 +26,8 @@
     "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "6.8.0"
+    "@testing-library/jest-dom": "6.8.0",
+    "@expo/vector-icons": "14.1.0",
+    "@hum/ui-components": "workspace:*"
   }
 }
