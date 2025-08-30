@@ -8,12 +8,12 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Avatar, AvatarImage } from '@hum/ui-components/avatar';
-import { useTheme } from '@hum/ui-components/theme/ThemeProvider';
+import { Avatar, AvatarImage } from '../../ui-components/src/avatar';
+import { useTheme } from '../../ui-components/src/theme/ThemeProvider';
 import {
   MessageBubble,
   type MessageBubbleProps,
-} from '@hum/ui-components/message-bubble';
+} from '../../ui-components/src/message-bubble';
 
 export interface ChatMessage extends MessageBubbleProps {
   id: string;

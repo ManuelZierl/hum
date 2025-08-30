@@ -51,13 +51,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         type="button"
       >
         <div
-          className="css-text-146c3p1"
+          className="css-text-146c3p1 r-fontSize-1x35g6"
           dir="auto"
           ref={[Function]}
           style={
             {
               "color": "rgba(10,10,10,1.00)",
-              "fontSize": "24px",
             }
           }
         >
@@ -161,13 +160,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
       ref={[Function]}
     >
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(10,10,10,1.00)",
-            "fontSize": "24px",
             "marginRight": "12px",
           }
         }
@@ -175,13 +173,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         🎥
       </div>
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(10,10,10,1.00)",
-            "fontSize": "24px",
             "marginRight": "12px",
           }
         }
@@ -189,13 +186,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         📞
       </div>
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(10,10,10,1.00)",
-            "fontSize": "24px",
           }
         }
       >
@@ -330,13 +326,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
       ref={[Function]}
     >
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(113,113,130,1.00)",
-            "fontSize": "24px",
             "marginRight": "8px",
           }
         }
@@ -388,13 +383,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
           virtualkeyboardpolicy="auto"
         />
         <div
-          className="css-text-146c3p1"
+          className="css-text-146c3p1 r-fontSize-adyw6z"
           dir="auto"
           ref={[Function]}
           style={
             {
               "color": "rgba(113,113,130,1.00)",
-              "fontSize": "20px",
             }
           }
         >
@@ -402,13 +396,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(113,113,130,1.00)",
-            "fontSize": "24px",
             "marginLeft": "8px",
           }
         }
@@ -416,13 +409,12 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         📷
       </div>
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-fontSize-1x35g6"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(113,113,130,1.00)",
-            "fontSize": "24px",
             "marginLeft": "8px",
           }
         }
