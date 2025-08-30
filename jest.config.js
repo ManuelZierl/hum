@@ -13,5 +13,6 @@ module.exports = {
   },
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
+    '^@hum/(.*)$': '<rootDir>/packages/$1/src',
   },
 };

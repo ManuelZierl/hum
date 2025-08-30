@@ -19,11 +19,15 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-native": ">=0.75",
-    "react-native-safe-area-context": ">=5.4.0"
+    "react-native-safe-area-context": ">=5.4.0",
+    "@expo/vector-icons": "^14.1.0",
+    "@hum/ui-components": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
-    "react-native-safe-area-context": "5.4.0"
+    "react-native-safe-area-context": "5.4.0",
+    "@expo/vector-icons": "14.1.0",
+    "@hum/ui-components": "workspace:*"
   },
   "dependencies": {
     "@testing-library/jest-dom": "6.8.0"
