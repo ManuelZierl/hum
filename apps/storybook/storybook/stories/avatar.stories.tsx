@@ -13,7 +13,7 @@ interface ExampleAvatarProps extends AvatarProps {
 }
 
 const ExampleAvatar: React.FC<ExampleAvatarProps> = ({
-  uri = 'https://placekitten.com/200/200',
+  uri = 'https://picsum.photos/200/200',
   ...props
 }) => (
   <Avatar {...props}>
@@ -31,7 +31,7 @@ const meta: Meta<typeof ExampleAvatar> = {
     size: { control: { type: 'number' } },
     uri: { control: 'text' },
   },
-  args: { size: 40, uri: 'https://placekitten.com/200/200' },
+  args: { size: 40, uri: 'https://picsum.photos/200/200' },
 };
 export default meta;
 
