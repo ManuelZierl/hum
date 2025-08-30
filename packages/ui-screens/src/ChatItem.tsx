@@ -53,7 +53,6 @@ export const ChatItem: React.FC<ChatItemProps> = ({
         {unreadCount > 0 && (
           <View
             testID="unread-badge"
-            dataSet={{ testid: 'unread-badge' }}
             style={[styles.unreadBadge, { backgroundColor: colors.humPrimary }]}
             accessible
             accessibilityLabel={`${unreadCount} unread messages`}
