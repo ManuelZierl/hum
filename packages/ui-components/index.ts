@@ -23,6 +23,12 @@ export {
 export type { AlertDialogProps } from './src/alert-dialog';
 export { Alert, AlertTitle, AlertDescription } from './src/alert';
 export type { AlertProps, AlertVariant } from './src/alert';
+export { Avatar, AvatarImage, AvatarFallback } from './src/avatar';
+export type {
+  AvatarProps,
+  AvatarImageProps,
+  AvatarFallbackProps,
+} from './src/avatar';
 export { Button } from './src/button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './src/button';
 export { Badge } from './src/badge';
