@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@hum/ui-components/theme/ThemeProvider';
+import { useTheme } from '@hum/ui-components';
 import { Button } from '@hum/ui-components/button';
 import { Text } from 'react-native';
 

@@ -24,29 +24,35 @@ const config: StorybookConfig = {
     viteConfig.resolve ??= {};
     // Use RegExp to alias *only* bare 'react-native' imports
     // (deep imports like 'react-native/Libraries/...' should still flow through RNW’s compatibility)
-    const rnAlias = { find: /^react-native$/, replacement: 'react-native-web' };
-    const uiSrc = join(
+    const rnAlias = {
+      find: /^react-native$/,
+      replacement: getAbsolutePath('react-native-web'),
+    };
+    const pkgsDir = join(
       dirname(fileURLToPath(import.meta.url)),
       '..',
       '..',
       '..',
       'packages',
-      'ui-components',
-      'index.ts',
     );
-    const uiScreensSrc = join(
-      dirname(fileURLToPath(import.meta.url)),
-      '..',
-      '..',
-      '..',
-      'packages',
-      'ui-screens',
-      'index.ts',
-    );
+    const uiDir = join(pkgsDir, 'ui-components');
+    const uiSrc = join(uiDir, 'index.ts');
+    const uiSubSrc = join(uiDir, 'src');
     const uiAlias = { find: /^@hum\/ui-components$/, replacement: uiSrc };
+    const uiSubAlias = {
+      find: /^@hum\/ui-components\/(.*)$/,
+      replacement: join(uiSubSrc, '$1'),
+    };
+    const uiScreensDir = join(pkgsDir, 'ui-screens');
+    const uiScreensSrc = join(uiScreensDir, 'index.ts');
+    const uiScreensSubSrc = join(uiScreensDir, 'src');
     const uiScreensAlias = {
       find: /^@hum\/ui-screens$/,
       replacement: uiScreensSrc,
+    };
+    const uiScreensSubAlias = {
+      find: /^@hum\/ui-screens\/(.*)$/,
+      replacement: join(uiScreensSubSrc, '$1'),
     };
     const safeAreaSrc = join(
       dirname(fileURLToPath(import.meta.url)),
@@ -58,26 +64,20 @@ const config: StorybookConfig = {
       replacement: safeAreaSrc,
     };
 
-    // Support both array and object alias shapes
-    if (Array.isArray(viteConfig.resolve.alias)) {
-      viteConfig.resolve.alias = [
-        ...viteConfig.resolve.alias,
-        rnAlias,
-        uiAlias,
-        uiScreensAlias,
-        safeAreaAlias,
-      ];
-    } else {
-      viteConfig.resolve.alias = {
-        ...(viteConfig.resolve.alias ?? {}),
-        // Vite also accepts object form, but RegExp only works in array form.
-        // Keep an object alias as a safety net for tools reading object shape:
-        'react-native': 'react-native-web',
-        '@hum/ui-components': uiSrc,
-        '@hum/ui-screens': uiScreensSrc,
-        'react-native-safe-area-context': safeAreaSrc,
-      };
-    }
+    const existingAlias = Array.isArray(viteConfig.resolve.alias)
+      ? viteConfig.resolve.alias
+      : Object.entries(viteConfig.resolve.alias ?? {}).map(
+          ([find, replacement]) => ({ find, replacement }),
+        );
+    viteConfig.resolve.alias = [
+      rnAlias,
+      uiAlias,
+      uiSubAlias,
+      uiScreensAlias,
+      uiScreensSubAlias,
+      safeAreaAlias,
+      ...existingAlias,
+    ];
 
     // Avoid pre-bundling RN; it confuses docgen/sourcemaps
     viteConfig.optimizeDeps = {
