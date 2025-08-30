@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const require = createRequire(import.meta.url);
@@ -24,16 +25,30 @@ const config: StorybookConfig = {
     // Use RegExp to alias *only* bare 'react-native' imports
     // (deep imports like 'react-native/Libraries/...' should still flow through RNW’s compatibility)
     const rnAlias = { find: /^react-native$/, replacement: 'react-native-web' };
+    const uiSrc = join(
+      dirname(fileURLToPath(import.meta.url)),
+      '..',
+      '..',
+      'packages',
+      'ui-components',
+      'index.ts',
+    );
+    const uiAlias = { find: /^@hum\/ui-components$/, replacement: uiSrc };
 
     // Support both array and object alias shapes
     if (Array.isArray(viteConfig.resolve.alias)) {
-      viteConfig.resolve.alias = [...viteConfig.resolve.alias, rnAlias];
+      viteConfig.resolve.alias = [
+        ...viteConfig.resolve.alias,
+        rnAlias,
+        uiAlias,
+      ];
     } else {
       viteConfig.resolve.alias = {
         ...(viteConfig.resolve.alias ?? {}),
         // Vite also accepts object form, but RegExp only works in array form.
         // Keep an object alias as a safety net for tools reading object shape:
         'react-native': 'react-native-web',
+        '@hum/ui-components': uiSrc,
       };
     }
 
