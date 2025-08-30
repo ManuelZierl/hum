@@ -3,7 +3,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "storybook dev -p 7007",
+    "start": "storybook dev -p 7007 --no-open",
     "ios": "expo run:ios",
     "android": "expo run:android"
   },

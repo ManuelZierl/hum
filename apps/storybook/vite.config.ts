@@ -21,11 +21,18 @@ export default defineConfig({
       'react-native-safe-area-context': r(
         './react-native-safe-area-context.tsx',
       ),
+      '@react-native/assets-registry/registry': r('./assets-registry.ts'),
+      '@react-native/assets-registry': r('./assets-registry.ts'),
     },
   },
   optimizeDeps: {
     exclude: ['storybook', '@storybook/*'],
     include: ['react', 'react-dom', 'react-native-web'],
+    esbuildOptions: {
+      loader: {
+        '.js': 'tsx',
+      },
+    },
   },
   ssr: {
     noExternal: ['storybook', '@storybook/*'],
