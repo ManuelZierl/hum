@@ -1,4 +1,8 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
-  - 'native/*'
+  - apps/*
+  - packages/*
+  - native/*
+
+onlyBuiltDependencies:
+  - esbuild
+  - unrs-resolver
