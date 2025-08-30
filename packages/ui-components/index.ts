@@ -25,3 +25,12 @@ export { Alert, AlertTitle, AlertDescription } from './src/alert';
 export type { AlertProps, AlertVariant } from './src/alert';
 export { AspectRatio } from './src/aspect-ratio';
 export type { AspectRatioProps } from './src/aspect-ratio';
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+} from './src/card';
