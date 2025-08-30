@@ -29,6 +29,8 @@ export type {
   AvatarImageProps,
   AvatarFallbackProps,
 } from './src/avatar';
+export { Button } from './src/button';
+export type { ButtonProps, ButtonVariant, ButtonSize } from './src/button';
 export { Badge } from './src/badge';
 export type { BadgeProps, BadgeVariant } from './src/badge';
 export { AspectRatio } from './src/aspect-ratio';
