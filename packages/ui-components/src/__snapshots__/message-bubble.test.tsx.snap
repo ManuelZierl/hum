@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MessageBubble renders and matches snapshot 1`] = `
+<div
+  className="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-17s6mgv"
+  dir={null}
+  ref={[Function]}
+  style={
+    {
+      "marginBottom": "8px",
+    }
+  }
+>
+  <div
+    aria-label="Outgoing message"
+    className="css-view-g5y9jx r-maxWidth-q5oqfz"
+    data-testid="outgoing-bubble"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(254,202,26,1.00)",
+        "borderBottomLeftRadius": "16px",
+        "borderBottomRightRadius": "16px",
+        "borderTopLeftRadius": "16px",
+        "borderTopRightRadius": "16px",
+        "paddingBottom": "8px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "8px",
+      }
+    }
+  >
+    <div
+      className="css-text-146c3p1"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "color": "rgba(0,0,0,1.00)",
+          "fontSize": "12px",
+        }
+      }
+    >
+      Hello there
+    </div>
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-17s6mgv"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginTop": "4px",
+        }
+      }
+    >
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(0,0,0,1.00)",
+            "fontSize": "12px",
+          }
+        }
+      >
+        14:15
+      </div>
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(0,0,0,1.00)",
+            "marginLeft": "4px",
+          }
+        }
+      >
+        ✓✓
+      </div>
+    </div>
+  </div>
+</div>
+`;
