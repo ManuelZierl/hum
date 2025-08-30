@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AspectRatio renders with default ratio and matches snapshot 1`] = `
+<div
+  className="css-view-g5y9jx r-overflow-1udh08x r-width-13qz1uu"
+  data-testid="ratio"
+  dir={null}
+  ref={[Function]}
+  style={
+    {
+      "aspectRatio": "1",
+      "backgroundColor": "rgba(255,255,255,1.00)",
+    }
+  }
+>
+  <div
+    className="css-view-g5y9jx"
+    data-testid="inner"
+    dir={null}
+    ref={[Function]}
+  />
+</div>
+`;

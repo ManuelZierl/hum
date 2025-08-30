@@ -17,6 +17,9 @@ export default defineConfig({
     alias: {
       'react-native': 'react-native-web',
       '@hum/ui-components': r('../../packages/ui-components/'),
+      'react-native-safe-area-context': r(
+        './react-native-safe-area-context.tsx',
+      ),
     },
   },
   optimizeDeps: {

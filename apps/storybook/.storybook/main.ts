@@ -35,6 +35,15 @@ const config: StorybookConfig = {
       'index.ts',
     );
     const uiAlias = { find: /^@hum\/ui-components$/, replacement: uiSrc };
+    const safeAreaSrc = join(
+      dirname(fileURLToPath(import.meta.url)),
+      '..',
+      'react-native-safe-area-context.tsx',
+    );
+    const safeAreaAlias = {
+      find: /^react-native-safe-area-context$/,
+      replacement: safeAreaSrc,
+    };
 
     // Support both array and object alias shapes
     if (Array.isArray(viteConfig.resolve.alias)) {
@@ -42,6 +51,7 @@ const config: StorybookConfig = {
         ...viteConfig.resolve.alias,
         rnAlias,
         uiAlias,
+        safeAreaAlias,
       ];
     } else {
       viteConfig.resolve.alias = {
@@ -50,6 +60,7 @@ const config: StorybookConfig = {
         // Keep an object alias as a safety net for tools reading object shape:
         'react-native': 'react-native-web',
         '@hum/ui-components': uiSrc,
+        'react-native-safe-area-context': safeAreaSrc,
       };
     }
 
