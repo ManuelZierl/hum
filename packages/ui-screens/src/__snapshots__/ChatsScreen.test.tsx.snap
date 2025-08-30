@@ -1,0 +1,982 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ChatsScreen renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-view-g5y9jx r-flex-13awgt0"
+    style="padding-bottom: 0px; background-color: rgb(0, 0, 0);"
+  >
+    <div
+      class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+      style="padding: 16px 16px 16px 16px; background-color: rgb(0, 0, 0);"
+    >
+      <button
+        aria-label="More options"
+        class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+        role="button"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="css-text-146c3p1 r-fontSize-1x35g6"
+          dir="auto"
+          style="color: rgb(250, 250, 250);"
+        >
+          ⋯
+        </div>
+      </button>
+      <div
+        class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      >
+        <button
+          aria-label="Open camera"
+          class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+          role="button"
+          style="margin-right: 16px;"
+          tabindex="0"
+          type="button"
+        >
+          <div
+            class="css-text-146c3p1 r-fontSize-1x35g6"
+            dir="auto"
+            style="color: rgb(250, 250, 250);"
+          >
+            📷
+          </div>
+        </button>
+        <button
+          aria-label="Add"
+          class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-borderRadius-a1yn9n r-height-1mwlp6a r-width-18tzken"
+          role="button"
+          style="background-color: rgb(254, 202, 26); opacity: 1;"
+          tabindex="0"
+          type="button"
+        >
+          <div
+            class="css-text-146c3p1 r-fontSize-1x35g6"
+            dir="auto"
+            style="color: rgb(0, 0, 0);"
+          >
+            +
+          </div>
+        </button>
+      </div>
+    </div>
+    <div
+      class="css-view-g5y9jx"
+      style="padding-right: 12px; padding-left: 12px; padding-bottom: 12px;"
+    >
+      <div
+        class="css-text-146c3p1"
+        dir="auto"
+        style="color: rgb(250, 250, 250); font-size: 24px; font-weight: 700;"
+      >
+        Chats
+      </div>
+    </div>
+    <button
+      aria-label="Archiviert"
+      class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+      role="button"
+      style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+      tabindex="0"
+      type="button"
+    >
+      <div
+        class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      >
+        <div
+          class="css-view-g5y9jx"
+          style="margin-right: 8px;"
+        >
+          <div
+            class="css-text-146c3p1 r-fontSize-1x35g6"
+            dir="auto"
+            style="color: rgb(181, 181, 181);"
+          >
+            🗄️
+          </div>
+        </div>
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+          style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 400;"
+        >
+          Archiviert
+        </div>
+      </div>
+      <div
+        class="css-text-146c3p1"
+        dir="auto"
+        style="color: rgb(181, 181, 181); font-size: 12px;"
+      >
+        5
+      </div>
+    </button>
+    <div
+      class="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx"
+    >
+      <div
+        class="css-view-g5y9jx"
+        style="padding-bottom: 16px;"
+      >
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Mama Handy"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Mama Handy avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHdvbWFufGVufDF8fHx8MTc1NjQ4Nzc4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Mama Handy avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHdvbWFufGVufDF8fHx8MTc1NjQ4Nzc4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Mama Handy
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  12:14
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-marginLeft-13hce6t"
+                  dir="auto"
+                  style="margin-right: 4px;"
+                >
+                  ✓✓
+                </div>
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Ich komm heute doch nicht zum Essen
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Lisa Sophia 💕💍 Ruland"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Lisa Sophia 💕💍 Ruland avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx5b3VuZyUyMHdvbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU2NDg3Nzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Lisa Sophia 💕💍 Ruland avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx5b3VuZyUyMHdvbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU2NDg3Nzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Lisa Sophia 💕💍 Ruland
+                  </div>
+                  <div
+                    class="css-text-146c3p1 r-marginLeft-13hce6t"
+                    dir="auto"
+                  >
+                    ❤️
+                  </div>
+                  <div
+                    class="css-text-146c3p1 r-marginLeft-13hce6t"
+                    dir="auto"
+                  >
+                    📍
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Gestern
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Standort
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with ConClimate/Substain 💚"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="ConClimate/Substain 💚 avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="ConClimate/Substain 💚 avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    ConClimate/Substain 💚
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Montag
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  ~ Emmi: Öffne diesen Link, um meiner WhatsApp-Gruppe beizut...
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Ursula Huber"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Ursula Huber avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHdvbWFufGVufDF8fHx8MTc1NjQ4Nzc4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Ursula Huber avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMHdvbWFufGVufDF8fHx8MTc1NjQ4Nzc4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Ursula Huber
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  20.08.25
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-marginLeft-13hce6t"
+                  dir="auto"
+                  style="margin-right: 4px;"
+                >
+                  ✓✓
+                </div>
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  ✓✓ Danke 😊 euch auch viel Spaß und liebe Grüße an alle :)
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Viki"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Viki avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxjYXN1YWwlMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3NTY0ODc4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Viki avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxjYXN1YWwlMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3NTY0ODc4MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Viki
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  18.08.25
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Vielen Dank! Sehr lieb dass du an mich gedacht hast! 🌻🍃
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with +964 789 058 3669"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="+964 789 058 3669 avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="+964 789 058 3669 avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+              <div
+                aria-label="1 unread messages"
+                class="css-view-g5y9jx r-alignItems-1awozwy r-borderRadius-1dzdj1l r-bottom-1by1ycs r-height-z80fyv r-justifyContent-1777fci r-position-u8s1d r-right-1c7ggc8 r-width-19wmn03"
+                data-testid="unread-badge"
+                style="background-color: rgb(254, 202, 26);"
+              >
+                <div
+                  class="css-text-146c3p1 r-textAlign-q4m81j"
+                  dir="auto"
+                  style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 700;"
+                >
+                  1
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    +964 789 058 3669
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  16
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Hallo Binance-Nutzer! Das neueste DeFi-Chain-Airdrop-Update...
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Work Team"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Work Team avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Work Team avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Work Team
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  14:30
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Meeting postponed to 3 PM tomorrow
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Sarah Johnson"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Sarah Johnson avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx5b3VuZyUyMHdvbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU2NDg3Nzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Sarah Johnson avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx5b3VuZyUyMHdvbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzU2NDg3Nzk3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+              <div
+                aria-label="2 unread messages"
+                class="css-view-g5y9jx r-alignItems-1awozwy r-borderRadius-1dzdj1l r-bottom-1by1ycs r-height-z80fyv r-justifyContent-1777fci r-position-u8s1d r-right-1c7ggc8 r-width-19wmn03"
+                data-testid="unread-badge"
+                style="background-color: rgb(254, 202, 26);"
+              >
+                <div
+                  class="css-text-146c3p1 r-textAlign-q4m81j"
+                  dir="auto"
+                  style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 700;"
+                >
+                  2
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Sarah Johnson
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  11:45
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-marginLeft-13hce6t"
+                  dir="auto"
+                  style="margin-right: 4px;"
+                >
+                  ✓✓
+                </div>
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Thanks for the coffee! ☕
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Dad"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Dad avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Dad avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Dad
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  09:22
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Don't forget about dinner Sunday
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            aria-label="Chat with Book Club 📚"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+            role="button"
+            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx"
+              style="margin-right: 12px;"
+            >
+              <div
+                class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+                role="img"
+                style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px;"
+                tabindex="0"
+              >
+                <div
+                  aria-label="Book Club 📚 avatar"
+                  class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+                >
+                  <div
+                    class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                    style="background-image: url("https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                  />
+                  <img
+                    alt="Book Club 📚 avatar"
+                    class="css-accessibilityImage-9pa8cd"
+                    draggable="false"
+                    src="https://images.unsplash.com/photo-1563481911853-c14860cd6947?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxidXNpbmVzcyUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NTY0ODc3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            >
+              <div
+                class="css-view-g5y9jx r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginBottom-zl2h9q"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+                >
+                  <div
+                    class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginRight-1d4mawv"
+                    dir="auto"
+                    style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
+                  >
+                    Book Club 📚
+                  </div>
+                </div>
+                <div
+                  class="css-text-146c3p1 r-flexShrink-1q142lx"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  08:15
+                </div>
+              </div>
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              >
+                <div
+                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                  dir="auto"
+                  style="color: rgb(181, 181, 181); font-size: 12px;"
+                >
+                  Next meeting is about "The Midnight Library"
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+          style="height: 0px;"
+        />
+      </div>
+    </div>
+    <div
+      class="css-view-g5y9jx"
+      style="padding: 8px 12px 8px 12px;"
+    >
+      <button
+        aria-label="toggle theme"
+        class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+        role="button"
+        style="height: 36px; padding: 8px 16px 8px 16px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgba(0, 0, 0, 0); opacity: 1;"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+        >
+          Toggle Light Mode
+        </div>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

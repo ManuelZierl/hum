@@ -7,6 +7,7 @@ declare module 'react-native' {
   export const Pressable: React.FC<any>;
   export const Modal: React.FC<any>;
   export const ScrollView: React.FC<any>;
+  export const FlatList: React.FC<any>;
   export const TextInput: React.FC<any>;
   export const Animated: any;
   export const StyleSheet: {
@@ -31,6 +32,10 @@ declare module 'react-native' {
     style?: any;
     [key: string]: any;
   }
+  export type ListRenderItem<T> = (info: {
+    item: T;
+    index: number;
+  }) => React.ReactElement | null;
   export interface GestureResponderEvent {}
   export function useColorScheme(): 'light' | 'dark';
 }
