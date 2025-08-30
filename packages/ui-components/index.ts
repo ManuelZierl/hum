@@ -23,3 +23,5 @@ export {
 export type { AlertDialogProps } from './src/alert-dialog';
 export { Alert, AlertTitle, AlertDescription } from './src/alert';
 export type { AlertProps, AlertVariant } from './src/alert';
+export { AspectRatio } from './src/aspect-ratio';
+export type { AspectRatioProps } from './src/aspect-ratio';
