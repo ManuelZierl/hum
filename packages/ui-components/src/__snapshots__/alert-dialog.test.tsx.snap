@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AlertDialog renders closed by default 1`] = `
+<body>
+  <div>
+    <button
+      class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+      role="button"
+      tabindex="0"
+      type="button"
+    >
+      <div
+        class="css-text-146c3p1"
+        dir="auto"
+      >
+        Open
+      </div>
+    </button>
+  </div>
+  <div />
+</body>
+`;

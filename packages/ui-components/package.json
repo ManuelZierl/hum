@@ -18,10 +18,12 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "react-native": ">=0.75"
+    "react-native": ">=0.75",
+    "react-native-safe-area-context": ">=5.4.0"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12"
+    "@types/react": "^19.1.12",
+    "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
     "@testing-library/jest-dom": "6.8.0"
