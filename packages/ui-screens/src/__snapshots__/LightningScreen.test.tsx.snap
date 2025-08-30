@@ -1,0 +1,419 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`LightningScreen renders and matches snapshot 1`] = `
+<div>
+  <div
+    class="css-view-g5y9jx r-backgroundColor-14lw9ot r-flex-13awgt0 r-paddingTop-wk8lta"
+  >
+    <div
+      class="css-view-g5y9jx r-alignItems-1awozwy r-borderBottomColor-vgvm5k r-borderBottomWidth-qklmqi r-flexDirection-18u37iz r-justifyContent-1777fci r-paddingBlock-1mmae3n r-paddingInline-3pj75a"
+    >
+      <div
+        class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-adyw6z r-fontWeight-majxgm r-marginLeft-1jkjb"
+        dir="auto"
+      >
+        Lightning
+      </div>
+    </div>
+    <div
+      class="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx"
+    >
+      <div
+        class="css-view-g5y9jx r-paddingBlock-zo2zu6 r-paddingInline-3pj75a"
+      >
+        <div
+          class="css-view-g5y9jx r-alignItems-1awozwy r-marginBottom-1peese0"
+        >
+          <div
+            class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1udnf30 r-height-1njcn02 r-justifyContent-1777fci r-marginBottom-1ifxtd0 r-width-7bouqp"
+          />
+          <div
+            class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1x35g6 r-fontWeight-b88u0q r-marginBottom-5oul0u r-textAlign-q4m81j"
+            dir="auto"
+          >
+            Lightning Payments
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1b43r93 r-textAlign-q4m81j"
+            dir="auto"
+          >
+            Fast, cheap Bitcoin payments for everyone
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx r-marginBottom-1peese0"
+        >
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Lightning Wallet
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Manage your Lightning Bitcoin balance and make instant payments
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Send & Receive
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Scan QR codes or share payment links to send money instantly
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Transaction History
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                View all your Lightning payment history and receipts
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Payment Methods
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Connect your bank account or debit card to fund your wallet
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Instant Settlements
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Settle payments in milliseconds with low fees
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Multi-Currency Support
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Support for Bitcoin, sats, and other Lightning currencies
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Invoice Generation
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Create and share payment invoices with custom amounts
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Payment Routing
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Automatic routing through the Lightning Network for optimal fees
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx r-marginBottom-1ifxtd0"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Channel Management
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Open and manage Lightning channels for better liquidity
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-view-g5y9jx"
+          >
+            <div
+              class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+              data-testid="feature-card"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+              >
+                <div
+                  class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+                />
+                <div
+                  class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+                  dir="auto"
+                >
+                  Backup & Recovery
+                </div>
+              </div>
+              <div
+                class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+                dir="auto"
+              >
+                Secure backup and recovery options for your Lightning wallet
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx r-backgroundColor-xm3cbv r-borderRadius-1q9bdsx r-marginBottom-1peese0 r-padding-nsbfu8"
+        >
+          <div
+            class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-marginBottom-5oul0u r-textAlign-q4m81j"
+            dir="auto"
+          >
+            Coming Soon
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-textAlign-q4m81j"
+            dir="auto"
+          >
+            Lightning payments will be available in a future update. Stay tuned for instant Bitcoin transactions!
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-marginBottom-1peese0 r-padding-nsbfu8"
+        >
+          <div
+            class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-marginBottom-6gpygo"
+            dir="auto"
+          >
+            Why Lightning?
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-5oul0u"
+            dir="auto"
+          >
+            • Lightning Network enables instant Bitcoin payments
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-5oul0u"
+            dir="auto"
+          >
+            • Extremely low fees, often less than a penny
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-5oul0u"
+            dir="auto"
+          >
+            • Built on Bitcoin’s secure infrastructure
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-5oul0u"
+            dir="auto"
+          >
+            • Perfect for microtransactions and everyday payments
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-p1pxzi"
+            dir="auto"
+          >
+            • Global reach with 24/7 availability
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-2c72fj r-borderRadius-1q9bdsx r-padding-nsbfu8"
+        >
+          <div
+            class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-marginBottom-5oul0u"
+            dir="auto"
+          >
+            Get Early Access
+          </div>
+          <div
+            class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn r-marginBottom-1ifxtd0 r-textAlign-q4m81j"
+            dir="auto"
+          >
+            Be among the first to try Lightning payments when they launch.
+          </div>
+          <button
+            aria-label="Join Beta Waitlist"
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            role="button"
+            style="height: 36px; padding: 8px 16px 8px 16px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); opacity: 1;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-text-146c3p1"
+              dir="auto"
+              style="font-size: 14px; font-weight: 500; color: rgb(0, 0, 0);"
+            >
+              Join Beta Waitlist
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

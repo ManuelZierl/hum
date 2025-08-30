@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FeatureCard renders and matches snapshot 1`] = `
+<div>
+  <div
+    class="css-view-g5y9jx r-backgroundColor-14lw9ot r-borderColor-1jie2fr r-borderRadius-1q9bdsx r-borderWidth-rs99b7 r-padding-nsbfu8"
+    data-testid="feature-card"
+  >
+    <div
+      class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-marginBottom-6gpygo"
+    >
+      <div
+        class="css-view-g5y9jx r-alignItems-1awozwy r-backgroundColor-g4fib6 r-borderRadius-1fuqb1j r-height-h3s6tt r-justifyContent-1777fci r-marginRight-1b7u577 r-width-rwqe4o"
+      >
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+        >
+          ⭐
+        </div>
+      </div>
+      <div
+        class="css-text-146c3p1 r-color-1mmg7l5 r-fontSize-1i10wst r-fontWeight-majxgm"
+        dir="auto"
+      >
+        Title
+      </div>
+    </div>
+    <div
+      class="css-text-146c3p1 r-color-qabo0s r-fontSize-1enofrn"
+      dir="auto"
+    >
+      Description
+    </div>
+  </div>
+</div>
+`;

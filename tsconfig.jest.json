@@ -4,7 +4,9 @@
     "types": [
       "jest",
       "@testing-library/jest-dom",
-      "@testing-library/jest-native"
+      "@testing-library/jest-native",
+      "react",
+      "react-native"
     ]
   }
 }

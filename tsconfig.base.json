@@ -14,7 +14,11 @@
       "@apps/*": ["apps/*/src"],
       "@packages/*": ["packages/*/src"],
       "@mchat/*": ["packages/*/src"],
-      "@native/*": ["native/*/src"]
+      "@native/*": ["native/*/src"],
+      "@hum/ui-components": ["packages/ui-components"],
+      "@hum/ui-components/*": ["packages/ui-components/*"],
+      "@hum/ui-screens": ["packages/ui-screens"],
+      "@hum/ui-screens/*": ["packages/ui-screens/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
