@@ -12,7 +12,13 @@ const r = (...p: string[]) => path.resolve(__dirname, ...p);
  * pre-bundling issues.
  */
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: ['@babel/plugin-transform-flow-strip-types'],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       'react-native': 'react-native-web',
@@ -21,11 +27,23 @@ export default defineConfig({
       'react-native-safe-area-context': r(
         './react-native-safe-area-context.tsx',
       ),
+      '@react-native/assets-registry': r('./react-native-assets-registry'),
     },
   },
   optimizeDeps: {
     exclude: ['storybook', '@storybook/*'],
-    include: ['react', 'react-dom', 'react-native-web'],
+    include: [
+      'react',
+      'react-dom',
+      'react-native-web',
+      '@expo/vector-icons',
+      '@react-native/assets-registry',
+    ],
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
   },
   ssr: {
     noExternal: ['storybook', '@storybook/*'],
