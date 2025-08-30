@@ -25,3 +25,21 @@ export { Alert, AlertTitle, AlertDescription } from './src/alert';
 export type { AlertProps, AlertVariant } from './src/alert';
 export { AspectRatio } from './src/aspect-ratio';
 export type { AspectRatioProps } from './src/aspect-ratio';
+export {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from './src/breadcrumb';
+export type {
+  BreadcrumbProps,
+  BreadcrumbListProps,
+  BreadcrumbItemProps,
+  BreadcrumbLinkProps,
+  BreadcrumbPageProps,
+  BreadcrumbSeparatorProps,
+  BreadcrumbEllipsisProps,
+} from './src/breadcrumb';

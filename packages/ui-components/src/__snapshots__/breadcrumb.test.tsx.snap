@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Breadcrumb renders and matches snapshot 1`] = `
+<div
+  aria-label="breadcrumb"
+  className="css-view-g5y9jx"
+  data-testid="nav"
+  dir={null}
+  ref={[Function]}
+>
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-flexWrap-1w6e6rj"
+    dir={null}
+    ref={[Function]}
+  >
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginRight": "4px",
+        }
+      }
+    >
+      <div
+        aria-label="home"
+        className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+        dir={null}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        ref={[Function]}
+        role="link"
+        tabIndex={0}
+      >
+        <div
+          className="css-text-146c3p1"
+          dir="auto"
+          ref={[Function]}
+        >
+          Home
+        </div>
+      </div>
+    </div>
+    <div
+      className="css-text-146c3p1"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "color": "rgba(113,113,130,1.00)",
+          "fontSize": "12px",
+          "marginLeft": "4px",
+          "marginRight": "4px",
+        }
+      }
+    >
+      ›
+    </div>
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginRight": "4px",
+        }
+      }
+    >
+      <div
+        aria-label="current"
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(10,10,10,1.00)",
+            "fontSize": "12px",
+            "fontWeight": "400",
+          }
+        }
+      >
+        <span
+          className="css-textHasAncestor-1jxf684"
+          dir={null}
+          ref={[Function]}
+        >
+          Library
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
