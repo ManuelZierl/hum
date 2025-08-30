@@ -2,6 +2,7 @@
   "name": "@mchat/storybook",
   "private": true,
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "storybook dev -p 7007",
     "ios": "expo run:ios",
