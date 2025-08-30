@@ -1,6 +1,7 @@
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const require = createRequire(import.meta.url);
@@ -126,6 +127,10 @@ const config: StorybookConfig = {
         ]),
       ],
     };
+
+    // Convert CommonJS-only deps (listed above) to ESM during build to ensure
+    // default exports are available and prevent future runtime SyntaxErrors.
+    viteConfig.plugins = [...(viteConfig.plugins ?? []), viteCommonjs()];
 
     // Make sure SSR build (used by docs/docgen) doesn’t externalize RN pieces
     viteConfig.ssr = {
