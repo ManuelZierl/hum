@@ -36,3 +36,5 @@ export { AspectRatio } from './src/aspect-ratio';
 export type { AspectRatioProps } from './src/aspect-ratio';
 export { MessageBubble } from './src/message-bubble';
 export type { MessageBubbleProps } from './src/message-bubble';
+export { BottomNavItem } from './src/bottom-navigation-item';
+export type { BottomNavItemProps } from './src/bottom-navigation-item';
