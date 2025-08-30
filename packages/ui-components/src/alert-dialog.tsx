@@ -5,6 +5,8 @@ import {
   Text,
   Pressable,
   StyleSheet,
+  StyleProp,
+  ViewStyle,
   ViewProps,
   TextProps,
   PressableProps,
@@ -78,7 +80,11 @@ export const AlertDialogPortal: React.FC<{ children: ReactNode }> = ({
   children,
 }) => <>{children}</>;
 
-export const AlertDialogOverlay: React.FC<PressableProps> = ({
+interface AlertDialogOverlayProps extends Omit<PressableProps, 'style'> {
+  style?: StyleProp<ViewStyle>;
+}
+
+export const AlertDialogOverlay: React.FC<AlertDialogOverlayProps> = ({
   style,
   ...props
 }) => (
@@ -197,9 +203,17 @@ export const AlertDialogDescription: React.FC<TextProps> = ({
   );
 };
 
-export const AlertDialogAction: React.FC<
-  PressableProps & { children: ReactNode }
-> = ({ children, style, onPress, ...props }) => {
+interface AlertDialogActionProps extends Omit<PressableProps, 'style'> {
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;
+}
+
+export const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
+  children,
+  style,
+  onPress,
+  ...props
+}) => {
   const { colors, spacing, radius, type } = useTheme();
   const { setOpen } = useAlertDialog();
   return (
@@ -239,9 +253,17 @@ export const AlertDialogAction: React.FC<
   );
 };
 
-export const AlertDialogCancel: React.FC<
-  PressableProps & { children: ReactNode }
-> = ({ children, style, onPress, ...props }) => {
+interface AlertDialogCancelProps extends Omit<PressableProps, 'style'> {
+  children: ReactNode;
+  style?: StyleProp<ViewStyle>;
+}
+
+export const AlertDialogCancel: React.FC<AlertDialogCancelProps> = ({
+  children,
+  style,
+  onPress,
+  ...props
+}) => {
   const { colors, spacing, radius, type } = useTheme();
   const { setOpen } = useAlertDialog();
   return (

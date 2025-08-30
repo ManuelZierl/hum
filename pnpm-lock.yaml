@@ -192,6 +192,9 @@ importers:
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.12
+      react-native-safe-area-context:
+        specifier: 5.4.0
+        version: 5.4.0(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
 
 packages:
 
@@ -12421,6 +12424,11 @@ snapshots:
     dependencies:
       react: 19.1.1
       react-native: 0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.0.14)(react@19.1.1)
+
+  react-native-safe-area-context@5.4.0(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1))(react@19.1.1):
+    dependencies:
+      react: 19.1.1
+      react-native: 0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1)
 
   react-native-web@0.21.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
