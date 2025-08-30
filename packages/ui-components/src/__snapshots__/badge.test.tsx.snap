@@ -1,48 +1,20 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Badge renders default and matches snapshot 1`] = `
-<div
-  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-alignSelf-k200y r-borderWidth-rs99b7 r-flexDirection-18u37iz"
-  data-testid="badge"
-  dir={null}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onContextMenu={[Function]}
-  onFocus={[Function]}
-  onKeyDown={[Function]}
-  ref={[Function]}
-  style={
-    {
-      "backgroundColor": "rgba(254,202,26,1.00)",
-      "borderBottomColor": "rgba(0,0,0,0.00)",
-      "borderBottomLeftRadius": "10px",
-      "borderBottomRightRadius": "10px",
-      "borderLeftColor": "rgba(0,0,0,0.00)",
-      "borderRightColor": "rgba(0,0,0,0.00)",
-      "borderTopColor": "rgba(0,0,0,0.00)",
-      "borderTopLeftRadius": "10px",
-      "borderTopRightRadius": "10px",
-      "paddingBottom": "2px",
-      "paddingLeft": "8px",
-      "paddingRight": "8px",
-      "paddingTop": "2px",
-    }
-  }
-  tabIndex={0}
->
+<DocumentFragment>
   <div
-    className="css-text-146c3p1 r-flexShrink-1wbh5a2"
-    dir="auto"
-    ref={[Function]}
-    style={
-      {
-        "color": "rgba(0,0,0,1.00)",
-        "fontSize": "12px",
-        "fontWeight": "500",
-      }
-    }
+    class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-alignSelf-k200y r-borderWidth-rs99b7 r-flexDirection-18u37iz"
+    data-testid="badge"
+    style="padding: 2px 8px 2px 8px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); border-top-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0);"
+    tabindex="0"
   >
-    Badge
+    <div
+      class="css-text-146c3p1 r-flexShrink-1wbh5a2"
+      dir="auto"
+      style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 500;"
+    >
+      Badge
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

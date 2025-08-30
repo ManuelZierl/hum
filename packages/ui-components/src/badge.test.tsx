@@ -1,8 +1,7 @@
 /* eslint-disable react-native/no-raw-text */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
-import { Text, Pressable } from 'react-native';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { Badge, type BadgeProps } from './badge';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { colors } from './theme/colors';
@@ -22,16 +21,16 @@ function renderBadge(
 
 describe('Badge', () => {
   it('renders default and matches snapshot', () => {
-    const { toJSON, UNSAFE_getByType } = renderBadge();
-    expect(UNSAFE_getByType(Text).props.children).toBe('Badge');
-    expect(toJSON()).toMatchSnapshot();
+    const { getByText, asFragment } = renderBadge();
+    expect(getByText('Badge')).toBeInTheDocument();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('supports variants', () => {
-    const { UNSAFE_getByType, rerender } = renderBadge('light', {
+    const { getByText, rerender } = renderBadge('light', {
       variant: 'secondary',
     });
-    expect(UNSAFE_getByType(Text)).toHaveStyle({
+    expect(getByText('Badge')).toHaveStyle({
       color: colors.light.secondaryForeground,
     });
     rerender(
@@ -41,26 +40,26 @@ describe('Badge', () => {
         </Badge>
       </ThemeProvider>,
     );
-    expect(UNSAFE_getByType(Text)).toHaveStyle({
+    expect(getByText('Badge')).toHaveStyle({
       color: colors.light.destructiveForeground,
     });
   });
 
   it('calls onPress when provided', () => {
     const onPress = jest.fn();
-    const { UNSAFE_getByType } = renderBadge('light', { onPress });
-    fireEvent.press(UNSAFE_getByType(Pressable));
+    const { getByTestId } = renderBadge('light', { onPress });
+    fireEvent.click(getByTestId('badge'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { UNSAFE_getByType, unmount } = renderBadge('light');
-    expect(UNSAFE_getByType(Text)).toHaveStyle({
+    const { getByText, unmount } = renderBadge('light');
+    expect(getByText('Badge')).toHaveStyle({
       color: colors.light.humPrimaryForeground,
     });
     unmount();
-    const { UNSAFE_getByType: getByTypeDark } = renderBadge('dark');
-    expect(getByTypeDark(Text)).toHaveStyle({
+    const { getByText: getByTextDark } = renderBadge('dark');
+    expect(getByTextDark('Badge')).toHaveStyle({
       color: colors.dark.humPrimaryForeground,
     });
   });

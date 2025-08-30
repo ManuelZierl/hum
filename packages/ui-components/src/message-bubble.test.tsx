@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MessageBubble, type MessageBubbleProps } from './message-bubble';
 import { ThemeProvider } from './theme/ThemeProvider';
 
@@ -25,13 +26,13 @@ function renderBubble(
 
 describe('MessageBubble', () => {
   it('renders and matches snapshot', () => {
-    const { toJSON } = renderBubble();
-    expect(toJSON()).toMatchSnapshot();
+    const { asFragment } = renderBubble();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('shows read indicator when isRead', () => {
-    const { toJSON } = renderBubble('light', { isRead: true });
-    expect(JSON.stringify(toJSON())).toContain('✓✓');
+    const { getByText } = renderBubble('light', { isRead: true });
+    expect(getByText('✓✓')).toBeInTheDocument();
   });
 
   it('applies theme colors', () => {

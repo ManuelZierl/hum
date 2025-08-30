@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -36,22 +37,22 @@ function renderChatView(
 
 describe('ChatView Screen', () => {
   it('renders and matches snapshot', () => {
-    const { toJSON } = renderChatView();
-    expect(toJSON()).toMatchSnapshot();
+    const { asFragment } = renderChatView();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('calls onBack when back pressed', () => {
     const onBack = jest.fn();
     const { getByLabelText } = renderChatView('light', { onBack });
-    fireEvent.press(getByLabelText('Go back'));
+    fireEvent.click(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
   });
 
   it('allows typing in input', () => {
     const { getByLabelText } = renderChatView();
     const input = getByLabelText('Message input');
-    fireEvent.changeText(input, 'Hi');
-    expect(input.props.value).toBe('Hi');
+    fireEvent.change(input, { target: { value: 'Hi' } });
+    expect((input as unknown as { value: string }).value).toBe('Hi');
   });
 
   it('applies theme colors', () => {
