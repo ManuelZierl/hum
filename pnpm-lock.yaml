@@ -136,6 +136,9 @@ importers:
       '@hum/ui-components':
         specifier: workspace:*
         version: link:../../packages/ui-components
+      '@hum/ui-screens':
+        specifier: workspace:*
+        version: link:../../packages/ui-screens
       react:
         specifier: ^19.0.0
         version: 19.1.1
@@ -193,6 +196,25 @@ importers:
         version: 0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1)
 
   packages/ui-components:
+    dependencies:
+      '@testing-library/jest-dom':
+        specifier: 6.8.0
+        version: 6.8.0
+      react:
+        specifier: ^19.0.0
+        version: 19.1.1
+      react-native:
+        specifier: '>=0.75'
+        version: 0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.1.12
+        version: 19.1.12
+      react-native-safe-area-context:
+        specifier: 5.4.0
+        version: 5.4.0(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
+
+  packages/ui-screens:
     dependencies:
       '@testing-library/jest-dom':
         specifier: 6.8.0

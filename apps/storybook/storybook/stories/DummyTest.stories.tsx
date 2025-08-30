@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { DummyTest } from '@hum/ui-components';
+import { DummyScreen } from '@hum/ui-screens';
 
-const Card: React.FC = () => <DummyTest />;
+const Card: React.FC = () => <DummyScreen />;
 
 const meta: Meta<typeof Card> = {
-  title: 'Example/DummyTest',
+  title: 'Example/DummyScreen',
   component: Card,
 };
 export default meta;

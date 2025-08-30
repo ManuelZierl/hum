@@ -34,7 +34,20 @@ const config: StorybookConfig = {
       'ui-components',
       'index.ts',
     );
+    const uiScreensSrc = join(
+      dirname(fileURLToPath(import.meta.url)),
+      '..',
+      '..',
+      '..',
+      'packages',
+      'ui-screens',
+      'index.ts',
+    );
     const uiAlias = { find: /^@hum\/ui-components$/, replacement: uiSrc };
+    const uiScreensAlias = {
+      find: /^@hum\/ui-screens$/,
+      replacement: uiScreensSrc,
+    };
     const safeAreaSrc = join(
       dirname(fileURLToPath(import.meta.url)),
       '..',
@@ -51,6 +64,7 @@ const config: StorybookConfig = {
         ...viteConfig.resolve.alias,
         rnAlias,
         uiAlias,
+        uiScreensAlias,
         safeAreaAlias,
       ];
     } else {
@@ -60,6 +74,7 @@ const config: StorybookConfig = {
         // Keep an object alias as a safety net for tools reading object shape:
         'react-native': 'react-native-web',
         '@hum/ui-components': uiSrc,
+        '@hum/ui-screens': uiScreensSrc,
         'react-native-safe-area-context': safeAreaSrc,
       };
     }

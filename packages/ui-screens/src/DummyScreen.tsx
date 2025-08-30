@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-export const DummyTest = () => {
+export const DummyScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Hello, world!</Text>

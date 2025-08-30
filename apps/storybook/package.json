@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/runtime": "7.28.3",
     "@hum/ui-components": "workspace:*",
+    "@hum/ui-screens": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native-web": "~0.21.1",
