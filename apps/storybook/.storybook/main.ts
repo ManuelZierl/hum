@@ -77,6 +77,19 @@ const config: StorybookConfig = {
       replacement: normalizeColorSrc,
     };
 
+    const inlineStylePrefixerSrc = join(
+      getAbsolutePath('inline-style-prefixer'),
+      'es',
+    );
+    const inlineStylePrefixerAlias = {
+      find: /^inline-style-prefixer\/lib\/(.*)$/,
+      replacement: join(inlineStylePrefixerSrc, '$1'),
+    };
+    const inlineStylePrefixerRootAlias = {
+      find: /^inline-style-prefixer$/,
+      replacement: join(inlineStylePrefixerSrc, 'index.js'),
+    };
+
     const existingAlias = Array.isArray(viteConfig.resolve.alias)
       ? viteConfig.resolve.alias
       : Object.entries(viteConfig.resolve.alias ?? {}).map(
@@ -90,6 +103,8 @@ const config: StorybookConfig = {
       uiScreensSubAlias,
       safeAreaAlias,
       normalizeColorAlias,
+      inlineStylePrefixerAlias,
+      inlineStylePrefixerRootAlias,
       ...existingAlias,
     ];
 
