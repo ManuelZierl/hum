@@ -26,6 +26,7 @@
     "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "6.8.0"
+    "@testing-library/jest-dom": "6.8.0",
+    "lucide-react-native": "0.542.0"
   }
 }

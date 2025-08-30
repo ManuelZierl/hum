@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SettingsItem renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <button
+    class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+    role="button"
+    style="padding: 16px 16px 16px 16px;"
+    tabindex="0"
+    type="button"
+  >
+    <div
+      class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+    >
+      <div
+        class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+        style="margin-right: 12px;"
+      >
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+        >
+          I
+        </div>
+      </div>
+      <div
+        class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+      >
+        <div
+          class="css-text-146c3p1 r-fontWeight-majxgm"
+          dir="auto"
+          style="color: rgb(10, 10, 10); font-size: 14px;"
+        >
+          Account
+        </div>
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+          style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+        >
+          Subtitle
+        </div>
+      </div>
+    </div>
+    <svg />
+  </button>
+</DocumentFragment>
+`;

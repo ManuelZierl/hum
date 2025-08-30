@@ -1,0 +1,664 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SettingsScreen renders and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-view-g5y9jx r-flex-13awgt0"
+    style="background-color: rgb(255, 255, 255); padding-top: 0px;"
+  >
+    <div
+      class="css-view-g5y9jx r-alignItems-1awozwy r-borderBottomWidth-qklmqi r-justifyContent-1777fci"
+      style="padding: 16px 16px 16px 16px; border-bottom-color: rgba(0, 0, 0, 0.1);"
+    >
+      <h1
+        class="css-text-146c3p1 r-fontWeight-majxgm"
+        dir="auto"
+        role="heading"
+        style="font-size: 20px; color: rgb(10, 10, 10);"
+      >
+        Settings
+      </h1>
+    </div>
+    <div
+      class="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx r-scrollbarWidth-2eszeu"
+    >
+      <div
+        class="css-view-g5y9jx"
+        style="padding-bottom: 24px;"
+      >
+        <div
+          class="css-view-g5y9jx"
+          style="padding: 16px 16px 16px 16px;"
+        >
+          <div
+            class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+            style="background-color: rgb(236, 236, 240); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; padding-right: 16px; padding-left: 16px;"
+          >
+            <svg />
+            <input
+              aria-label="search"
+              autocapitalize="sentences"
+              autocomplete="on"
+              autocorrect="on"
+              class="css-textinput-11aywtz r-placeholderTextColor-6taxm2 r-flex-13awgt0"
+              dir="auto"
+              placeholder="Search"
+              rows="1"
+              spellcheck="true"
+              style="--placeholderTextColor: #717182; padding-top: 8px; padding-bottom: 8px; margin-left: 8px; color: rgb(10, 10, 10); font-size: 14px;"
+              virtualkeyboardpolicy="auto"
+            />
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+          style="padding: 16px 16px 16px 16px;"
+        >
+          <div
+            class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                aria-label="Profile"
+                class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-borderRadius-nsiyw1 r-height-sga3zk r-width-7a29px"
+                style="margin-right: 12px;"
+              >
+                <div
+                  class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                  style="background-image: url("https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral");"
+                />
+                <img
+                  alt="Profile"
+                  class="css-accessibilityImage-9pa8cd"
+                  draggable="false"
+                  src="https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                />
+              </div>
+              <div
+                class="css-view-g5y9jx"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="font-size: 18px; color: rgb(10, 10, 10);"
+                >
+                  Your Name
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="font-size: 12px; color: rgb(113, 113, 130); margin-top: 2px;"
+                >
+                  Hey there! I am using Hum.
+                </div>
+              </div>
+            </div>
+            <svg />
+          </div>
+        </div>
+        <div
+          class="css-view-g5y9jx"
+        >
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Account
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Security notifications, change number
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Privacy
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Block contacts, disappearing messages
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Notifications
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Message, group & call tones
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Storage and data
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Network usage, auto-download
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Help
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Help center, contact us, privacy policy
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <div
+            class="css-view-g5y9jx"
+            style="height: 12px;"
+          />
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Linked devices
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Manage connected devices
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Two-step verification
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Add extra security to your account
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Request account info
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Request a report of your account information
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  App language
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  English (device's language)
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Theme
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Choose your app theme
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Wallpaper
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Change your chat wallpaper
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Sound
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Ringtone and notification sounds
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Invite friends
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Share Hum with friends and family
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <button
+            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-width-13qz1uu"
+            role="button"
+            style="padding: 16px 16px 16px 16px;"
+            tabindex="0"
+            type="button"
+          >
+            <div
+              class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+            >
+              <div
+                class="css-view-g5y9jx r-alignItems-1awozwy r-height-1472mwg r-justifyContent-1777fci r-width-lrsllp"
+                style="margin-right: 12px;"
+              >
+                <svg />
+              </div>
+              <div
+                class="css-view-g5y9jx r-flexShrink-1wbh5a2"
+              >
+                <div
+                  class="css-text-146c3p1 r-fontWeight-majxgm"
+                  dir="auto"
+                  style="color: rgb(10, 10, 10); font-size: 14px;"
+                >
+                  Delete my account
+                </div>
+                <div
+                  class="css-text-146c3p1"
+                  dir="auto"
+                  style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 2px;"
+                >
+                  Delete your account and erase your message history
+                </div>
+              </div>
+            </div>
+            <svg />
+          </button>
+          <div
+            class="css-view-g5y9jx r-alignItems-1awozwy r-borderTopWidth-5kkj8d"
+            style="margin-top: 24px; padding-top: 16px; border-top-color: rgba(0, 0, 0, 0.1); padding-right: 16px; padding-left: 16px;"
+          >
+            <div
+              class="css-text-146c3p1"
+              dir="auto"
+              style="color: rgb(113, 113, 130); font-size: 12px;"
+            >
+              Hum for Web
+            </div>
+            <div
+              class="css-text-146c3p1 r-marginTop-14gqq1x"
+              dir="auto"
+              style="color: rgb(113, 113, 130); font-size: 12px;"
+            >
+              Version 1.0.0
+            </div>
+            <div
+              class="css-text-146c3p1 r-marginTop-knv0ih"
+              dir="auto"
+              style="color: rgb(113, 113, 130); font-size: 12px;"
+            >
+              © 2024 Hum Technologies
+            </div>
+            <div
+              class="css-text-146c3p1 r-marginTop-14gqq1x"
+              dir="auto"
+              style="color: rgb(113, 113, 130); font-size: 12px;"
+            >
+              Build 2024.08.29
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

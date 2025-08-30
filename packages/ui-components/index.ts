@@ -34,3 +34,6 @@ export { Badge } from './src/badge';
 export type { BadgeProps, BadgeVariant } from './src/badge';
 export { AspectRatio } from './src/aspect-ratio';
 export type { AspectRatioProps } from './src/aspect-ratio';
+
+export { SettingsItem } from './src/settings-item';
+export type { SettingsItemProps } from './src/settings-item';
