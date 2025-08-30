@@ -11,13 +11,13 @@ const meta: Meta<typeof ChatItem> = {
   },
   args: {
     name: 'Alice',
-    message: 'Hello there',
+    message: 'Hello there. My Name is Alice. Do you know me?',
     time: '09:41',
-    avatar: 'https://placekitten.com/100/100',
+    avatar: 'https://picsum.photos/200/200',
     unreadCount: 2,
-    isRead: true,
-    hasHeart: true,
-    hasLocation: true,
+    isRead: false,
+    hasHeart: false,
+    hasLocation: false,
   },
 };
 
