@@ -1,0 +1,39 @@
+name: Check version on tag
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync version from tag and validate
+        run: pnpm sync:version
+
+      - name: Generate build info
+        run: pnpm build-info
+
+      - name: Typecheck / Lint / Test / Storybook build
+        run: |
+          pnpm typecheck
+          pnpm lint
+          pnpm test
+          pnpm storybook:build
