@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", tag = "0.7.0", default-features = false, features = [
     "e2e-encryption",
-    "sqlite",
+    "bundled-sqlite",
     "experimental-sliding-sync",
     "native-tls",
  ] }
