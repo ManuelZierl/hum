@@ -1222,7 +1222,9 @@ dependencies = [
 name = "hum-tests"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "hum-matrix-core",
+ "matrix-sdk",
  "tempfile",
  "tokio",
 ]
