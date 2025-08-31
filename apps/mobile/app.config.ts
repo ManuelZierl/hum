@@ -5,8 +5,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 // 2. Uncomment the line in the plugins array below.
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: config.name ?? 'mchat',
-  slug: config.slug ?? 'mchat',
+  name: config.name ?? 'hum',
+  slug: config.slug ?? 'hum',
   version: config.version ?? '1.0.0',
   orientation: config.orientation ?? 'portrait',
   userInterfaceStyle: config.userInterfaceStyle ?? 'light',
@@ -22,11 +22,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     ...(config.android ?? {}),
+    package: config.android?.package ?? 'com.hum.app',
     adaptiveIcon: {
       ...(config.android?.adaptiveIcon ?? {}),
       foregroundImage: '../../imgs/logo-transparent.png',
       backgroundColor: '#FFD755',
     },
+  },
+  ios: {
+    ...(config.ios ?? {}),
+    bundleIdentifier: config.ios?.bundleIdentifier ?? 'com.hum.app',
   },
   assetBundlePatterns: config.assetBundlePatterns ?? ['**/*'],
   plugins: [

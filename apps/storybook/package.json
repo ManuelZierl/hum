@@ -1,5 +1,5 @@
 {
-  "name": "@mchat/storybook",
+  "name": "@hum/storybook",
   "private": true,
   "main": "index.js",
   "type": "module",

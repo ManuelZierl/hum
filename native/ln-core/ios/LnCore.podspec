@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.summary      = 'Lightning core native module stub.'
   s.homepage     = 'https://example.com'
   s.license      = { :type => 'AGPL-3.0-only' }
-  s.authors      = { 'mChat' => 'support@example.com' }
+  s.authors      = { 'hum' => 'support@example.com' }
   s.platform     = :ios, '13.0'
   s.source       = { :git => 'https://example.com', :tag => s.version }
   s.source_files = '*.{h,m,mm,swift}'

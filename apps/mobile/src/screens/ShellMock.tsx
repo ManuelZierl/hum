@@ -7,7 +7,7 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { TabBarMock } from '@mchat/mobile-ui';
+import { TabBarMock } from '@hum/mobile-ui';
 
 const ShellMock = () => {
   const scheme = useColorScheme();
@@ -39,7 +39,7 @@ const ShellMock = () => {
           { backgroundColor: colors.card, borderBottomColor: colors.border },
         ]}
       >
-        <Text style={[styles.title, { color: colors.text }]}>mChat</Text>
+        <Text style={[styles.title, { color: colors.text }]}>hum</Text>
         <View style={styles.topIcons}>
           <Text style={[styles.topIcon, { color: colors.subtext }]}>🔍</Text>
           <Text style={[styles.topIcon, { color: colors.subtext }]}>📷</Text>

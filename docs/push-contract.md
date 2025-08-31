@@ -1,6 +1,6 @@
 # Push Notifications Contract
 
-This document defines the contract for push notifications used by the mchat application. It covers token registration, the payload delivered by the push service, and how the app should wake and sync on receipt.
+This document defines the contract for push notifications used by the hum application. It covers token registration, the payload delivered by the push service, and how the app should wake and sync on receipt.
 
 ## Token Registration
 
