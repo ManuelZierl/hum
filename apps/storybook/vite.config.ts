@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import svgr from 'vite-plugin-svgr';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
@@ -12,7 +13,7 @@ const r = (...p: string[]) => path.resolve(__dirname, ...p);
  * pre-bundling issues.
  */
 export default defineConfig({
-  plugins: [react()],
+  plugins: [svgr({ exportAsDefault: true, include: '**/*.svg' }), react()],
   resolve: {
     alias: {
       'react-native': 'react-native-web',

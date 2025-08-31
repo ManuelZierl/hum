@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, useTheme } from '@hum/ui-components';
+import { Button, useTheme, Icon } from '@hum/ui-components';
 
 export interface TopBarProps {
   onMenuPress?: () => void;
@@ -44,7 +44,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           accessibilityLabel="Open camera"
           style={{ marginRight: spacing.lg }}
         >
-          <Text style={[styles.icon, { color: colors.foreground }]}>📷</Text>
+          <Icon name="camera" size={24} color={colors.foreground} />
         </Pressable>
 
         <Button

@@ -36,13 +36,11 @@ exports[`ChatsScreen renders and matches snapshot 1`] = `
           tabindex="0"
           type="button"
         >
-          <div
-            class="css-text-146c3p1 r-fontSize-1x35g6"
-            dir="auto"
-            style="color: rgb(250, 250, 250);"
-          >
-            📷
-          </div>
+          <svg
+            fill="#FAFAFA"
+            height="24"
+            width="24"
+          />
         </button>
         <button
           aria-label="Add"
@@ -89,13 +87,11 @@ exports[`ChatsScreen renders and matches snapshot 1`] = `
           class="css-view-g5y9jx"
           style="margin-right: 8px;"
         >
-          <div
-            class="css-text-146c3p1 r-fontSize-1x35g6"
-            dir="auto"
-            style="color: rgb(181, 181, 181);"
-          >
-            🗄️
-          </div>
+          <svg
+            fill="#B5B5B5"
+            height="24"
+            width="24"
+          />
         </div>
         <div
           class="css-text-146c3p1"

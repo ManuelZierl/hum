@@ -9,7 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, SettingsItem } from '@hum/ui-components';
+import { useTheme, SettingsItem, Icon } from '@hum/ui-components';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
@@ -84,11 +84,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
               },
             ]}
           >
-            <Text
-              style={{ color: colors.mutedForeground, marginRight: spacing.md }}
-            >
-              🔍
-            </Text>
+            <Icon
+              name="search"
+              size={24}
+              color={colors.mutedForeground}
+              style={{ marginRight: spacing.md }}
+            />
             <TextInput
               value={search}
               onChangeText={setSearch}
@@ -144,84 +145,90 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 </Text>
               </View>
             </View>
-            <Text
-              style={{ color: colors.mutedForeground, fontSize: type.size.lg }}
-            >
-              🔳
-            </Text>
+            <Icon
+              name="qr-code"
+              size={type.size.lg}
+              color={colors.mutedForeground}
+            />
           </View>
         </View>
 
         {/* Settings Items */}
         <View style={{ paddingBottom: spacing.xl }}>
           <SettingsItem
-            icon={<Text>👤</Text>}
+            icon={<Icon name="person" size={24} color={colors.humPrimary} />}
             title="Account"
             subtitle="Security notifications, change number"
           />
           <SettingsItem
-            icon={<Text>🛡️</Text>}
+            icon={<Icon name="shield" size={24} color={colors.humPrimary} />}
             title="Privacy"
             subtitle="Block contacts, disappearing messages"
           />
           <SettingsItem
-            icon={<Text>🔔</Text>}
+            icon={<Icon name="bell" size={24} color={colors.humPrimary} />}
             title="Notifications"
             subtitle="Message, group & call tones"
           />
           <SettingsItem
-            icon={<Text>📦</Text>}
+            icon={<Icon name="box" size={24} color={colors.humPrimary} />}
             title="Storage and data"
             subtitle="Network usage, auto-download"
           />
           <SettingsItem
-            icon={<Text>❓</Text>}
+            icon={
+              <Icon
+                name="question-circle"
+                size={24}
+                color={colors.humPrimary}
+              />
+            }
             title="Help"
             subtitle="Help center, contact us, privacy policy"
           />
           <View style={{ height: spacing.md }} />
           <SettingsItem
-            icon={<Text>👥</Text>}
+            icon={<Icon name="people" size={24} color={colors.humPrimary} />}
             title="Linked devices"
             subtitle="Manage connected devices"
           />
           <SettingsItem
-            icon={<Text>🔒</Text>}
+            icon={<Icon name="lock" size={24} color={colors.humPrimary} />}
             title="Two-step verification"
             subtitle="Add extra security to your account"
           />
           <SettingsItem
-            icon={<Text>📄</Text>}
+            icon={<Icon name="file-text" size={24} color={colors.humPrimary} />}
             title="Request account info"
             subtitle="Request a report of your account information"
           />
           <SettingsItem
-            icon={<Text>🌐</Text>}
+            icon={<Icon name="globe" size={24} color={colors.humPrimary} />}
             title="App language"
             subtitle="English (device's language)"
           />
           <SettingsItem
-            icon={<Text>🎨</Text>}
+            icon={<Icon name="palette" size={24} color={colors.humPrimary} />}
             title="Theme"
             subtitle="Choose your app theme"
           />
           <SettingsItem
-            icon={<Text>🖼️</Text>}
+            icon={<Icon name="image" size={24} color={colors.humPrimary} />}
             title="Wallpaper"
             subtitle="Change your chat wallpaper"
           />
           <SettingsItem
-            icon={<Text>🔊</Text>}
+            icon={<Icon name="volume-up" size={24} color={colors.humPrimary} />}
             title="Sound"
             subtitle="Ringtone and notification sounds"
           />
           <SettingsItem
-            icon={<Text>📧</Text>}
+            icon={<Icon name="envelope" size={24} color={colors.humPrimary} />}
             title="Invite friends"
             subtitle="Share Hum with friends and family"
           />
           <SettingsItem
-            icon={<Text>🗑️</Text>}
+            icon={<Icon name="trash" size={24} color={colors.humPrimary} />}
             title="Delete my account"
             subtitle="Delete your account and erase your message history"
           />

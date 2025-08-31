@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BottomNavItem } from '@hum/ui-components';
-import { useTheme } from '@hum/ui-components';
+import { BottomNavItem, Icon, useTheme } from '@hum/ui-components';
 
 export interface BottomNavigationProps {
   activeTab?: string;
@@ -21,12 +20,12 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const navItems = [
     {
       id: 'chats',
-      icon: <Text>💬</Text>,
+      icon: <Icon name="chat" />,
       label: 'Chats',
       badgeCount: chatsBadgeCount,
     },
-    { id: 'lightning', icon: <Text>⚡</Text>, label: 'Lightning' },
-    { id: 'settings', icon: <Text>⚙️</Text>, label: 'Settings' },
+    { id: 'lightning', icon: <Icon name="lightning" />, label: 'Lightning' },
+    { id: 'settings', icon: <Icon name="gear" />, label: 'Settings' },
   ];
 
   return (

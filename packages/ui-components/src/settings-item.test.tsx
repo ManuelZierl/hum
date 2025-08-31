@@ -1,13 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
 import { ThemeProvider } from './theme/ThemeProvider';
+import { Icon } from './theme/Icon';
 
 const baseProps: SettingsItemProps = {
-  icon: <Text>⭐️</Text>,
+  icon: <Icon name="person" />,
   title: 'Account',
   subtitle: 'Manage your account',
 };

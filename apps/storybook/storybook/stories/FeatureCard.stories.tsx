@@ -1,28 +1,26 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { FeatureCard } from '@hum/ui-components';
-import { Text } from 'react-native';
-import { useTheme, ThemeProvider } from '@hum/ui-components';
+import { FeatureCard, Icon, useTheme, ThemeProvider } from '@hum/ui-components';
 
 const WalletIcon = () => {
   const { colors, type } = useTheme();
   return (
-    <Text
-      style={{ color: colors.humPrimaryForeground, fontSize: type.size.lg }}
-    >
-      💼
-    </Text>
+    <Icon
+      name="briefcase"
+      size={type.size.lg}
+      color={colors.humPrimaryForeground}
+    />
   );
 };
 
 const ZapIcon = () => {
   const { colors, type } = useTheme();
   return (
-    <Text
-      style={{ color: colors.humPrimaryForeground, fontSize: type.size.lg }}
-    >
-      ⚡️
-    </Text>
+    <Icon
+      name="lightning"
+      size={type.size.lg}
+      color={colors.humPrimaryForeground}
+    />
   );
 };
 

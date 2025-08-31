@@ -12,6 +12,7 @@ declare module 'react-native' {
   export const Animated: any;
   export const StyleSheet: {
     create: (styles: any) => any;
+    flatten: (style: any) => any;
     absoluteFillObject: any;
     hairlineWidth: number;
   };
@@ -48,4 +49,11 @@ declare module 'react-native-safe-area-context' {
     right: number;
   };
   export const SafeAreaProvider: React.FC<any>;
+}
+
+declare module '*.svg' {
+  import React from 'react';
+  import { SvgProps } from 'react-native-svg';
+  const content: React.FC<SvgProps>;
+  export default content;
 }
