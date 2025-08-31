@@ -1,3 +1,5 @@
+#![allow(clippy::empty_line_after_doc_comments)]
+
 use std::sync::Arc;
 
 uniffi::include_scaffolding!("hum");

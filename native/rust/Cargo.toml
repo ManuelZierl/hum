@@ -9,3 +9,5 @@ resolver = "2"
 
 [workspace.package]
 edition = "2021"
+
+

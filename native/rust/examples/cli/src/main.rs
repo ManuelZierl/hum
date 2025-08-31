@@ -1,3 +1,3 @@
 fn main() {
-    println!("{}", hum_core::greet("CLI"));
+    println!("hum CLI example");
 }

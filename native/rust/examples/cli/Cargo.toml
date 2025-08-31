@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-hum-core = { path = "../../crates/core" }
+hum-matrix-core = { path = "../../crates/core" }
