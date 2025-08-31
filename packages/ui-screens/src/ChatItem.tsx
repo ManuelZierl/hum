@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Avatar, AvatarImage } from '../../ui-components/src/avatar';
 import { useTheme } from '../../ui-components/src/theme/ThemeProvider';
+import { Icon } from '../../ui-components/src/icons/Icon';
 
 export interface ChatItemProps {
   name: string;
@@ -89,7 +90,14 @@ export const ChatItem: React.FC<ChatItemProps> = ({
             >
               {name}
             </Text>
-            {hasHeart && <Text style={styles.icon}>❤️</Text>}
+            {hasHeart && (
+              <Icon
+                name="heart-fill"
+                size={type.size.md}
+                color={colors.humPrimary}
+                a11yLabel="favorite"
+              />
+            )}
             {hasLocation && <Text style={styles.icon}>📍</Text>}
           </View>
           <Text

@@ -9,7 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, SettingsItem } from '@hum/ui-components';
+import { useTheme, SettingsItem, Icon } from '@hum/ui-components';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
@@ -84,11 +84,14 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
               },
             ]}
           >
-            <Text
-              style={{ color: colors.mutedForeground, marginRight: spacing.md }}
-            >
-              🔍
-            </Text>
+            <View style={{ marginRight: spacing.md }}>
+              <Icon
+                name="search"
+                color={colors.mutedForeground}
+                a11yLabel="search icon"
+                size={type.size.md}
+              />
+            </View>
             <TextInput
               value={search}
               onChangeText={setSearch}
@@ -165,7 +168,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
             subtitle="Block contacts, disappearing messages"
           />
           <SettingsItem
-            icon={<Text>🔔</Text>}
+            icon={
+              <Icon name="bell" a11yLabel="notifications" size={type.size.lg} />
+            }
             title="Notifications"
             subtitle="Message, group & call tones"
           />
@@ -221,7 +226,14 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
             subtitle="Share Hum with friends and family"
           />
           <SettingsItem
-            icon={<Text>🗑️</Text>}
+            icon={
+              <Icon
+                name="trash"
+                a11yLabel="delete account"
+                color={colors.destructive}
+                size={type.size.lg}
+              />
+            }
             title="Delete my account"
             subtitle="Delete your account and erase your message history"
           />

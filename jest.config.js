@@ -16,5 +16,7 @@ module.exports = {
     '^@hum/ui-components$': '<rootDir>/packages/ui-components/index.ts',
     '^@hum/ui-components/(.*)$': '<rootDir>/packages/ui-components/src/$1',
     '^@hum/ui-screens(.*)$': '<rootDir>/packages/ui-screens/src$1',
+    '^react-native-bootstrap-icons/icons/(.*)$':
+      '<rootDir>/tests/mocks/BootstrapIcon.tsx',
   },
 };

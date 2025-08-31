@@ -1,13 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
 import { ThemeProvider } from './theme/ThemeProvider';
+import { Icon } from './icons/Icon';
+import { colors } from './theme/colors';
 
 const baseProps: SettingsItemProps = {
-  icon: <Text>⭐️</Text>,
+  icon: <Icon name="star-fill" a11yLabel="account icon" />,
   title: 'Account',
   subtitle: 'Manage your account',
 };
@@ -29,6 +30,13 @@ describe('SettingsItem', () => {
   it('renders and matches snapshot', () => {
     const { toJSON } = renderItem();
     expect(toJSON()).toMatchSnapshot();
+  });
+
+  it('applies themed color to icon', () => {
+    const { getByLabelText } = renderItem('light');
+    expect(getByLabelText('account icon')).toHaveStyle({
+      fill: colors.light.foreground,
+    });
   });
 
   it('calls onPress when pressed', () => {

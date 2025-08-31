@@ -91,17 +91,28 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
                 "marginRight": "12px",
               }
             }
           >
-            🔍
+            <div
+              aria-label="search icon"
+              className="css-view-g5y9jx"
+              dir={null}
+              ref={[Function]}
+              style={
+                {
+                  "fill": "#717182",
+                  "height": "16px",
+                  "width": "16px",
+                }
+              }
+            />
           </div>
           <input
             aria-label="Search"
@@ -330,18 +341,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Privacy"
@@ -422,18 +432,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Notifications"
@@ -472,12 +481,18 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-146c3p1"
-                dir="auto"
+                aria-label="notifications"
+                className="css-view-g5y9jx"
+                dir={null}
                 ref={[Function]}
-              >
-                🔔
-              </div>
+                style={
+                  {
+                    "fill": "#0A0A0A",
+                    "height": "18px",
+                    "width": "18px",
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -514,18 +529,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Storage and data"
@@ -606,18 +620,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Help"
@@ -698,18 +711,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           className="css-view-g5y9jx"
@@ -800,18 +812,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Two-step verification"
@@ -892,18 +903,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Request account info"
@@ -984,18 +994,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="App language"
@@ -1076,18 +1085,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Theme"
@@ -1168,18 +1176,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Wallpaper"
@@ -1260,18 +1267,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Sound"
@@ -1352,18 +1358,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Invite friends"
@@ -1444,18 +1449,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           aria-label="Delete my account"
@@ -1494,12 +1498,18 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-146c3p1"
-                dir="auto"
+                aria-label="delete account"
+                className="css-view-g5y9jx"
+                dir={null}
                 ref={[Function]}
-              >
-                🗑️
-              </div>
+                style={
+                  {
+                    "fill": "#D4183D",
+                    "height": "18px",
+                    "width": "18px",
+                  }
+                }
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1536,18 +1546,17 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-text-146c3p1"
-            dir="auto"
+            className="css-view-g5y9jx"
+            dir={null}
             ref={[Function]}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
+                "fill": "#717182",
+                "height": "18px",
+                "width": "18px",
               }
             }
-          >
-            ›
-          </div>
+          />
         </div>
         <div
           className="css-view-g5y9jx r-alignItems-1awozwy"

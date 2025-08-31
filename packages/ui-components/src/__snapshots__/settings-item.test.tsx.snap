@@ -38,12 +38,18 @@ exports[`SettingsItem renders and matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-146c3p1"
-        dir="auto"
+        aria-label="account icon"
+        className="css-view-g5y9jx"
+        dir={null}
         ref={[Function]}
-      >
-        ⭐️
-      </div>
+        style={
+          {
+            "fill": "#0A0A0A",
+            "height": "24px",
+            "width": "24px",
+          }
+        }
+      />
     </div>
     <div
       className="css-view-g5y9jx"
@@ -80,17 +86,16 @@ exports[`SettingsItem renders and matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-text-146c3p1"
-    dir="auto"
+    className="css-view-g5y9jx"
+    dir={null}
     ref={[Function]}
     style={
       {
-        "color": "rgba(113,113,130,1.00)",
-        "fontSize": "18px",
+        "fill": "#717182",
+        "height": "18px",
+        "width": "18px",
       }
     }
-  >
-    ›
-  </div>
+  />
 </div>
 `;

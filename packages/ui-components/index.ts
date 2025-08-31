@@ -44,3 +44,5 @@ export { FeatureCard } from './src/feature-card';
 export type { FeatureCardProps } from './src/feature-card';
 export { SettingsItem } from './src/settings-item';
 export type { SettingsItemProps } from './src/settings-item';
+export { Icon } from './src/icons/Icon';
+export type { IconName, IconProps } from './src/icons/Icon';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useTheme } from './theme/ThemeProvider';
+import { Icon } from './icons/Icon';
 
 export interface SettingsItemProps {
   icon?: React.ReactNode;
@@ -55,9 +56,11 @@ export const SettingsItem: React.FC<SettingsItemProps> = ({
           ) : null}
         </View>
       </View>
-      <Text style={{ color: colors.mutedForeground, fontSize: type.size.lg }}>
-        ›
-      </Text>
+      <Icon
+        name="chevron-right"
+        size={type.size.lg}
+        color={colors.mutedForeground}
+      />
     </Pressable>
   );
 };

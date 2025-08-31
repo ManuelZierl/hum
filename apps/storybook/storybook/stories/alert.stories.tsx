@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { Text } from 'react-native';
+import { Icon } from '@hum/ui-components';
 import {
   Alert,
   AlertTitle,
@@ -39,7 +40,7 @@ export const Destructive: Story = { args: { variant: 'destructive' } };
 export const WithIcon: Story = {
   render: (args) => (
     <Alert {...args}>
-      <Text>⚠️</Text>
+      <Icon name="exclamation-triangle-fill" a11yLabel="warning" />
       <AlertTitle>
         <Text>Heads up!</Text>
       </AlertTitle>

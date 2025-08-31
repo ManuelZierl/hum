@@ -259,11 +259,10 @@ exports[`ChatsScreen renders and matches snapshot 1`] = `
                     Lisa Sophia 💕💍 Ruland
                   </div>
                   <div
-                    class="css-text-146c3p1 r-marginLeft-13hce6t"
-                    dir="auto"
-                  >
-                    ❤️
-                  </div>
+                    aria-label="favorite"
+                    class="css-view-g5y9jx"
+                    style="width: 16px; height: 16px; fill: #FECA1A;"
+                  />
                   <div
                     class="css-text-146c3p1 r-marginLeft-13hce6t"
                     dir="auto"

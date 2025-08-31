@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
 import { SettingsScreen, type SettingsScreenProps } from './SettingsScreen';
+import { colors } from '@hum/ui-components/theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -39,6 +40,13 @@ describe('SettingsScreen', () => {
     const { getByLabelText } = renderScreen('light', { onBack });
     fireEvent.press(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
+  });
+
+  it('renders search icon with themed color', () => {
+    const { getByLabelText } = renderScreen('light');
+    expect(getByLabelText('search icon')).toHaveStyle({
+      fill: colors.light.mutedForeground,
+    });
   });
 
   it('renders in light and dark themes', () => {
