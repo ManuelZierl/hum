@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`SettingsItem renders and matches snapshot 1`] = `
+<div
+  aria-label="Account"
+  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+  dir={null}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onContextMenu={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  ref={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(0,0,0,0.00)",
+      "paddingBottom": "12px",
+      "paddingLeft": "16px",
+      "paddingRight": "16px",
+      "paddingTop": "12px",
+    }
+  }
+  tabIndex={0}
+>
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+    dir={null}
+    ref={[Function]}
+  >
+    <div
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginRight": "12px",
+        }
+      }
+    >
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+      >
+        ⭐️
+      </div>
+    </div>
+    <div
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
+    >
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(10,10,10,1.00)",
+            "fontSize": "16px",
+            "fontWeight": "500",
+          }
+        }
+      >
+        Account
+      </div>
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(113,113,130,1.00)",
+            "fontSize": "12px",
+          }
+        }
+      >
+        Manage your account
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-text-146c3p1"
+    dir="auto"
+    ref={[Function]}
+    style={
+      {
+        "color": "rgba(113,113,130,1.00)",
+        "fontSize": "18px",
+      }
+    }
+  >
+    ›
+  </div>
+</div>
+`;
