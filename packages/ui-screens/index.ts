@@ -8,3 +8,5 @@ export type { TopBarProps } from './src/TopBar';
 export { ChatsScreen } from './src/ChatsScreen';
 export type { ChatsScreenProps, Chat } from './src/ChatsScreen';
 export { mockChats } from './src/ChatsScreen';
+export { LightningScreen } from './src/LightningScreen';
+export type { LightningScreenProps } from './src/LightningScreen';
