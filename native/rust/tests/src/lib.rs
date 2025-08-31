@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use hum_matrix_core::{config::ClientConfig, HumClient};
+    use hum_matrix_core::{HumClient, config::ClientConfig};
     use tempfile::tempdir;
 
     #[tokio::test]
