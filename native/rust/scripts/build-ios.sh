@@ -59,7 +59,7 @@ profile="debug"
 
 package="ffi"
 
-targets=(aarch64-apple-ios aarch64-apple-ios-sim)
+targets=(aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios-sim)
 for t in "${targets[@]}"; do
   cargo build -p "$package" --target "$t" $release
 done

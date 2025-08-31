@@ -5,19 +5,21 @@ cd "$(dirname "$0")/.."
 
 usage() {
   cat <<'USAGE'
-Usage: build-android.sh --out <dir> [--release]
+Usage: build-android.sh --out <dir> [--release] [--package <name>]
 
 Build Android shared libraries (.so) and an AAR using cargo-ndk.
 
 Options:
   --out <dir>     Output directory for generated artifacts
   --release       Build in release mode
+  --package <name>  Package name for Android manifest (default: com.example.ffi)
   -h, --help      Show this help message and exit
 USAGE
 }
 
 out=""
 release=""
+package="com.example.ffi"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -28,6 +30,10 @@ while [[ $# -gt 0 ]]; do
     --release)
       release="--release"
       shift
+      ;;
+    --package)
+      package="$2"
+      shift 2
       ;;
     -h|--help)
       usage
@@ -64,7 +70,7 @@ cargo ndk "${args[@]}" build $release
 
 tmpdir="$(mktemp -d)"
 manifest="$tmpdir/AndroidManifest.xml"
-printf '<manifest package="com.example.ffi" />\n' > "$manifest"
+printf '<manifest package="%s" />\n' "$package" > "$manifest"
 mkdir -p "$tmpdir/empty"
 jar cf "$tmpdir/classes.jar" -C "$tmpdir/empty" .
 cp -r "$out/jniLibs" "$tmpdir/"
