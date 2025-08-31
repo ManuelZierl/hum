@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TopBar } from '@hum/ui-components';
+import { View } from 'react-native';
 
 const meta: Meta<typeof TopBar> = {
   title: 'Components/TopBar',
   component: TopBar,
   decorators: [
     (Story) => (
-      <SafeAreaProvider>
+      <View style={{ flex: 1, width: 500 }}>
         <Story />
-      </SafeAreaProvider>
+      </View>
     ),
   ],
 };

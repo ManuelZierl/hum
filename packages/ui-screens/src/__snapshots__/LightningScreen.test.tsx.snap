@@ -55,7 +55,7 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
         />
       </div>
       <div
-        className="css-text-146c3p1"
+        className="css-text-146c3p1 r-textAlign-q4m81j"
         dir="auto"
         ref={[Function]}
         style={
@@ -63,7 +63,6 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
             "color": "rgba(10,10,10,1.00)",
             "fontSize": "18px",
             "fontWeight": "500",
-            "textAlign": "center",
           }
         }
       >
@@ -71,14 +70,9 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
       dir={null}
       ref={[Function]}
-      style={
-        {
-          "justifyContent": "flex-end",
-        }
-      }
     />
   </div>
   <div
