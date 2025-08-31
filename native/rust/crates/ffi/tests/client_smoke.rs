@@ -1,9 +1,14 @@
 use hum_matrix_ffi::init;
+use tempfile::tempdir;
 
 #[test]
 fn client_smoke() {
-    let client = init("https://matrix.org".into(), "/tmp".into());
-    client.login("user".into(), "pass".into());
-    client.start_sync(false);
-    client.send_text("!room:server".into(), "hi".into());
+    let dir = tempdir().unwrap();
+    let store = dir.path().to_str().unwrap().to_string();
+    let client = init("https://matrix.org".into(), store).unwrap();
+    client.login("user".into(), "pass".into()).unwrap();
+    client.start_sync(false).unwrap();
+    client
+        .send_text("!room:server".into(), "hi".into())
+        .unwrap();
 }
