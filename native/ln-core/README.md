@@ -1,8 +1,8 @@
 # Ln Core Native Module
 
-This package hosts the future Lightning node core for the mChat app.
+This package hosts the future Lightning node core for the hum app.
 The native module is registered as **`LnCore`**, matching the Android
-package path `com.mchat.lncore`.
+package path `com.hum.lncore`.
 
 ## Current status
 

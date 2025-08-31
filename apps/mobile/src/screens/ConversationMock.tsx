@@ -6,7 +6,7 @@ import {
   MessageBubbleProps,
   DaySeparator,
   ComposerMock,
-} from '@mchat/message-ui';
+} from '@hum/message-ui';
 
 const messages: Array<
   | { id: string; type: 'separator'; label: string }

@@ -1,5 +1,5 @@
 {
-  "name": "@mchat/ln-core",
+  "name": "@hum/ln-core",
   "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
