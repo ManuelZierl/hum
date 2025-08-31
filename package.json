@@ -16,7 +16,12 @@
     "storybook:build": "pnpm --dir apps/storybook exec storybook build -o ../../storybook-static",
     "test:sb:e2e": "playwright test",
     "storybook:ios": "npm --prefix apps/storybook run ios",
-    "storybook:android": "npm --prefix apps/storybook run android"
+    "storybook:android": "npm --prefix apps/storybook run android",
+    "sb:start": "pnpm storybook:start",
+    "sb:dev": "pnpm storybook:dev",
+    "sb:build": "pnpm storybook:build",
+    "sb:ios": "pnpm storybook:ios",
+    "sb:android": "pnpm storybook:android"
   },
   "keywords": [],
   "author": "",
