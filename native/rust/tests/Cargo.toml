@@ -1,7 +1,9 @@
 [package]
 name = "hum-tests"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dev-dependencies]
-hum-core = { path = "../crates/core" }
+hum-matrix-core = { path = "../crates/core" }
+tempfile = "3"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

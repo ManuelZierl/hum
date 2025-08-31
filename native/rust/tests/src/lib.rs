@@ -1,9 +1,12 @@
 #[cfg(test)]
 mod tests {
-    use hum_core::greet;
+    use hum_matrix_core::{HumClient, config::ClientConfig};
+    use tempfile::tempdir;
 
-    #[test]
-    fn core_greets() {
-        assert_eq!(greet("Hum"), "Hello, Hum!");
+    #[tokio::test]
+    async fn client_creation() {
+        let dir = tempdir().unwrap();
+        let cfg = ClientConfig::new("https://example.com".into(), dir.path().to_path_buf());
+        HumClient::new(cfg).await.unwrap();
     }
 }
