@@ -12,7 +12,7 @@ import {
   ChatListItem,
   getItemLayout,
   ChatListItemProps,
-} from '@mchat/message-ui';
+} from '@hum/message-ui';
 import { Icon } from '@hum/ui-components';
 
 const mockChats: (ChatListItemProps & { id: string })[] = [
@@ -127,7 +127,7 @@ export default function ChatsListMock() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>mChat</Text>
+        <Text style={styles.headerTitle}>hum</Text>
         <Icon
           name="search"
           size={18}

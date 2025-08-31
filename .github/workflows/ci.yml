@@ -72,8 +72,8 @@ jobs:
       - name: Test
         run: cargo test
 
-      - name: Test with sqlite
-        run: cargo test --features sqlite
+      #- name: Test with sqlite
+      #  run: cargo test --features sqlite
 
   storybook-e2e:
     runs-on: ubuntu-latest

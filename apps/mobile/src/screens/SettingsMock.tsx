@@ -6,7 +6,7 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
-import { ProfileCard, SectionHeader, SettingsListItem } from '@mchat/mobile-ui';
+import { ProfileCard, SectionHeader, SettingsListItem } from '@hum/mobile-ui';
 
 const SettingsMock = () => {
   const scheme = useColorScheme();

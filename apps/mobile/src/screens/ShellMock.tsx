@@ -7,7 +7,7 @@ import {
   Animated,
   ScrollView,
 } from 'react-native';
-import { TabBarMock } from '@mchat/mobile-ui';
+import { TabBarMock } from '@hum/mobile-ui';
 import { Icon } from '@hum/ui-components';
 
 const ShellMock = () => {
@@ -40,7 +40,7 @@ const ShellMock = () => {
           { backgroundColor: colors.card, borderBottomColor: colors.border },
         ]}
       >
-        <Text style={[styles.title, { color: colors.text }]}>mChat</Text>
+        <Text style={[styles.title, { color: colors.text }]}>hum</Text>
         <View style={styles.topIcons}>
           <Icon
             name="search"

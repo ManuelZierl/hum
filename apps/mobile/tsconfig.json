@@ -5,8 +5,8 @@
     "types": ["react", "react-native"],
     "noEmit": true,
     "paths": {
-      "@mchat/message-ui": ["packages/message-ui"],
-      "@mchat/mobile-ui": ["packages/mobile-ui"]
+      "@hum/message-ui": ["packages/message-ui"],
+      "@hum/mobile-ui": ["packages/mobile-ui"]
     }
   }
 }

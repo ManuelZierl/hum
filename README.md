@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="./imgs/logo-transparent.svg" alt="mchat logo" width="200" />
+  <img src="./imgs/logo-transparent.svg" alt="hum logo" width="200" />
 </p>
 
-# mchat
+# hum
 
-Placeholder for mchat, an open-source, privacy-first, federated messenger
+Placeholder for hum, an open-source, privacy-first, federated messenger
 built with React Native, Expo, and a Rust core.
 
 This repository currently contains the initial project skeleton.
@@ -16,15 +16,15 @@ This repository currently contains the initial project skeleton.
 
 ## Packages
 
-| Package                                                      | Description                               |
-| ------------------------------------------------------------ | ----------------------------------------- |
-| [@mchat/a11y-utils](packages/a11y-utils/README.md)           | Accessibility utilities                   |
-| [@mchat/chat-types](packages/chat-types/README.md)           | Shared chat domain TypeScript definitions |
-| [@mchat/lightning-ui](packages/lightning-ui/README.md)       | Lightning Network UI components           |
-| [@mchat/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities        |
-| [@mchat/message-ui](packages/message-ui/README.md)           | Chat message UI components                |
-| [@mchat/push-contract](packages/push-contract/README.md)     | Types for push notification contract      |
-| [@mchat/ui-tokens](packages/ui-tokens/README.md)             | Design tokens for consistent theming      |
+| Package                                                    | Description                               |
+| ---------------------------------------------------------- | ----------------------------------------- |
+| [@hum/a11y-utils](packages/a11y-utils/README.md)           | Accessibility utilities                   |
+| [@hum/chat-types](packages/chat-types/README.md)           | Shared chat domain TypeScript definitions |
+| [@hum/lightning-ui](packages/lightning-ui/README.md)       | Lightning Network UI components           |
+| [@hum/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities        |
+| [@hum/message-ui](packages/message-ui/README.md)           | Chat message UI components                |
+| [@hum/push-contract](packages/push-contract/README.md)     | Types for push notification contract      |
+| [@hum/ui-tokens](packages/ui-tokens/README.md)             | Design tokens for consistent theming      |
 
 ## Project Map
 
@@ -51,7 +51,7 @@ This repository currently contains the initial project skeleton.
 ### Storybook
 
 - Storybook packages are pinned to **8.6.14** to avoid internal import errors.
-- Vite aliases map `react-native` to `react-native-web` and `@mchat/*` packages to their `src` directories so Storybook can bundle TypeScript directly.
+- Vite aliases map `react-native` to `react-native-web` and `@hum/*` packages to their `src` directories so Storybook can bundle TypeScript directly.
 - Add new stories using [Component Story Format](https://storybook.js.org/docs/react/writing-stories/introduction) under `apps/storybook/storybook/stories`. Rename any legacy `storiesOf` files to `*.stories.tsx.skip`.
 - `react-native-web` logs peer dependency warnings for React 18; these are safe to ignore when using React 19.
 - TypeScript prop extraction is disabled (`reactDocgen: false`) to avoid `jsdoc-type-pratt-parser` runtime errors with React 19.
