@@ -1,0 +1,9 @@
+interface Client {
+    void login(string username, string password);
+    void start_sync(boolean sliding);
+    void send_text(string room_id, string body);
+};
+
+namespace hum {
+    Client init(string hs_url, string store_path);
+};
