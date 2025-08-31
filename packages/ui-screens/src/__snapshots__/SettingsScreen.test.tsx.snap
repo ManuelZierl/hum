@@ -1550,7 +1550,8 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             }
           >
-            Version 1.0.0
+            Version 
+            1.0.0
           </div>
           <div
             className="css-text-146c3p1"
@@ -1564,7 +1565,9 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             }
           >
-            © 2024 Hum Technologies
+            © 
+            2025
+             Hum Technologies
           </div>
           <div
             className="css-text-146c3p1"
@@ -1578,7 +1581,8 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             }
           >
-            Build 2024.08.29
+            Build 
+            2025.08.31
           </div>
         </div>
       </div>

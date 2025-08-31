@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme, SettingsItem, Icon } from '@hum/ui-components';
+import { AppVersion, BuildDateDisplay, CopyrightYear } from '../build-info';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
@@ -257,7 +258,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 marginTop: spacing.xs,
               }}
             >
-              Version 1.0.0
+              Version {AppVersion}
             </Text>
             <Text
               style={{
@@ -266,7 +267,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 marginTop: spacing.xs,
               }}
             >
-              © 2024 Hum Technologies
+              © {CopyrightYear} Hum Technologies
             </Text>
             <Text
               style={{
@@ -275,7 +276,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 marginTop: spacing.xs,
               }}
             >
-              Build 2024.08.29
+              Build {BuildDateDisplay}
             </Text>
           </View>
         </View>
