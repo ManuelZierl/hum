@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ChatView } from '@hum/ui-screens';
+import { ChatScreen } from '@hum/ui-screens';
 
-const meta: Meta<typeof ChatView> = {
-  title: 'Screens/ChatView',
-  component: ChatView,
+const meta: Meta<typeof ChatScreen> = {
+  title: 'Screens/ChatScreen',
+  component: ChatScreen,
   decorators: [
     (Story) => (
       <SafeAreaProvider>
@@ -23,7 +23,7 @@ const meta: Meta<typeof ChatView> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof ChatView>;
+type Story = StoryObj<typeof ChatScreen>;
 
 export const Basic: Story = {};
 export const Empty: Story = {

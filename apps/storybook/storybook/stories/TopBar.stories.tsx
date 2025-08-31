@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TopBar, type TopBarProps } from '@hum/ui-screens';
+import { TopBar, type TopBarProps } from '@hum/ui-components';
 
 const meta: Meta<typeof TopBar> = {
-  title: 'Screens/TopBar',
+  title: 'Components/TopBar',
   component: TopBar,
   decorators: [
     (Story) => (

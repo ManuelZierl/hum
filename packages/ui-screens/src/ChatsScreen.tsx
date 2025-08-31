@@ -7,9 +7,9 @@ import {
   Button,
   ListRow,
   Icon,
+  TopBar,
+  ChatItem,
 } from '@hum/ui-components';
-import { TopBar } from './TopBar';
-import { ChatItem } from './ChatItem';
 
 export interface Chat {
   id: string;

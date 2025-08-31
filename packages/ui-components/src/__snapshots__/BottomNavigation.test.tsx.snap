@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
+exports[`BottomNavigation Component renders and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="css-view-g5y9jx r-borderTopWidth-5kkj8d r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj"

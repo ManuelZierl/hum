@@ -44,5 +44,12 @@ export { FeatureCard } from './src/feature-card';
 export type { FeatureCardProps } from './src/feature-card';
 export { SettingsItem } from './src/settings-item';
 export type { SettingsItemProps } from './src/settings-item';
+export { BottomNavigation } from './src/BottomNavigation';
+export type { BottomNavigationProps } from './src/BottomNavigation';
+export { ChatItem } from './src/ChatItem';
+export type { ChatItemProps } from './src/ChatItem';
+export { TopBar } from './src/TopBar';
+export type { TopBarProps } from './src/TopBar';
+
 export { Icon } from './src/theme/Icon';
 export type { IconName, IconProps } from './src/theme/Icon';

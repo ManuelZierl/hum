@@ -1,7 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigation, type BottomNavigationProps } from '@hum/ui-screens';
+import {
+  BottomNavigation,
+  type BottomNavigationProps,
+} from '@hum/ui-components';
 
 const Wrapper: React.FC<BottomNavigationProps> = (props) => {
   const [active, setActive] = React.useState(props.activeTab);
@@ -11,7 +14,7 @@ const Wrapper: React.FC<BottomNavigationProps> = (props) => {
 };
 
 const meta: Meta<typeof Wrapper> = {
-  title: 'Screens/BottomNavigation',
+  title: 'Components/BottomNavigation',
   component: Wrapper,
   decorators: [
     (Story) => (

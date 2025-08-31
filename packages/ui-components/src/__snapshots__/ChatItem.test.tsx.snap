@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ChatItem Screen renders and matches snapshot 1`] = `
+exports[`ChatItem Component renders and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     aria-label="Chat with Alice"

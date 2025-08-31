@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TopBar Screen renders and matches snapshot 1`] = `
+exports[`TopBar Component renders and matches snapshot 1`] = `
 <div
   className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
   dir={null}

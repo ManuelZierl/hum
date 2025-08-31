@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ChatItem, type ChatItemProps } from './ChatItem';
-import { ThemeProvider } from '../../ui-components/src/theme/ThemeProvider';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 type Scheme = 'light' | 'dark';
 
@@ -24,7 +24,7 @@ function renderChatItem(
   );
 }
 
-describe('ChatItem Screen', () => {
+describe('ChatItem Component', () => {
   it('renders and matches snapshot', () => {
     const { asFragment } = renderChatItem();
     expect(asFragment()).toMatchSnapshot();
