@@ -1,0 +1,11 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/ffi",
+    "examples/cli",
+    "tests",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"

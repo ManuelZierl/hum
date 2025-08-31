@@ -1,0 +1,7 @@
+[package]
+name = "hum-tests"
+version = "0.1.0"
+edition = "2021"
+
+[dev-dependencies]
+hum-core = { path = "../crates/core" }
