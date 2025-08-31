@@ -22,7 +22,7 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           class="css-view-g5y9jx r-position-bnwqim"
         >
           <svg
-            fill="#0A0A0A"
+            fill="#FECA1A"
             height="24"
             width="24"
           />
@@ -47,7 +47,7 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           class="css-view-g5y9jx r-position-bnwqim"
         >
           <svg
-            fill="#0A0A0A"
+            fill="#717182"
             height="24"
             width="24"
           />
@@ -72,7 +72,7 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           class="css-view-g5y9jx r-position-bnwqim"
         >
           <svg
-            fill="#0A0A0A"
+            fill="#717182"
             height="24"
             width="24"
           />

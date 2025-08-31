@@ -31,12 +31,15 @@ export const BottomNavItem: React.FC<BottomNavItemProps> = ({
   const renderIcon = () => {
     if (React.isValidElement(icon)) {
       return React.cloneElement(
-        icon as React.ReactElement<{ style?: object }>,
+        icon as React.ReactElement<{
+          color?: string;
+          size?: number;
+          style?: object;
+        }>,
         {
-          style: [
-            { color: iconColor, fontSize: 24 },
-            (icon as React.ReactElement<{ style?: object }>).props.style,
-          ],
+          color: iconColor,
+          size: 24,
+          style: (icon as React.ReactElement<{ style?: object }>).props.style,
         },
       );
     }

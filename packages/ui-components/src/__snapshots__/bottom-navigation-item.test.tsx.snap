@@ -13,14 +13,11 @@ exports[`BottomNavItem renders and matches snapshot 1`] = `
     <div
       class="css-view-g5y9jx r-position-bnwqim"
     >
-      <div
-        class="css-text-146c3p1"
-        data-testid="icon"
-        dir="auto"
-        style="color: rgb(113, 113, 130); font-size: 24px;"
-      >
-        I
-      </div>
+      <svg
+        fill="#717182"
+        height="24"
+        width="24"
+      />
     </div>
     <div
       class="css-text-146c3p1 r-textAlign-q4m81j"

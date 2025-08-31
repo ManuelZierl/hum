@@ -12,6 +12,7 @@ declare module 'react-native' {
   export const Animated: any;
   export const StyleSheet: {
     create: (styles: any) => any;
+    flatten: (style: any) => any;
     absoluteFillObject: any;
     hairlineWidth: number;
   };

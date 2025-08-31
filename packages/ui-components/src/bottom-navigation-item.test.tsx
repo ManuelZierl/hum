@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { Text } from 'react-native';
 import '@testing-library/jest-dom';
 import {
   BottomNavItem,
   type BottomNavItemProps,
 } from './bottom-navigation-item';
+import { Icon } from './theme/Icon';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { colors } from './theme/colors';
 
@@ -17,11 +17,7 @@ function renderItem(
 ) {
   return render(
     <ThemeProvider forcedScheme={scheme}>
-      <BottomNavItem
-        icon={<Text testID="icon">I</Text>}
-        label="Inbox"
-        {...props}
-      />
+      <BottomNavItem icon={<Icon name="chat" />} label="Inbox" {...props} />
     </ThemeProvider>,
   );
 }
@@ -55,7 +51,7 @@ describe('BottomNavItem', () => {
     expect(label).toHaveStyle({ color: colors.light.mutedForeground });
     rerender(
       <ThemeProvider forcedScheme="light">
-        <BottomNavItem icon={<Text>I</Text>} label="Inbox" isActive />
+        <BottomNavItem icon={<Icon name="chat" />} label="Inbox" isActive />
       </ThemeProvider>,
     );
     expect(getByText('Inbox')).toHaveStyle({ color: colors.light.humPrimary });
@@ -68,7 +64,7 @@ describe('BottomNavItem', () => {
     });
     rerender(
       <ThemeProvider forcedScheme="dark">
-        <BottomNavItem icon={<Text>I</Text>} label="Inbox" />
+        <BottomNavItem icon={<Icon name="chat" />} label="Inbox" />
       </ThemeProvider>,
     );
     expect(getByText('Inbox')).toHaveStyle({

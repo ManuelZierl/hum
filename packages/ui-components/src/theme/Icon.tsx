@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { useTheme } from './ThemeProvider';
 
 import ArchiveIcon from '../../../../assets/icons/archive.svg';
@@ -79,18 +80,19 @@ export interface IconProps {
   name: IconName;
   size?: number;
   color?: string;
-  style?: object;
+  style?: StyleProp<ViewStyle>;
 }
 
 export function Icon({ name, size = 24, color, style }: IconProps) {
   const { colors } = useTheme();
   const Component = icons[name];
+  const flattened = style ? StyleSheet.flatten(style) : undefined;
   return (
     <Component
       width={size}
       height={size}
       fill={color ?? colors.foreground}
-      style={style}
+      style={flattened}
     />
   );
 }
