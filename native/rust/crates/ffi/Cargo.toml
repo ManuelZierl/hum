@@ -9,6 +9,11 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 uniffi = "0.24.3"
 hum-matrix-core = { path = "../core" }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+thiserror = "1"
 
 [build-dependencies]
 uniffi_build = "0.24.3"
+
+[dev-dependencies]
+tempfile = "3"

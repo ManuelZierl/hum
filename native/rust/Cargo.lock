@@ -1210,6 +1210,9 @@ name = "hum-matrix-ffi"
 version = "0.1.0"
 dependencies = [
  "hum-matrix-core",
+ "tempfile",
+ "thiserror",
+ "tokio",
  "uniffi",
  "uniffi_build",
 ]
