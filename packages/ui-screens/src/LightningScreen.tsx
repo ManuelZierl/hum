@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FeatureCard, Button, useTheme } from '@hum/ui-components';
+import { FeatureCard } from '../../ui-components/src/feature-card';
+import { Button } from '../../ui-components/src/button';
+import { useTheme } from '../../ui-components/src/theme/ThemeProvider';
+import { Icon } from '../../ui-components/src/theme/Icon';
 
 export interface LightningScreenProps {
   onBack?: () => void;
@@ -15,56 +18,56 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
 
   const features = [
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>👛</Text>,
+      icon: <Icon name="wallet" size={24} color={iconColor} />,
       title: 'Lightning Wallet',
       description:
         'Manage your Lightning Bitcoin balance and make instant payments',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>🔳</Text>,
+      icon: <Icon name="upc-scan" size={24} color={iconColor} />,
       title: 'Send & Receive',
       description:
         'Scan QR codes or share payment links to send money instantly',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>🕒</Text>,
+      icon: <Icon name="clock-history" size={24} color={iconColor} />,
       title: 'Transaction History',
       description: 'View all your Lightning payment history and receipts',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>💳</Text>,
+      icon: <Icon name="credit-card" size={24} color={iconColor} />,
       title: 'Payment Methods',
       description:
         'Connect your bank account or debit card to fund your wallet',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>⚡️</Text>,
+      icon: <Icon name="lightning" size={24} color={iconColor} />,
       title: 'Instant Settlements',
       description: 'Settle payments in milliseconds with low fees',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>💱</Text>,
+      icon: <Icon name="currency-exchange" size={24} color={iconColor} />,
       title: 'Multi-Currency Support',
       description: 'Support for Bitcoin, sats, and other Lightning currencies',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>🧾</Text>,
+      icon: <Icon name="receipt" size={24} color={iconColor} />,
       title: 'Invoice Generation',
       description: 'Create and share payment invoices with custom amounts',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>🧭</Text>,
+      icon: <Icon name="compass" size={24} color={iconColor} />,
       title: 'Payment Routing',
       description:
         'Automatic routing through the Lightning Network for optimal fees',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>📡</Text>,
+      icon: <Icon name="broadcast" size={24} color={iconColor} />,
       title: 'Channel Management',
       description: 'Open and manage Lightning channels for better liquidity',
     },
     {
-      icon: <Text style={[styles.icon, { color: iconColor }]}>💾</Text>,
+      icon: <Icon name="save" size={24} color={iconColor} />,
       title: 'Backup & Recovery',
       description:
         'Secure backup and recovery options for your Lightning wallet',
@@ -100,7 +103,7 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
           </Pressable>
         ) : null}
         <View style={styles.headerCenter}>
-          <Text style={[styles.icon, { color: colors.humPrimary }]}>⚡️</Text>
+          <Icon name="lightning" size={24} color={colors.humPrimary} />
           <Text
             style={{
               color: colors.foreground,
@@ -134,9 +137,7 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 },
               ]}
             >
-              <Text style={[styles.heroIconText, { color: iconColor }]}>
-                ⚡️
-              </Text>
+              <Icon name="lightning" size={48} color={iconColor} />
             </View>
             <Text
               style={{
@@ -328,7 +329,6 @@ const styles = StyleSheet.create({
   beta: { alignItems: 'center', backgroundColor: 'rgba(254,202,26,0.1)' },
   centerText: { textAlign: 'center' },
   icon: { fontSize: 24 },
-  heroIconText: { fontSize: 48 },
 });
 
 export default LightningScreen;

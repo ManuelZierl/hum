@@ -67,17 +67,17 @@ exports[`TopBar Screen renders and matches snapshot 1`] = `
       type="button"
     >
       <div
-        className="css-text-146c3p1 r-fontSize-1x35g6"
+        className="css-text-146c3p1"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(10,10,10,1.00)",
+            "height": "24px",
+            "width": "24px",
           }
         }
-      >
-        📷
-      </div>
+      />
     </button>
     <button
       aria-label="Add"

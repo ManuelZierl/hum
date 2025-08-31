@@ -75,19 +75,15 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
         class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
       >
         <div
-          class="css-text-146c3p1 r-fontSize-1x35g6"
+          class="css-text-146c3p1"
           dir="auto"
-          style="margin-right: 12px; color: rgb(10, 10, 10);"
-        >
-          🎥
-        </div>
+          style="width: 24px; height: 24px; color: rgb(10, 10, 10); margin-right: 12px;"
+        />
         <div
-          class="css-text-146c3p1 r-fontSize-1x35g6"
+          class="css-text-146c3p1"
           dir="auto"
-          style="margin-right: 12px; color: rgb(10, 10, 10);"
-        >
-          📞
-        </div>
+          style="width: 24px; height: 24px; color: rgb(10, 10, 10); margin-right: 12px;"
+        />
         <div
           class="css-text-146c3p1 r-fontSize-1x35g6"
           dir="auto"
@@ -177,27 +173,21 @@ exports[`ChatView Screen renders and matches snapshot 1`] = `
             virtualkeyboardpolicy="auto"
           />
           <div
-            class="css-text-146c3p1 r-fontSize-adyw6z"
+            class="css-text-146c3p1"
             dir="auto"
-            style="color: rgb(113, 113, 130);"
-          >
-            😊
-          </div>
+            style="width: 20px; height: 20px; color: rgb(113, 113, 130);"
+          />
         </div>
         <div
-          class="css-text-146c3p1 r-fontSize-1x35g6"
+          class="css-text-146c3p1"
           dir="auto"
-          style="margin-left: 8px; color: rgb(113, 113, 130);"
-        >
-          📷
-        </div>
+          style="width: 24px; height: 24px; color: rgb(113, 113, 130); margin-left: 8px;"
+        />
         <div
-          class="css-text-146c3p1 r-fontSize-1x35g6"
+          class="css-text-146c3p1"
           dir="auto"
-          style="margin-left: 8px; color: rgb(113, 113, 130);"
-        >
-          🎤
-        </div>
+          style="width: 24px; height: 24px; color: rgb(113, 113, 130); margin-left: 8px;"
+        />
       </div>
     </div>
   </div>

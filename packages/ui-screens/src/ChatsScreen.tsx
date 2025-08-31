@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme, Button, ListRow } from '@hum/ui-components';
+import {
+  ThemeProvider,
+  useTheme,
+} from '../../ui-components/src/theme/ThemeProvider';
+import { Button } from '../../ui-components/src/button';
+import { ListRow } from '../../ui-components/src/list-row';
+import { Icon } from '../../ui-components/src/theme/Icon';
 import { TopBar } from './TopBar';
 import { ChatItem } from './ChatItem';
 
@@ -241,11 +247,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
       </View>
 
       <ListRow
-        icon={
-          <Text style={[styles.archiveIcon, { color: colors.mutedForeground }]}>
-            🗄️
-          </Text>
-        }
+        icon={<Icon name="archive" size={24} color={colors.mutedForeground} />}
         label="Archiviert"
         rightText="5"
         onPress={() => {}}
@@ -276,9 +278,6 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  archiveIcon: {
-    fontSize: 24,
   },
 });
 

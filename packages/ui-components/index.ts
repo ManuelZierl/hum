@@ -1,4 +1,5 @@
 export { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
+export { Icon } from './src/theme/Icon';
 export {
   Accordion,
   AccordionItem,

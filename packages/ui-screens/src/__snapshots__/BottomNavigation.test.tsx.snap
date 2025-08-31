@@ -24,10 +24,8 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           <div
             class="css-text-146c3p1"
             dir="auto"
-            style="color: rgb(254, 202, 26); font-size: 24px;"
-          >
-            💬
-          </div>
+            style="width: 24px; height: 24px; color: rgb(254, 202, 26); font-size: 24px;"
+          />
         </div>
         <div
           class="css-text-146c3p1 r-textAlign-q4m81j"
@@ -51,10 +49,8 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           <div
             class="css-text-146c3p1"
             dir="auto"
-            style="color: rgb(113, 113, 130); font-size: 24px;"
-          >
-            ⚡
-          </div>
+            style="width: 24px; height: 24px; color: rgb(113, 113, 130); font-size: 24px;"
+          />
         </div>
         <div
           class="css-text-146c3p1 r-textAlign-q4m81j"
@@ -78,10 +74,8 @@ exports[`BottomNavigation Screen renders and matches snapshot 1`] = `
           <div
             class="css-text-146c3p1"
             dir="auto"
-            style="color: rgb(113, 113, 130); font-size: 24px;"
-          >
-            ⚙️
-          </div>
+            style="width: 24px; height: 24px; color: rgb(113, 113, 130); font-size: 24px;"
+          />
         </div>
         <div
           class="css-text-146c3p1 r-textAlign-q4m81j"

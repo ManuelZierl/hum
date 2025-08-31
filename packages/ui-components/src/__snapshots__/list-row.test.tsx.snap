@@ -18,9 +18,8 @@ exports[`ListRow renders and matches snapshot 1`] = `
         <div
           class="css-text-146c3p1"
           dir="auto"
-        >
-          📦
-        </div>
+          style="width: 24px; height: 24px; color: rgb(10, 10, 10);"
+        />
       </div>
       <div
         class="css-text-146c3p1"

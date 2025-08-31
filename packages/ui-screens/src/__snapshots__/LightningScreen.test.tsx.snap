@@ -33,17 +33,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
       ref={[Function]}
     >
       <div
-        className="css-text-146c3p1 r-fontSize-1x35g6"
+        className="css-text-146c3p1"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(254,202,26,1.00)",
+            "height": "24px",
+            "width": "24px",
           }
         }
-      >
-        ⚡️
-      </div>
+      />
       <div
         className="css-text-146c3p1"
         dir="auto"
@@ -122,17 +122,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
             }
           >
             <div
-              className="css-text-146c3p1 r-fontSize-s67bdx"
+              className="css-text-146c3p1"
               dir="auto"
               ref={[Function]}
               style={
                 {
                   "color": "rgba(0,0,0,1.00)",
+                  "height": "48px",
+                  "width": "48px",
                 }
               }
-            >
-              ⚡️
-            </div>
+            />
           </div>
           <div
             className="css-text-146c3p1"
@@ -223,17 +223,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  👛
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -325,17 +325,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  🔳
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -427,17 +427,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  🕒
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -529,17 +529,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  💳
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -631,17 +631,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  ⚡️
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -733,17 +733,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  💱
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -835,17 +835,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  🧾
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -937,17 +937,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  🧭
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -1039,17 +1039,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  📡
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -1141,17 +1141,17 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
+                  className="css-text-146c3p1"
                   dir="auto"
                   ref={[Function]}
                   style={
                     {
                       "color": "rgba(0,0,0,1.00)",
+                      "height": "24px",
+                      "width": "24px",
                     }
                   }
-                >
-                  💾
-                </div>
+                />
               </div>
               <div
                 className="css-text-146c3p1"
