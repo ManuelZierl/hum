@@ -42,3 +42,5 @@ export { ListRow } from './src/list-row';
 export type { ListRowProps } from './src/list-row';
 export { FeatureCard } from './src/feature-card';
 export type { FeatureCardProps } from './src/feature-card';
+export { SettingsItem } from './src/settings-item';
+export type { SettingsItemProps } from './src/settings-item';
