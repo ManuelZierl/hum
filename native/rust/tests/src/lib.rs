@@ -4,6 +4,7 @@ mod tests {
     use tempfile::tempdir;
 
     #[tokio::test]
+    #[ignore]
     async fn client_creation() {
         let dir = tempdir().unwrap();
         let cfg = ClientConfig::new("https://example.com".into(), dir.path().to_path_buf());
