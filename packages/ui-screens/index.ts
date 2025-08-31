@@ -1,4 +1,3 @@
-export { DummyScreen } from './src/DummyScreen';
 export { ChatScreen } from './src/ChatScreen';
 export { ChatsScreen } from './src/ChatsScreen';
 export type { ChatsScreenProps, Chat } from './src/ChatsScreen';
