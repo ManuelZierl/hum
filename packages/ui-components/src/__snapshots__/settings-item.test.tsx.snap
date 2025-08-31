@@ -37,13 +37,11 @@ exports[`SettingsItem renders and matches snapshot 1`] = `
         }
       }
     >
-      <div
-        className="css-text-146c3p1"
-        dir="auto"
-        ref={[Function]}
-      >
-        ⭐️
-      </div>
+      <svg
+        fill="#0A0A0A"
+        height={24}
+        width={24}
+      />
     </div>
     <div
       className="css-view-g5y9jx"

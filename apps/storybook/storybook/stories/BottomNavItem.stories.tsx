@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { Text } from 'react-native';
-import { BottomNavItem, type BottomNavItemProps } from '@hum/ui-components';
+import {
+  BottomNavItem,
+  type BottomNavItemProps,
+  Icon,
+} from '@hum/ui-components';
 
 const ExampleItem: React.FC<BottomNavItemProps> = (props) => (
-  <BottomNavItem icon={<Text>💬</Text>} label="Inbox" {...props} />
+  <BottomNavItem icon={<Icon name="chat" />} label="Inbox" {...props} />
 );
 
 const meta: Meta<typeof ExampleItem> = {

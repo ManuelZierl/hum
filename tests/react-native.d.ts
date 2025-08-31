@@ -49,3 +49,10 @@ declare module 'react-native-safe-area-context' {
   };
   export const SafeAreaProvider: React.FC<any>;
 }
+
+declare module '*.svg' {
+  import React from 'react';
+  import { SvgProps } from 'react-native-svg';
+  const content: React.FC<SvgProps>;
+  export default content;
+}

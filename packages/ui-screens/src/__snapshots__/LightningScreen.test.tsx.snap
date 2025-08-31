@@ -32,18 +32,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
       dir={null}
       ref={[Function]}
     >
-      <div
-        className="css-text-146c3p1 r-fontSize-1x35g6"
-        dir="auto"
-        ref={[Function]}
-        style={
-          {
-            "color": "rgba(254,202,26,1.00)",
-          }
-        }
-      >
-        ⚡️
-      </div>
+      <svg
+        fill="#FECA1A"
+        height={24}
+        width={24}
+      />
       <div
         className="css-text-146c3p1"
         dir="auto"
@@ -121,18 +114,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
               }
             }
           >
-            <div
-              className="css-text-146c3p1 r-fontSize-s67bdx"
-              dir="auto"
-              ref={[Function]}
-              style={
-                {
-                  "color": "rgba(0,0,0,1.00)",
-                }
-              }
-            >
-              ⚡️
-            </div>
+            <svg
+              fill="#000000"
+              height={48}
+              width={48}
+            />
           </div>
           <div
             className="css-text-146c3p1"
@@ -222,18 +208,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  👛
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -324,18 +303,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  🔳
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -426,18 +398,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  🕒
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -528,18 +493,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  💳
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -630,18 +588,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  ⚡️
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -732,18 +683,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  💱
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -834,18 +778,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  🧾
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -936,18 +873,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  🧭
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -1038,18 +968,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  📡
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"
@@ -1140,18 +1063,11 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-text-146c3p1 r-fontSize-1x35g6"
-                  dir="auto"
-                  ref={[Function]}
-                  style={
-                    {
-                      "color": "rgba(0,0,0,1.00)",
-                    }
-                  }
-                >
-                  💾
-                </div>
+                <svg
+                  fill="#000000"
+                  height={24}
+                  width={24}
+                />
               </div>
               <div
                 className="css-text-146c3p1"

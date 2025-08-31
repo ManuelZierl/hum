@@ -90,19 +90,16 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-text-146c3p1"
-            dir="auto"
-            ref={[Function]}
+          <svg
+            fill="#717182"
+            height={24}
             style={
               {
-                "color": "rgba(113,113,130,1.00)",
-                "marginRight": "12px",
+                "marginRight": 12,
               }
             }
-          >
-            🔍
-          </div>
+            width={24}
+          />
           <input
             aria-label="Search"
             autoCapitalize="sentences"
@@ -226,19 +223,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-text-146c3p1"
-            dir="auto"
-            ref={[Function]}
-            style={
-              {
-                "color": "rgba(113,113,130,1.00)",
-                "fontSize": "18px",
-              }
-            }
-          >
-            🔳
-          </div>
+          <svg
+            fill="#717182"
+            height={18}
+            width={18}
+          />
         </div>
       </div>
       <div
@@ -287,13 +276,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                👤
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -379,13 +366,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🛡️
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -471,13 +456,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🔔
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -563,13 +546,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                📦
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -655,13 +636,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                ❓
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -757,13 +736,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                👥
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -849,13 +826,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🔒
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -941,13 +916,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                📄
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1033,13 +1006,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🌐
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1125,13 +1096,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🎨
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1217,13 +1186,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🖼️
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1309,13 +1276,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🔊
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1401,13 +1366,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                📧
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1493,13 +1456,11 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-text-146c3p1"
-                dir="auto"
-                ref={[Function]}
-              >
-                🗑️
-              </div>
+              <svg
+                fill="#FECA1A"
+                height={24}
+                width={24}
+              />
             </div>
             <div
               className="css-view-g5y9jx"

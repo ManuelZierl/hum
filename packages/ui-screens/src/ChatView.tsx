@@ -8,12 +8,10 @@ import {
   Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Avatar, AvatarImage } from '../../ui-components/src/avatar';
-import { useTheme } from '../../ui-components/src/theme/ThemeProvider';
-import {
-  MessageBubble,
-  type MessageBubbleProps,
-} from '../../ui-components/src/message-bubble';
+import { Avatar, AvatarImage } from '@hum/ui-components';
+import { useTheme } from '@hum/ui-components';
+import { MessageBubble, type MessageBubbleProps } from '@hum/ui-components';
+import { Icon } from '@hum/ui-components';
 
 export interface ChatMessage extends MessageBubbleProps {
   id: string;
@@ -117,22 +115,18 @@ export const ChatView: React.FC<ChatViewProps> = ({
           </View>
         </View>
         <View style={styles.headerRight}>
-          <Text
-            style={[
-              styles.iconLarge,
-              { marginRight: spacing.md, color: colors.foreground },
-            ]}
-          >
-            {'🎥'}
-          </Text>
-          <Text
-            style={[
-              styles.iconLarge,
-              { marginRight: spacing.md, color: colors.foreground },
-            ]}
-          >
-            {'📞'}
-          </Text>
+          <Icon
+            name="camera-video"
+            size={24}
+            style={{ marginRight: spacing.md }}
+            color={colors.foreground}
+          />
+          <Icon
+            name="telephone"
+            size={24}
+            style={{ marginRight: spacing.md }}
+            color={colors.foreground}
+          />
           <Text style={[styles.iconLarge, { color: colors.foreground }]}>
             {'⋮'}
           </Text>
@@ -196,26 +190,20 @@ export const ChatView: React.FC<ChatViewProps> = ({
               accessible
               accessibilityLabel="Message input"
             />
-            <Text style={[styles.iconSmall, { color: colors.mutedForeground }]}>
-              {'😊'}
-            </Text>
+            <Icon name="emoji-smile" size={20} color={colors.mutedForeground} />
           </View>
-          <Text
-            style={[
-              styles.iconLarge,
-              { marginLeft: spacing.sm, color: colors.mutedForeground },
-            ]}
-          >
-            {'📷'}
-          </Text>
-          <Text
-            style={[
-              styles.iconLarge,
-              { marginLeft: spacing.sm, color: colors.mutedForeground },
-            ]}
-          >
-            {'🎤'}
-          </Text>
+          <Icon
+            name="camera"
+            size={24}
+            style={{ marginLeft: spacing.sm }}
+            color={colors.mutedForeground}
+          />
+          <Icon
+            name="mic"
+            size={24}
+            style={{ marginLeft: spacing.sm }}
+            color={colors.mutedForeground}
+          />
         </View>
       </View>
     </View>
@@ -261,9 +249,6 @@ const styles = StyleSheet.create({
   },
   iconLarge: {
     fontSize: 24,
-  },
-  iconSmall: {
-    fontSize: 20,
   },
 });
 

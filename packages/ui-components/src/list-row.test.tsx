@@ -1,15 +1,15 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { ListRow, type ListRowProps } from './list-row';
 import { ThemeProvider } from './theme/ThemeProvider';
+import { Icon } from './theme/Icon';
 
 const baseProps: ListRowProps = {
   label: 'Archiviert',
   rightText: '5',
-  icon: <Text>📦</Text>,
+  icon: <Icon name="box" />,
 };
 
 type Scheme = 'light' | 'dark';
