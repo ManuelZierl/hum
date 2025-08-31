@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Avatar, AvatarImage } from '../../ui-components/src/avatar';
-import { useTheme } from '../../ui-components/src/theme/ThemeProvider';
+import { Avatar, AvatarImage } from './avatar';
+import { useTheme } from './theme/ThemeProvider';
 
 export interface ChatItemProps {
   name: string;

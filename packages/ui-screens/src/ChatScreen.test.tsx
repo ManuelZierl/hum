@@ -8,12 +8,12 @@ jest.mock('react-native-safe-area-context', () => ({
 const SafeAreaProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => <>{children}</>;
-import { ChatView, type ChatViewProps } from './ChatView';
+import { ChatScreen, type ChatScreenProps } from './ChatScreen';
 import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
 
 type Scheme = 'light' | 'dark';
 
-const baseProps: ChatViewProps = {
+const baseProps: ChatScreenProps = {
   chatName: 'Alice',
   chatAvatar: 'https://example.com/avatar.png',
   onBack: jest.fn(),
@@ -22,48 +22,48 @@ const baseProps: ChatViewProps = {
   ],
 };
 
-function renderChatView(
+function renderChatScreen(
   scheme: Scheme = 'light',
-  props?: Partial<ChatViewProps>,
+  props?: Partial<ChatScreenProps>,
 ) {
   return render(
     <SafeAreaProvider>
       <ThemeProvider forcedScheme={scheme}>
-        <ChatView {...baseProps} {...props} />
+        <ChatScreen {...baseProps} {...props} />
       </ThemeProvider>
     </SafeAreaProvider>,
   );
 }
 
-describe('ChatView Screen', () => {
+describe('ChatScreen Screen', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderChatView();
+    const { asFragment } = renderChatScreen();
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('calls onBack when back pressed', () => {
     const onBack = jest.fn();
-    const { getByLabelText } = renderChatView('light', { onBack });
+    const { getByLabelText } = renderChatScreen('light', { onBack });
     fireEvent.click(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
   });
 
   it('allows typing in input', () => {
-    const { getByLabelText } = renderChatView();
+    const { getByLabelText } = renderChatScreen();
     const input = getByLabelText('Message input');
     fireEvent.change(input, { target: { value: 'Hi' } });
     expect((input as unknown as { value: string }).value).toBe('Hi');
   });
 
   it('applies theme colors', () => {
-    const { getByLabelText, rerender } = renderChatView('light');
+    const { getByLabelText, rerender } = renderChatScreen('light');
     expect(getByLabelText('Outgoing message')).toHaveStyle({
       backgroundColor: 'rgba(254,202,26,1.00)',
     });
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
-          <ChatView {...baseProps} />
+          <ChatScreen {...baseProps} />
         </ThemeProvider>
       </SafeAreaProvider>,
     );

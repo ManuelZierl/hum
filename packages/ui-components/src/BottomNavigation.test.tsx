@@ -5,8 +5,8 @@ import {
   BottomNavigation,
   type BottomNavigationProps,
 } from './BottomNavigation';
-import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
-import { colors } from '../../ui-components/src/theme/colors';
+import { ThemeProvider } from './theme/ThemeProvider';
+import { colors } from './theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -29,7 +29,7 @@ function renderNav(
   );
 }
 
-describe('BottomNavigation Screen', () => {
+describe('BottomNavigation Component', () => {
   it('renders and matches snapshot', () => {
     const { asFragment } = renderNav();
     expect(asFragment()).toMatchSnapshot();

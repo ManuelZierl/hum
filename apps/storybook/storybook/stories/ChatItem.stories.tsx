@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ChatItem } from '@hum/ui-screens';
+import { ChatItem } from '@hum/ui-components';
 
 type Story = StoryObj<typeof ChatItem>;
 
 const meta: Meta<typeof ChatItem> = {
-  title: 'Screens/ChatItem',
+  title: 'Components/ChatItem',
   component: ChatItem,
   argTypes: {
     onPress: { action: 'pressed' },

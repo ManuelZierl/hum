@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
-import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
+import { ThemeProvider } from './theme/ThemeProvider';
 import { TopBar, type TopBarProps } from './TopBar';
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -24,7 +24,7 @@ function renderTopBar(scheme: Scheme = 'light', props?: Partial<TopBarProps>) {
   );
 }
 
-describe('TopBar Screen', () => {
+describe('TopBar Component', () => {
   it('renders and matches snapshot', () => {
     const { toJSON } = renderTopBar();
     expect(toJSON()).toMatchSnapshot();

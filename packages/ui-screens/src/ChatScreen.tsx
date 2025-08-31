@@ -46,14 +46,14 @@ const mockMessages: ChatMessage[] = [
   },
 ];
 
-export interface ChatViewProps {
+export interface ChatScreenProps {
   chatName: string;
   chatAvatar: string;
   onBack: () => void;
   messages?: ChatMessage[];
 }
 
-export const ChatView: React.FC<ChatViewProps> = ({
+export const ChatScreen: React.FC<ChatScreenProps> = ({
   chatName,
   chatAvatar,
   onBack,
@@ -252,4 +252,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatView;
+export default ChatScreen;

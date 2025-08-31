@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, useTheme, Icon } from '@hum/ui-components';
+import { Button } from './button';
+import { useTheme } from './theme/ThemeProvider';
+import { Icon } from './theme/Icon';
 
 export interface TopBarProps {
   onMenuPress?: () => void;

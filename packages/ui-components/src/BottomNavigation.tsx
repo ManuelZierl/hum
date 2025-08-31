@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BottomNavItem, Icon, useTheme } from '@hum/ui-components';
+import { BottomNavItem } from './bottom-navigation-item';
+import { Icon } from './theme/Icon';
+import { useTheme } from './theme/ThemeProvider';
 
 export interface BottomNavigationProps {
   activeTab?: string;

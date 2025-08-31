@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`ChatView Screen renders and matches snapshot 1`] = `
+exports[`ChatScreen Screen renders and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="css-view-g5y9jx r-flex-13awgt0"
