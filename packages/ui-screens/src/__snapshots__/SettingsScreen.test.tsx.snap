@@ -100,19 +100,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               }
             }
           >
-            <div
-              aria-label="search icon"
-              className="css-view-g5y9jx"
-              dir={null}
-              ref={[Function]}
+            <svg
+              accessibilityLabel="search icon"
+              height={16}
               style={
                 {
                   "fill": "#717182",
-                  "height": "16px",
-                  "width": "16px",
                 }
               }
-            />
+              viewBox="0 0 16 16"
+              width={16}
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1.007 1.007 0 00-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"
+              />
+            </svg>
           </div>
           <input
             aria-label="Search"
@@ -340,18 +342,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Privacy"
@@ -431,18 +436,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Notifications"
@@ -480,19 +488,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                aria-label="notifications"
-                className="css-view-g5y9jx"
-                dir={null}
-                ref={[Function]}
+              <svg
+                accessibilityLabel="notifications"
+                height={18}
                 style={
                   {
                     "fill": "#0A0A0A",
-                    "height": "18px",
-                    "width": "18px",
                   }
                 }
-              />
+                viewBox="0 0 16 16"
+                width={18}
+              >
+                <path
+                  d="M8 16a2 2 0 002-2H6a2 2 0 002 2zM8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
+                />
+              </svg>
             </div>
             <div
               className="css-view-g5y9jx"
@@ -528,18 +538,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Storage and data"
@@ -619,18 +632,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Help"
@@ -710,18 +726,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           className="css-view-g5y9jx"
@@ -811,18 +830,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Two-step verification"
@@ -902,18 +924,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Request account info"
@@ -993,18 +1018,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="App language"
@@ -1084,18 +1112,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Theme"
@@ -1175,18 +1206,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Wallpaper"
@@ -1266,18 +1300,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Sound"
@@ -1357,18 +1394,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Invite friends"
@@ -1448,18 +1488,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           aria-label="Delete my account"
@@ -1497,19 +1540,25 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                aria-label="delete account"
-                className="css-view-g5y9jx"
-                dir={null}
-                ref={[Function]}
+              <svg
+                accessibilityLabel="delete account"
+                height={18}
                 style={
                   {
                     "fill": "#D4183D",
-                    "height": "18px",
-                    "width": "18px",
                   }
                 }
-              />
+                viewBox="0 0 16 16"
+                width={18}
+              >
+                <path
+                  d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"
+                />
+                <path
+                  d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  fillRule="evenodd"
+                />
+              </svg>
             </div>
             <div
               className="css-view-g5y9jx"
@@ -1545,18 +1594,21 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-g5y9jx"
-            dir={null}
-            ref={[Function]}
+          <svg
+            height={18}
             style={
               {
                 "fill": "#717182",
-                "height": "18px",
-                "width": "18px",
               }
             }
-          />
+            viewBox="0 0 16 16"
+            width={18}
+          >
+            <path
+              d="M4.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L10.293 8 4.646 2.354a.5.5 0 010-.708z"
+              fillRule="evenodd"
+            />
+          </svg>
         </div>
         <div
           className="css-view-g5y9jx r-alignItems-1awozwy"

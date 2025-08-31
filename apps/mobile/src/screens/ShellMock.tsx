@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { TabBarMock } from '@mchat/mobile-ui';
-import Search from 'react-native-bootstrap-icons/icons/search';
+import { Icon } from '@hum/ui-components';
 
 const ShellMock = () => {
   const scheme = useColorScheme();
@@ -42,11 +42,11 @@ const ShellMock = () => {
       >
         <Text style={[styles.title, { color: colors.text }]}>mChat</Text>
         <View style={styles.topIcons}>
-          <Search
-            width={18}
-            height={18}
-            fill={colors.subtext}
-            accessibilityLabel="search"
+          <Icon
+            name="search"
+            size={18}
+            color={colors.subtext}
+            a11yLabel="search"
           />
           <Text style={[styles.topIcon, { color: colors.subtext }]}>📷</Text>
         </View>

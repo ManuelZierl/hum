@@ -13,7 +13,7 @@ import {
   getItemLayout,
   ChatListItemProps,
 } from '@mchat/message-ui';
-import Search from 'react-native-bootstrap-icons/icons/search';
+import { Icon } from '@hum/ui-components';
 
 const mockChats: (ChatListItemProps & { id: string })[] = [
   {
@@ -128,11 +128,11 @@ export default function ChatsListMock() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>mChat</Text>
-        <Search
-          width={18}
-          height={18}
-          fill={isDark ? '#fff' : '#000'}
-          accessibilityLabel="search"
+        <Icon
+          name="search"
+          size={18}
+          color={isDark ? '#fff' : '#000'}
+          a11yLabel="search"
         />
       </View>
       <View style={styles.tabs}>

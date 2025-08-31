@@ -57,6 +57,12 @@ const config: StorybookConfig = {
       find: /^react-native-safe-area-context$/,
       replacement: safeAreaSrc,
     };
+    const svgSrc = join(
+      dirname(fileURLToPath(import.meta.url)),
+      '..',
+      'react-native-svg.tsx',
+    );
+    const svgAlias = { find: /^react-native-svg$/, replacement: svgSrc };
 
     // Support both array and object alias shapes
     if (Array.isArray(viteConfig.resolve.alias)) {
@@ -66,6 +72,7 @@ const config: StorybookConfig = {
         uiAlias,
         uiScreensAlias,
         safeAreaAlias,
+        svgAlias,
       ];
     } else {
       viteConfig.resolve.alias = {
@@ -76,6 +83,7 @@ const config: StorybookConfig = {
         '@hum/ui-components': uiSrc,
         '@hum/ui-screens': uiScreensSrc,
         'react-native-safe-area-context': safeAreaSrc,
+        'react-native-svg': svgSrc,
       };
     }
 

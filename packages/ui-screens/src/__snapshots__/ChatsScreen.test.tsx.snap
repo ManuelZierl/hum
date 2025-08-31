@@ -258,11 +258,18 @@ exports[`ChatsScreen renders and matches snapshot 1`] = `
                   >
                     Lisa Sophia 💕💍 Ruland
                   </div>
-                  <div
-                    aria-label="favorite"
-                    class="css-view-g5y9jx"
-                    style="width: 16px; height: 16px; fill: #FECA1A;"
-                  />
+                  <svg
+                    accessibilitylabel="favorite"
+                    height="16"
+                    style="fill: #FECA1A;"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <path
+                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
                   <div
                     class="css-text-146c3p1 r-marginLeft-13hce6t"
                     dir="auto"
