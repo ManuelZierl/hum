@@ -230,7 +230,19 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
         },
       ]}
     >
-      <TopBar />
+      <TopBar
+        leftItems={[
+          { type: 'text', label: '⋯', onPress: () => {}, a11yLabel: 'Menu' },
+        ]}
+        rightItems={[
+          {
+            type: 'icon',
+            name: 'camera',
+            onPress: () => {},
+            a11yLabel: 'Open camera',
+          },
+        ]}
+      />
 
       <View
         style={{ paddingHorizontal: spacing.md, paddingBottom: spacing.md }}
@@ -257,7 +269,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
         data={chats}
         keyExtractor={(item: Chat) => item.id}
         renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: spacing.lg }}
+        contentContainerStyle={{ paddingBottom: spacing.xl * 4 }}
       />
 
       <View
@@ -271,6 +283,24 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
           <Text>Toggle {scheme === 'dark' ? 'Light' : 'Dark'} Mode</Text>
         </Button>
       </View>
+
+      <Button
+        size="icon"
+        accessibilityLabel="Add"
+        style={[
+          styles.fab,
+          {
+            backgroundColor: colors.humPrimary,
+            right: spacing.lg,
+            bottom: spacing.lg + insets.bottom,
+          },
+        ]}
+        onPress={() => {}}
+      >
+        <Text style={[styles.plusText, { color: colors.humPrimaryForeground }]}>
+          +
+        </Text>
+      </Button>
     </View>
   );
 };
@@ -278,6 +308,17 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  plusText: {
+    fontSize: 24,
   },
 });
 

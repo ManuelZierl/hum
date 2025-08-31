@@ -6,10 +6,9 @@ import {
   ScrollView,
   TextInput,
   Image,
-  Pressable,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, SettingsItem, Icon } from '@hum/ui-components';
+import { useTheme, SettingsItem, Icon, TopBar } from '@hum/ui-components';
 import { AppVersion, BuildDateDisplay, CopyrightYear } from '../build-info';
 
 export interface SettingsScreenProps {
@@ -25,48 +24,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     <View
       style={[
         styles.container,
-        { backgroundColor: colors.background, paddingTop: insets.top },
+        { backgroundColor: colors.background, paddingBottom: insets.bottom },
       ]}
     >
-      {/* Header */}
-      <View
-        style={[
-          styles.header,
-          {
-            paddingVertical: spacing.lg,
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: colors.border,
-          },
-        ]}
-      >
-        {onBack ? (
-          <Pressable
-            onPress={onBack}
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-            style={[styles.backButton, { left: spacing.lg }]}
-          >
-            <Text
-              style={{
-                color: colors.foreground,
-                fontSize: type.size.xl,
-              }}
-            >
-              ‹
-            </Text>
-          </Pressable>
-        ) : null}
-        <Text
-          testID="settings-title"
-          style={{
-            color: colors.foreground,
-            fontSize: type.size.xl,
-            fontWeight: type.weight.medium,
-          }}
-        >
-          Settings
-        </Text>
-      </View>
+      <TopBar backButton={!!onBack} onBackPress={onBack} title="Settings" />
 
       {/* Scrollable Content */}
       <ScrollView
@@ -288,13 +249,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backButton: {
-    position: 'absolute',
   },
   scroll: {
     flex: 1,

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ContactInline renders name 1`] = `
+<div
+  className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+  dir={null}
+  ref={[Function]}
+>
+  <div
+    className="css-text-146c3p1"
+    dir="auto"
+    ref={[Function]}
+    style={
+      {
+        "color": "rgba(10,10,10,1.00)",
+        "fontSize": "16px",
+        "fontWeight": "500",
+      }
+    }
+  >
+    Alice
+  </div>
+</div>
+`;

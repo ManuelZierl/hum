@@ -8,38 +8,60 @@ exports[`SettingsScreen renders and matches snapshot 1`] = `
   style={
     {
       "backgroundColor": "rgba(255,255,255,1.00)",
-      "paddingTop": "0px",
+      "paddingBottom": "0px",
     }
   }
 >
   <div
-    className="css-view-g5y9jx r-alignItems-1awozwy r-justifyContent-1777fci"
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
     dir={null}
     ref={[Function]}
     style={
       {
-        "borderBottomColor": "rgba(0,0,0,0.10)",
-        "borderBottomWidth": "1px",
-        "paddingBottom": "16px",
-        "paddingTop": "16px",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "paddingBottom": "8px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "8px",
       }
     }
   >
     <div
-      className="css-text-146c3p1"
-      data-testid="settings-title"
-      dir="auto"
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
+    />
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-pointerEvents-633pao"
+      dir={null}
+      ref={[Function]}
+    >
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(10,10,10,1.00)",
+            "fontSize": "18px",
+            "fontWeight": "500",
+            "textAlign": "center",
+          }
+        }
+      >
+        Settings
+      </div>
+    </div>
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+      dir={null}
       ref={[Function]}
       style={
         {
-          "color": "rgba(10,10,10,1.00)",
-          "fontSize": "20px",
-          "fontWeight": "500",
+          "justifyContent": "flex-end",
         }
       }
-    >
-      Settings
-    </div>
+    />
   </div>
   <div
     className="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx r-flex-13awgt0"

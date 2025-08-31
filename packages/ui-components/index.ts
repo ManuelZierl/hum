@@ -50,6 +50,8 @@ export { ChatItem } from './src/ChatItem';
 export type { ChatItemProps } from './src/ChatItem';
 export { TopBar } from './src/TopBar';
 export type { TopBarProps } from './src/TopBar';
+export { ContactInline } from './src/people/ContactInline';
+export type { ContactInlineProps } from './src/people/ContactInline';
 
 export { Icon } from './src/theme/Icon';
 export type { IconName, IconProps } from './src/theme/Icon';
