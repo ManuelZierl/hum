@@ -14,44 +14,63 @@ const SafeAreaProvider: React.FC<{ children: React.ReactNode }> = ({
 
 type Scheme = 'light' | 'dark';
 
-function renderTopBar(scheme: Scheme = 'light', props?: Partial<TopBarProps>) {
+function renderBar(scheme: Scheme = 'light', props?: Partial<TopBarProps>) {
   return render(
     <SafeAreaProvider>
       <ThemeProvider forcedScheme={scheme}>
-        <TopBar {...props} />
+        <TopBar testID="bar" {...props} />
       </ThemeProvider>
     </SafeAreaProvider>,
   );
 }
 
-describe('TopBar Component', () => {
-  it('renders and matches snapshot', () => {
-    const { toJSON } = renderTopBar();
+describe('TopBar', () => {
+  it('renders with and without back button', () => {
+    const { queryByLabelText, rerender } = renderBar('light', {
+      backButton: true,
+    });
+    expect(queryByLabelText('Go back')).toBeTruthy();
+    rerender(
+      <SafeAreaProvider>
+        <ThemeProvider forcedScheme="light">
+          <TopBar testID="bar" />
+        </ThemeProvider>
+      </SafeAreaProvider>,
+    );
+    expect(queryByLabelText('Go back')).toBeNull();
+  });
+
+  it('centers title and icon', () => {
+    const { toJSON } = renderBar('light', {
+      title: 'Hello',
+      titleIconName: 'chat',
+    });
     expect(toJSON()).toMatchSnapshot();
   });
 
-  it('fires callbacks when actions are pressed', () => {
-    const onMenuPress = jest.fn();
-    const onCameraPress = jest.fn();
-    const onAddPress = jest.fn();
-    const { getByLabelText } = renderTopBar('light', {
-      onMenuPress,
-      onCameraPress,
-      onAddPress,
+  it('renders items and fires callbacks', () => {
+    const left = jest.fn();
+    const right = jest.fn();
+    const { getByLabelText } = renderBar('light', {
+      leftItems: [
+        { type: 'text', label: 'A', a11yLabel: 'left', onPress: left },
+      ],
+      rightItems: [
+        { type: 'icon', name: 'camera', a11yLabel: 'right', onPress: right },
+      ],
     });
-    fireEvent.press(getByLabelText('More options'));
-    fireEvent.press(getByLabelText('Open camera'));
-    fireEvent.press(getByLabelText('Add'));
-    expect(onMenuPress).toHaveBeenCalled();
-    expect(onCameraPress).toHaveBeenCalled();
-    expect(onAddPress).toHaveBeenCalled();
+    fireEvent.press(getByLabelText('left'));
+    fireEvent.press(getByLabelText('right'));
+    expect(left).toHaveBeenCalled();
+    expect(right).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { getByLabelText, rerender } = renderTopBar('light');
-    expect(getByLabelText('Add')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
-    });
+    const { toJSON, rerender } = renderBar('light');
+    let tree = toJSON() as unknown as {
+      props: { style: { backgroundColor: string } };
+    };
+    expect(tree.props.style.backgroundColor).toBe('rgba(255,255,255,1.00)');
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
@@ -59,8 +78,9 @@ describe('TopBar Component', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    expect(getByLabelText('Add')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
-    });
+    tree = toJSON() as unknown as {
+      props: { style: { backgroundColor: string } };
+    };
+    expect(tree.props.style.backgroundColor).toBe('rgba(0,0,0,1.00)');
   });
 });

@@ -1,35 +1,39 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { TopBar, type TopBarProps } from '@hum/ui-components';
+import { TopBar } from '@hum/ui-components';
+import { View } from 'react-native';
 
 const meta: Meta<typeof TopBar> = {
   title: 'Components/TopBar',
   component: TopBar,
   decorators: [
     (Story) => (
-      <SafeAreaProvider>
+      <View style={{ flex: 1, width: 500 }}>
         <Story />
-      </SafeAreaProvider>
+      </View>
     ),
   ],
-  argTypes: {
-    onMenuPress: { action: 'menu pressed' },
-    onCameraPress: { action: 'camera pressed' },
-    onAddPress: { action: 'add pressed' },
-  },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof TopBar>;
 
-export const Basic: Story = {};
-
-export const WithHandlers: Story = {
+export const Default: Story = {};
+export const WithBack: Story = { args: { backButton: true } };
+export const WithTitle: Story = { args: { title: 'Title' } };
+export const WithTitleIcon: Story = {
+  args: { title: 'Lightning', titleIconName: 'lightning' },
+};
+export const WithActions: Story = {
   args: {
-    onMenuPress: () => console.log('menu'),
-    onCameraPress: () => console.log('camera'),
-    onAddPress: () => console.log('add'),
+    backButton: true,
+    leftItems: [
+      { type: 'text', label: '⋯', a11yLabel: 'Menu', onPress: () => {} },
+    ],
+    rightItems: [
+      { type: 'icon', name: 'camera', a11yLabel: 'Camera', onPress: () => {} },
+      { type: 'text', label: '⋮', a11yLabel: 'More', onPress: () => {} },
+    ],
   },
 };

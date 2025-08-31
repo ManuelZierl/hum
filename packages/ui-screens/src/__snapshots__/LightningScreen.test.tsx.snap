@@ -9,7 +9,7 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
   style={
     {
       "backgroundColor": "rgba(255,255,255,1.00)",
-      "paddingTop": "0px",
+      "paddingBottom": "0px",
     }
   }
 >
@@ -19,40 +19,61 @@ exports[`LightningScreen renders and matches snapshot 1`] = `
     ref={[Function]}
     style={
       {
-        "borderBottomColor": "rgba(0,0,0,0.10)",
-        "paddingBottom": "12px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "12px",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "paddingBottom": "8px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "8px",
       }
     }
   >
     <div
-      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
+    />
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-pointerEvents-633pao"
       dir={null}
       ref={[Function]}
     >
-      <svg
-        fill="#FECA1A"
-        height={24}
-        width={24}
-      />
       <div
-        className="css-text-146c3p1"
+        className="css-view-g5y9jx"
+        data-testid="title-icon"
+        dir={null}
+        ref={[Function]}
+        style={
+          {
+            "marginRight": "4px",
+          }
+        }
+      >
+        <svg
+          fill="#FECA1A"
+          height={24}
+          width={24}
+        />
+      </div>
+      <div
+        className="css-text-146c3p1 r-textAlign-q4m81j"
         dir="auto"
         ref={[Function]}
         style={
           {
             "color": "rgba(10,10,10,1.00)",
-            "fontSize": "20px",
+            "fontSize": "18px",
             "fontWeight": "500",
-            "marginLeft": "8px",
           }
         }
       >
         Lightning
       </div>
     </div>
+    <div
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
+      dir={null}
+      ref={[Function]}
+    />
   </div>
   <div
     className="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx"

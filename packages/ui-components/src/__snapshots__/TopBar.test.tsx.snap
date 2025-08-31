@@ -1,110 +1,67 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`TopBar Component renders and matches snapshot 1`] = `
+exports[`TopBar centers title and icon 1`] = `
 <div
-  className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+  className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+  data-testid="bar"
   dir={null}
   ref={[Function]}
   style={
     {
       "backgroundColor": "rgba(255,255,255,1.00)",
-      "paddingBottom": "16px",
-      "paddingLeft": "16px",
-      "paddingRight": "16px",
-      "paddingTop": "16px",
+      "paddingBottom": "8px",
+      "paddingLeft": "12px",
+      "paddingRight": "12px",
+      "paddingTop": "8px",
     }
   }
 >
-  <button
-    aria-label="More options"
-    className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
     dir={null}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onContextMenu={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
     ref={[Function]}
-    role="button"
-    tabIndex={0}
-    type="button"
+  />
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci r-pointerEvents-633pao"
+    dir={null}
+    ref={[Function]}
   >
     <div
-      className="css-text-146c3p1 r-fontSize-1x35g6"
+      className="css-view-g5y9jx"
+      data-testid="title-icon"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginRight": "4px",
+        }
+      }
+    >
+      <svg
+        fill="#FECA1A"
+        height={24}
+        width={24}
+      />
+    </div>
+    <div
+      className="css-text-146c3p1 r-textAlign-q4m81j"
       dir="auto"
       ref={[Function]}
       style={
         {
           "color": "rgba(10,10,10,1.00)",
+          "fontSize": "18px",
+          "fontWeight": "500",
         }
       }
     >
-      ⋯
+      Hello
     </div>
-  </button>
+  </div>
   <div
-    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
     dir={null}
     ref={[Function]}
-  >
-    <button
-      aria-label="Open camera"
-      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
-      dir={null}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      ref={[Function]}
-      role="button"
-      style={
-        {
-          "marginRight": "16px",
-        }
-      }
-      tabIndex={0}
-      type="button"
-    >
-      <svg
-        fill="#0A0A0A"
-        height={24}
-        width={24}
-      />
-    </button>
-    <button
-      aria-label="Add"
-      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci r-borderRadius-a1yn9n r-height-1mwlp6a r-width-18tzken"
-      dir={null}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      ref={[Function]}
-      role="button"
-      style={
-        {
-          "backgroundColor": "rgba(254,202,26,1.00)",
-          "opacity": 1,
-        }
-      }
-      tabIndex={0}
-      type="button"
-    >
-      <div
-        className="css-text-146c3p1 r-fontSize-1x35g6"
-        dir="auto"
-        ref={[Function]}
-        style={
-          {
-            "color": "rgba(0,0,0,1.00)",
-          }
-        }
-      >
-        +
-      </div>
-    </button>
-  </div>
+  />
 </div>
 `;

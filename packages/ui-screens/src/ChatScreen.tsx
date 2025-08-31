@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Pressable,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Avatar, AvatarImage } from '@hum/ui-components';
-import { useTheme } from '@hum/ui-components';
-import { MessageBubble, type MessageBubbleProps } from '@hum/ui-components';
-import { Icon } from '@hum/ui-components';
+import {
+  Avatar,
+  AvatarImage,
+  useTheme,
+  MessageBubble,
+  type MessageBubbleProps,
+  Icon,
+  TopBar,
+  ContactInline,
+} from '@hum/ui-components';
 
 export interface ChatMessage extends MessageBubbleProps {
   id: string;
@@ -59,7 +58,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   onBack,
   messages = mockMessages,
 }) => {
-  const { colors, spacing, type, radius } = useTheme();
+  const { colors, spacing, radius } = useTheme();
   const insets = useSafeAreaInsets();
   const [value, setValue] = useState('');
 
@@ -67,71 +66,47 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     <View
       style={[
         styles.container,
-        { paddingTop: insets.top, backgroundColor: colors.background },
+        { backgroundColor: colors.background, paddingBottom: insets.bottom },
       ]}
     >
-      <View
-        style={[
-          styles.header,
+      <TopBar
+        backButton
+        onBackPress={onBack}
+        leftItems={[
           {
-            borderBottomColor: colors.border,
-            paddingHorizontal: spacing.md,
-            paddingVertical: spacing.sm,
+            type: 'node',
+            element: (
+              <Avatar size={40}>
+                <AvatarImage
+                  source={{ uri: chatAvatar }}
+                  accessibilityLabel={`${chatName} avatar`}
+                />
+              </Avatar>
+            ),
+          },
+          { type: 'node', element: <ContactInline name={chatName} online /> },
+        ]}
+        rightItems={[
+          {
+            type: 'icon',
+            name: 'camera-video',
+            onPress: () => {},
+            a11yLabel: 'Video call',
+          },
+          {
+            type: 'icon',
+            name: 'telephone',
+            onPress: () => {},
+            a11yLabel: 'Voice call',
+          },
+          {
+            type: 'text',
+            label: '⋮',
+            onPress: () => {},
+            a11yLabel: 'More options',
           },
         ]}
-      >
-        <View style={styles.headerLeft}>
-          <Pressable
-            onPress={onBack}
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-            style={{ marginRight: spacing.sm }}
-          >
-            <Text style={[styles.iconLarge, { color: colors.foreground }]}>
-              {'←'}
-            </Text>
-          </Pressable>
-          <Avatar size={40}>
-            <AvatarImage
-              source={{ uri: chatAvatar }}
-              accessibilityLabel={`${chatName} avatar`}
-            />
-          </Avatar>
-          <View style={{ marginLeft: spacing.sm }}>
-            <Text
-              style={{
-                color: colors.foreground,
-                fontSize: type.size.md,
-                fontWeight: type.weight.medium,
-              }}
-            >
-              {chatName}
-            </Text>
-            <Text
-              style={{ color: colors.mutedForeground, fontSize: type.size.sm }}
-            >
-              online
-            </Text>
-          </View>
-        </View>
-        <View style={styles.headerRight}>
-          <Icon
-            name="camera-video"
-            size={24}
-            style={{ marginRight: spacing.md }}
-            color={colors.foreground}
-          />
-          <Icon
-            name="telephone"
-            size={24}
-            style={{ marginRight: spacing.md }}
-            color={colors.foreground}
-          />
-          <Text style={[styles.iconLarge, { color: colors.foreground }]}>
-            {'⋮'}
-          </Text>
-        </View>
-      </View>
+      />
 
       <ScrollView
         style={styles.messages}
@@ -213,20 +188,6 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   messages: {
     flex: 1,

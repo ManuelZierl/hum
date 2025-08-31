@@ -1,7 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FeatureCard, Button, useTheme, Icon } from '@hum/ui-components';
+import {
+  FeatureCard,
+  Button,
+  useTheme,
+  Icon,
+  TopBar,
+} from '@hum/ui-components';
 
 export interface LightningScreenProps {
   onBack?: () => void;
@@ -76,43 +82,15 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
       testID="lightning-screen"
       style={[
         styles.container,
-        { backgroundColor: colors.background, paddingTop: insets.top },
+        { backgroundColor: colors.background, paddingBottom: insets.bottom },
       ]}
     >
-      <View
-        style={[
-          styles.header,
-          {
-            borderBottomColor: colors.border,
-            paddingHorizontal: spacing.lg,
-            paddingVertical: spacing.md,
-          },
-        ]}
-      >
-        {onBack ? (
-          <Pressable
-            onPress={onBack}
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-            style={styles.backButton}
-          >
-            <Text style={[styles.icon, { color: colors.humPrimary }]}>←</Text>
-          </Pressable>
-        ) : null}
-        <View style={styles.headerCenter}>
-          <Icon name="lightning" size={24} color={colors.humPrimary} />
-          <Text
-            style={{
-              color: colors.foreground,
-              fontSize: type.size.xl,
-              fontWeight: type.weight.medium,
-              marginLeft: spacing.sm,
-            }}
-          >
-            Lightning
-          </Text>
-        </View>
-      </View>
+      <TopBar
+        backButton={!!onBack}
+        onBackPress={onBack}
+        title="Lightning"
+        titleIconName="lightning"
+      />
 
       <ScrollView contentContainerStyle={{ paddingBottom: spacing.xl }}>
         <View
@@ -303,19 +281,6 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    marginRight: 8,
-  },
-  headerCenter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
   container: { flex: 1 },
   cardWrapper: {},
   banner: {},
@@ -325,7 +290,6 @@ const styles = StyleSheet.create({
   info: { borderWidth: 1 },
   beta: { alignItems: 'center', backgroundColor: 'rgba(254,202,26,0.1)' },
   centerText: { textAlign: 'center' },
-  icon: { fontSize: 24 },
 });
 
 export default LightningScreen;

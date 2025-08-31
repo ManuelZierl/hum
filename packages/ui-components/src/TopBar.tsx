@@ -1,66 +1,147 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from './button';
 import { useTheme } from './theme/ThemeProvider';
-import { Icon } from './theme/Icon';
+import { Icon, type IconName } from './theme/Icon';
+
+export type TopBarItem =
+  | {
+      type: 'icon';
+      name: IconName;
+      onPress?: () => void;
+      a11yLabel?: string;
+      testID?: string;
+    }
+  | {
+      type: 'text';
+      label: string;
+      onPress?: () => void;
+      a11yLabel?: string;
+      testID?: string;
+    }
+  | { type: 'node'; element: React.ReactNode; testID?: string };
 
 export interface TopBarProps {
-  onMenuPress?: () => void;
-  onCameraPress?: () => void;
-  onAddPress?: () => void;
+  backButton?: boolean;
+  onBackPress?: () => void;
+  title?: string | null;
+  titleIconName?: IconName | null;
+  leftItems?: TopBarItem[];
+  rightItems?: TopBarItem[];
+  testID?: string;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
-  onMenuPress,
-  onCameraPress,
-  onAddPress,
+  backButton = false,
+  onBackPress,
+  title = null,
+  titleIconName = null,
+  leftItems = [],
+  rightItems = [],
+  testID,
 }) => {
-  const { colors, spacing } = useTheme();
+  const { colors, spacing, type } = useTheme();
   const insets = useSafeAreaInsets();
+
+  const renderItem = (item: TopBarItem, index: number) => {
+    const commonTest = item.testID
+      ? { testID: item.testID, 'data-testid': item.testID }
+      : {};
+    const marginStyle = { marginLeft: index === 0 ? 0 : spacing.md };
+    if (item.type === 'icon') {
+      return (
+        <Pressable
+          key={index}
+          onPress={item.onPress}
+          accessibilityRole={item.onPress ? 'button' : undefined}
+          accessibilityLabel={item.a11yLabel}
+          style={marginStyle}
+          {...commonTest}
+        >
+          <Icon name={item.name} size={24} color={colors.foreground} />
+        </Pressable>
+      );
+    }
+    if (item.type === 'text') {
+      return (
+        <Pressable
+          key={index}
+          onPress={item.onPress}
+          accessibilityRole={item.onPress ? 'button' : undefined}
+          accessibilityLabel={item.a11yLabel}
+          style={marginStyle}
+          {...commonTest}
+        >
+          <Text style={[styles.iconText, { color: colors.foreground }]}>
+            {item.label}
+          </Text>
+        </Pressable>
+      );
+    }
+    return (
+      <View key={index} style={marginStyle} {...commonTest}>
+        {item.element}
+      </View>
+    );
+  };
 
   return (
     <View
       style={[
         styles.container,
         {
-          paddingTop: insets.top + spacing.lg,
-          paddingBottom: spacing.lg,
-          paddingHorizontal: spacing.lg,
+          paddingTop: insets.top + spacing.sm,
+          paddingBottom: spacing.sm,
+          paddingHorizontal: spacing.md,
           backgroundColor: colors.background,
         },
       ]}
+      {...(testID ? { testID, 'data-testid': testID } : {})}
     >
-      <Pressable
-        onPress={onMenuPress}
-        accessibilityRole="button"
-        accessibilityLabel="More options"
-      >
-        <Text style={[styles.icon, { color: colors.foreground }]}>⋯</Text>
-      </Pressable>
-
-      <View style={styles.rightContainer}>
-        <Pressable
-          onPress={onCameraPress}
-          accessibilityRole="button"
-          accessibilityLabel="Open camera"
-          style={{ marginRight: spacing.lg }}
-        >
-          <Icon name="camera" size={24} color={colors.foreground} />
-        </Pressable>
-
-        <Button
-          size="icon"
-          accessibilityLabel="Add"
-          onPress={onAddPress}
-          style={styles.addButton}
-        >
-          <Text
-            style={[styles.addIcon, { color: colors.humPrimaryForeground }]}
+      <View style={styles.side}>
+        {backButton ? (
+          <Pressable
+            onPress={onBackPress}
+            accessibilityRole={onBackPress ? 'button' : undefined}
+            accessibilityLabel="Go back"
+            style={leftItems.length ? { marginRight: spacing.md } : undefined}
+            testID="back-button"
           >
-            +
+            <Text style={[styles.backIcon, { color: colors.foreground }]}>
+              ‹
+            </Text>
+          </Pressable>
+        ) : null}
+        {leftItems.map((item, i) => renderItem(item, i))}
+      </View>
+
+      <View style={styles.center} pointerEvents="none">
+        {titleIconName ? (
+          <View
+            testID="title-icon"
+            style={title ? { marginRight: spacing.xs } : undefined}
+          >
+            <Icon name={titleIconName} size={24} color={colors.humPrimary} />
+          </View>
+        ) : null}
+        {title ? (
+          <Text
+            style={[
+              styles.title,
+              {
+                color: colors.foreground,
+                fontSize: type.size.lg,
+                fontWeight: type.weight.medium,
+              },
+            ]}
+          >
+            {title}
           </Text>
-        </Button>
+        ) : null}
+      </View>
+
+      <View style={[styles.side, styles.right]}>
+        {rightItems.map((item, i) => renderItem(item, i))}
       </View>
     </View>
   );
@@ -70,22 +151,29 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
-  rightContainer: {
+  side: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
   },
-  icon: {
+  center: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  backIcon: {
     fontSize: 24,
   },
-  addButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  title: {
+    textAlign: 'center',
   },
-  addIcon: {
+  iconText: {
     fontSize: 24,
+  },
+  right: {
+    justifyContent: 'flex-end',
   },
 });
 
