@@ -49,3 +49,5 @@ native/rust/target/
 # IDE
 .idea/
 .eslintcache
+
+hum_store/

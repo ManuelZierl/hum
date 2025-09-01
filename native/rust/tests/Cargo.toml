@@ -6,6 +6,11 @@ edition = "2024"
 [dev-dependencies]
 anyhow = "1"
 hum-matrix-core = { path = "../crates/core" }
-matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", tag = "0.7.0", default-features = false, features = ["e2e-encryption", "bundled-sqlite", "experimental-sliding-sync", "native-tls"] }
+matrix-sdk = { version = "0.13.0", default-features = false, features = [
+    "e2e-encryption",
+    "bundled-sqlite",
+    "markdown",
+    "native-tls",
+] }
 tempfile = "3"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
