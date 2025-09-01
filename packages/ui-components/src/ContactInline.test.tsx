@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import { ThemeProvider } from './theme/ThemeProvider';
-import { ContactInline } from './people/ContactInline';
+import { ContactInline } from './ContactInline';
 
 describe('ContactInline', () => {
   function renderCI(online?: boolean) {
