@@ -114,6 +114,12 @@ importers:
       '@babel/runtime':
         specifier: 7.28.3
         version: 7.28.3
+      '@hum/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
+      '@hum/ui-screens':
+        specifier: workspace:*
+        version: link:../../packages/ui-screens
       '@react-native-async-storage/async-storage':
         specifier: 2.1.2
         version: 2.1.2(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.0.14)(react@19.1.1))
