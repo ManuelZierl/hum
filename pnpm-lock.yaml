@@ -216,7 +216,7 @@ importers:
   packages/lightning-client:
     dependencies:
       '@breeztech/react-native-breez-sdk':
-        specifier: '*'
+        specifier: 0.8.1-rc3
         version: 0.8.1-rc3(react-native@0.79.5(@babel/core@7.28.3)(@react-native-community/cli@14.1.0(typescript@5.8.3))(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
       react:
         specifier: ^19.0.0

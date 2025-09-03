@@ -19,7 +19,7 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-native": ">=0.75",
-    "@breeztech/react-native-breez-sdk": "*"
+    "@breeztech/react-native-breez-sdk": "0.8.1-rc3"
   },
   "devDependencies": {
     "@types/react": "^19.1.12"
