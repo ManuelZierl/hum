@@ -49,12 +49,18 @@ impl HumClient {
             .device_id()
             .ok_or_else(|| HumError::Other("missing device id".into()))?;
 
-        let device = self
+        let devices = self
             .client
             .encryption()
-            .get_device(user_id, device_id)
-            .await?
-            .ok_or_else(|| HumError::Other("device not found".into()))?;
+            .get_user_devices(user_id)
+            .await?;
+
+        let Some(device) = devices
+            .devices()
+            .find(|d| d.device_id() != device_id && d.is_verified())
+        else {
+            return Err(HumError::Other("no verified device available".into()));
+        };
 
         let request = device.request_verification().await?;
         Ok(request)
