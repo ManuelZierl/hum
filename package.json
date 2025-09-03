@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "pnpm --dir apps/mobile start",
     "typecheck": "tsc -p packages/ui-components/tsconfig.json",
     "lint": "eslint 'packages/**/*.{ts,tsx,js}'",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
