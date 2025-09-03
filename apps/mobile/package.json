@@ -4,6 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "prestart": "pnpm --filter @hum/ui-components build && pnpm --filter @hum/ui-screens build",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
