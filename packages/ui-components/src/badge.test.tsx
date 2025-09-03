@@ -3,7 +3,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Badge, type BadgeProps } from './badge';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 function renderBadge(

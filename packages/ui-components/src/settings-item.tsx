@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/theme-provider';
 
 export interface SettingsItemProps {
   icon?: React.ReactNode;

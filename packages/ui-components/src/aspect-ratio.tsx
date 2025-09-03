@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/theme-provider';
 
 export interface AspectRatioProps extends React.ComponentProps<typeof View> {
   ratio?: number;

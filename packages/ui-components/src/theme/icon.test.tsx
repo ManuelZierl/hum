@@ -2,8 +2,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Icon, type IconProps } from './Icon';
-import { ThemeProvider } from './ThemeProvider';
+import { Icon, type IconProps } from './icon';
+import { ThemeProvider } from './theme-provider';
 import { colors } from './colors';
 
 const expectAny = expect as any;

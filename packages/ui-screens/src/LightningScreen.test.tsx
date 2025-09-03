@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import { LightningScreen, type LightningScreenProps } from './LightningScreen';
-import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
+import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import type { ReactTestRendererJSON } from 'react-test-renderer';
 
 jest.mock('react-native-safe-area-context', () => ({

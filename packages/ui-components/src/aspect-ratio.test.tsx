@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { AspectRatio, type AspectRatioProps } from './aspect-ratio';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 const hexToRgba = (hex: string) => {

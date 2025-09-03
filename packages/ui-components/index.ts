@@ -1,4 +1,4 @@
-export { ThemeProvider, useTheme } from './src/theme/ThemeProvider';
+export { ThemeProvider, useTheme } from './src/theme/theme-provider';
 export {
   Accordion,
   AccordionItem,
@@ -44,14 +44,14 @@ export { FeatureCard } from './src/feature-card';
 export type { FeatureCardProps } from './src/feature-card';
 export { SettingsItem } from './src/settings-item';
 export type { SettingsItemProps } from './src/settings-item';
-export { BottomNavigation } from './src/BottomNavigation';
-export type { BottomNavigationProps } from './src/BottomNavigation';
-export { ChatItem } from './src/ChatItem';
-export type { ChatItemProps } from './src/ChatItem';
-export { TopBar } from './src/TopBar';
-export type { TopBarProps } from './src/TopBar';
-export { ContactInline } from './src/people/ContactInline';
-export type { ContactInlineProps } from './src/people/ContactInline';
+export { BottomNavigation } from './src/bottom-navigation';
+export type { BottomNavigationProps } from './src/bottom-navigation';
+export { ChatItem } from './src/chat-item';
+export type { ChatItemProps } from './src/chat-item';
+export { TopBar } from './src/top-bar';
+export type { TopBarProps } from './src/top-bar';
+export { ContactInline } from './src/people/contact-inline';
+export type { ContactInlineProps } from './src/people/contact-inline';
 
-export { Icon } from './src/theme/Icon';
-export type { IconName, IconProps } from './src/theme/Icon';
+export { Icon } from './src/theme/icon';
+export type { IconName, IconProps } from './src/theme/icon';

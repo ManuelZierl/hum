@@ -3,8 +3,8 @@ import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
-import { ThemeProvider } from './theme/ThemeProvider';
-import { Icon } from './theme/Icon';
+import { ThemeProvider } from './theme/theme-provider';
+import { Icon } from './theme/icon';
 
 const baseProps: SettingsItemProps = {
   icon: <Icon name="person" />,

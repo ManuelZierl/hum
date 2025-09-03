@@ -13,7 +13,7 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/theme-provider';
 
 interface AlertDialogContextValue {
   open: boolean;

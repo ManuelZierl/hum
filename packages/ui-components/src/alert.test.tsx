@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { Alert, AlertTitle, AlertDescription, type AlertProps } from './alert';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 // Temporary workaround for missing Jest DOM matcher typings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

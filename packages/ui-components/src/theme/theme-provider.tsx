@@ -1,4 +1,4 @@
-// packages/hum-ui-components/src/theme/ThemeProvider.tsx
+// packages/hum-ui-components/src/theme/theme-provider.tsx
 import React, { createContext, useContext, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import { colors } from './colors';

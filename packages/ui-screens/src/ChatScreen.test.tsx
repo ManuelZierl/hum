@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
-import { ThemeProvider } from '@hum/ui-components/theme/ThemeProvider';
+import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { ChatScreen, type ChatScreenProps } from './ChatScreen';
 
 jest.mock('react-native-safe-area-context', () => ({

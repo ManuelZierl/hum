@@ -3,8 +3,8 @@ import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { ListRow, type ListRowProps } from './list-row';
-import { ThemeProvider } from './theme/ThemeProvider';
-import { Icon } from './theme/Icon';
+import { ThemeProvider } from './theme/theme-provider';
+import { Icon } from './theme/icon';
 
 const baseProps: ListRowProps = {
   label: 'Archiviert',

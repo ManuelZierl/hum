@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from './theme-provider';
 
 import ArchiveIcon from '../../../../assets/icons/archive.svg';
 import ArrowLeftRightIcon from '../../../../assets/icons/arrow-left-right.svg';

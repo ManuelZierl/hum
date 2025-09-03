@@ -21,9 +21,9 @@
       "types": "./dist/bottom-navigation-item.d.ts",
       "default": "./dist/bottom-navigation-item.js"
     },
-    "./theme/ThemeProvider": {
-      "types": "./dist/theme/ThemeProvider.d.ts",
-      "default": "./dist/theme/ThemeProvider.js"
+    "./theme/theme-provider": {
+      "types": "./dist/theme/theme-provider.d.ts",
+      "default": "./dist/theme/theme-provider.js"
     }
   },
   "files": [

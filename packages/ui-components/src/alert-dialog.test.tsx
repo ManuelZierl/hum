@@ -17,7 +17,7 @@ import {
   AlertDialogCancel,
   type AlertDialogProps,
 } from './alert-dialog';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({

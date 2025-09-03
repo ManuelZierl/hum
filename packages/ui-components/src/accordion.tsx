@@ -18,7 +18,7 @@ import {
   ViewProps,
   PressableProps,
 } from 'react-native';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/theme-provider';
 
 // Accordion Context
 interface AccordionContextValue {

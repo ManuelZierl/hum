@@ -13,7 +13,7 @@ import {
   AccordionContent,
   type AccordionProps,
 } from './accordion';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 function renderAccordion(
