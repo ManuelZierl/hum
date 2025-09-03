@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ChatItem, type ChatItemProps } from './ChatItem';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ChatItem, type ChatItemProps } from './chat-item';
+import { ThemeProvider } from './theme/theme-provider';
 
 type Scheme = 'light' | 'dark';
 

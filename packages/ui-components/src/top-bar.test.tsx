@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
-import { ThemeProvider } from './theme/ThemeProvider';
-import { TopBar, type TopBarProps } from './TopBar';
+import { ThemeProvider } from './theme/theme-provider';
+import { TopBar, type TopBarProps } from './top-bar';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),

@@ -5,7 +5,7 @@ import { render } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 
 import { FeatureCard, type FeatureCardProps } from './feature-card';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 
 const MockIcon: React.FC<{ size?: number; color?: string }> = ({
   size = 24,

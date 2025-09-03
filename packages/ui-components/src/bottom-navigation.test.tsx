@@ -4,8 +4,8 @@ import '@testing-library/jest-dom';
 import {
   BottomNavigation,
   type BottomNavigationProps,
-} from './BottomNavigation';
-import { ThemeProvider } from './theme/ThemeProvider';
+} from './bottom-navigation';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({

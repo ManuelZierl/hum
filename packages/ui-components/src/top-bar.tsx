@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from './theme/ThemeProvider';
-import { Icon, type IconName } from './theme/Icon';
+import { useTheme } from './theme/theme-provider';
+import { Icon, type IconName } from './theme/icon';
 
 export type TopBarItem =
   | {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderHook } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ThemeProvider, useTheme } from './ThemeProvider';
+import { ThemeProvider, useTheme } from './theme-provider';
 import { colors } from './colors';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

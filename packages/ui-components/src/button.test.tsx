@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 const expectAny = expect as any;
 
 import { Button, type ButtonProps } from './button';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 type Scheme = 'light' | 'dark';
