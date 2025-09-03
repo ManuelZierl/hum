@@ -24,7 +24,7 @@ async fn main() -> Result<()> {
 
     // Request verification for this device and handle it via SAS over the console
     if let Ok(request) = client.request_verification().await {
-        if let Ok(Some(mut sas)) = request.start_sas().await {
+        if let Ok(Some(sas)) = request.start_sas().await {
             // Accept the SAS verification and display the emojis to the user
             sas.accept().await?;
             if let Some(emojis) = sas.emoji() {
