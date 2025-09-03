@@ -20,6 +20,7 @@ jobs:
       node: ${{ steps.filter.outputs.node }}
       rust: ${{ steps.filter.outputs.rust }}
       storybook: ${{ steps.filter.outputs.storybook }}
+      ci: ${{ steps.filter.outputs.ci }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,11 +60,13 @@ jobs:
               - '.nvmrc'
               - 'playwright.config.ts'
               - 'tsconfig*.json'
+            ci:
+              - '.github/workflows/**'
 
   node:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true'
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
     steps:
       - uses: actions/checkout@v4
 
@@ -98,7 +101,7 @@ jobs:
   rust:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.rust == 'true'
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.rust == 'true' || needs.changes.outputs.ci == 'true'
     defaults:
       run:
         working-directory: native/rust
@@ -129,7 +132,7 @@ jobs:
   storybook-e2e:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.storybook == 'true'
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.storybook == 'true' || needs.changes.outputs.ci == 'true'
     steps:
       - uses: actions/checkout@v4
 
