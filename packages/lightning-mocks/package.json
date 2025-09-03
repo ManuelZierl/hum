@@ -1,0 +1,29 @@
+{
+  "name": "@hum/lightning-mocks",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@hum/lightning-client": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-native": ">=0.75"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12"
+  }
+}

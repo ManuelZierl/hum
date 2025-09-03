@@ -28,12 +28,8 @@ export type {
   AvatarImageProps,
   AvatarFallbackProps,
 } from './src/avatar';
-export { Button } from './src/button';
-export type { ButtonProps, ButtonVariant, ButtonSize } from './src/button';
-export { Badge } from './src/badge';
-export type { BadgeProps, BadgeVariant } from './src/badge';
-export { AspectRatio } from './src/aspect-ratio';
-export type { AspectRatioProps } from './src/aspect-ratio';
+export { buttonVariants, Button } from './src/button';
+export type { ButtonVariant, ButtonSize } from './src/button';
 export { MessageBubble } from './src/message-bubble';
 export type { MessageBubbleProps } from './src/message-bubble';
 export { BottomNavItem } from './src/bottom-navigation-item';
@@ -52,6 +48,5 @@ export { TopBar } from './src/top-bar';
 export type { TopBarProps } from './src/top-bar';
 export { ContactInline } from './src/people/contact-inline';
 export type { ContactInlineProps } from './src/people/contact-inline';
-
 export { Icon } from './src/theme/icon';
 export type { IconName, IconProps } from './src/theme/icon';
