@@ -10,7 +10,7 @@ export default defineConfig({
   },
   webServer: isStatic
     ? {
-        command: `npx http-server storybook-static -p ${PORT}`,
+        command: `pnpm exec http-server storybook-static -p ${PORT}`,
         port: PORT,
         reuseExistingServer: !process.env.CI,
       }
