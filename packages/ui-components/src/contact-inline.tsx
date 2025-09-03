@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../theme/theme-provider';
+import { useTheme } from './theme/theme-provider';
 
 export interface ContactInlineProps {
   name: string;

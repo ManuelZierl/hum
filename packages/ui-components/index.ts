@@ -1,27 +1,4 @@
 export { ThemeProvider, useTheme } from './src/theme/theme-provider';
-export {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from './src/accordion';
-export type { AccordionProps } from './src/accordion';
-export {
-  AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from './src/alert-dialog';
-export type { AlertDialogProps } from './src/alert-dialog';
-export { Alert, AlertTitle, AlertDescription } from './src/alert';
-export type { AlertProps, AlertVariant } from './src/alert';
 export { Avatar, AvatarImage, AvatarFallback } from './src/avatar';
 export type {
   AvatarProps,
@@ -46,7 +23,7 @@ export { ChatItem } from './src/chat-item';
 export type { ChatItemProps } from './src/chat-item';
 export { TopBar } from './src/top-bar';
 export type { TopBarProps } from './src/top-bar';
-export { ContactInline } from './src/people/contact-inline';
-export type { ContactInlineProps } from './src/people/contact-inline';
+export { ContactInline } from './src/contact-inline';
+export type { ContactInlineProps } from './src/contact-inline';
 export { Icon } from './src/theme/icon';
 export type { IconName, IconProps } from './src/theme/icon';
