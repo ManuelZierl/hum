@@ -18,7 +18,11 @@
       "@hum/ui-components": ["packages/ui-components/index.ts"],
       "@hum/ui-components/*": ["packages/ui-components/src/*"],
       "@hum/ui-screens": ["packages/ui-screens/src/index.ts"],
-      "@hum/ui-screens/*": ["packages/ui-screens/src/*"]
+      "@hum/ui-screens/*": ["packages/ui-screens/src/*"],
+      "@hum/lightning-client": ["packages/lightning-client/index.ts"],
+      "@hum/lightning-client/*": ["packages/lightning-client/src/*"],
+      "@hum/lightning-mocks": ["packages/lightning-mocks/index.ts"],
+      "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
