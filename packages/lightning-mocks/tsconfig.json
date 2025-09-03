@@ -6,8 +6,12 @@
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM"],
-    "types": ["jest", "react", "react-native"],
-    "typeRoots": ["../../tests", "../../node_modules/@types"]
+    "types": ["node", "jest", "react", "react-native"],
+    "typeRoots": ["../../tests", "../../node_modules/@types"],
+    "paths": {
+      "@hum/lightning-client": ["../lightning-client/dist/index"],
+      "@hum/lightning-client/*": ["../lightning-client/dist/*"]
+    }
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]

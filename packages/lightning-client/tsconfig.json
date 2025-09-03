@@ -6,7 +6,7 @@
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM"],
-    "types": ["jest", "react", "react-native"],
+    "types": ["node", "jest", "react", "react-native"],
     "typeRoots": ["../../tests", "../../node_modules/@types"]
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
