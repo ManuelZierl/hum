@@ -52,7 +52,7 @@ impl HumClient {
         let device = self
             .client
             .encryption()
-            .get_device(&user_id, &device_id)
+            .get_device(user_id, device_id)
             .await?
             .ok_or_else(|| HumError::Other("device not found".into()))?;
 
