@@ -78,6 +78,9 @@ importers:
       lint-staged:
         specifier: ^16.1.5
         version: 16.1.5
+      metro:
+        specifier: 0.82.5
+        version: 0.82.5
       prettier:
         specifier: ^3.3.2
         version: 3.6.2
