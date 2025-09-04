@@ -30,7 +30,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "rm -rf dist && tsc -p tsconfig.json && node ./scripts/flatten-dist.cjs"
   },
   "peerDependencies": {
     "react": "^19.0.0",

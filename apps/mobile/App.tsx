@@ -9,7 +9,6 @@ import {
   SettingsScreen,
   type Chat,
 } from '@hum/ui-screens';
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);

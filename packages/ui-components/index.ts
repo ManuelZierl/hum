@@ -55,3 +55,4 @@ export type { ContactInlineProps } from './src/people/ContactInline';
 
 export { Icon } from './src/theme/Icon';
 export type { IconName, IconProps } from './src/theme/Icon';
+// Keep safe-area-context imports direct from app to avoid indirection.

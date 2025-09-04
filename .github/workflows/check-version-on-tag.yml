@@ -14,26 +14,23 @@ jobs:
         with:
           fetch-tags: true
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Install
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Sync version from tag and validate
-        run: pnpm sync:version
+        run: npm run sync:version
 
       - name: Generate build info
-        run: pnpm build-info
+        run: npm run build-info
 
       - name: Typecheck / Lint / Test / Storybook build
         run: |
-          pnpm typecheck
-          pnpm lint
-          pnpm test
-          pnpm storybook:build
+          npm run typecheck
+          npm run lint
+          npm test
+          npm run storybook:build

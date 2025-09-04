@@ -15,33 +15,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: corepack enable pnpm
-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - run: corepack enable pnpm
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Lint
-        run: pnpm lint
+        run: npm run lint
 
       - name: Typecheck
-        run: pnpm typecheck
+        run: npm run typecheck
 
       - name: Format
-        run: pnpm format:check
+        run: npm run format:check
 
       - name: Test
-        run: pnpm test
+        run: npm test
 
       - name: Build packages
-        run: pnpm -r --filter './packages/*' build
+        run: npm run -ws --if-present build
 
   rust:
     runs-on: ubuntu-latest
@@ -80,30 +76,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: corepack enable pnpm
-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - run: corepack enable pnpm
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Build Storybook
-        run: pnpm storybook:build
+        run: npm run storybook:build
 
       - name: Run Storybook smoke tests
-        run: SB_STATIC=1 pnpm test:sb:e2e
+        run: SB_STATIC=1 npm run test:sb:e2e

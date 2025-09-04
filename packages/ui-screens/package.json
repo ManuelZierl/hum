@@ -26,7 +26,7 @@
     "react-native-safe-area-context": "5.4.0"
   },
   "dependencies": {
-    "@hum/ui-components": "workspace:*",
+    "@hum/ui-components": "file:../ui-components",
     "@testing-library/jest-dom": "6.8.0"
   }
 }

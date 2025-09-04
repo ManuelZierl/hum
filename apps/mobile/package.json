@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "prestart": "pnpm --filter @hum/ui-components build && pnpm --filter @hum/ui-screens build",
+    "prestart": "npm run -w @hum/ui-components build && npm run -w @hum/ui-screens build",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -13,12 +13,13 @@
   "dependencies": {
     "@babel/runtime": "7.28.3",
     "@react-native-async-storage/async-storage": "2.1.2",
-    "@hum/ui-components": "workspace:*",
-    "@hum/ui-screens": "workspace:*",
+    "@hum/ui-components": "file:../../packages/ui-components",
+    "@hum/ui-screens": "file:../../packages/ui-screens",
     "expo": "~53.0.22",
-    "react": "19.1.1",
+    "react": "19.0.0",
     "react-native": "0.79.5",
-    "react-native-safe-area-context": "5.4.0"
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-svg": "15.11.2"
   },
   "devDependencies": {
     "@types/react": "~19.0.14",

@@ -38,7 +38,6 @@ This repository currently contains the initial project skeleton.
 | packages/message-ui      | Chat message UI components                |
 | packages/push-contract   | Types for push notification contract      |
 | packages/ui-tokens       | Design tokens for consistent theming      |
-| native/ln-core           | Mock Lightning node core for Expo modules |
 | native/rust              | Rust workspace for core functionality     |
 | docs/adr                 | Architecture decision records             |
 | docs/a11y-checklist.md   | Accessibility checklist                   |
@@ -56,11 +55,11 @@ This repository currently contains the initial project skeleton.
 - `react-native-web` logs peer dependency warnings for React 18; these are safe to ignore when using React 19.
 - TypeScript prop extraction is disabled (`reactDocgen: false`) to avoid `jsdoc-type-pratt-parser` runtime errors with React 19.
 
-Run Storybook with `pnpm -F storybook start`.
+Run Storybook with `npm --prefix apps/storybook start` or `npm run sb:start`.
 
 ### Mobile
 
-Start the Expo app with `pnpm -F mobile start -- --clear`.
+Start the Expo app with `npm --prefix apps/mobile start`.
 
 ## Contributing Flow
 

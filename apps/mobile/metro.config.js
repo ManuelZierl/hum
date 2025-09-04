@@ -2,13 +2,16 @@ const path = require('path');
 const { getDefaultConfig } = require('expo/metro-config');
 
 const projectRoot = __dirname;
-const workspaceRoot = path.resolve(__dirname, '..', '..');
+const workspaceRoot = path.resolve(projectRoot, '..', '..');
 
 const config = getDefaultConfig(projectRoot);
 
+// Allow resolving symlinked packages in a monorepo and watch the workspace.
 config.watchFolders = [workspaceRoot];
+
 config.resolver = {
   ...config.resolver,
+  unstable_enableSymlinks: true,
   nodeModulesPaths: [
     path.resolve(projectRoot, 'node_modules'),
     path.resolve(workspaceRoot, 'node_modules'),
