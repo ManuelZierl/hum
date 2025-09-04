@@ -12,7 +12,7 @@ import {
   AvatarFallback,
   type AvatarProps,
 } from './avatar';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 function renderAvatar(

@@ -9,9 +9,64 @@ on:
       - main
       - develop
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
-  node:
+  changes:
     runs-on: ubuntu-latest
+    outputs:
+      node: ${{ steps.filter.outputs.node }}
+      rust: ${{ steps.filter.outputs.rust }}
+      storybook: ${{ steps.filter.outputs.storybook }}
+      ci: ${{ steps.filter.outputs.ci }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            node:
+              - 'apps/**'
+              - 'packages/**'
+              - 'scripts/**'
+              - 'tests/**'
+              - 'docs/**'
+              - 'assets/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - '.nvmrc'
+              - '.prettierrc.json'
+              - '.prettierignore'
+              - 'eslint.config.mjs'
+              - 'jest.config.js'
+              - 'tsconfig*.json'
+              - 'metro.config.js'
+            rust:
+              - 'native/rust/**'
+            storybook:
+              - 'e2e/**'
+              - 'apps/**'
+              - 'packages/**'
+              - 'docs/**'
+              - 'assets/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - '.nvmrc'
+              - 'playwright.config.ts'
+              - 'tsconfig*.json'
+            ci:
+              - '.github/workflows/**'
+
+  node:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
     steps:
       - uses: actions/checkout@v4
 
@@ -40,18 +95,17 @@ jobs:
         run: npm run -ws --if-present build
 
   rust:
+    needs: changes
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.rust == 'true' || needs.changes.outputs.ci == 'true'
     defaults:
       run:
         working-directory: native/rust
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          profile: minimal
-          override: true
           components: rustfmt, clippy
 
       - uses: Swatinem/rust-cache@v2
@@ -72,7 +126,9 @@ jobs:
       #  run: cargo test --features sqlite
 
   storybook-e2e:
+    needs: changes
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.storybook == 'true' || needs.changes.outputs.ci == 'true'
     steps:
       - uses: actions/checkout@v4
 

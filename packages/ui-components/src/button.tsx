@@ -8,7 +8,7 @@ import {
   TextStyle,
   PressableProps,
 } from 'react-native';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/theme-provider';
 
 export type ButtonVariant =
   | 'default'

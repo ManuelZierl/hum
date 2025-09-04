@@ -5,8 +5,8 @@ import {
   BottomNavItem,
   type BottomNavItemProps,
 } from './bottom-navigation-item';
-import { Icon } from './theme/Icon';
-import { ThemeProvider } from './theme/ThemeProvider';
+import { Icon } from './theme/icon';
+import { ThemeProvider } from './theme/theme-provider';
 import { colors } from './theme/colors';
 
 type Scheme = 'light' | 'dark';
