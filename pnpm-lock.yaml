@@ -249,6 +249,9 @@ importers:
 
   packages/ui-screens:
     dependencies:
+      '@hum/ui-components':
+        specifier: workspace:*
+        version: link:../ui-components
       '@testing-library/jest-dom':
         specifier: 6.8.0
         version: 6.8.0
