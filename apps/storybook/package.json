@@ -7,12 +7,13 @@
   "scripts": {
     "start": "storybook dev -p 7007",
     "ios": "expo run:ios",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "build": "storybook build"
   },
   "dependencies": {
     "@babel/runtime": "7.28.3",
-    "@hum/ui-components": "workspace:*",
-    "@hum/ui-screens": "workspace:*",
+    "@hum/ui-components": "file:../../packages/ui-components",
+    "@hum/ui-screens": "file:../../packages/ui-screens",
     "expo": "~53.0.22",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -17,7 +17,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@hum/lightning-client": "workspace:*"
+    "@hum/lightning-client": "file:../lightning-client"
   },
   "peerDependencies": {
     "react": "^19.0.0",
