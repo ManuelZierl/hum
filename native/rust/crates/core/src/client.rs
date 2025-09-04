@@ -1,10 +1,7 @@
 //! Client implementation wrapping the Matrix SDK.
 
-use crate::{
-    config::ClientConfig,
-    error::{HumError, Result},
-};
-use matrix_sdk::{Client, encryption::verification::VerificationRequest};
+use crate::{config::ClientConfig, error::Result};
+use matrix_sdk::Client;
 
 /// High level client used by the application.
 pub struct HumClient {
@@ -35,35 +32,16 @@ impl HumClient {
         &self.client
     }
 
-    /// Request verification for the current device.
+    /// Bootstrap the current device from a recovery key.
     ///
-    /// This will initiate a verification flow with another of the user's
-    /// devices so that the current device can be marked as trusted.
-    pub async fn request_verification(&self) -> Result<VerificationRequest> {
-        let user_id = self
-            .client
-            .user_id()
-            .ok_or_else(|| HumError::Other("missing user id".into()))?;
-        let device_id = self
-            .client
-            .device_id()
-            .ok_or_else(|| HumError::Other("missing device id".into()))?;
+    /// This unlocks Secret Storage using the provided recovery key,
+    /// imports the cross-signing keys and marks this device as verified.
+    pub async fn bootstrap_from_recovery_key(&self, key: &str) -> Result<()> {
+        let store = self.client.encryption().secret_storage();
+        let secret_store = store.open_secret_store(key).await?;
+        secret_store.import_secrets().await?;
 
-        let devices = self
-            .client
-            .encryption()
-            .get_user_devices(user_id)
-            .await?;
-
-        let Some(device) = devices
-            .devices()
-            .find(|d| d.device_id() != device_id && d.is_verified())
-        else {
-            return Err(HumError::Other("no verified device available".into()));
-        };
-
-        let request = device.request_verification().await?;
-        Ok(request)
+        Ok(())
     }
 }
 

@@ -46,6 +46,12 @@ impl From<matrix_sdk::encryption::CryptoStoreError> for HumError {
     }
 }
 
+impl From<matrix_sdk::encryption::secret_storage::SecretStorageError> for HumError {
+    fn from(err: matrix_sdk::encryption::secret_storage::SecretStorageError) -> Self {
+        HumError::Other(err.to_string())
+    }
+}
+
 impl From<anyhow::Error> for HumError {
     fn from(err: anyhow::Error) -> Self {
         HumError::Other(err.to_string())

@@ -22,31 +22,19 @@ async fn main() -> Result<()> {
     client.login_username(&username, &password).await?;
     client.start_sync_background().await?;
 
-    // Request verification for this device and handle it via SAS over the console
-    if let Ok(request) = client.request_verification().await
-        && let Ok(Some(sas)) = request.start_sas().await
-    {
-        // Accept the SAS verification and display the emojis to the user
-        sas.accept().await?;
-        if let Some(emojis) = sas.emoji() {
-            println!("Compare the following emoji with your other device:");
-            for e in emojis {
-                print!("{} ", e.symbol);
-            }
-            println!();
-            print!("Do the emoji match? (yes/no): ");
-            io::stdout().flush().ok();
-            let mut input = String::new();
-            io::stdin().read_line(&mut input).ok();
-            if input.trim().eq_ignore_ascii_case("yes") {
-                sas.confirm().await?;
-                println!("Device successfully verified");
-            } else {
-                sas.cancel().await?;
-                println!("Verification cancelled");
-            }
-        }
-    }
+    // Unlock secret storage using the recovery key if provided
+    let recovery_key = if let Ok(key) = env::var("MATRIX_RECOVERY_KEY") {
+        key
+    } else {
+        print!("Enter recovery key: ");
+        io::stdout().flush().ok();
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).ok();
+        input.trim().to_owned()
+    };
+
+    client.bootstrap_from_recovery_key(&recovery_key).await?;
+    println!("Device successfully verified via recovery key");
     if let Ok(room) = env::var("MATRIX_ROOM") {
         client.send_text(&room, "Hello from Hum CLI").await?;
     }
