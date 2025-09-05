@@ -25,7 +25,11 @@
     "sb:dev": "npm run storybook:dev",
     "sb:build": "npm run storybook:build",
     "sb:ios": "npm run storybook:ios",
-    "sb:android": "npm run storybook:android"
+    "sb:android": "npm run storybook:android",
+    "rust:test": "cargo test --manifest-path native/rust/Cargo.toml",
+    "rust:format": "cargo fmt --all --manifest-path native/rust/Cargo.toml",
+    "rust:lint": "cargo clippy --manifest-path native/rust/Cargo.toml --all-targets --all-features -- -D warnings",
+    "rust:check": "cargo check --manifest-path native/rust/Cargo.toml"
   },
   "keywords": [],
   "author": "",
@@ -42,7 +46,8 @@
       "bash -lc 'npm run format'"
     ],
     "*": [
-      "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'"
+      "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'",
+      "bash -lc 'cargo check --manifest-path native/rust/Cargo.toml'"
     ]
   },
   "private": true,
