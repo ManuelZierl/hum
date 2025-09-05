@@ -31,6 +31,18 @@ impl HumClient {
     pub fn inner(&self) -> &Client {
         &self.client
     }
+
+    /// Bootstrap the current device from a recovery key.
+    ///
+    /// This unlocks Secret Storage using the provided recovery key,
+    /// imports the cross-signing keys and marks this device as verified.
+    pub async fn bootstrap_from_recovery_key(&self, key: &str) -> Result<()> {
+        let store = self.client.encryption().secret_storage();
+        let secret_store = store.open_secret_store(key).await?;
+        secret_store.import_secrets().await?;
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]

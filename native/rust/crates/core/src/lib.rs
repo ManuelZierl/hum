@@ -10,6 +10,8 @@ pub mod config;
 pub mod error;
 pub mod messaging;
 pub mod sync;
+pub mod timeline;
 
 pub use client::HumClient;
 pub use error::{HumError, Result};
+pub use timeline::TextMessage;
