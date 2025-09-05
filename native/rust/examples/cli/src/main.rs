@@ -142,6 +142,10 @@ async fn main() -> Result<()> {
 #[derive(Debug, Clone)]
 enum UiEvent {
     IncomingMessage {
+
+
+
+        
         room_id: OwnedRoomId,
         sender: OwnedUserId,
         body: String,
