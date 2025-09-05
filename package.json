@@ -41,8 +41,8 @@
     "**/*.{ts,tsx,js,json,md}": [
       "bash -lc 'npm run format'"
     ],
-    "**/*.rs": [
-      "cargo fmt --all --manifest-path native/rust/Cargo.toml"
+    "*": [
+      "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'"
     ]
   },
   "private": true,
