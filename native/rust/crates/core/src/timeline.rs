@@ -5,8 +5,8 @@ use matrix_sdk::{
     event_handler::EventHandlerHandle,
     room::MessagesOptions,
     ruma::{
-        events::room::message::{MessageType, OriginalSyncRoomMessageEvent},
         OwnedRoomId, OwnedUserId, RoomId,
+        events::room::message::{MessageType, OriginalSyncRoomMessageEvent},
     },
 };
 use tokio::sync::mpsc::UnboundedSender;
@@ -26,26 +26,28 @@ impl HumClient {
     /// Returns an [`EventHandlerHandle`] that can be dropped to remove the handler.
     pub fn forward_text_messages_to(&self, tx: UnboundedSender<TextMessage>) -> EventHandlerHandle {
         let client = self.client.clone();
-        client.add_event_handler(move |ev: OriginalSyncRoomMessageEvent, room: matrix_sdk::room::Room| {
-            let tx = tx.clone();
-            async move {
-                if room.state() == matrix_sdk::RoomState::Joined {
-                    let body = match &ev.content.msgtype {
-                        MessageType::Text(c) => Some(c.body.clone()),
-                        MessageType::Notice(c) => Some(c.body.clone()),
-                        _ => None,
-                    };
-                    if let Some(body) = body {
-                        let _ = tx.send(TextMessage {
-                            room_id: room.room_id().to_owned(),
-                            sender: ev.sender.to_owned(),
-                            body,
-                            ts: ev.origin_server_ts.0.into(),
-                        });
+        client.add_event_handler(
+            move |ev: OriginalSyncRoomMessageEvent, room: matrix_sdk::room::Room| {
+                let tx = tx.clone();
+                async move {
+                    if room.state() == matrix_sdk::RoomState::Joined {
+                        let body = match &ev.content.msgtype {
+                            MessageType::Text(c) => Some(c.body.clone()),
+                            MessageType::Notice(c) => Some(c.body.clone()),
+                            _ => None,
+                        };
+                        if let Some(body) = body {
+                            let _ = tx.send(TextMessage {
+                                room_id: room.room_id().to_owned(),
+                                sender: ev.sender.to_owned(),
+                                body,
+                                ts: ev.origin_server_ts.0.into(),
+                            });
+                        }
                     }
                 }
-            }
-        })
+            },
+        )
     }
 
     /// Fetch a page of recent text/notice messages from a room, in backward direction.

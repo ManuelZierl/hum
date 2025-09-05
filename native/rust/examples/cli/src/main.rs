@@ -7,23 +7,27 @@ use std::{
 };
 
 use anyhow::Error;
-use hum_matrix_core::{config::ClientConfig, HumClient, Result, TextMessage};
-use matrix_sdk::{authentication::matrix::MatrixSession, ruma::{OwnedRoomId, OwnedUserId}, Client};
+use hum_matrix_core::{HumClient, Result, TextMessage, config::ClientConfig};
+use matrix_sdk::{
+    Client,
+    authentication::matrix::MatrixSession,
+    ruma::{OwnedRoomId, OwnedUserId},
+};
 use tokio::sync::mpsc;
 
 // TUI
 use crossterm::{
     event::{self, Event as CEvent, KeyCode, KeyEventKind},
     execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
 use ratatui::{
+    Terminal,
     backend::CrosstermBackend,
     layout::{Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, List, ListItem, Paragraph},
-    Terminal,
 };
 
 #[tokio::main]
@@ -76,7 +80,11 @@ async fn main() -> Result<()> {
     let tx_ui = tx.clone();
     tokio::spawn(async move {
         while let Some(tm) = rx_msg.recv().await {
-            let _ = tx_ui.send(UiEvent::IncomingMessage { room_id: tm.room_id, sender: tm.sender, body: tm.body });
+            let _ = tx_ui.send(UiEvent::IncomingMessage {
+                room_id: tm.room_id,
+                sender: tm.sender,
+                body: tm.body,
+            });
         }
     });
 
@@ -117,7 +125,11 @@ async fn main() -> Result<()> {
     let rooms = sdk_client
         .joined_rooms()
         .into_iter()
-        .map(|r| RoomItem { id: r.room_id().to_owned(), name: r.room_id().to_string(), unread: 0 })
+        .map(|r| RoomItem {
+            id: r.room_id().to_owned(),
+            name: r.room_id().to_string(),
+            unread: 0,
+        })
         .collect::<Vec<_>>();
 
     let mut app = App::new(my_user, rooms);
@@ -129,7 +141,11 @@ async fn main() -> Result<()> {
 
 #[derive(Debug, Clone)]
 enum UiEvent {
-    IncomingMessage { room_id: OwnedRoomId, sender: OwnedUserId, body: String },
+    IncomingMessage {
+        room_id: OwnedRoomId,
+        sender: OwnedUserId,
+        body: String,
+    },
 }
 
 #[derive(Debug, Clone)]
@@ -182,15 +198,23 @@ impl App {
 
     fn on_incoming(&mut self, ev: UiEvent) {
         match ev {
-            UiEvent::IncomingMessage { room_id, sender, body } => {
-                let msg = Msg { sender: sender.to_string(), body };
+            UiEvent::IncomingMessage {
+                room_id,
+                sender,
+                body,
+            } => {
+                let msg = Msg {
+                    sender: sender.to_string(),
+                    body,
+                };
                 self.messages.entry(room_id.clone()).or_default().push(msg);
 
                 // Unread count if not self and not currently viewing this room
                 let is_self = sender == self.my_user;
                 let viewing_this_room =
                     self.mode == Mode::RoomView && Some(&room_id) == self.current_room_id();
-                if !is_self && !viewing_this_room
+                if !is_self
+                    && !viewing_this_room
                     && let Some(room) = self.rooms.iter_mut().find(|r| r.id == room_id)
                 {
                     room.unread = room.unread.saturating_add(1);
@@ -225,7 +249,9 @@ async fn run_ui(
                 && let CEvent::Key(key) = event::read()?
                 && key.kind == KeyEventKind::Press
                 && handle_key(sdk_client, hum_client, app, key.code).await?
-            { break; }
+            {
+                break;
+            }
         }
         anyhow::Ok(())
     }
@@ -263,8 +289,16 @@ fn draw_room_list(f: &mut ratatui::Frame, app: &App) {
         .collect();
 
     let list = List::new(items)
-        .block(Block::default().borders(Borders::ALL).title("Hum Matrix - Rooms"))
-        .highlight_style(Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD));
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title("Hum Matrix - Rooms"),
+        )
+        .highlight_style(
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
+        );
 
     f.render_stateful_widget(list, size, &mut list_state(app.selected));
 }
@@ -285,7 +319,11 @@ fn draw_room_view(f: &mut ratatui::Frame, app: &App) {
         Some(id) => id,
         None => return,
     };
-    let msgs = app.messages.get(room_id).map(|v| v.as_slice()).unwrap_or(&[]);
+    let msgs = app
+        .messages
+        .get(room_id)
+        .map(|v| v.as_slice())
+        .unwrap_or(&[]);
 
     // Show last N messages, with optional scrollback
     let height = chunks[0].height as usize;
@@ -297,11 +335,18 @@ fn draw_room_view(f: &mut ratatui::Frame, app: &App) {
         .collect();
 
     let messages = Paragraph::new(lines)
-        .block(Block::default().borders(Borders::ALL).title(room_id.as_ref()))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(room_id.as_ref()),
+        )
         .scroll((0, 0));
 
-    let input = Paragraph::new(app.input.as_str())
-        .block(Block::default().borders(Borders::ALL).title("Message (Enter to send, b to back)"));
+    let input = Paragraph::new(app.input.as_str()).block(
+        Block::default()
+            .borders(Borders::ALL)
+            .title("Message (Enter to send, b to back)"),
+    );
 
     f.render_widget(messages, chunks[0]);
     f.render_widget(input, chunks[1]);
@@ -338,7 +383,10 @@ async fn handle_key(
                         .fetch_recent_text_messages(room_id.as_ref(), None, 50)
                         .await?;
                     let entry = app.messages.entry(room_id.clone()).or_default();
-                    entry.extend(msgs.into_iter().map(|m| Msg { sender: m.sender.to_string(), body: m.body }));
+                    entry.extend(msgs.into_iter().map(|m| Msg {
+                        sender: m.sender.to_string(),
+                        body: m.body,
+                    }));
                     app.next_from.insert(room_id, next_from);
                 }
             }
@@ -366,7 +414,10 @@ async fn handle_key(
                     // Prepend older messages
                     let new_msgs: Vec<Msg> = msgs
                         .into_iter()
-                        .map(|m| Msg { sender: m.sender.to_string(), body: m.body })
+                        .map(|m| Msg {
+                            sender: m.sender.to_string(),
+                            body: m.body,
+                        })
                         .collect();
                     // Keep newest last; insert at front by rebuilding vector
                     let mut combined = new_msgs;
@@ -387,10 +438,10 @@ async fn handle_key(
                 if let Some(room_id) = app.current_room_id().cloned()
                     && !app.input.trim().is_empty()
                 {
-                        // Send the message
-                        let body = app.input.clone();
-                        hum_client.send_text(room_id.as_str(), &body).await?;
-                        app.input.clear();
+                    // Send the message
+                    let body = app.input.clone();
+                    hum_client.send_text(room_id.as_str(), &body).await?;
+                    app.input.clear();
                 }
             }
             KeyCode::Char(c) => {

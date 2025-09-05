@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# node
 pnpm lint
 pnpm typecheck
 pnpm format
+
+# rust
+cargo fmt --all --manifest-path native/rust/Cargo.toml
