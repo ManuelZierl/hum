@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-env node */
-/* eslint-disable @typescript-eslint/no-require-imports */
+
 /* eslint-disable no-undef */
 const path = require('path');
 const fs = require('fs');

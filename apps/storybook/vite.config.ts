@@ -13,7 +13,10 @@ const r = (...p: string[]) => path.resolve(__dirname, ...p);
  * pre-bundling issues.
  */
 export default defineConfig({
-  plugins: [svgr({ exportAsDefault: true, include: '**/*.svg' }), react()],
+  plugins: [
+    svgr({ include: '**/*.svg', svgrOptions: { exportType: 'default' } }),
+    react(),
+  ],
   resolve: {
     alias: {
       'react-native': 'react-native-web',

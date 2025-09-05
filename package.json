@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm --prefix apps/mobile start",
-    "typecheck": "tsc -p packages/ui-components/tsconfig.json",
-    "lint": "eslint 'packages/**/*.{ts,tsx,js}'",
+    "typecheck": "tsc -p tsconfig.typecheck.json",
+    "lint": "eslint 'packages/**/*.{ts,tsx,js}' 'apps/**/*.{ts,tsx,js}' 'scripts/**/*.cjs' --fix",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "format:check": "prettier --check '**/*.{ts,tsx,js,json,md}'",
     "prepare": "husky",
@@ -32,11 +32,17 @@
   "license": "AGPL-3.0-only",
   "type": "commonjs",
   "lint-staged": {
-    "*.{ts,tsx,js,json,md}": [
-      "prettier --write"
+    "**/*.{ts,tsx,js}": [
+      "bash -lc 'npm run lint'"
     ],
-    "*.{ts,tsx,js}": [
-      "eslint --cache --fix"
+    "**/*.ts?(x)": [
+      "bash -lc 'npm run typecheck'"
+    ],
+    "**/*.{ts,tsx,js,json,md}": [
+      "bash -lc 'npm run format'"
+    ],
+    "*": [
+      "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'"
     ]
   },
   "private": true,
@@ -80,7 +86,9 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.6.3"
   },
-  "overrides": {},
+  "overrides": {
+    "@types/react": "^19.1.12"
+  },
   "dependencies": {
     "@testing-library/react": "16.3.0"
   }

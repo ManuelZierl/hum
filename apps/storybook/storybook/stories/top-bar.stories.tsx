@@ -1,14 +1,14 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TopBar } from '@hum/ui-components';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 const meta: Meta<typeof TopBar> = {
   title: 'Components/TopBar',
   component: TopBar,
   decorators: [
     (Story) => (
-      <View style={{ flex: 1, width: 500 }}>
+      <View style={styles.container}>
         <Story />
       </View>
     ),
@@ -37,3 +37,7 @@ export const WithActions: Story = {
     ],
   },
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1, width: 500 },
+});

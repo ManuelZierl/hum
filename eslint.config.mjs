@@ -8,11 +8,34 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**'],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', "**/native/rust/**", "**/storybook-static/**"],
   },
   js.configs.recommended,
   ...tsPlugin.configs['flat/recommended'],
   reactPlugin.configs.flat.recommended,
+  // Node-style config files (CommonJS): enable Node globals and allow require()
+  {
+    files: [
+      '**/babel.config.js',
+      '**/metro.config.js',
+      '**/*.config.js',
+      'scripts/**/*.cjs',
+    ],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        module: 'writable',
+        exports: 'writable',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
   {
     plugins: {
       'react-hooks': reactHooks,

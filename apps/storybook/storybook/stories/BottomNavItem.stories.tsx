@@ -6,9 +6,16 @@ import {
   Icon,
 } from '@hum/ui-components';
 
-const ExampleItem: React.FC<BottomNavItemProps> = (props) => (
-  <BottomNavItem icon={<Icon name="chat" />} label="Inbox" {...props} />
-);
+const ExampleItem: React.FC<BottomNavItemProps> = (props) => {
+  const { icon, label, ...rest } = props;
+  return (
+    <BottomNavItem
+      icon={icon ?? <Icon name="chat" />}
+      label={label ?? 'Inbox'}
+      {...rest}
+    />
+  );
+};
 
 const meta: Meta<typeof ExampleItem> = {
   title: 'Components/BottomNavItem',

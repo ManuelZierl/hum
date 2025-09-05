@@ -1,9 +1,3 @@
 #!/bin/sh
-
-# node
-npm run lint
-npm run typecheck
-npm run format
-
-# rust
-cargo fmt --all --manifest-path native/rust/Cargo.toml
+. "$(dirname "$0")/_/husky.sh"
+lint-staged
