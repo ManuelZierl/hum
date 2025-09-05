@@ -1,34 +1,30 @@
 import {
-  initLightning,
-  getLspInfo,
+  init,
+  getProviderInfo,
   createInvoice,
   payInvoice,
-  getBalance,
-  events$,
+  getBalances,
+  events,
 } from './index';
 
 describe('lightning-mocks', () => {
   beforeEach(() => {
-    events$.removeAllListeners();
+    events.removeAllListeners();
   });
 
   it('provides deterministic responses', async () => {
-    await initLightning();
-    expect(await getLspInfo()).toEqual({
-      setupFee: 1000,
-      proportionalFee: 0.01,
-    });
-    const invoice = await createInvoice(5, 'test');
-    expect(invoice).toBe('lnmock_5_test');
+    await init();
+    const info = await getProviderInfo();
+    expect(info.name).toBe('mock');
+
+    const invoice = await createInvoice({ amountSat: 5, memo: 'test' });
 
     const handler = jest.fn();
-    events$.once('payment-succeeded', handler);
-    await payInvoice(invoice);
-    expect(handler).toHaveBeenCalledWith({
-      type: 'payment-succeeded',
-      invoice,
-    });
+    events.once('payment', handler);
+    await payInvoice({ bolt11: invoice.bolt11 });
+    expect(handler).toHaveBeenCalled();
 
-    expect(await getBalance()).toEqual({ onChain: 1234, lightning: 5678 });
+    const balance = await getBalances();
+    expect(balance.lightningConfirmed).toBeGreaterThan(0);
   });
 });

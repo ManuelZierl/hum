@@ -1,47 +1,36 @@
-import { EventEmitter } from 'events';
-import type {
-  Balance,
-  LspInfo,
-  LightningClientApi,
+import {
+  LightningClient,
+  MockProvider,
+  validateAddress,
+  parseAmount,
+  formatAmount,
 } from '@hum/lightning-client';
 
-export const events$ = new EventEmitter();
+// single client instance for consumers
+const client = new LightningClient(new MockProvider());
 
-export async function initLightning(): Promise<void> {
-  // no-op for mocks
+export const events = client.events;
+
+export async function init(config?: unknown): Promise<void> {
+  await client.init(config);
 }
 
-export async function getLspInfo(): Promise<LspInfo> {
-  return { setupFee: 1000, proportionalFee: 0.01 };
+export function isReady(): boolean {
+  return client.isReady();
 }
 
-export async function createInvoice(
-  amount: number,
-  description: string,
-): Promise<string> {
-  return `lnmock_${amount}_${description}`;
-}
+export const getProviderInfo = () => client.getProviderInfo();
+export const getNodeInfo = () => client.getNodeInfo();
+export const getBalances = () => client.getBalances();
+export const createInvoice = client.createInvoice.bind(client);
+export const decodeInvoice = client.decodeInvoice.bind(client);
+export const payInvoice = client.payInvoice.bind(client);
+export const listPayments = client.listPayments.bind(client);
+export const lnurlPay = client.lnurlPay.bind(client);
+export const lnurlFetchMeta = client.lnurlFetchMeta.bind(client);
+export const subscribePayments = client.subscribePayments.bind(client);
+export const subscribeInvoices = client.subscribeInvoices.bind(client);
 
-export async function payInvoice(invoice: string): Promise<void> {
-  events$.emit('payment-succeeded', { type: 'payment-succeeded', invoice });
-}
+export { validateAddress, parseAmount, formatAmount };
 
-export async function getBalance(): Promise<Balance> {
-  return { onChain: 1234, lightning: 5678 };
-}
-
-const service: LightningClientApi = {
-  initLightning,
-  getLspInfo,
-  createInvoice,
-  payInvoice,
-  getBalance,
-  events$,
-};
-
-export function useLightning(): LightningClientApi {
-  return service;
-}
-
-export type { LightningError, LightningEvent } from '@hum/lightning-client';
-export default service;
+export default client;

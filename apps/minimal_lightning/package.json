@@ -1,0 +1,12 @@
+{
+  "name": "minimal_lightning",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "tsc --watch --outDir dist & http-server . -c-1",
+    "build": "tsc --outDir dist"
+  },
+  "dependencies": {
+    "@hum/lightning-client": "^0.1.0"
+  }
+}

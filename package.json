@@ -25,7 +25,11 @@
     "sb:dev": "npm run storybook:dev",
     "sb:build": "npm run storybook:build",
     "sb:ios": "npm run storybook:ios",
-    "sb:android": "npm run storybook:android"
+    "sb:android": "npm run storybook:android",
+    "dev:minlight": "npm --prefix apps/minimal_lightning run dev",
+    "build:minlight": "npm --prefix apps/minimal_lightning run build",
+    "test:lightning": "jest packages/lightning-client",
+    "build:lightning": "npm --prefix packages/lightning-client run build"
   },
   "keywords": [],
   "author": "",
