@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigation, 
-  
-  ThemeProvider } from '@hum/ui-components';
+import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
 import {
   ChatsScreen,
   ChatScreen,
@@ -16,11 +14,9 @@ export default function App() {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
 
   return (
-    <SafeAreaProvider
-    
-    >
+    <SafeAreaProvider>
       <ThemeProvider>
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
           {selectedChat ? (
             <ChatScreen
               chatName={selectedChat.name}
@@ -45,3 +41,7 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});
