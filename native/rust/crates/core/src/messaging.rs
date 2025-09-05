@@ -26,10 +26,12 @@ impl HumClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::error::HumError;
+    use httpmock::prelude::*;
+    use serde_json::json;
     use tempfile::tempdir;
 
     #[tokio::test]
-    #[ignore]
     async fn send_message_stub() {
         let dir = tempdir().unwrap();
         let cfg = crate::config::ClientConfig::new(
@@ -37,9 +39,78 @@ mod tests {
             dir.path().to_path_buf(),
         );
         let client = HumClient::new(cfg).await.unwrap();
-        client
+        let err = client
             .send_text("!room:example.com", "hi")
             .await
             .unwrap_err();
+        match err {
+            HumError::Other(msg) => assert_eq!(msg, "room not found"),
+            _ => panic!("unexpected error variant"),
+        }
+    }
+
+    #[tokio::test]
+    async fn send_text_attempts_network_after_sync() {
+        let server = MockServer::start();
+
+        // versions
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        // login
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEVICE",
+                "user_id": "@user:example.org"
+            }));
+        });
+        // sync that introduces a joined room
+        let room_id = "!r:example.org";
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {
+                    "join": {
+                        "!r:example.org": {
+                            "summary": {},
+                            "state": { "events": [] },
+                            "timeline": { "events": [], "limited": false, "prev_batch": "t" },
+                            "ephemeral": { "events": [] },
+                            "account_data": { "events": [] },
+                            "unread_notifications": {}
+                        }
+                    }
+                }
+            }));
+        });
+        // room encryption state: respond 404 so the SDK won't try to encrypt
+        let _encrypt_state = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/state/m.room.encryption");
+            then.status(404);
+        });
+
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+        client.login_username("user", "pass").await.unwrap();
+        client
+            .inner()
+            .sync_once(matrix_sdk::config::SyncSettings::default())
+            .await
+            .unwrap();
+
+        let err = client.send_text(room_id, "hi").await.unwrap_err();
+        // After sync, the room exists, so we should reach the network layer
+        // and receive an HTTP-shaped error instead of "room not found".
+        match err {
+            HumError::Matrix(_) => {}
+            other => panic!("unexpected error variant: {other:?}"),
+        }
     }
 }

@@ -1,7 +1,7 @@
 use std::env;
 
 use anyhow::Result;
-use matrix_sdk::{Client, config::SyncSettings};
+use hum_matrix_core::{HumClient, config::ClientConfig};
 use tempfile::tempdir;
 
 #[tokio::test]
@@ -19,21 +19,12 @@ async fn e2e_login_sync() -> Result<()> {
         env::var("MATRIX_HOMESERVER").unwrap_or_else(|_| "https://matrix.org".to_owned());
 
     let dir = tempdir()?;
-    let client = Client::builder()
-        .homeserver_url(homeserver)
-        .sqlite_store(dir.path(), None)
-        .build()
-        .await?;
+    let client = HumClient::new(ClientConfig::new(homeserver, dir.path().to_path_buf())).await?;
 
-    client
-        .matrix_auth()
-        .login_username(&username, &password)
-        .initial_device_display_name("hum-tests")
-        .send()
-        .await?;
-    assert!(client.session().is_some());
+    client.login_username(&username, &password).await?;
 
-    client.sync_once(SyncSettings::default()).await?;
+    // One-off sync to verify the session works; keep this as an e2e-only check.
+    client.start_sync(false).await?;
 
     Ok(())
 }

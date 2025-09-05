@@ -3,11 +3,10 @@ members = [
     "crates/core",
     "crates/ffi",
     "examples/cli",
-    "tests",
+    "e2e_tests",
 ]
 resolver = "2"
 
 [workspace.package]
 edition = "2024"
-
 
