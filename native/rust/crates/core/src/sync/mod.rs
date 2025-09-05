@@ -28,7 +28,6 @@ mod tests {
     use tempfile::tempdir;
 
     #[tokio::test]
-    #[ignore]
     async fn start_sync_stub() {
         let dir = tempdir().unwrap();
         let cfg = crate::config::ClientConfig::new(

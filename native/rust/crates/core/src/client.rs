@@ -49,19 +49,30 @@ impl HumClient {
 mod tests {
     use super::*;
     use tempfile::tempdir;
+    use httpmock::prelude::*;
+    use serde_json::json;
 
     #[tokio::test]
-    #[ignore]
     async fn create_client() {
         let dir = tempdir().unwrap();
-        let cfg = ClientConfig::new("https://example.com".into(), dir.path().to_path_buf());
+
+        // Mock versions so the client can initialize without internet.
+        let server = MockServer::start();
+        server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+
+        let cfg = ClientConfig::new(server.base_url(), dir.path().to_path_buf());
         let client = HumClient::new(cfg).await.unwrap();
         assert!(
             client
                 .inner()
                 .homeserver()
                 .to_string()
-                .contains("example.com")
+                .contains(&server.base_url())
         );
+        // Some SDK versions may not call /versions on build; skip strict assertion.
     }
 }
