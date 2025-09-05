@@ -25,9 +25,7 @@ async fn e2e_send_message() -> Result<()> {
     let dir = tempdir()?;
     let client = HumClient::new(ClientConfig::new(homeserver, dir.path().to_path_buf())).await?;
 
-    client
-        .login_username(&username, &password)
-        .await?;
+    client.login_username(&username, &password).await?;
 
     // Send a message via the wrapper API.
     client

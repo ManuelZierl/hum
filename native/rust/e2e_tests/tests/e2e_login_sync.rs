@@ -21,13 +21,10 @@ async fn e2e_login_sync() -> Result<()> {
     let dir = tempdir()?;
     let client = HumClient::new(ClientConfig::new(homeserver, dir.path().to_path_buf())).await?;
 
-    client
-        .login_username(&username, &password)
-        .await?;
+    client.login_username(&username, &password).await?;
 
     // One-off sync to verify the session works; keep this as an e2e-only check.
     client.start_sync(false).await?;
 
     Ok(())
 }
-

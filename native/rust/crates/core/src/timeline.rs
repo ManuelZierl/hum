@@ -104,11 +104,11 @@ impl HumClient {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tempfile::tempdir;
     use httpmock::prelude::*;
-    use serde_json::json;
     use matrix_sdk::config::SyncSettings;
-    use tokio::time::{timeout, Duration};
+    use serde_json::json;
+    use tempfile::tempdir;
+    use tokio::time::{Duration, timeout};
 
     #[tokio::test]
     async fn installs_forwarder_handler() {
@@ -158,7 +158,8 @@ mod tests {
         });
         // messages endpoint returning two message events out of order by ts
         let _messages = server.mock(|when, then| {
-            when.method(GET).path("/_matrix/client/v3/rooms/!r:example.org/messages");
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/messages");
             then.status(200).json_body(json!({
                 "start": "p",
                 "end": "n",
@@ -185,7 +186,11 @@ mod tests {
         let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
         let client = HumClient::new(cfg).await.unwrap();
         client.login_username("user", "pass").await.unwrap();
-        client.inner().sync_once(SyncSettings::default()).await.unwrap();
+        client
+            .inner()
+            .sync_once(SyncSettings::default())
+            .await
+            .unwrap();
 
         let room_id: matrix_sdk::ruma::OwnedRoomId = "!r:example.org".parse().unwrap();
         let (msgs, next) = client
@@ -247,7 +252,11 @@ mod tests {
         let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel::<TextMessage>();
         let _handle = client.forward_text_messages_to(tx);
 
-        client.inner().sync_once(SyncSettings::default()).await.unwrap();
+        client
+            .inner()
+            .sync_once(SyncSettings::default())
+            .await
+            .unwrap();
 
         let msg = timeout(Duration::from_secs(1), async move { rx.recv().await })
             .await

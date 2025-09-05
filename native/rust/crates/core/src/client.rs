@@ -48,9 +48,9 @@ impl HumClient {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tempfile::tempdir;
     use httpmock::prelude::*;
     use serde_json::json;
+    use tempfile::tempdir;
 
     #[tokio::test]
     async fn create_client() {
