@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
 import {
@@ -14,10 +14,12 @@ export default function App() {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
+  const systemScheme = useColorScheme() ?? 'light';
+  const resolvedScheme = theme === 'auto' ? systemScheme : theme;
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider forcedScheme={theme === 'auto' ? undefined : theme}>
+      <ThemeProvider forcedScheme={resolvedScheme}>
         <View style={styles.container}>
           {selectedChat ? (
             <ChatScreen
