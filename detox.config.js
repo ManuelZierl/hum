@@ -1,6 +1,12 @@
 /* eslint-env node */
 /* eslint-disable no-undef */
 module.exports = {
+  testRunner: {
+    args: {
+      $0: 'jest',
+      config: 'detox/jest.config.js',
+    },
+  },
   apps: {
     'myApp.ios': {
       type: 'ios.app',
@@ -35,11 +41,6 @@ module.exports = {
     'android.emu.debug': {
       device: 'emulator',
       app: 'myApp.android',
-    },
-  },
-  runner: {
-    jest: {
-      config: 'tests/detox/jest.config.js',
     },
   },
 };
