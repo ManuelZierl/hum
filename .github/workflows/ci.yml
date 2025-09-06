@@ -189,3 +189,4 @@ jobs:
           script: |
             DEV_FEATURES=1 npm run detox:build:android
             npm run detox:test:android
+          emulator-boot-timeout: 600
