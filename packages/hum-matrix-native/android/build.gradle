@@ -1,13 +1,3 @@
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-  dependencies {
-    classpath("com.android.tools.build:gradle:8.2.2")
-  }
-}
-
 apply plugin: 'com.android.library'
 
 def safeExtGet(prop, fallback) {
@@ -15,13 +5,18 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-  namespace "com.hum.native"
-  compileSdkVersion safeExtGet('compileSdkVersion', 34)
+  namespace "com.hum.nativepkg"
+  compileSdk 34
 
   defaultConfig {
     minSdkVersion safeExtGet('minSdkVersion', 23)
-    targetSdkVersion safeExtGet('targetSdkVersion', 34)
+    targetSdk safeExtGet('targetSdkVersion', 34)
     consumerProguardFiles 'consumer-rules.pro'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 
   sourceSets {
@@ -71,3 +66,8 @@ tasks.register('copyRustLibs') { t ->
 
 tasks.named('copyRustLibs').configure { it.dependsOn tasks.named('buildRustAndroid') }
 preBuild.dependsOn tasks.named('copyRustLibs')
+
+dependencies {
+  implementation("com.facebook.react:react-android")
+  implementation 'androidx.annotation:annotation:1.7.1'
+}
