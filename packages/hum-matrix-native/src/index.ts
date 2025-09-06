@@ -15,4 +15,3 @@ const Module: HumMatrixNative = {
 };
 
 export default Module;
-

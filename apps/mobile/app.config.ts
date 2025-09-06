@@ -37,5 +37,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     ...(config.plugins ?? []),
     // './plugins/with-matrix-core',
+    ...(process.env.WITH_HUM_RUST === 'true'
+      ? ['./plugins/with-hum-rust']
+      : []),
   ],
 });
