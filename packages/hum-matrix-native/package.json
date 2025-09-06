@@ -1,0 +1,9 @@
+{
+  "name": "@hum/matrix-native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TypeScript contract for the Hum Matrix native module (React Native)",
+  "main": "src/types.ts",
+  "types": "src/types.ts",
+  "license": "AGPL-3.0-only"
+}
