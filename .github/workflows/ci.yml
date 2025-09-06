@@ -8,6 +8,7 @@ on:
     branches:
       - main
       - develop
+  workflows
 
 permissions:
   contents: read
@@ -161,7 +162,7 @@ jobs:
   detox-android:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.detox == 'true'
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.detox == 'true' || needs.changes.outputs.ci == 'true'
     steps:
       - uses: actions/checkout@v4
 
