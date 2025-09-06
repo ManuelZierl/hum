@@ -3,7 +3,7 @@
 module.exports = {
   testRunner: 'jest',
   runnerConfig: 'detox/jest.config.js',
-  configs: {
+  configurations: {
     'ios.sim.debug': {
       type: 'ios.simulator',
       device: { type: 'iPhone 15' },
@@ -17,7 +17,7 @@ module.exports = {
     },
     'android.emu.debug': {
       type: 'android.emulator',
-      device: { avdName: 'Pixel_6_API_34' },
+      device: { avdName: 'test' },
       app: {
         type: 'android.apk',
         binaryPath:
