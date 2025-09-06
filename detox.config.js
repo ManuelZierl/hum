@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 module.exports = {
   testRunner: 'jest',
-  runnerConfig: 'e2e/jest.config.js',
+  runnerConfig: 'detox/jest.config.js',
   configs: {
     'ios.sim.debug': {
       type: 'ios.simulator',

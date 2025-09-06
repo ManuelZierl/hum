@@ -5,5 +5,5 @@ module.exports = {
   testRunner: 'jest-circus/runner',
   setupFilesAfterEnv: ['detox/runners/jest/adapter'],
   reporters: ['detox/runners/jest/reporter'],
-  testMatch: ['**/e2e/**/*.spec.js'],
+  testMatch: ['**/detox/**/*.spec.js'],
 };
