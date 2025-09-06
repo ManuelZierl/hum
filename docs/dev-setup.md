@@ -59,3 +59,29 @@ npx expo prebuild
 ```
 
 The plugin copies `jniLibs` into `apps/mobile/android/app/src/main/jniLibs/`.
+
+## iOS Rust (xcframework) prerequisites
+
+- Install Xcode command line tools; ensure `xcodebuild` is available.
+- Ensure Rust is installed; iOS targets will be invoked by the script.
+
+## Building the iOS xcframework
+
+```
+bash native/rust/scripts/build-ios.sh --out native/rust/build/ios --release
+```
+
+This creates `native/rust/build/ios/ffi.xcframework`.
+
+## Integrating the xcframework
+
+Preferred flow is via the RN module + Podspec:
+
+```
+export WITH_HUM_RUST=true
+export HUM_RUST_IOS_OUT=$(pwd)/native/rust/build/ios
+npx expo prebuild
+cd apps/mobile/ios && pod install
+```
+
+The config plugin copies `ffi.xcframework` and `hum.h` into `packages/hum-matrix-native/ios/`, and the Podspec vends them to the app.

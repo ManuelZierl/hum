@@ -12,8 +12,16 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => '13.4' }
   s.source       = { :git => 'https://example.com/placeholder.git', :tag => s.version }
 
-  s.source_files = 'ios/**/*.{h,m,mm,swift}'
+  # The Rust FFI produces a static xcframework named `ffi.xcframework`.
+  # The Expo config plugin copies it under `ios/` beside this podspec.
+  s.vendored_frameworks = 'ios/ffi.xcframework'
+
+  # Public headers from the Rust FFI C API
+  s.public_header_files = 'ios/include/**/*.h'
+  s.source_files = 'ios/include/**/*.h'
+
+  # Static framework preferred for FFI
+  s.static_framework = true
 
   s.dependency 'React-Core'
 end
-

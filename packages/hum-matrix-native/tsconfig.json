@@ -13,4 +13,3 @@
   "include": ["src"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
 }
-
