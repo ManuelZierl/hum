@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ChatScreen } from '@hum/ui-screens';
-import { ChatMessage } from 'packages/ui-screens/dist/src/ChatScreen';
+import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 
 const mockMessages: ChatMessage[] = [
   {
