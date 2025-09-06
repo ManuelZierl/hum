@@ -212,15 +212,34 @@ jobs:
           cd apps/mobile
           DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
 
+      - name: Cache Android NDK
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/lib/android/sdk/ndk/27.1.12297006
+          key: ${{ runner.os }}-ndk-27.1.12297006
+
+      - name: Cache AVD
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.android/avd
+            ~/.android/adb
+          key: ${{ runner.os }}-avd-api34-default-x86_64-pixel_6
+
+      - name: Detox build (Android)
+        env:
+          CI: true
+          NODE_ENV: production
+        run: DEV_FEATURES=1 npx detox build -c android.emu.debug
+
       - name: Run Detox on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           arch: x86_64
           profile: pixel_6
-          force-avd-creation: true
+          force-avd-creation: false
           emulator-options: -no-window -gpu off -no-snapshot -noaudio -no-boot-anim -accel off
           script: |
-            DEV_FEATURES=1 npm run detox:build:android
-            npm run detox:test:android
+            CI=true NODE_ENV=production DEV_FEATURES=1 npx detox test -c android.emu.debug --headless -w 1
           emulator-boot-timeout: 900
