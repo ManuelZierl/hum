@@ -14,34 +14,28 @@ Hum is an open-source, privacy-first, federated messenger built with React Nativ
 
 ## Packages
 
-| Package                                                    | Description                               |
-| ---------------------------------------------------------- | ----------------------------------------- |
-| [@hum/a11y-utils](packages/a11y-utils/README.md)           | Accessibility utilities                   |
-| [@hum/chat-types](packages/chat-types/README.md)           | Shared chat domain TypeScript definitions |
-| [@hum/lightning-ui](packages/lightning-ui/README.md)       | Lightning Network UI components           |
-| [@hum/lightning-utils](packages/lightning-utils/README.md) | Lightning Network helper utilities        |
-| [@hum/message-ui](packages/message-ui/README.md)           | Chat message UI components                |
-| [@hum/push-contract](packages/push-contract/README.md)     | Types for push notification contract      |
-| [@hum/ui-tokens](packages/ui-tokens/README.md)             | Design tokens for consistent theming      |
+| Package                                        | Description                                   |
+| ---------------------------------------------- | --------------------------------------------- |
+| [lightning-client](packages/lightning-client/) | Lightning network client bindings             |
+| [lightning-mocks](packages/lightning-mocks/)   | Mock implementations for Lightning components |
+| [ui-components](packages/ui-components/)       | Shared React components                       |
+| [ui-screens](packages/ui-screens/)             | Example screens built from components         |
 
 ## Project Map
 
-| Path                          | Purpose                                   |
-| ----------------------------- | ----------------------------------------- |
-| apps/mobile                   | React Native mobile application           |
-| packages/a11y-utils           | Accessibility utilities                   |
-| packages/chat-types           | Shared chat domain TypeScript definitions |
-| packages/lightning-ui         | Lightning Network UI components           |
-| packages/lightning-utils      | Lightning Network helper utilities        |
-| packages/message-ui           | Chat message UI components                |
-| packages/push-contract        | Types for push notification contract      |
-| packages/ui-tokens            | Design tokens for consistent theming      |
-| native/rust                   | Rust workspace for core functionality     |
-| docs-legacy/adr               | Architecture decision records             |
-| docs-legacy/a11y-checklist.md | Accessibility checklist                   |
-| docs-legacy/dev-setup.md      | Development environment setup             |
-| docs-legacy/push-contract.md  | Push notification contract details        |
-| docs-legacy/ui-previews       | UI component previews                     |
+| Path                          | Purpose                                       |
+| ----------------------------- | --------------------------------------------- |
+| apps/mobile                   | React Native mobile application               |
+| packages/lightning-client     | Lightning network client bindings             |
+| packages/lightning-mocks      | Mock implementations for Lightning components |
+| packages/ui-components        | Shared React components                       |
+| packages/ui-screens           | Example screens built from components         |
+| native/rust                   | Rust workspace for core functionality         |
+| docs-legacy/adr               | Architecture decision records                 |
+| docs-legacy/a11y-checklist.md | Accessibility checklist                       |
+| docs-legacy/dev-setup.md      | Development environment setup                 |
+| docs-legacy/push-contract.md  | Push notification contract details            |
+| docs-legacy/ui-previews       | UI component previews                         |
 
 ## Storybook and Mobile
 

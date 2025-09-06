@@ -9,6 +9,8 @@
     "lint": "eslint 'packages/**/*.{ts,tsx,js}' 'apps/**/*.{ts,tsx,js}' 'scripts/**/*.cjs' --fix",
     "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
     "format:check": "prettier --check '**/*.{ts,tsx,js,json,md}'",
+    "lint:md": "remark . --ext .md --frail",
+    "lint:md:fix": "remark . --ext .md --frail --output",
     "prepare": "husky",
     "test": "jest",
     "build": "npm run -ws --if-present build",
@@ -44,6 +46,10 @@
     ],
     "**/*.{ts,tsx,js,json,md}": [
       "bash -lc 'npm run format'"
+    ],
+    "**/*.md": [
+      "bash -lc 'npm run lint:md:fix --'",
+      "bash -lc 'npm run lint:md --'"
     ],
     "*": [
       "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'",
@@ -87,6 +93,9 @@
     "react-native-svg-transformer": "^1.5.1",
     "react-native-web": "~0.21.1",
     "react-test-renderer": "19.0.0",
+    "remark-cli": "^12.0.1",
+    "remark-preset-lint-recommended": "^7.0.1",
+    "remark-validate-links": "^13.1.0",
     "start-server-and-test": "^2.0.3",
     "ts-jest": "^29.1.1",
     "typescript": "^5.6.3"

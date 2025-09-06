@@ -21,6 +21,7 @@ jobs:
       rust: ${{ steps.filter.outputs.rust }}
       storybook: ${{ steps.filter.outputs.storybook }}
       ci: ${{ steps.filter.outputs.ci }}
+      markdown: ${{ steps.filter.outputs.markdown }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,6 +61,8 @@ jobs:
               - 'tsconfig*.json'
             ci:
               - '.github/workflows/**'
+            markdown:
+              - '**/*.md'
 
   node:
     needs: changes
@@ -91,6 +94,25 @@ jobs:
 
       - name: Build packages
         run: npm run -ws --if-present build
+
+  markdown:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.markdown == 'true' || needs.changes.outputs.ci == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint Markdown
+        run: npm run lint:md
 
   rust:
     needs: changes
