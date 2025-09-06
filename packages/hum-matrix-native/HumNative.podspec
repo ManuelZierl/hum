@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 
   # Public headers from the Rust FFI C API
   s.public_header_files = 'ios/include/**/*.h'
-  s.source_files = 'ios/include/**/*.h'
+  s.header_mappings_dir = 'ios/include'
+  s.source_files = 'ios/**/*.{h,m,mm}'
 
   # Static framework preferred for FFI
   s.static_framework = true

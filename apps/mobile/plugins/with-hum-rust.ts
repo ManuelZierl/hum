@@ -46,18 +46,41 @@ const withHumRust: ConfigPlugin = (config) => {
     'ios',
     async (c) => {
       const repoRoot = path.resolve(c.modRequest.projectRoot, '..', '..');
-      const iosOut = process.env.HUM_RUST_IOS_OUT || path.join(repoRoot, 'native', 'rust', 'build', 'ios');
+      const iosOut =
+        process.env.HUM_RUST_IOS_OUT ||
+        path.join(repoRoot, 'native', 'rust', 'build', 'ios');
       const xcframeworkSrc = path.join(iosOut, 'ffi.xcframework');
-      const headerSrc = path.join(repoRoot, 'native', 'rust', 'crates', 'ffi', 'include', 'hum.h');
+      const headerSrc = path.join(
+        repoRoot,
+        'native',
+        'rust',
+        'crates',
+        'ffi',
+        'include',
+        'hum.h',
+      );
 
-      const rnModuleIosDir = path.join(repoRoot, 'packages', 'hum-matrix-native', 'ios');
+      const rnModuleIosDir = path.join(
+        repoRoot,
+        'packages',
+        'hum-matrix-native',
+        'ios',
+      );
       const rnModuleHeaderDir = path.join(rnModuleIosDir, 'include');
-      const rnModuleXcframeworkDest = path.join(rnModuleIosDir, 'ffi.xcframework');
+      const rnModuleXcframeworkDest = path.join(
+        rnModuleIosDir,
+        'ffi.xcframework',
+      );
       const rnModuleHeaderDest = path.join(rnModuleHeaderDir, 'hum.h');
 
       if (await pathExists(xcframeworkSrc)) {
-        log(`copying iOS XCFramework to RN module: ${xcframeworkSrc} -> ${rnModuleXcframeworkDest}`);
-        await fs.promises.rm(rnModuleXcframeworkDest, { recursive: true, force: true });
+        log(
+          `copying iOS XCFramework to RN module: ${xcframeworkSrc} -> ${rnModuleXcframeworkDest}`,
+        );
+        await fs.promises.rm(rnModuleXcframeworkDest, {
+          recursive: true,
+          force: true,
+        });
         await fs.promises.mkdir(rnModuleIosDir, { recursive: true });
         await copyDir(xcframeworkSrc, rnModuleXcframeworkDest);
         log('XCFramework copied');
@@ -68,7 +91,9 @@ const withHumRust: ConfigPlugin = (config) => {
       if (await pathExists(headerSrc)) {
         await fs.promises.mkdir(rnModuleHeaderDir, { recursive: true });
         await fs.promises.copyFile(headerSrc, rnModuleHeaderDest);
-        log(`copied FFI header to RN module: ${headerSrc} -> ${rnModuleHeaderDest}`);
+        log(
+          `copied FFI header to RN module: ${headerSrc} -> ${rnModuleHeaderDest}`,
+        );
       } else {
         log(`FFI header not found at ${headerSrc} (no-op)`);
       }
