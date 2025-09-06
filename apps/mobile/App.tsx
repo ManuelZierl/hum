@@ -11,7 +11,8 @@ import {
   type Chat,
 } from '@hum/ui-screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
-export default function App() {
+import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
+function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [showDev, setShowDev] = useState(false);
@@ -37,7 +38,7 @@ export default function App() {
               onBack={() => setSelectedChat(null)}
             />
           ) : activeTab === 'chats' ? (
-            <ChatsScreen onNavigateToChat={setSelectedChat} />
+            <ChatsFromProvider onNavigateToChat={setSelectedChat} />
           ) : activeTab === 'lightning' ? (
             <LightningScreen />
           ) : (
@@ -61,6 +62,23 @@ export default function App() {
         </View>
       </ThemeProvider>
     </SafeAreaProvider>
+  );
+}
+
+function ChatsFromProvider({
+  onNavigateToChat,
+}: {
+  onNavigateToChat: (c: Chat) => void;
+}) {
+  const { chats } = useHumClient();
+  return <ChatsScreen chats={chats} onNavigateToChat={onNavigateToChat} />;
+}
+
+export default function App() {
+  return (
+    <HumClientProvider>
+      <AppInner />
+    </HumClientProvider>
   );
 }
 
