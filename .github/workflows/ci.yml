@@ -60,6 +60,10 @@ jobs:
               - 'tsconfig*.json'
             ci:
               - '.github/workflows/**'
+            detox:
+              - 'apps/mobile/**'
+              - 'packages/hum-matrix-native/**'
+              - 'native/rust/**'
 
   node:
     needs: changes
@@ -153,3 +157,35 @@ jobs:
 
       - name: Run Storybook smoke tests
         run: SB_STATIC=1 npm run test:sb:e2e
+
+  detox-android:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.detox == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prebuild mobile app (Android)
+        run: |
+          cd apps/mobile
+          DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
+
+      - name: Run Detox on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-snapshot -noaudio -no-boot-anim
+          script: |
+            DEV_FEATURES=1 npm run detox:build:android
+            npm run detox:test:android
