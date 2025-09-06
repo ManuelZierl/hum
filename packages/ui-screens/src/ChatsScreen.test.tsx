@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
-import { ChatsScreen, mockChats, type ChatsScreenProps } from './ChatsScreen';
+import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
 function renderScreen(props?: Partial<ChatsScreenProps>) {
-  return render(<ChatsScreen {...props} chats={props?.chats ?? mockChats} />);
+  return render(<ChatsScreen {...props} chats={props?.chats ?? []} />);
 }
 
 describe('ChatsScreen', () => {

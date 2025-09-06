@@ -50,3 +50,4 @@ native/rust/target/
 .eslintcache
 
 hum_store/
+temp/
