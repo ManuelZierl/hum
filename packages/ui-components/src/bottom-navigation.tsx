@@ -36,7 +36,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: colors.background,
+          backgroundColor: colors.card,
           borderTopColor: colors.border,
           paddingBottom: insets.bottom,
         },

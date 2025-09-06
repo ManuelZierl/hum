@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
-  ThemeProvider,
   useTheme,
   Button,
   ListRow,
@@ -27,41 +26,22 @@ export interface Chat {
 export interface ChatsScreenProps {
   onNavigateToChat?: (chat: Chat) => void;
   chats?: Chat[];
-  initialScheme?: 'light' | 'dark';
 }
 
 export function ChatsScreen({
   onNavigateToChat,
   chats = [],
-  initialScheme = 'dark',
 }: ChatsScreenProps) {
-  const [scheme, setScheme] = useState<'light' | 'dark'>(initialScheme);
-
-  return (
-    <ThemeProvider forcedScheme={scheme}>
-      <ChatsScreenInner
-        chats={chats}
-        onNavigateToChat={onNavigateToChat}
-        scheme={scheme}
-        onToggleScheme={() =>
-          setScheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
-        }
-      />
-    </ThemeProvider>
-  );
+  return <ChatsScreenInner chats={chats} onNavigateToChat={onNavigateToChat} />;
 }
 
 interface InnerProps {
   chats: Chat[];
-  scheme: 'light' | 'dark';
-  onToggleScheme: () => void;
   onNavigateToChat?: (chat: Chat) => void;
 }
 
 const ChatsScreenInner: React.FC<InnerProps> = ({
   chats,
-  scheme,
-  onToggleScheme,
   onNavigateToChat,
 }) => {
   const { colors, spacing, type } = useTheme();
@@ -133,18 +113,6 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: spacing.xl * 4 }}
       />
-
-      <View
-        style={{ paddingHorizontal: spacing.md, paddingVertical: spacing.sm }}
-      >
-        <Button
-          variant="link"
-          onPress={onToggleScheme}
-          accessibilityLabel="toggle theme"
-        >
-          <Text>Toggle {scheme === 'dark' ? 'Light' : 'Dark'} Mode</Text>
-        </Button>
-      </View>
 
       <Button
         size="icon"

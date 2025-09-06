@@ -22,7 +22,8 @@ export default defineConfig({
       'react-native': 'react-native-web',
       '@hum/ui-components': r('../../packages/ui-components/src'),
       '@hum/ui-components/': r('../../packages/ui-components/src/'),
-      '@hum/ui-screens': r('../../packages/ui-screens/'),
+      '@hum/ui-screens': r('../../packages/ui-screens'),
+      '@hum/ui-screens/': r('../../packages/ui-screens/'),
       'react-native-safe-area-context': r(
         './react-native-safe-area-context.tsx',
       ),

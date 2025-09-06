@@ -16,7 +16,7 @@ module.exports = {
     '^react-native$': 'react-native-web',
     '^@hum/ui-components$': '<rootDir>/packages/ui-components/index.ts',
     '^@hum/ui-components/(.*)$': '<rootDir>/packages/ui-components/src/$1',
-    '^@hum/ui-screens(.*)$': '<rootDir>/packages/ui-screens/src$1',
+    '^@hum/ui-screens(.*)$': '<rootDir>/packages/ui-screens$1',
     '^@hum/hum-matrix-native$':
       '<rootDir>/packages/hum-matrix-native/src/index.ts',
     '^@hum/lightning-client$': '<rootDir>/packages/lightning-client/index.ts',

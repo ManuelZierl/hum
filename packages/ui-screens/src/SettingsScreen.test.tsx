@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
+import { SettingsItem } from '@hum/ui-components';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { SettingsScreen, type SettingsScreenProps } from './SettingsScreen';
 
@@ -39,6 +40,13 @@ describe('SettingsScreen', () => {
     const { getByLabelText } = renderScreen('light', { onBack });
     fireEvent.press(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
+  });
+
+  it('renders children', () => {
+    const { getByLabelText } = renderScreen('light', {
+      children: <SettingsItem title="Theme" />,
+    });
+    expect(getByLabelText('Theme')).toBeTruthy();
   });
 
   it('renders in light and dark themes', () => {

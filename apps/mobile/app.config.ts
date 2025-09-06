@@ -9,7 +9,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: config.slug ?? 'hum',
   version: config.version ?? '1.0.0',
   orientation: config.orientation ?? 'portrait',
-  userInterfaceStyle: config.userInterfaceStyle ?? 'light',
+  userInterfaceStyle: config.userInterfaceStyle ?? 'automatic',
   icon: '../../imgs/logo-background.png',
   splash: {
     image: '../../imgs/logo-transparent.png',

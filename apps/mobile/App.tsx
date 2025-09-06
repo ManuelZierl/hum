@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
 import Constants from 'expo-constants';
@@ -7,11 +7,12 @@ import {
   ChatsScreen,
   ChatScreen,
   LightningScreen,
-  SettingsScreen,
   type Chat,
 } from '@hum/ui-screens';
+import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
+
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
@@ -24,10 +25,14 @@ function AppInner() {
     const extra: AppExtra = expoCfg?.extra ?? {};
     return !!extra.devFeatures;
   }, []);
+  const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
+  const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
+  const systemScheme = useColorScheme() ?? 'light';
+  const resolvedScheme = theme === 'auto' ? systemScheme : theme;
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
+      <ThemeProvider forcedScheme={resolvedScheme}>
         <View style={styles.container}>
           {showDev ? (
             <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
@@ -41,8 +46,17 @@ function AppInner() {
             <ChatsFromProvider onNavigateToChat={setSelectedChat} />
           ) : activeTab === 'lightning' ? (
             <LightningScreen />
+          ) : settingsView === 'theme' ? (
+            <ThemeSettingsScreen
+              theme={theme}
+              onBack={() => setSettingsView('main')}
+              onSelectTheme={setTheme}
+            />
           ) : (
-            <SettingsScreen />
+            <MainSettingsScreen
+              theme={theme}
+              onNavigateToTheme={() => setSettingsView('theme')}
+            />
           )}
           {!selectedChat && !showDev && (
             <BottomNavigation
