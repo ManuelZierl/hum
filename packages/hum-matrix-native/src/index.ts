@@ -77,21 +77,64 @@ function mapDevicesJson(json: string): DeviceInfo[] {
   }
 }
 
+const B64_CHARS =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
 function toBase64(u8: Uint8Array): string {
-  if (typeof Buffer !== 'undefined') return Buffer.from(u8).toString('base64');
-  let binary = '';
-  for (let i = 0; i < u8.length; i++) binary += String.fromCharCode(u8[i]);
-  return btoa(binary);
+  let out = '';
+  let i = 0;
+  for (; i + 2 < u8.length; i += 3) {
+    const n = (u8[i] << 16) | (u8[i + 1] << 8) | u8[i + 2];
+    out += B64_CHARS[(n >> 18) & 63];
+    out += B64_CHARS[(n >> 12) & 63];
+    out += B64_CHARS[(n >> 6) & 63];
+    out += B64_CHARS[n & 63];
+  }
+  const rem = u8.length - i;
+  if (rem === 1) {
+    const n = u8[i] << 16;
+    out += B64_CHARS[(n >> 18) & 63];
+    out += B64_CHARS[(n >> 12) & 63];
+    out += '==';
+  } else if (rem === 2) {
+    const n = (u8[i] << 16) | (u8[i + 1] << 8);
+    out += B64_CHARS[(n >> 18) & 63];
+    out += B64_CHARS[(n >> 12) & 63];
+    out += B64_CHARS[(n >> 6) & 63];
+    out += '=';
+  }
+  return out;
 }
 
 function fromBase64(b64: string): Uint8Array {
-  if (typeof Buffer !== 'undefined')
-    return new Uint8Array(Buffer.from(b64, 'base64'));
-  const binary = atob(b64);
-  const len = binary.length;
-  const bytes = new Uint8Array(len);
-  for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
+  const clean = b64.replace(/[^A-Za-z0-9+/=]/g, '');
+  const len = clean.length;
+  if (len % 4 !== 0) throw new Error('Invalid base64');
+  const pad = clean.endsWith('==') ? 2 : clean.endsWith('=') ? 1 : 0;
+  const outLen = (len / 4) * 3 - pad;
+  const out = new Uint8Array(outLen);
+  const decode = (c: number): number => {
+    // 'A'-'Z' => 0-25, 'a'-'z' => 26-51, '0'-'9' => 52-61, '+' => 62, '/' => 63
+    if (c >= 65 && c <= 90) return c - 65;
+    if (c >= 97 && c <= 122) return c - 71;
+    if (c >= 48 && c <= 57) return c + 4;
+    if (c === 43) return 62;
+    if (c === 47) return 63;
+    return 0;
+  };
+  let j = 0;
+  for (let i = 0; i < len; i += 4) {
+    const c1 = clean.charCodeAt(i);
+    const c2 = clean.charCodeAt(i + 1);
+    const c3 = clean.charCodeAt(i + 2);
+    const c4 = clean.charCodeAt(i + 3);
+    const n =
+      (decode(c1) << 18) | (decode(c2) << 12) | (decode(c3) << 6) | decode(c4);
+    if (j < outLen) out[j++] = (n >> 16) & 255;
+    if (j < outLen) out[j++] = (n >> 8) & 255;
+    if (j < outLen) out[j++] = n & 255;
+  }
+  return out;
 }
 
 const Module: HumMatrixNative = {

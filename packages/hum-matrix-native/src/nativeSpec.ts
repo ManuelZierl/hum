@@ -1,9 +1,8 @@
-// TurboModule spec skeleton (New Architecture).
-// This is optional at this stage; included for future codegen wiring.
-import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
+// Bridge access to the native module. Use NativeModules for compatibility
+// across new/old architecture and to avoid depending on specific RN types.
+import { NativeModules } from 'react-native';
 
-export interface Spec extends TurboModule {
+export interface Spec {
   // Create client; returns an opaque numeric handle managed natively.
   createClient(hsUrl: string, storePath: string): Promise<number>;
 
@@ -89,4 +88,6 @@ export interface Spec extends TurboModule {
   clientGetPresence(handle: number, userId: string): Promise<number>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('HumNative');
+const Native: Spec = (NativeModules as unknown as { HumNative: Spec })
+  .HumNative;
+export default Native;
