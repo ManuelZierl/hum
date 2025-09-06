@@ -1,0 +1,73 @@
+buildscript {
+  repositories {
+    google()
+    mavenCentral()
+  }
+  dependencies {
+    classpath("com.android.tools.build:gradle:8.2.2")
+  }
+}
+
+apply plugin: 'com.android.library'
+
+def safeExtGet(prop, fallback) {
+  return rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+android {
+  namespace "com.hum.native"
+  compileSdkVersion safeExtGet('compileSdkVersion', 34)
+
+  defaultConfig {
+    minSdkVersion safeExtGet('minSdkVersion', 23)
+    targetSdkVersion safeExtGet('targetSdkVersion', 34)
+    consumerProguardFiles 'consumer-rules.pro'
+  }
+
+  sourceSets {
+    main {
+      // Package any prebuilt native libraries under src/main/jniLibs/**
+      jniLibs.srcDirs = ["src/main/jniLibs"]
+    }
+  }
+}
+
+// Optional: copy prebuilt Rust libs into this module before build
+def rustOut = System.getenv("HUM_RUST_ANDROID_OUT")
+def copyFrom = rustOut ? new File(rustOut, "jniLibs") : null
+
+def repoRoot = System.getenv('HUM_RUST_REPO_ROOT')
+def rustBuildOut = new File(project.buildDir, 'rust-android')
+
+tasks.register('buildRustAndroid') { t ->
+  onlyIf { repoRoot != null }
+  doLast {
+    println("@hum/hum-matrix-native: building Rust libs via cargo-ndk")
+    exec {
+      workingDir repoRoot
+      commandLine 'bash', 'native/rust/scripts/build-android.sh', '--out', rustBuildOut.absolutePath, '--release'
+    }
+  }
+}
+
+tasks.register('copyRustLibs') { t ->
+  doLast {
+    def srcDir = copyFrom
+    if (srcDir == null && rustBuildOut.exists()) {
+      srcDir = new File(rustBuildOut, 'jniLibs')
+    }
+    if (srcDir != null && srcDir.exists()) {
+      def dest = file("${projectDir}/src/main/jniLibs")
+      println("@hum/hum-matrix-native: copying JNI libs from ${srcDir} -> ${dest}")
+      ant.mkdir(dir: dest)
+      ant.copy(todir: dest) {
+        fileset(dir: srcDir)
+      }
+    } else {
+      println("@hum/hum-matrix-native: HUM_RUST_ANDROID_OUT not set or path missing; skipping JNI copy")
+    }
+  }
+}
+
+tasks.named('copyRustLibs').configure { it.dependsOn tasks.named('buildRustAndroid') }
+preBuild.dependsOn tasks.named('copyRustLibs')
