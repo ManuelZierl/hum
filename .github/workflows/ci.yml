@@ -188,7 +188,25 @@ jobs:
       - name: Install emulator runtime dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libpulse0 libglu1-mesa
+          sudo apt-get install -y \
+            libpulse0 \
+            libasound2 \
+            libvulkan1 \
+            libx11-6 \
+            libxext6 \
+            libxrender1 \
+            libxrandr2 \
+            libxfixes3 \
+            libxcursor1 \
+            libxi6 \
+            libxkbcommon0 \
+            libnss3 \
+            libglu1-mesa
+
+      - name: Ensure ADB server
+        run: |
+          echo "Starting ADB server"
+          /usr/local/lib/android/sdk/platform-tools/adb start-server || true
 
       - name: Prebuild mobile app (Android)
         run: |
@@ -201,8 +219,9 @@ jobs:
           api-level: 34
           arch: x86_64
           profile: pixel_6
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off
+          force-avd-creation: true
+          emulator-options: -no-window -gpu off -no-snapshot -noaudio -no-boot-anim -accel off
           script: |
             DEV_FEATURES=1 npm run detox:build:android
             npm run detox:test:android
-          emulator-boot-timeout: 600
+          emulator-boot-timeout: 900
