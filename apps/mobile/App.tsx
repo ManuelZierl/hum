@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
@@ -9,15 +9,24 @@ import {
   SettingsScreen,
   type Chat,
 } from '@hum/ui-screens';
+import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 export default function App() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [showDev, setShowDev] = useState(false);
+  const enableDev = useMemo(
+    () =>
+      process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
+    [],
+  );
 
   return (
     <SafeAreaProvider>
       <ThemeProvider>
         <View style={styles.container}>
-          {selectedChat ? (
+          {showDev ? (
+            <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
+          ) : selectedChat ? (
             <ChatScreen
               chatName={selectedChat.name}
               chatAvatar={selectedChat.avatar}
@@ -30,11 +39,20 @@ export default function App() {
           ) : (
             <SettingsScreen />
           )}
-          {!selectedChat && (
+          {!selectedChat && !showDev && (
             <BottomNavigation
               activeTab={activeTab}
               onTabChange={setActiveTab}
             />
+          )}
+          {enableDev && !showDev && (
+            <View style={styles.devButtonWrap}>
+              <View
+                style={styles.devEntry}
+                testID="btnOpenDev"
+                onTouchEnd={() => setShowDev(true)}
+              />
+            </View>
           )}
         </View>
       </ThemeProvider>
@@ -44,4 +62,15 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  devButtonWrap: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+  },
+  devEntry: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#FF00AA',
+  },
 });
