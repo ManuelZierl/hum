@@ -174,6 +174,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install emulator runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpulse0 libglu1-mesa
+
       - name: Prebuild mobile app (Android)
         run: |
           cd apps/mobile
@@ -185,7 +190,7 @@ jobs:
           api-level: 34
           arch: x86_64
           profile: pixel_6
-          emulator-options: -no-snapshot -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel off
           script: |
             DEV_FEATURES=1 npm run detox:build:android
             npm run detox:test:android
