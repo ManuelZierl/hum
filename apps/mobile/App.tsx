@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
+import Constants from 'expo-constants';
 import {
   ChatsScreen,
   ChatScreen,
@@ -14,11 +15,14 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [showDev, setShowDev] = useState(false);
-  const enableDev = useMemo(
-    () =>
-      process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
-    [],
-  );
+  const enableDev = useMemo(() => {
+    type AppExtra = { devFeatures?: boolean };
+    type ExpoConfigLike = { extra?: AppExtra };
+    const expoCfg = (Constants as unknown as { expoConfig?: ExpoConfigLike })
+      .expoConfig;
+    const extra: AppExtra = expoCfg?.extra ?? {};
+    return !!extra.devFeatures;
+  }, []);
 
   return (
     <SafeAreaProvider>
