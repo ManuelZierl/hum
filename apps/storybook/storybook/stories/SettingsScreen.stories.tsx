@@ -7,7 +7,7 @@ import {
   AppVersion,
   BuildDateDisplay,
   CopyrightYear,
-} from '@hum/ui-screens/build-info';
+} from '../../../../packages/ui-screens/build-info';
 
 const meta: Meta<typeof SettingsScreen> = {
   title: 'Screens/SettingsScreen',
