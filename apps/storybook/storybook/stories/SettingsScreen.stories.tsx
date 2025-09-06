@@ -1,19 +1,22 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SettingsScreen } from '@hum/ui-screens';
-import { SettingsItem, Icon, useTheme } from '@hum/ui-components';
-import { View, Text, StyleSheet } from 'react-native';
 import {
+  SettingsScreen,
   AppVersion,
   BuildDateDisplay,
   CopyrightYear,
-} from '../../../../packages/ui-screens/build-info';
+} from '@hum/ui-screens';
+import { SettingsItem, Icon, useTheme } from '@hum/ui-components';
+import { View, Text, StyleSheet } from 'react-native';
 
 const meta: Meta<typeof SettingsScreen> = {
   title: 'Screens/SettingsScreen',
   component: SettingsScreen,
   argTypes: {
     onBack: { action: 'back' },
+  },
+  args: {
+    profileImageUri: 'https://picsum.photos/200/200',
   },
 };
 

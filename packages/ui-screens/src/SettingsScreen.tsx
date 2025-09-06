@@ -23,7 +23,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   children,
   profileName = 'Your Name',
   profileStatus = 'Hey there! I am using Hum.',
-  profileImageUri = 'https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+  profileImageUri = 'https://picsum.photos/200/200',
 }) => {
   const { colors, spacing, radius, type } = useTheme();
   const insets = useSafeAreaInsets();

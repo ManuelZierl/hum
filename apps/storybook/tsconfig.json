@@ -6,8 +6,11 @@
     "module": "ESNext",
     "paths": {
       "@hum/ui-components/*": ["../../packages/ui-components/src/*"],
-      "@hum/ui-screens": ["../../packages/ui-screens/src/index.ts"],
-      "@hum/ui-screens/*": ["../../packages/ui-screens/src/*"]
+      "@hum/ui-screens": ["../../packages/ui-screens"],
+      "@hum/ui-screens/*": [
+        "../../packages/ui-screens/*",
+        "../../packages/ui-screens/src/*"
+      ]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"]

@@ -6,3 +6,4 @@ export { LightningScreen } from './src/LightningScreen';
 export type { LightningScreenProps } from './src/LightningScreen';
 export { SettingsScreen } from './src/SettingsScreen';
 export type { SettingsScreenProps } from './src/SettingsScreen';
+export { AppVersion, BuildDateDisplay, CopyrightYear } from './build-info';
