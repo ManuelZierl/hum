@@ -1,6 +1,7 @@
-// Bridge access to the native module. Use NativeModules for compatibility
-// across new/old architecture and to avoid depending on specific RN types.
-import { NativeModules } from 'react-native';
+// Bridge access to the native module without hard-typing react-native exports.
+// Use a CommonJS require and unknown casts so this compiles in CI environments
+// where RN type exports may not be available.
+declare const require: (id: string) => unknown;
 
 export interface Spec {
   // Create client; returns an opaque numeric handle managed natively.
@@ -88,6 +89,13 @@ export interface Spec {
   clientGetPresence(handle: number, userId: string): Promise<number>;
 }
 
-const Native: Spec = (NativeModules as unknown as { HumNative: Spec })
-  .HumNative;
+const rn = (() => {
+  try {
+    return require('react-native') as { NativeModules?: unknown };
+  } catch {
+    return {} as { NativeModules?: unknown };
+  }
+})();
+const nm = (rn.NativeModules ?? {}) as { HumNative?: unknown };
+const Native: Spec = (nm.HumNative ?? {}) as Spec;
 export default Native;
