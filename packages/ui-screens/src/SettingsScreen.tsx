@@ -8,14 +8,23 @@ import {
   Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, SettingsItem, Icon, TopBar } from '@hum/ui-components';
-import { AppVersion, BuildDateDisplay, CopyrightYear } from '../build-info';
+import { useTheme, Icon, TopBar } from '@hum/ui-components';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
+  children?: React.ReactNode;
+  profileName?: string;
+  profileStatus?: string;
+  profileImageUri?: string;
 }
 
-export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
+export const SettingsScreen: React.FC<SettingsScreenProps> = ({
+  onBack,
+  children,
+  profileName = 'Your Name',
+  profileStatus = 'Hey there! I am using Hum.',
+  profileImageUri = 'https://picsum.photos/200/200',
+}) => {
   const { colors, spacing, radius, type } = useTheme();
   const insets = useSafeAreaInsets();
   const [search, setSearch] = React.useState('');
@@ -29,12 +38,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     >
       <TopBar backButton={!!onBack} onBackPress={onBack} title="Settings" />
 
-      {/* Scrollable Content */}
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={{ paddingBottom: insets.bottom }}
       >
-        {/* Search Bar */}
         <View style={{ padding: spacing.lg }}>
           <View
             style={[
@@ -71,7 +78,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
           </View>
         </View>
 
-        {/* Profile Section */}
         <View
           style={[
             styles.profileSection,
@@ -81,9 +87,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
           <View style={styles.profileRow}>
             <View style={styles.profileInfo}>
               <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1719257751404-1dea075324bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwxfHx8fDE3NTY0NjA5ODd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-                }}
+                source={{ uri: profileImageUri }}
                 style={styles.profileImage}
                 accessibilityLabel="Profile"
               />
@@ -95,7 +99,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                     fontWeight: type.weight.medium,
                   }}
                 >
-                  Your Name
+                  {profileName}
                 </Text>
                 <Text
                   style={{
@@ -103,7 +107,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                     fontSize: type.size.sm,
                   }}
                 >
-                  Hey there! I am using Hum.
+                  {profileStatus}
                 </Text>
               </View>
             </View>
@@ -115,132 +119,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
           </View>
         </View>
 
-        {/* Settings Items */}
-        <View style={{ paddingBottom: spacing.xl }}>
-          <SettingsItem
-            icon={<Icon name="person" size={24} color={colors.humPrimary} />}
-            title="Account"
-            subtitle="Security notifications, change number"
-          />
-          <SettingsItem
-            icon={<Icon name="shield" size={24} color={colors.humPrimary} />}
-            title="Privacy"
-            subtitle="Block contacts, disappearing messages"
-          />
-          <SettingsItem
-            icon={<Icon name="bell" size={24} color={colors.humPrimary} />}
-            title="Notifications"
-            subtitle="Message, group & call tones"
-          />
-          <SettingsItem
-            icon={<Icon name="box" size={24} color={colors.humPrimary} />}
-            title="Storage and data"
-            subtitle="Network usage, auto-download"
-          />
-          <SettingsItem
-            icon={
-              <Icon
-                name="question-circle"
-                size={24}
-                color={colors.humPrimary}
-              />
-            }
-            title="Help"
-            subtitle="Help center, contact us, privacy policy"
-          />
-          <View style={{ height: spacing.md }} />
-          <SettingsItem
-            icon={<Icon name="people" size={24} color={colors.humPrimary} />}
-            title="Linked devices"
-            subtitle="Manage connected devices"
-          />
-          <SettingsItem
-            icon={<Icon name="lock" size={24} color={colors.humPrimary} />}
-            title="Two-step verification"
-            subtitle="Add extra security to your account"
-          />
-          <SettingsItem
-            icon={<Icon name="file-text" size={24} color={colors.humPrimary} />}
-            title="Request account info"
-            subtitle="Request a report of your account information"
-          />
-          <SettingsItem
-            icon={<Icon name="globe" size={24} color={colors.humPrimary} />}
-            title="App language"
-            subtitle="English (device's language)"
-          />
-          <SettingsItem
-            icon={<Icon name="palette" size={24} color={colors.humPrimary} />}
-            title="Theme"
-            subtitle="Choose your app theme"
-          />
-          <SettingsItem
-            icon={<Icon name="image" size={24} color={colors.humPrimary} />}
-            title="Wallpaper"
-            subtitle="Change your chat wallpaper"
-          />
-          <SettingsItem
-            icon={<Icon name="volume-up" size={24} color={colors.humPrimary} />}
-            title="Sound"
-            subtitle="Ringtone and notification sounds"
-          />
-          <SettingsItem
-            icon={<Icon name="envelope" size={24} color={colors.humPrimary} />}
-            title="Invite friends"
-            subtitle="Share Hum with friends and family"
-          />
-          <SettingsItem
-            icon={<Icon name="trash" size={24} color={colors.humPrimary} />}
-            title="Delete my account"
-            subtitle="Delete your account and erase your message history"
-          />
-          {/* App Info */}
-          <View
-            style={[
-              styles.appInfo,
-              {
-                marginTop: spacing.xl,
-                paddingTop: spacing.lg,
-                borderTopWidth: StyleSheet.hairlineWidth,
-                borderTopColor: colors.border,
-                paddingHorizontal: spacing.lg,
-              },
-            ]}
-          >
-            <Text
-              style={{ color: colors.mutedForeground, fontSize: type.size.sm }}
-            >
-              Hum for Web
-            </Text>
-            <Text
-              style={{
-                color: colors.mutedForeground,
-                fontSize: type.size.sm,
-                marginTop: spacing.xs,
-              }}
-            >
-              Version {AppVersion}
-            </Text>
-            <Text
-              style={{
-                color: colors.mutedForeground,
-                fontSize: type.size.sm,
-                marginTop: spacing.xs,
-              }}
-            >
-              © {CopyrightYear} Hum Technologies
-            </Text>
-            <Text
-              style={{
-                color: colors.mutedForeground,
-                fontSize: type.size.sm,
-                marginTop: spacing.xs,
-              }}
-            >
-              Build {BuildDateDisplay}
-            </Text>
-          </View>
-        </View>
+        <View style={{ paddingBottom: spacing.xl }}>{children}</View>
       </ScrollView>
     </View>
   );
@@ -274,9 +153,6 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-  },
-  appInfo: {
-    alignItems: 'center',
   },
 });
 
