@@ -1,7 +1,7 @@
 //! Client configuration for the Hum Matrix client.
 
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
+use std::{path::PathBuf, time::Duration};
 
 /// Configuration used to create a [`HumClient`](crate::client::HumClient).
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -19,6 +19,33 @@ impl ClientConfig {
             homeserver_url,
             store_path,
         }
+    }
+}
+
+/// Configuration for sync behavior.
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+pub struct SyncConfig {
+    /// Whether to use sliding sync semantics (if supported). Placeholder for future integration.
+    pub sliding: bool,
+    /// Optional timeout in milliseconds for long-polling syncs.
+    pub timeout_ms: Option<u64>,
+}
+
+impl SyncConfig {
+    pub fn new(sliding: bool, timeout_ms: Option<u64>) -> Self {
+        Self {
+            sliding,
+            timeout_ms,
+        }
+    }
+
+    /// Convert to Matrix SDK `SyncSettings` with timeout if provided.
+    pub fn to_sync_settings(&self) -> matrix_sdk::config::SyncSettings {
+        let mut s = matrix_sdk::config::SyncSettings::default();
+        if let Some(ms) = self.timeout_ms {
+            s = s.timeout(Duration::from_millis(ms));
+        }
+        s
     }
 }
 

@@ -101,7 +101,7 @@ async fn main() -> Result<()> {
         };
 
         // Import cross-signing keys before starting sync so we can decrypt immediately
-        if let Err(e) = client.bootstrap_from_recovery_key(&recovery_key).await {
+        if let Err(e) = client.import_recovery_key(&recovery_key).await {
             eprintln!("Warning: could not verify/import secrets with recovery key: {e}");
         } else {
             println!("Device successfully verified via recovery key");
