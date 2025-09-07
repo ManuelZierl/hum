@@ -30,7 +30,7 @@ allprojects {
     // Detox Android AAR is distributed via npm in node_modules.
     // Add its local Maven repo so androidTestImplementation 'com.wix:detox:+'
     // resolves to the correct artifact rather than the outdated one on Maven Central.
-    maven { url("$rootDir/../../node_modules/detox/Detox-android") }
+    maven { url("$rootDir/../../../node_modules/detox/Detox-android") }
 
     google()
     mavenCentral()
