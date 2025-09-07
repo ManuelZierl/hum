@@ -120,6 +120,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               style={leftItems.length ? { marginRight: spacing.md } : undefined}
               testID="back-button"
+              {...{ 'data-testid': 'back-button' }}
             >
               <Text style={[styles.backIcon, { color: colors.foreground }]}>
                 ‹
@@ -129,10 +130,11 @@ export const TopBar: React.FC<TopBarProps> = ({
           {leftItems.map((item, i) => renderItem(item, i))}
         </View>
 
-        <View style={styles.center} pointerEvents="none">
+        <View style={styles.center}>
           {titleIconName ? (
             <View
               testID="title-icon"
+              {...{ 'data-testid': 'title-icon' }}
               style={title ? { marginRight: spacing.xs } : undefined}
             >
               <Icon name={titleIconName} size={24} color={colors.humPrimary} />
@@ -181,6 +183,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             />
             <TextInput
               testID="topbar-search-input"
+              {...{ 'data-testid': 'topbar-search-input' }}
               placeholder={searchPlaceholder}
               placeholderTextColor={colors.mutedForeground}
               value={searchValue}

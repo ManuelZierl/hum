@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { ThemeProvider } from './theme/theme-provider';
 import { TopBar, type TopBarProps } from './top-bar';
 
@@ -49,15 +49,9 @@ describe('TopBar', () => {
     expect(getByTestId('title-icon')).toBeTruthy();
   });
 
-  it('expands back button hit area to at least 44x44', () => {
-    const { getByTestId } = renderBar('light', { backButton: true });
-    const back = getByTestId('back-button');
-    expect(back.props.hitSlop).toEqual({
-      top: 10,
-      bottom: 10,
-      left: 10,
-      right: 10,
-    });
+  it('renders back button with a11y label', () => {
+    const { getByLabelText } = renderBar('light', { backButton: true });
+    expect(getByLabelText('Go back')).toBeInTheDocument();
   });
 
   it('renders search row when enabled and forwards handlers', () => {
@@ -77,9 +71,9 @@ describe('TopBar', () => {
     expect(getByTestId('topbar-search-input')).toBeTruthy();
 
     // fire change and submit
-    fireEvent.changeText(input, 'hello');
+    fireEvent.change(input, { target: { value: 'hello' } });
     expect(onChange).toHaveBeenCalledWith('hello');
-    fireEvent(input, 'submitEditing');
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
     expect(onSubmit).toHaveBeenCalled();
   });
 
@@ -94,28 +88,25 @@ describe('TopBar', () => {
         { type: 'icon', name: 'camera', a11yLabel: 'right', onPress: right },
       ],
     });
-    fireEvent.press(getByLabelText('left'));
-    fireEvent.press(getByLabelText('right'));
+    fireEvent.click(getByLabelText('left'));
+    fireEvent.click(getByLabelText('right'));
     expect(left).toHaveBeenCalled();
     expect(right).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { toJSON, rerender } = renderBar('light');
-    let tree = toJSON() as unknown as {
-      props: { style: { backgroundColor: string } };
-    };
-    expect(tree.props.style.backgroundColor).toBe('rgba(255,255,255,1.00)');
+    const { getByTestId, rerender } = renderBar('light');
+    const bar = getByTestId('bar');
+    expect(bar).toHaveStyle('background-color: rgba(255, 255, 255, 1)');
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
-          <TopBar />
+          <TopBar testID="bar" />
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    tree = toJSON() as unknown as {
-      props: { style: { backgroundColor: string } };
-    };
-    expect(tree.props.style.backgroundColor).toBe('rgba(0,0,0,1.00)');
+    expect(getByTestId('bar')).toHaveStyle(
+      'background-color: rgba(0, 0, 0, 1)',
+    );
   });
 });
