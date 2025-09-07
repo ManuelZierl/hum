@@ -145,7 +145,10 @@ jobs:
 
       - name: Determine Playwright version
         id: pwver
-        run: echo "version=$(node -p \"require('@playwright/test/package.json').version\")" >> $GITHUB_OUTPUT
+        shell: bash
+        run: |
+          PW_VERSION=$(node -e "process.stdout.write(require('@playwright/test/package.json').version)")
+          echo "version=$PW_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Restore Playwright browsers cache
         id: pw-cache
