@@ -143,19 +143,42 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Cache Playwright browsers
+      - name: Determine Playwright version
+        id: pwver
+        run: echo "version=$(node -p \"require('@playwright/test/package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Restore Playwright browsers cache
+        id: pw-cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          path: ${{ github.workspace }}/.pw-browsers
+          key: ${{ runner.os }}-pw-v${{ steps.pwver.outputs.version }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pw-v${{ steps.pwver.outputs.version }}-
+            ${{ runner.os }}-pw-
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Inspect Playwright cache
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+        run: |
+          echo "cache-hit=${{ steps.pw-cache.outputs['cache-hit'] }}"
+          echo "PLAYWRIGHT_BROWSERS_PATH=${PLAYWRIGHT_BROWSERS_PATH}"
+          ls -la "${PLAYWRIGHT_BROWSERS_PATH}" || true
+          ls -la ~/.cache/ms-playwright || true
+          sudo ls -la /root/.cache/ms-playwright || true
+
+      - name: Install Playwright browsers (no OS deps)
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+          DEBUG: pw:install
+        run: npx playwright install chromium
 
       - name: Build Storybook
         run: npm run storybook:build
 
       - name: Run Storybook smoke tests
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
         run: SB_STATIC=1 npm run test:sb:e2e
 
   detox-android:

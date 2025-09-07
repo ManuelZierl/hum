@@ -90,7 +90,8 @@ android {
     namespace 'com.hum.app'
     defaultConfig {
         applicationId 'com.hum.app'
-        minSdkVersion rootProject.ext.minSdkVersion
+        // Bump minSdk for Detox AndroidTest compatibility (detox-butler requires >=26)
+        minSdkVersion 26
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
