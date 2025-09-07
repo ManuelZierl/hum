@@ -48,7 +48,6 @@
       "bash -lc 'npm run format'"
     ],
     "**/*.md": [
-      "bash -lc 'npm run lint:md:fix --'",
       "bash -lc 'npm run lint:md --'"
     ],
     "*": [
