@@ -238,6 +238,12 @@ jobs:
           cd apps/mobile
           DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
 
+      - name: Preflight AndroidTest manifest (fail fast)
+        timeout-minutes: 5
+        working-directory: apps/mobile/android
+        run: |
+          ./gradlew :app:processDebugAndroidTestManifest -DtestBuildType=debug --no-daemon --stacktrace --console=plain
+
       - name: Cache Android NDK
         uses: actions/cache@v4
         with:
