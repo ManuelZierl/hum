@@ -1,8 +1,10 @@
 ---
+
 layout: default
 title: License
 parent: Community
 nav_order: 3
+
 ---
 
 # License

@@ -1,8 +1,10 @@
 ---
+
 layout: default
 title: Key Concepts
 parent: Overview
 nav_order: 2
+
 ---
 
 # Key Concepts

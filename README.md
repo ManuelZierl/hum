@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./imgs/logo-transparent.svg" alt="hum logo" width="200" />
+  <img src="./docs/assets/img/logo-transparent.svg" alt="hum logo" width="200" />
 </p>
 
 # hum
