@@ -7,8 +7,8 @@
     "start": "npm --prefix apps/mobile start",
     "typecheck": "tsc -p tsconfig.typecheck.json",
     "lint": "eslint 'packages/**/*.{ts,tsx,js}' 'apps/**/*.{ts,tsx,js}' 'scripts/**/*.cjs' --fix",
-    "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
-    "format:check": "prettier --check '**/*.{ts,tsx,js,json,md}'",
+    "format": "prettier --write '**/*.{ts,tsx,js,json}'",
+    "format:check": "prettier --check '**/*.{ts,tsx,js,json}'",
     "lint:md": "remark ./docs --ext .md --frail",
     "lint:md:fix": "remark ./docs --ext .md --frail --output",
     "prepare": "husky",
@@ -44,7 +44,7 @@
     "**/*.ts?(x)": [
       "bash -lc 'npm run typecheck'"
     ],
-    "**/*.{ts,tsx,js,json,md}": [
+    "**/*.{ts,tsx,js,json}": [
       "bash -lc 'npm run format'"
     ],
     "**/*.md": [
