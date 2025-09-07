@@ -13,14 +13,14 @@ module.exports = {
       binaryPath:
         'apps/mobile/ios/build/Build/Products/Debug-iphonesimulator/hum.app',
       build:
-        'npm run build && xcodebuild -workspace apps/mobile/ios/hum.xcworkspace -scheme hum -configuration Debug -sdk iphonesimulator -derivedDataPath apps/mobile/ios/build',
+        'npm run -w @hum/ui-components build && npm run -w @hum/ui-screens build && xcodebuild -workspace apps/mobile/ios/hum.xcworkspace -scheme hum -configuration Debug -sdk iphonesimulator -derivedDataPath apps/mobile/ios/build',
     },
     'myApp.android': {
       type: 'android.apk',
       binaryPath:
         'apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk',
       build:
-        'npm run build && cd apps/mobile/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug',
+        'npm run -w @hum/ui-components build && npm run -w @hum/ui-screens build && cd apps/mobile/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug',
     },
   },
   devices: {
