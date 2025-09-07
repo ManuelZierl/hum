@@ -1,5 +1,7 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ChatsScreen, mockChats } from '@hum/ui-screens';
+import { ThemeProvider } from '@hum/ui-components';
 
 const meta: Meta<typeof ChatsScreen> = {
   title: 'Screens/ChatsScreen',
@@ -10,6 +12,13 @@ const meta: Meta<typeof ChatsScreen> = {
   args: {
     chats: mockChats,
   },
+  decorators: [
+    (StoryFn) => (
+      <ThemeProvider forcedScheme="dark">
+        <StoryFn />
+      </ThemeProvider>
+    ),
+  ],
 };
 
 export default meta;
@@ -23,5 +32,11 @@ export const Empty: Story = {
 };
 
 export const LightMode: Story = {
-  args: { initialScheme: 'light' },
+  decorators: [
+    (StoryFn) => (
+      <ThemeProvider forcedScheme="light">
+        <StoryFn />
+      </ThemeProvider>
+    ),
+  ],
 };

@@ -9,8 +9,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: config.slug ?? 'hum',
   version: config.version ?? '1.0.0',
   orientation: config.orientation ?? 'portrait',
-  userInterfaceStyle: config.userInterfaceStyle ?? 'light',
   icon: '../../docs/assets/img/logo-background.png',
+  userInterfaceStyle: config.userInterfaceStyle ?? 'automatic',
   splash: {
     image: '../../docs/assets/img/logo-transparent.png',
     resizeMode: 'contain',
