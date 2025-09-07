@@ -2,8 +2,11 @@
 /* eslint-disable no-undef */
 module.exports = {
   rootDir: '.',
-  testEnvironment: 'node',
+  testEnvironment: 'detox/runners/jest/testEnvironment',
+  testRunner: 'jest-circus/runner',
   testTimeout: 240000,
+  // Optional: keep a lightweight setup file for test tweaks.
+  // If you don't need it, you can remove this line.
   setupFilesAfterEnv: ['<rootDir>/setup.js'],
   // Only pick up Detox E2E specs under the detox/ folder
   testMatch: ['<rootDir>/**/*.spec.js'],

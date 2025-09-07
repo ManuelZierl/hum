@@ -1,11 +1,3 @@
-const detox = require('detox');
-
+// Keep this file for lightweight Jest tweaks only.
+// Detox init/cleanup is handled by the Detox Jest environment.
 jest.setTimeout(240000);
-
-beforeAll(async () => {
-  await detox.init();
-});
-
-afterAll(async () => {
-  await detox.cleanup();
-});
