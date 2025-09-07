@@ -162,6 +162,8 @@ const mockChats: Chat[] = [
 export interface ChatsScreenProps {
   onNavigateToChat?: (chat: Chat) => void;
   chats?: Chat[];
+  // Optional: show TopBar search row
+  showSearch?: boolean;
 }
 
 export { mockChats };
@@ -169,21 +171,31 @@ export { mockChats };
 export function ChatsScreen({
   onNavigateToChat,
   chats = mockChats,
+  showSearch = false,
 }: ChatsScreenProps) {
-  return <ChatsScreenInner chats={chats} onNavigateToChat={onNavigateToChat} />;
+  return (
+    <ChatsScreenInner
+      chats={chats}
+      onNavigateToChat={onNavigateToChat}
+      showSearch={showSearch}
+    />
+  );
 }
 
 interface InnerProps {
   chats: Chat[];
   onNavigateToChat?: (chat: Chat) => void;
+  showSearch: boolean;
 }
 
 const ChatsScreenInner: React.FC<InnerProps> = ({
   chats,
   onNavigateToChat,
+  showSearch,
 }) => {
-  const { colors, spacing, type } = useTheme();
+  const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
+  const [query, setQuery] = React.useState<string>('');
 
   const renderItem: ListRenderItem<Chat> = ({ item }) => (
     <ChatItem
@@ -211,6 +223,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
       ]}
     >
       <TopBar
+        title="Chats"
         leftItems={[
           { type: 'text', label: '⋯', onPress: () => {}, a11yLabel: 'Menu' },
         ]}
@@ -222,21 +235,12 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
             a11yLabel: 'Open camera',
           },
         ]}
+        showSearch={showSearch}
+        searchPlaceholder="Search"
+        searchValue={query}
+        onChangeSearch={setQuery}
+        onSubmitSearch={() => {}}
       />
-
-      <View
-        style={{ paddingHorizontal: spacing.md, paddingBottom: spacing.md }}
-      >
-        <Text
-          style={{
-            color: colors.foreground,
-            fontSize: type.size['2xl'],
-            fontWeight: type.weight.bold,
-          }}
-        >
-          Chats
-        </Text>
-      </View>
 
       <ListRow
         icon={<Icon name="archive" size={24} color={colors.mutedForeground} />}

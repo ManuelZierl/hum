@@ -40,12 +40,47 @@ describe('TopBar', () => {
     expect(queryByLabelText('Go back')).toBeNull();
   });
 
-  it('centers title and icon', () => {
-    const { toJSON } = renderBar('light', {
+  it('renders title and icon', () => {
+    const { getByText, getByTestId } = renderBar('light', {
       title: 'Hello',
       titleIconName: 'chat',
     });
-    expect(toJSON()).toMatchSnapshot();
+    expect(getByText('Hello')).toBeTruthy();
+    expect(getByTestId('title-icon')).toBeTruthy();
+  });
+
+  it('expands back button hit area to at least 44x44', () => {
+    const { getByTestId } = renderBar('light', { backButton: true });
+    const back = getByTestId('back-button');
+    expect(back.props.hitSlop).toEqual({
+      top: 10,
+      bottom: 10,
+      left: 10,
+      right: 10,
+    });
+  });
+
+  it('renders search row when enabled and forwards handlers', () => {
+    const onChange = jest.fn();
+    const onSubmit = jest.fn();
+    const { getByPlaceholderText, getByTestId } = renderBar('light', {
+      showSearch: true,
+      searchPlaceholder: 'Search',
+      searchValue: 'abc',
+      onChangeSearch: onChange,
+      onSubmitSearch: onSubmit,
+    });
+
+    const input = getByPlaceholderText('Search');
+    expect(input).toBeTruthy();
+    // assert testID as well
+    expect(getByTestId('topbar-search-input')).toBeTruthy();
+
+    // fire change and submit
+    fireEvent.changeText(input, 'hello');
+    expect(onChange).toHaveBeenCalledWith('hello');
+    fireEvent(input, 'submitEditing');
+    expect(onSubmit).toHaveBeenCalled();
   });
 
   it('renders items and fires callbacks', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from './theme/theme-provider';
 import { Icon, type IconName } from './theme/icon';
@@ -29,6 +29,12 @@ export interface TopBarProps {
   leftItems?: TopBarItem[];
   rightItems?: TopBarItem[];
   testID?: string;
+  // Optional search row
+  showSearch?: boolean;
+  searchPlaceholder?: string;
+  searchValue?: string;
+  onChangeSearch?: (text: string) => void;
+  onSubmitSearch?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -39,8 +45,13 @@ export const TopBar: React.FC<TopBarProps> = ({
   leftItems = [],
   rightItems = [],
   testID,
+  showSearch = false,
+  searchPlaceholder = 'Search',
+  searchValue,
+  onChangeSearch,
+  onSubmitSearch,
 }) => {
-  const { colors, spacing, type } = useTheme();
+  const { colors, spacing, type, radius } = useTheme();
   const insets = useSafeAreaInsets();
 
   const renderItem = (item: TopBarItem, index: number) => {
@@ -98,60 +109,98 @@ export const TopBar: React.FC<TopBarProps> = ({
       ]}
       {...(testID ? { testID, 'data-testid': testID } : {})}
     >
-      <View style={styles.side}>
-        {backButton ? (
-          <Pressable
-            onPress={onBackPress}
-            accessibilityRole={onBackPress ? 'button' : undefined}
-            accessibilityLabel="Go back"
-            style={leftItems.length ? { marginRight: spacing.md } : undefined}
-            testID="back-button"
-          >
-            <Text style={[styles.backIcon, { color: colors.foreground }]}>
-              ‹
+      {/* Main top bar row */}
+      <View style={styles.row}>
+        <View style={styles.side}>
+          {backButton ? (
+            <Pressable
+              onPress={onBackPress}
+              accessibilityRole={onBackPress ? 'button' : undefined}
+              accessibilityLabel="Go back"
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              style={leftItems.length ? { marginRight: spacing.md } : undefined}
+              testID="back-button"
+            >
+              <Text style={[styles.backIcon, { color: colors.foreground }]}>
+                ‹
+              </Text>
+            </Pressable>
+          ) : null}
+          {leftItems.map((item, i) => renderItem(item, i))}
+        </View>
+
+        <View style={styles.center} pointerEvents="none">
+          {titleIconName ? (
+            <View
+              testID="title-icon"
+              style={title ? { marginRight: spacing.xs } : undefined}
+            >
+              <Icon name={titleIconName} size={24} color={colors.humPrimary} />
+            </View>
+          ) : null}
+          {title ? (
+            <Text
+              style={[
+                styles.title,
+                {
+                  color: colors.foreground,
+                  fontSize: type.size.lg,
+                  fontWeight: type.weight.medium,
+                },
+              ]}
+            >
+              {title}
             </Text>
-          </Pressable>
-        ) : null}
-        {leftItems.map((item, i) => renderItem(item, i))}
+          ) : null}
+        </View>
+
+        <View style={[styles.side, styles.right]}>
+          {rightItems.map((item, i) => renderItem(item, i))}
+        </View>
       </View>
 
-      <View style={styles.center} pointerEvents="none">
-        {titleIconName ? (
+      {/* Optional search row */}
+      {showSearch ? (
+        <View style={{ marginTop: spacing.sm }}>
           <View
-            testID="title-icon"
-            style={title ? { marginRight: spacing.xs } : undefined}
-          >
-            <Icon name={titleIconName} size={24} color={colors.humPrimary} />
-          </View>
-        ) : null}
-        {title ? (
-          <Text
             style={[
-              styles.title,
+              styles.searchContainer,
               {
-                color: colors.foreground,
-                fontSize: type.size.lg,
-                fontWeight: type.weight.medium,
+                backgroundColor: colors.inputBackground,
+                borderColor: colors.border,
+                borderRadius: radius.md,
+                paddingHorizontal: spacing.md,
               },
             ]}
           >
-            {title}
-          </Text>
-        ) : null}
-      </View>
-
-      <View style={[styles.side, styles.right]}>
-        {rightItems.map((item, i) => renderItem(item, i))}
-      </View>
+            <Icon
+              name="search"
+              size={18}
+              color={colors.mutedForeground}
+              style={{ marginRight: spacing.sm }}
+            />
+            <TextInput
+              testID="topbar-search-input"
+              placeholder={searchPlaceholder}
+              placeholderTextColor={colors.mutedForeground}
+              value={searchValue}
+              onChangeText={onChangeSearch}
+              onSubmitEditing={onSubmitSearch}
+              returnKeyType="search"
+              style={{ color: colors.foreground, paddingVertical: spacing.sm }}
+            />
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'stretch',
   },
+  row: { flexDirection: 'row', alignItems: 'center' },
   side: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -174,6 +223,11 @@ const styles = StyleSheet.create({
   },
   right: {
     justifyContent: 'flex-end',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
   },
 });
 

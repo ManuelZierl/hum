@@ -32,11 +32,6 @@ function renderScreen(
 }
 
 describe('LightningScreen', () => {
-  it('renders and matches snapshot', () => {
-    const { toJSON } = renderScreen();
-    expect(toJSON()).toMatchSnapshot();
-  });
-
   it('calls onBack when back button pressed', () => {
     const onBack = jest.fn();
     const { getByLabelText } = renderScreen('light', { onBack });

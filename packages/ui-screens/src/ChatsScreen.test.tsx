@@ -23,6 +23,11 @@ describe('ChatsScreen', () => {
     expect(getByLabelText('Open camera')).toBeTruthy();
   });
 
+  it('uses TopBar centered title', () => {
+    const { getByText } = renderScreen();
+    expect(getByText('Chats')).toBeTruthy();
+  });
+
   it('smoke presses actions', () => {
     const { getByLabelText } = renderScreen();
     fireEvent.press(getByLabelText('Menu'));
