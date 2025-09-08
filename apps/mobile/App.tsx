@@ -6,6 +6,7 @@ import {
   ChatsScreen,
   ChatScreen,
   LightningScreen,
+  CallsScreen,
   type Chat,
 } from '@hum/ui-screens';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
@@ -29,7 +30,9 @@ export default function App() {
             />
           ) : activeTab === 'chats' ? (
             <ChatsScreen onNavigateToChat={setSelectedChat} />
-          ) : activeTab === 'lightning' ? (
+          ) : activeTab === 'calls' ? (
+            <CallsScreen />
+          ) : activeTab === 'payments' ? (
             <LightningScreen />
           ) : settingsView === 'theme' ? (
             <ThemeSettingsScreen

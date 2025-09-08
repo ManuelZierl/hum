@@ -8,6 +8,7 @@ import BellIcon from '../../../../assets/icons/bell.svg';
 import BoxIcon from '../../../../assets/icons/box.svg';
 import BriefcaseIcon from '../../../../assets/icons/briefcase.svg';
 import BroadcastIcon from '../../../../assets/icons/broadcast.svg';
+import BitcoinIcon from '../../../../assets/icons/bitcoin.svg';
 import CameraIcon from '../../../../assets/icons/camera.svg';
 import CameraVideoIcon from '../../../../assets/icons/camera-video.svg';
 import ChatIcon from '../../../../assets/icons/chat.svg';
@@ -44,6 +45,7 @@ const icons = {
   box: BoxIcon,
   briefcase: BriefcaseIcon,
   broadcast: BroadcastIcon,
+  bitcoin: BitcoinIcon,
   camera: CameraIcon,
   'camera-video': CameraVideoIcon,
   chat: ChatIcon,

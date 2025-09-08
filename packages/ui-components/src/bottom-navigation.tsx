@@ -26,7 +26,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
       label: 'Chats',
       badgeCount: chatsBadgeCount,
     },
-    { id: 'lightning', icon: <Icon name="lightning" />, label: 'Lightning' },
+    { id: 'calls', icon: <Icon name="telephone" />, label: 'Calls' },
+    { id: 'payments', icon: <Icon name="bitcoin" />, label: 'Payments' },
     { id: 'settings', icon: <Icon name="gear" />, label: 'Settings' },
   ];
 

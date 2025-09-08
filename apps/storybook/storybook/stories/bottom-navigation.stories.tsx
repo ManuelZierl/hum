@@ -25,6 +25,10 @@ const meta: Meta<typeof Wrapper> = {
   ],
   argTypes: {
     chatsBadgeCount: { control: 'number' },
+    activeTab: {
+      control: 'select',
+      options: ['chats', 'calls', 'payments', 'settings'],
+    },
   },
   args: {
     activeTab: 'chats',
@@ -37,3 +41,4 @@ type Story = StoryObj<typeof Wrapper>;
 
 export const Basic: Story = {};
 export const WithBadge: Story = { args: { chatsBadgeCount: 5 } };
+export const CallsActive: Story = { args: { activeTab: 'calls' } };
