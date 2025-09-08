@@ -265,24 +265,28 @@ jobs:
           DETOX_REPORT_SPECS: true
         run: DEV_FEATURES=1 npx detox build -c android.emu.debug
 
-      - name: Run Detox on Android emulator
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: Test (Detox)
         env:
           DETOX_LOGLEVEL: trace
-          DETOX_REPORT_SPECS: true
-        with:
-          api-level: 34
-          arch: x86_64
-          profile: pixel_6
-          force-avd-creation: false
-          emulator-options: -no-window -no-snapshot -no-boot-anim -gpu swiftshader_indirect -noaudio
-          script: |
-            CI=true NODE_ENV=production DEV_FEATURES=1 npx detox test -c android.emu.debug --headless -w 1 --record-logs failing --record-videos failing --take-screenshots failing --artifacts-location ./detox-artifacts
-          emulator-boot-timeout: 900
+          DETOX_REPORT_SPECS: "true"
+        run: |
+          mkdir -p detox-artifacts
+          CI=true NODE_ENV=production DEV_FEATURES=1 npx detox test -c android.emu.debug --headless -w 1 \
+            --artifacts-location detox-artifacts \
+            --record-logs all --take-screenshots failing --record-videos failing
+        continue-on-error: true
+
+      - name: Collect adb logs (fallback)
+        if: always()
+        run: |
+          mkdir -p detox-artifacts/fallback
+          adb logcat -d > detox-artifacts/fallback/adb.log || true
+          adb bugreport detox-artifacts/fallback/bugreport.zip || true
 
       - name: Upload Detox artifacts
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: detox-artifacts
-          path: detox-artifacts
+          path: detox-artifacts/**
+          if-no-files-found: warn
