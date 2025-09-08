@@ -261,16 +261,28 @@ jobs:
         env:
           CI: true
           NODE_ENV: production
+          DETOX_LOGLEVEL: trace
+          DETOX_REPORT_SPECS: true
         run: DEV_FEATURES=1 npx detox build -c android.emu.debug
 
       - name: Run Detox on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          DETOX_LOGLEVEL: trace
+          DETOX_REPORT_SPECS: true
         with:
           api-level: 34
           arch: x86_64
           profile: pixel_6
           force-avd-creation: false
-          emulator-options: -no-window -gpu off -no-snapshot -noaudio -no-boot-anim -accel off
+          emulator-options: -no-window -no-snapshot -no-boot-anim -gpu swiftshader_indirect -noaudio
           script: |
-            CI=true NODE_ENV=production DEV_FEATURES=1 npx detox test -c android.emu.debug --headless -w 1
+            CI=true NODE_ENV=production DEV_FEATURES=1 npx detox test -c android.emu.debug --headless -w 1 --record-logs failing --record-videos failing --take-screenshots failing --artifacts-location ./detox-artifacts
           emulator-boot-timeout: 900
+
+      - name: Upload Detox artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detox-artifacts
+          path: detox-artifacts

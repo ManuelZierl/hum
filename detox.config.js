@@ -6,6 +6,10 @@ module.exports = {
       $0: 'jest',
       config: 'detox/jest.config.js',
     },
+    // Extend environment setup time to allow emulator and app start.
+    jest: {
+      setupTimeout: 300000,
+    },
   },
   apps: {
     'myApp.ios': {
