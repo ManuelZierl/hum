@@ -15,6 +15,9 @@ storybook-static/
 playwright-report/
 test-results/
 
+# Detox artifacts
+detox-artifacts/
+
 # React Native / Expo
 .expo/
 .expo-shared/
