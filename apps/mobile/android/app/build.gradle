@@ -32,8 +32,8 @@ react {
     //   The list of variants that are debuggable. For those we're going to
     //   skip the bundling of the JS bundle and the assets. By default it's just 'debug'.
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
-    //   In CI we want Detox to run without Metro, so force bundling for debug by
-    //   clearing debuggableVariants when CI env var is present.
+    //   In CI we run instrumented tests without Metro, so force bundling for debug
+    //   by clearing debuggableVariants when CI env var is present.
     if ((System.getenv('CI') ?: "").toBoolean()) {
         // Force bundling in debug for CI to avoid waiting for Metro
         debuggableVariants = []
@@ -95,15 +95,12 @@ android {
     namespace 'com.hum.app'
     defaultConfig {
         applicationId 'com.hum.app'
-        // Bump minSdk for Detox AndroidTest compatibility (detox-butler requires >=26)
         minSdkVersion 26
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
 
-        // Detox E2E instrumentation config
-        testBuildType System.getProperty('testBuildType', 'debug')
-        testInstrumentationRunner 'com.hum.app.DetoxTestAppJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     signingConfigs {
         debug {
@@ -134,6 +131,9 @@ android {
     }
     androidResources {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
+    }
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
 
@@ -185,11 +185,8 @@ dependencies {
         implementation jscFlavor
     }
 
-    // Detox E2E test dependencies
-    androidTestImplementation 'com.wix:detox:+'
-    androidTestImplementation 'com.github.wix-incubator:detox-butler:1.0.4'
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test:rules:1.5.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
+    androidTestUtil "androidx.test:orchestrator:1.5.1"
     testImplementation 'junit:junit:4.13.2'
 }
