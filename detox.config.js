@@ -1,50 +1,42 @@
-/* eslint-env node */
-/* eslint-disable no-undef */
 module.exports = {
-  testRunner: {
-    args: {
-      $0: 'jest',
-      config: 'detox/jest.config.js',
-    },
-    // Extend environment setup time to allow emulator and app start.
-    jest: {
-      setupTimeout: 300000,
-    },
-  },
-  apps: {
-    'myApp.ios': {
-      type: 'ios.app',
-      binaryPath:
-        'apps/mobile/ios/build/Build/Products/Debug-iphonesimulator/hum.app',
-      build:
-        'npm run -w @hum/hum-matrix-native build && npm run -w @hum/ui-components build && npm run -w @hum/ui-screens build && xcodebuild -workspace apps/mobile/ios/hum.xcworkspace -scheme hum -configuration Debug -sdk iphonesimulator -derivedDataPath apps/mobile/ios/build',
-    },
-    'myApp.android': {
-      type: 'android.apk',
-      binaryPath:
-        'apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk',
-      build:
-        'npm run -w @hum/hum-matrix-native build && npm run -w @hum/ui-components build && npm run -w @hum/ui-screens build && cd apps/mobile/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug',
+  testRunner: 'jest',
+  runnerConfig: 'detox/jest.config.js',
+  behavior: {
+    init: {
+      exposeGlobals: true,
+      launchApp: true,
+      reinstallApp: true,
+      initTimeout: 300000,
     },
   },
-  devices: {
-    'ios.sim': {
-      type: 'ios.simulator',
-      device: { type: 'iPhone 15' },
-    },
-    emulator: {
-      type: 'android.emulator',
-      device: { avdName: 'test' },
+  artifacts: {
+    rootDir: 'detox-artifacts',
+    plugins: {
+      log: { enabled: true },
+      screenshot: { enabled: 'onFail' },
+      video: { enabled: 'onFail' },
+      timeline: { enabled: true },
     },
   },
   configurations: {
-    'ios.sim.debug': {
-      device: 'ios.sim',
-      app: 'myApp.ios',
-    },
     'android.emu.debug': {
-      device: 'emulator',
-      app: 'myApp.android',
+      device: {
+        type: 'android.emulator',
+        avdName: 'Pixel_5_API_34',
+        headless: true,
+        bootArgs: [
+          '-no-snapshot',
+          '-no-boot-anim',
+          '-gpu',
+          'swiftshader_indirect',
+          '-noaudio',
+          '-camera-back',
+          'none',
+          '-camera-front',
+          'none',
+        ],
+      },
+      app: 'android.debug.apk',
     },
   },
 };
