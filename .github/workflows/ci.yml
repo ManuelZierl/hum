@@ -221,7 +221,6 @@ jobs:
           distribution: temurin
           java-version: '17'
   
-      # Install SDK bits + accept licenses BEFORE prebuild/build
       - name: Ensure Android SDK packages
         run: |
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --version
@@ -234,12 +233,29 @@ jobs:
             "platforms;android-34" \
             "system-images;android-34;google_apis;x86_64"
   
+      # NEW: install emulator runtime deps (fixes libpulse.so.0 etc.)
+      - name: Install emulator OS dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libpulse0 \
+            libvulkan1 \
+            libx11-6 \
+            libxext6 \
+            libxrender1 \
+            libxrandr2 \
+            libxfixes3 \
+            libxcursor1 \
+            libxi6 \
+            libxkbcommon0 \
+            libnss3 \
+            libglu1-mesa
+  
       - name: Prebuild mobile app (Android)
         run: |
           cd apps/mobile
           DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
   
-      # The emulator action provisions/boots an AVD and runs your script
       - name: Run instrumentation on emulator (API 34)
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -247,22 +263,19 @@ jobs:
           arch: x86_64
           target: google_apis
           profile: pixel
-          headless: true
+          # headless: true   # <-- remove (not a supported input)
           ram-size: 4096M
           disk-size: 8G
-          emulator-options: -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast
+          emulator-options: -no-window -no-audio -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast
+          disable-animations: true
           script: |
-            "${ANDROID_HOME}/platform-tools/adb" shell settings put global animator_duration_scale 0
-            "${ANDROID_HOME}/platform-tools/adb" shell settings put global window_animation_scale 0
-            "${ANDROID_HOME}/platform-tools/adb" shell settings put global transition_animation_scale 0
             cd apps/mobile/android
             chmod +x ./gradlew
             ./gradlew --no-daemon assembleDebug assembleAndroidTest connectedDebugAndroidTest
   
       - name: (Always) Dump logs
         if: always()
-        run: |
-          "${ANDROID_HOME}/platform-tools/adb" logcat -d > adb-logcat.txt || true
+        run: "${ANDROID_HOME}/platform-tools/adb" logcat -d > adb-logcat.txt || true
   
       - name: Upload test artifacts
         if: always()
