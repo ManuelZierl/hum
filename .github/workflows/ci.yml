@@ -194,16 +194,16 @@ jobs:
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - uses: actions/checkout@v4
-
+  
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: 'npm'
           cache-dependency-path: package-lock.json
-
+  
       - name: Install dependencies
         run: npm ci
-
+  
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -214,14 +214,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('apps/mobile/android/**/*.gradle*', 'apps/mobile/android/**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      # Ensure Java 17 explicitly (AGP expects it; ubuntu-latest usually has it, but be explicit)
-      - name: Setup Java
+  
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-
+  
       # Install SDK bits + accept licenses BEFORE prebuild/build
       - name: Ensure Android SDK packages
         run: |
@@ -234,50 +233,37 @@ jobs:
             "platforms;android-35" \
             "platforms;android-34" \
             "system-images;android-34;google_apis;x86_64"
-
+  
       - name: Prebuild mobile app (Android)
         run: |
           cd apps/mobile
           DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
-
-      - name: Ensure ADB server
-        run: |
-          "${ANDROID_HOME}/platform-tools/adb" start-server || true
-
-      - name: Create AVD
-        run: |
-          # Use a widely available device profile; pixel_6 is usually present, but "pixel" is safest.
-          echo "no" | "${ANDROID_HOME}/cmdline-tools/latest/bin/avdmanager" create avd \
-            -n test \
-            -k "system-images;android-34;google_apis;x86_64" \
-            -d pixel
-
-      - name: Start emulator
-        run: |
-          "${ANDROID_HOME}/emulator/emulator" -avd test \
-            -no-window -no-audio -no-snapshot -no-snapshot-save -no-boot-anim \
-            -gpu swiftshader_indirect -memory 4096 -netfast -accel auto &
-          "${ANDROID_HOME}/platform-tools/adb" wait-for-device
-          # Wait until fully booted
-          "${ANDROID_HOME}/platform-tools/adb" shell 'until [[ "$(getprop sys.boot_completed)" == "1" && "$(getprop dev.bootcomplete)" == "1" ]]; do sleep 1; done'
-          # Speed up UI
-          "${ANDROID_HOME}/platform-tools/adb" shell settings put global animator_duration_scale 0
-          "${ANDROID_HOME}/platform-tools/adb" shell settings put global window_animation_scale 0
-          "${ANDROID_HOME}/platform-tools/adb" shell settings put global transition_animation_scale 0
-          # Sanity check
-          "${ANDROID_HOME}/platform-tools/adb" shell getprop ro.build.version.sdk
-          "${ANDROID_HOME}/platform-tools/adb" shell wm size
-
-      - name: Run instrumentation tests
-        working-directory: apps/mobile/android
-        run: ./gradlew --no-daemon assembleDebug assembleAndroidTest connectedDebugAndroidTest
-
-      - name: (Always) Dump logs on failure/success
+  
+      # The emulator action provisions/boots an AVD and runs your script
+      - name: Run instrumentation on emulator (API 34)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel
+          headless: true
+          ram-size: 4096M
+          disk-size: 8G
+          emulator-options: -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast
+          script: |
+            "${ANDROID_HOME}/platform-tools/adb" shell settings put global animator_duration_scale 0
+            "${ANDROID_HOME}/platform-tools/adb" shell settings put global window_animation_scale 0
+            "${ANDROID_HOME}/platform-tools/adb" shell settings put global transition_animation_scale 0
+            cd apps/mobile/android
+            chmod +x ./gradlew
+            ./gradlew --no-daemon assembleDebug assembleAndroidTest connectedDebugAndroidTest
+  
+      - name: (Always) Dump logs
         if: always()
         run: |
-          "${ANDROID_HOME}/platform-tools/adb" -s emulator-5554 logcat -d > adb-logcat.txt || true
-          "${ANDROID_HOME}/platform-tools/adb" -s emulator-5554 bugreport bugreport.zip || true
-
+          "${ANDROID_HOME}/platform-tools/adb" logcat -d > adb-logcat.txt || true
+  
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -287,5 +273,3 @@ jobs:
             apps/mobile/android/app/build/reports/**
             apps/mobile/android/app/build/outputs/androidTest-results/**
             adb-logcat.txt
-            bugreport.zip
-
