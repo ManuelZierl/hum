@@ -228,7 +228,10 @@ jobs:
         run: |
           set -euxo pipefail
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --version
-          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses
+          # temporarily disable pipefail to avoid 'yes' SIGPIPE breaking the step
+          set +o pipefail
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
+          set -o pipefail
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" \
             "platform-tools" \
             "emulator" \
@@ -236,9 +239,7 @@ jobs:
             "platforms;android-35" \
             "platforms;android-34" \
             "system-images;android-34;google_apis;x86_64"
-          echo "::group::sdkmanager --list_installed"
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list_installed || true
-          echo "::endgroup::"
 
       # Emulator OS libs (prevents libpulse/libX* crashes)
       - name: Install emulator OS dependencies
