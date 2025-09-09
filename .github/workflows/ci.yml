@@ -226,19 +226,17 @@ jobs:
 
       - name: Ensure Android SDK packages
         run: |
-          set -euxo pipefail
+          set -eux
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --version
-          # temporarily disable pipefail to avoid 'yes' SIGPIPE breaking the step
           set +o pipefail
-          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
           set -o pipefail
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" \
             "platform-tools" \
             "emulator" \
             "build-tools;36.0.0" \
             "platforms;android-35" \
-            "platforms;android-34" \
-            "system-images;android-34;google_apis;x86_64"
+            "system-images;android-33;default;x86_64"
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list_installed || true
 
       # Emulator OS libs (prevents libpulse/libX* crashes)
@@ -305,26 +303,48 @@ jobs:
           env | sort | sed 's/\(PASS\|TOKEN\|KEY\|SECRET\)=.*/\1=***REDACTED***/' || true
 
       # Boots emulator and runs the tests. All test-related commands live inside 'script'
-      - name: Run instrumentation on emulator (API 34)
+      - name: Run instrumentation on emulator (API 33 default)
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 33
           arch: x86_64
-          target: google_apis
+          target: default                # <- faster than google_apis
           profile: pixel
           ram-size: 4096M
           disk-size: 8G
           disable-animations: true
-          disable-linux-hw-accel: true
-          emulator-options: -no-window -no-audio -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast -verbose
+          disable-linux-hw-accel: true   # GH runners don't expose KVM
+          emulator-boot-timeout: 600000  # 10 min cap; we bail earlier in script if needed
+          emulator-options: >-
+            -no-window -no-audio -no-snapshot -no-snapshot-save -no-boot-anim
+            -wipe-data -gpu swiftshader_indirect -netfast -verbose
+          pre-emulator-launch-script: |
+            set -eux
+            "${ANDROID_HOME}/platform-tools/adb" kill-server || true
+            "${ANDROID_HOME}/platform-tools/adb" start-server || true
+            "${ANDROID_HOME}/emulator/emulator" -version || true
           script: |
             set -euxo pipefail
-            # Quick device sanity
+            echo "Waiting for device..."
+            "${ANDROID_HOME}/platform-tools/adb" wait-for-device
             "${ANDROID_HOME}/platform-tools/adb" devices
+
+            # Fail-fast wait (max ~8 min here; emulator job has its own 10min cap)
+            i=0
+            until [ "$("${ANDROID_HOME}/platform-tools/adb" shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do
+              i=$((i+1))
+              if [ $i -gt 480 ]; then
+                echo "::error ::Emulator failed to boot within 8 minutes (API 33 default)."
+                exit 1
+              fi
+              "${ANDROID_HOME}/platform-tools/adb" shell getprop init.svc.bootanim || true
+              sleep 1
+            done
+
+            # Sanity + run tests (call wrapper via bash to ignore exec bit)
             "${ANDROID_HOME}/platform-tools/adb" shell getprop ro.build.version.sdk || true
-            # Build + run tests (with logs)
             bash apps/mobile/android/gradlew --no-daemon --stacktrace --info assembleDebug assembleAndroidTest connectedDebugAndroidTest
-            # Dump test results path for visibility
+
             echo "::group::Test result files"
             ls -R apps/mobile/android/app/build/outputs/androidTest-results || true
             ls -R apps/mobile/android/app/build/reports || true
