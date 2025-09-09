@@ -308,57 +308,70 @@ jobs:
         with:
           api-level: 33
           arch: x86_64
-          target: default                # <- faster than google_apis
+          target: default
           profile: pixel
           ram-size: 4096M
           disk-size: 8G
           disable-animations: true
-          disable-linux-hw-accel: true   # GH runners don't expose KVM
-          emulator-boot-timeout: 600000  # 10 min cap; we bail earlier in script if needed
+          disable-linux-hw-accel: true
+          emulator-boot-timeout: 600000
           emulator-options: >-
             -no-window -no-audio -no-snapshot -no-snapshot-save -no-boot-anim
             -wipe-data -gpu swiftshader_indirect -netfast -verbose
           pre-emulator-launch-script: |
-            set -eux
-            "${ANDROID_HOME}/platform-tools/adb" kill-server || true
-            "${ANDROID_HOME}/platform-tools/adb" start-server || true
-            "${ANDROID_HOME}/emulator/emulator" -version || true
+            set -eu
+            "$ANDROID_HOME/platform-tools/adb" kill-server || true
+            "$ANDROID_HOME/platform-tools/adb" start-server || true
+            "$ANDROID_HOME/emulator/emulator" -version || true
           script: |
-            set -euxo pipefail
-            echo "Waiting for device..."
-            "${ANDROID_HOME}/platform-tools/adb" wait-for-device
-            "${ANDROID_HOME}/platform-tools/adb" devices
+            set -eu
+            echo "Waiting for device (adb wait-for-device)…"
+            "$ANDROID_HOME/platform-tools/adb" wait-for-device
+            "$ANDROID_HOME/platform-tools/adb" devices || true
 
-            # Start logcat capture early (background) so we have boot logs even if the run fails.
+            # Start logcat capture (background) so we keep early boot logs
             mkdir -p .debug/android
-            "${ANDROID_HOME}/platform-tools/adb" logcat -v time > .debug/android/logcat_boot.txt 2>&1 &
+            "$ANDROID_HOME/platform-tools/adb" logcat -v time > .debug/android/logcat_boot.txt 2>&1 &
             LOGCAT_PID=$!
 
-            # Fail-fast boot wait (max ~8 min)
+            # Quick attempt to recover if device is 'offline'
+            n=0
+            while "$ANDROID_HOME/platform-tools/adb" devices | grep -q "offline"; do
+              n=$((n+1))
+              [ "$n" -ge 3 ] && break
+              echo "Device offline → adb reconnect…"
+              "$ANDROID_HOME/platform-tools/adb" reconnect offline || true
+              sleep 2
+            done
+
+            echo "Polling sys.boot_completed…"
             i=0
-            until [ "$("${ANDROID_HOME}/platform-tools/adb" shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do
+            while : ; do
+              BOOT="$("$ANDROID_HOME/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+              if [ "x$BOOT" = "x1" ]; then
+                break
+              fi
               i=$((i+1))
-              if [ $i -gt 480 ]; then
+              if [ "$i" -gt 480 ]; then
                 echo "::error ::Emulator failed to boot within 8 minutes (API 33 default)."
-                "${ANDROID_HOME}/platform-tools/adb" devices || true
-                "${ANDROID_HOME}/platform-tools/adb" shell getprop init.svc.bootanim || true
-                # Stop background logcat before exiting
-                kill $LOGCAT_PID || true
+                "$ANDROID_HOME/platform-tools/adb" devices || true
+                "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true
+                kill "$LOGCAT_PID" 2>/dev/null || true
                 exit 1
               fi
-              "${ANDROID_HOME}/platform-tools/adb" shell getprop init.svc.bootanim || true
+              "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true
               sleep 1
             done
 
             echo "Emulator booted."
-            "${ANDROID_HOME}/platform-tools/adb" shell getprop ro.build.version.sdk || true
+            "$ANDROID_HOME/platform-tools/adb" shell getprop ro.build.version.sdk || true
 
-            # Run tests (call wrapper via bash to ignore exec-bit issues)
+            # Run tests (call wrapper via sh-friendly 'bash path/gradlew')
             bash apps/mobile/android/gradlew --no-daemon --stacktrace --info \
               assembleDebug assembleAndroidTest connectedDebugAndroidTest
 
             # Stop background logcat after tests
-            kill $LOGCAT_PID || true
+            kill "$LOGCAT_PID" 2>/dev/null || true
 
             echo "::group::Test result files"
             ls -R apps/mobile/android/app/build/outputs/androidTest-results || true
@@ -369,35 +382,32 @@ jobs:
       - name: (Always) Collect Android diagnostics
         if: always()
         run: |
-          set +e
+          set -e
           mkdir -p .debug/android
 
-          # Ensure adb server, detect the emulator (if any)
-          "${ANDROID_HOME}/platform-tools/adb" start-server || true
-          "${ANDROID_HOME}/platform-tools/adb" devices > .debug/android/adb_devices.txt 2>&1 || true
-          DEVICE="$("${ANDROID_HOME}/platform-tools/adb" devices | awk '/emulator-/{print $1; exit}')" || true
+          "$ANDROID_HOME/platform-tools/adb" start-server || true
+          "$ANDROID_HOME/platform-tools/adb" devices > .debug/android/adb_devices.txt 2>&1 || true
+          DEVICE=$("$ANDROID_HOME/platform-tools/adb" devices 2>/dev/null | awk '/emulator-/{print $1; exit}')
 
-          # Always preserve boot log (if created in the emulator step)
+          # Preserve boot log captured earlier if present
           if [ -f .debug/android/logcat_boot.txt ]; then
-            echo "boot log present" >> .debug/android/logs_index.txt
+            echo "boot log present" > .debug/android/logs_index.txt
           else
-            echo "no boot log" >> .debug/android/logs_index.txt
+            echo "no boot log" > .debug/android/logs_index.txt
           fi
 
-          # Only try to pull live logs if we still have a device online
           if [ -n "$DEVICE" ]; then
-            timeout 20s "${ANDROID_HOME}/platform-tools/adb" -s "$DEVICE" logcat -d > .debug/android/logcat.txt 2>&1 || true
-            timeout 120s "${ANDROID_HOME}/platform-tools/adb" -s "$DEVICE" bugreport .debug/android/bugreport.zip || true
+            timeout 20s "$ANDROID_HOME/platform-tools/adb" -s "$DEVICE" logcat -d > .debug/android/logcat.txt 2>&1 || true
+            timeout 120s "$ANDROID_HOME/platform-tools/adb" -s "$DEVICE" bugreport .debug/android/bugreport.zip || true
           else
             echo "No emulator device online; skipping live logcat/bugreport" > .debug/android/no_device.txt
           fi
 
-          # AVD + SDK context
           ls -la ~/.android > .debug/android/home_android_ls.txt 2>&1 || true
           ls -la ~/.android/avd > .debug/android/avd_ls.txt 2>&1 || true
           grep -R . ~/.android/avd/*.avd/config.ini > .debug/android/avd_configs.txt 2>&1 || true
-          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list > .debug/android/sdk_list.txt 2>&1 || true
-          "${ANDROID_HOME}/emulator/emulator" -version > .debug/android/emulator_version.txt 2>&1 || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --list > .debug/android/sdk_list.txt 2>&1 || true
+          "$ANDROID_HOME/emulator/emulator" -version > .debug/android/emulator_version.txt 2>&1 || true
           java -version > .debug/android/java_version.txt 2>&1 || true
 
       - name: Upload test & debug artifacts
