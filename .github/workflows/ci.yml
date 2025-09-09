@@ -275,7 +275,7 @@ jobs:
   
       - name: (Always) Dump logs
         if: always()
-        run: "${ANDROID_HOME}/platform-tools/adb" logcat -d > adb-logcat.txt || true
+        run: "${ANDROID_HOME}/platform-tools/adb logcat -d > adb-logcat.txt || true"
   
       - name: Upload test artifacts
         if: always()
