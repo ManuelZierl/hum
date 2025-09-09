@@ -329,21 +329,36 @@ jobs:
             "${ANDROID_HOME}/platform-tools/adb" wait-for-device
             "${ANDROID_HOME}/platform-tools/adb" devices
 
-            # Fail-fast wait (max ~8 min here; emulator job has its own 10min cap)
+            # Start logcat capture early (background) so we have boot logs even if the run fails.
+            mkdir -p .debug/android
+            "${ANDROID_HOME}/platform-tools/adb" logcat -v time > .debug/android/logcat_boot.txt 2>&1 &
+            LOGCAT_PID=$!
+
+            # Fail-fast boot wait (max ~8 min)
             i=0
             until [ "$("${ANDROID_HOME}/platform-tools/adb" shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do
               i=$((i+1))
               if [ $i -gt 480 ]; then
                 echo "::error ::Emulator failed to boot within 8 minutes (API 33 default)."
+                "${ANDROID_HOME}/platform-tools/adb" devices || true
+                "${ANDROID_HOME}/platform-tools/adb" shell getprop init.svc.bootanim || true
+                # Stop background logcat before exiting
+                kill $LOGCAT_PID || true
                 exit 1
               fi
               "${ANDROID_HOME}/platform-tools/adb" shell getprop init.svc.bootanim || true
               sleep 1
             done
 
-            # Sanity + run tests (call wrapper via bash to ignore exec bit)
+            echo "Emulator booted."
             "${ANDROID_HOME}/platform-tools/adb" shell getprop ro.build.version.sdk || true
-            bash apps/mobile/android/gradlew --no-daemon --stacktrace --info assembleDebug assembleAndroidTest connectedDebugAndroidTest
+
+            # Run tests (call wrapper via bash to ignore exec-bit issues)
+            bash apps/mobile/android/gradlew --no-daemon --stacktrace --info \
+              assembleDebug assembleAndroidTest connectedDebugAndroidTest
+
+            # Stop background logcat after tests
+            kill $LOGCAT_PID || true
 
             echo "::group::Test result files"
             ls -R apps/mobile/android/app/build/outputs/androidTest-results || true
@@ -356,26 +371,34 @@ jobs:
         run: |
           set +e
           mkdir -p .debug/android
-          echo "=== ADB devices ===" > .debug/android/adb_devices.txt
-          "${ANDROID_HOME}/platform-tools/adb" devices >> .debug/android/adb_devices.txt 2>&1 || true
-          echo "=== logcat (last) ===" > .debug/android/logcat.txt
-          "${ANDROID_HOME}/platform-tools/adb" logcat -d >> .debug/android/logcat.txt 2>&1 || true
-          echo "=== bugreport ==="
-          "${ANDROID_HOME}/platform-tools/adb" bugreport .debug/android/bugreport.zip || true
-          echo "=== ~/.android ===" > .debug/android/home_android_ls.txt
-          ls -la ~/.android >> .debug/android/home_android_ls.txt 2>&1 || true
-          echo "=== ~/.android/avd ===" > .debug/android/avd_ls.txt
-          ls -la ~/.android/avd >> .debug/android/avd_ls.txt 2>&1 || true
-          echo "=== AVD config files ===" > .debug/android/avd_configs.txt
-          grep -R . ~/.android/avd/*.avd/config.ini >> .debug/android/avd_configs.txt 2>&1 || true
-          echo "=== SDK packages installed ===" > .debug/android/sdk_list.txt
-          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list_installed >> .debug/android/sdk_list.txt 2>&1 || true
-          echo "=== Emulator version ===" > .debug/android/emulator_version.txt
-          "${ANDROID_HOME}/emulator/emulator" -version >> .debug/android/emulator_version.txt 2>&1 || true
-          echo "=== Java version ===" > .debug/android/java_version.txt
-          java -version >> .debug/android/java_version.txt 2>&1 || true
-          echo "=== Gradle build scans (if any) ===" > .debug/android/gradle_info.txt
-          grep -R --include='*.log' -nH "https://scans.gradle.com" apps/mobile/android || true
+
+          # Ensure adb server, detect the emulator (if any)
+          "${ANDROID_HOME}/platform-tools/adb" start-server || true
+          "${ANDROID_HOME}/platform-tools/adb" devices > .debug/android/adb_devices.txt 2>&1 || true
+          DEVICE="$("${ANDROID_HOME}/platform-tools/adb" devices | awk '/emulator-/{print $1; exit}')" || true
+
+          # Always preserve boot log (if created in the emulator step)
+          if [ -f .debug/android/logcat_boot.txt ]; then
+            echo "boot log present" >> .debug/android/logs_index.txt
+          else
+            echo "no boot log" >> .debug/android/logs_index.txt
+          fi
+
+          # Only try to pull live logs if we still have a device online
+          if [ -n "$DEVICE" ]; then
+            timeout 20s "${ANDROID_HOME}/platform-tools/adb" -s "$DEVICE" logcat -d > .debug/android/logcat.txt 2>&1 || true
+            timeout 120s "${ANDROID_HOME}/platform-tools/adb" -s "$DEVICE" bugreport .debug/android/bugreport.zip || true
+          else
+            echo "No emulator device online; skipping live logcat/bugreport" > .debug/android/no_device.txt
+          fi
+
+          # AVD + SDK context
+          ls -la ~/.android > .debug/android/home_android_ls.txt 2>&1 || true
+          ls -la ~/.android/avd > .debug/android/avd_ls.txt 2>&1 || true
+          grep -R . ~/.android/avd/*.avd/config.ini > .debug/android/avd_configs.txt 2>&1 || true
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list > .debug/android/sdk_list.txt 2>&1 || true
+          "${ANDROID_HOME}/emulator/emulator" -version > .debug/android/emulator_version.txt 2>&1 || true
+          java -version > .debug/android/java_version.txt 2>&1 || true
 
       - name: Upload test & debug artifacts
         if: always()
