@@ -192,18 +192,21 @@ jobs:
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      # Make Gradle/chatty but deterministic
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.daemon.useFallbackStrategy=true"
     steps:
-      - uses: actions/checkout@v4
-  
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: 'npm'
           cache-dependency-path: package-lock.json
-  
-      - name: Install dependencies
+
+      - name: Install Node deps
         run: npm ci
-  
+
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
@@ -214,15 +217,16 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('apps/mobile/android/**/*.gradle*', 'apps/mobile/android/**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-  
+
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-  
+
       - name: Ensure Android SDK packages
         run: |
+          set -euxo pipefail
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --version
           yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses
           "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" \
@@ -232,10 +236,14 @@ jobs:
             "platforms;android-35" \
             "platforms;android-34" \
             "system-images;android-34;google_apis;x86_64"
-  
-      # NEW: install emulator runtime deps (fixes libpulse.so.0 etc.)
+          echo "::group::sdkmanager --list_installed"
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list_installed || true
+          echo "::endgroup::"
+
+      # Emulator OS libs (prevents libpulse/libX* crashes)
       - name: Install emulator OS dependencies
         run: |
+          set -euxo pipefail
           sudo apt-get update
           sudo apt-get install -y \
             libpulse0 \
@@ -250,12 +258,52 @@ jobs:
             libxkbcommon0 \
             libnss3 \
             libglu1-mesa
-  
+
+      # Helpful context if prebuild fails
+      - name: Print repo tree (top)
+        run: |
+          set -euxo pipefail
+          pwd
+          ls -la
+          echo "::group::tree depth 2"
+          sudo apt-get install -y tree >/dev/null 2>&1 || true
+          tree -L 2 -I node_modules || true
+          echo "::endgroup::"
+
       - name: Prebuild mobile app (Android)
         run: |
+          set -euxo pipefail
           cd apps/mobile
-          DEV_FEATURES=1 npx expo prebuild --non-interactive --platform android
-  
+          echo "Node: $(node -v)  NPM: $(npm -v)"
+          echo "Java:"
+          java -version
+          echo "::group::expo prebuild"
+          DEV_FEATURES=1 npx --yes expo prebuild --non-interactive --platform android || { echo "::error ::expo prebuild failed"; exit 1; }
+          echo "::endgroup::"
+
+      # HARD FAIL if gradle wrapper or android dir is missing
+      - name: Verify Android project + wrapper
+        run: |
+          set -euxo pipefail
+          echo "Listing apps/mobile/android:"
+          ls -la apps/mobile/android || true
+          test -f apps/mobile/android/gradlew || (echo "::error ::gradlew not found at apps/mobile/android/gradlew (prebuild likely failed)"; exit 1)
+          test -f apps/mobile/android/app/src/main/AndroidManifest.xml || (echo "::warning ::AndroidManifest.xml not found where expected")
+
+      # Extra diagnostics before emulator
+      - name: Android tools diagnostics
+        run: |
+          set -euxo pipefail
+          echo "adb version:"
+          "${ANDROID_HOME}/platform-tools/adb" version || true
+          echo "emulator version:"
+          "${ANDROID_HOME}/emulator/emulator" -version || true
+          echo "avdmanager devices (profiles):"
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/avdmanager" list device | head -n 80 || true
+          echo "ENV SNAPSHOT:"
+          env | sort | sed 's/\(PASS\|TOKEN\|KEY\|SECRET\)=.*/\1=***REDACTED***/' || true
+
+      # Boots emulator and runs the tests. All test-related commands live inside 'script'
       - name: Run instrumentation on emulator (API 34)
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -263,21 +311,52 @@ jobs:
           arch: x86_64
           target: google_apis
           profile: pixel
-          # headless: true   # <-- remove (not a supported input)
           ram-size: 4096M
           disk-size: 8G
-          emulator-options: -no-window -no-audio -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast
           disable-animations: true
+          disable-linux-hw-accel: true
+          emulator-options: -no-window -no-audio -no-snapshot -no-boot-anim -gpu swiftshader_indirect -netfast -verbose
           script: |
-            cd apps/mobile/android
-            chmod +x ./gradlew
-            ./gradlew --no-daemon assembleDebug assembleAndroidTest connectedDebugAndroidTest
-  
-      - name: (Always) Dump logs
+            set -euxo pipefail
+            # Quick device sanity
+            "${ANDROID_HOME}/platform-tools/adb" devices
+            "${ANDROID_HOME}/platform-tools/adb" shell getprop ro.build.version.sdk || true
+            # Build + run tests (with logs)
+            bash apps/mobile/android/gradlew --no-daemon --stacktrace --info assembleDebug assembleAndroidTest connectedDebugAndroidTest
+            # Dump test results path for visibility
+            echo "::group::Test result files"
+            ls -R apps/mobile/android/app/build/outputs/androidTest-results || true
+            ls -R apps/mobile/android/app/build/reports || true
+            echo "::endgroup::"
+
+      # If anything failed/hung, collect as much as we can
+      - name: (Always) Collect Android diagnostics
         if: always()
-        run: "${ANDROID_HOME}/platform-tools/adb logcat -d > adb-logcat.txt || true"
-  
-      - name: Upload test artifacts
+        run: |
+          set +e
+          mkdir -p .debug/android
+          echo "=== ADB devices ===" > .debug/android/adb_devices.txt
+          "${ANDROID_HOME}/platform-tools/adb" devices >> .debug/android/adb_devices.txt 2>&1 || true
+          echo "=== logcat (last) ===" > .debug/android/logcat.txt
+          "${ANDROID_HOME}/platform-tools/adb" logcat -d >> .debug/android/logcat.txt 2>&1 || true
+          echo "=== bugreport ==="
+          "${ANDROID_HOME}/platform-tools/adb" bugreport .debug/android/bugreport.zip || true
+          echo "=== ~/.android ===" > .debug/android/home_android_ls.txt
+          ls -la ~/.android >> .debug/android/home_android_ls.txt 2>&1 || true
+          echo "=== ~/.android/avd ===" > .debug/android/avd_ls.txt
+          ls -la ~/.android/avd >> .debug/android/avd_ls.txt 2>&1 || true
+          echo "=== AVD config files ===" > .debug/android/avd_configs.txt
+          grep -R . ~/.android/avd/*.avd/config.ini >> .debug/android/avd_configs.txt 2>&1 || true
+          echo "=== SDK packages installed ===" > .debug/android/sdk_list.txt
+          "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --list_installed >> .debug/android/sdk_list.txt 2>&1 || true
+          echo "=== Emulator version ===" > .debug/android/emulator_version.txt
+          "${ANDROID_HOME}/emulator/emulator" -version >> .debug/android/emulator_version.txt 2>&1 || true
+          echo "=== Java version ===" > .debug/android/java_version.txt
+          java -version >> .debug/android/java_version.txt 2>&1 || true
+          echo "=== Gradle build scans (if any) ===" > .debug/android/gradle_info.txt
+          grep -R --include='*.log' -nH "https://scans.gradle.com" apps/mobile/android || true
+
+      - name: Upload test & debug artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -285,4 +364,4 @@ jobs:
           path: |
             apps/mobile/android/app/build/reports/**
             apps/mobile/android/app/build/outputs/androidTest-results/**
-            adb-logcat.txt
+            .debug/android/**
