@@ -323,56 +323,61 @@ jobs:
             "$ANDROID_HOME/platform-tools/adb" kill-server || true
             "$ANDROID_HOME/platform-tools/adb" start-server || true
             "$ANDROID_HOME/emulator/emulator" -version || true
-          script: >
-            sh -ceu '
-            echo "Waiting for device (adb wait-for-device)…";
-            "$ANDROID_HOME/platform-tools/adb" wait-for-device;
-            "$ANDROID_HOME/platform-tools/adb" devices || true;
+          script: |
+            # Run the entire script in a single Bash process to avoid /bin/sh splitting
+            cat <<'BASH' | bash -eu
+            echo "Waiting for device (adb wait-for-device)…"
+            "$ANDROID_HOME/platform-tools/adb" wait-for-device
+            "$ANDROID_HOME/platform-tools/adb" devices || true
 
-            # start boot log capture in background
-            mkdir -p .debug/android;
+            # Start boot log capture (background) so we keep early logs
+            mkdir -p .debug/android
             "$ANDROID_HOME/platform-tools/adb" logcat -v time > .debug/android/logcat_boot.txt 2>&1 &
-            LOGCAT_PID=$!;
+            LOGCAT_PID=$!
 
-            # quick attempt to recover from offline
-            n=0; while "$ANDROID_HOME/platform-tools/adb" devices | grep -q "offline"; do
-              n=$((n+1)); [ "$n" -ge 3 ] && break;
-              echo "Device offline → adb reconnect…";
-              "$ANDROID_HOME/platform-tools/adb" reconnect offline || true;
-              sleep 2;
-            done;
+            # Quick attempt to recover from 'offline'
+            n=0
+            while "$ANDROID_HOME/platform-tools/adb" devices | grep -q "offline"; do
+              n=$((n+1)); [ "$n" -ge 3 ] && break
+              echo "Device offline → adb reconnect…"
+              "$ANDROID_HOME/platform-tools/adb" reconnect offline || true
+              sleep 2
+            done
 
-            echo "Polling sys.boot_completed…";
-            i=0; while :; do
-              BOOT=$("$ANDROID_HOME/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null | tr -d "\r");
-              if [ "x$BOOT" = "x1" ]; then break; fi;
-              i=$((i+1));
+            echo "Polling sys.boot_completed…"
+            i=0
+            while :; do
+              BOOT="$("$ANDROID_HOME/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+              if [ "x$BOOT" = "x1" ]; then
+                break
+              fi
+              i=$((i+1))
               if [ "$i" -gt 480 ]; then
-                echo "::error ::Emulator failed to boot within 8 minutes (API 33 default).";
-                "$ANDROID_HOME/platform-tools/adb" devices || true;
-                "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true;
-                kill "$LOGCAT_PID" 2>/dev/null || true;
-                exit 1;
-              fi;
-              "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true;
-              sleep 1;
-            done;
+                echo "::error ::Emulator failed to boot within 8 minutes (API 33 default)."
+                "$ANDROID_HOME/platform-tools/adb" devices || true
+                "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true
+                kill "$LOGCAT_PID" 2>/dev/null || true
+                exit 1
+              fi
+              "$ANDROID_HOME/platform-tools/adb" shell getprop init.svc.bootanim || true
+              sleep 1
+            done
 
-            echo "Emulator booted.";
-            "$ANDROID_HOME/platform-tools/adb" shell getprop ro.build.version.sdk || true;
+            echo "Emulator booted."
+            "$ANDROID_HOME/platform-tools/adb" shell getprop ro.build.version.sdk || true
 
-            # run tests (call wrapper via bash to avoid exec-bit issues)
+            # Run tests (call wrapper via bash to avoid exec-bit issues)
             bash apps/mobile/android/gradlew --no-daemon --stacktrace --info \
-              assembleDebug assembleAndroidTest connectedDebugAndroidTest;
+              assembleDebug assembleAndroidTest connectedDebugAndroidTest
 
-            # stop background logcat after tests
-            kill "$LOGCAT_PID" 2>/dev/null || true;
+            # Stop background logcat after tests
+            kill "$LOGCAT_PID" 2>/dev/null || true
 
-            echo "::group::Test result files";
-            ls -R apps/mobile/android/app/build/outputs/androidTest-results || true;
-            ls -R apps/mobile/android/app/build/reports || true;
-            echo "::endgroup::";
-
+            echo "::group::Test result files"
+            ls -R apps/mobile/android/app/build/outputs/androidTest-results || true
+            ls -R apps/mobile/android/app/build/reports || true
+            echo "::endgroup::"
+            BASH
       # If anything failed/hung, collect as much as we can
       - name: (Always) Collect Android diagnostics
         if: always()
