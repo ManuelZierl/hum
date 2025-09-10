@@ -58,8 +58,22 @@ $ADB shell settings put global transition_animation_scale 0 || true
 
 # Run Gradle instrumentation
 echo "== Run instrumentation build & tests =="
-bash apps/mobile/android/gradlew --no-daemon --stacktrace --info \
+test -f apps/mobile/android/gradlew || {
+  echo "::error ::apps/mobile/android/gradlew not found (did expo prebuild run successfully?)"
+  exit 1
+}
+pushd apps/mobile/android >/dev/null
+# make sure wrapper is runnable (safe even if executable already)
+chmod +x gradlew || true
+# optional sanity: list project + show tasks
+echo "::group::Gradle sanity"
+./gradlew --version
+./gradlew projects
+echo "::endgroup::"
+# build + run tests
+./gradlew --no-daemon --stacktrace --info \
   assembleDebug assembleAndroidTest connectedDebugAndroidTest
+popd >/dev/null
 
 # Stop background logcat
 kill "$LOGCAT_PID" 2>/dev/null || true
