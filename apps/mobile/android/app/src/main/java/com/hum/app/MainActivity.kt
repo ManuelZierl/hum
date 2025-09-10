@@ -1,61 +1,57 @@
 package com.hum.app
 
-import android.os.Build
-import android.os.Bundle
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.facebook.react.ReactApplication
+import com.facebook.react.ReactInstanceEventListener
+import com.facebook.react.bridge.Callback
+import com.facebook.react.bridge.PromiseImpl
+import com.facebook.react.bridge.ReactContext
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 
-import com.facebook.react.ReactActivity
-import com.facebook.react.ReactActivityDelegate
-import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
-import com.facebook.react.defaults.DefaultReactActivityDelegate
+@RunWith(AndroidJUnit4::class)
+class HumModuleTest {
 
-import expo.modules.ReactActivityDelegateWrapper
+  @get:Rule
+  val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-class MainActivity : ReactActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    // Set the theme to AppTheme BEFORE onCreate to support
-    // coloring the background, status bar, and navigation bar.
-    // This is required for expo-splash-screen.
-    setTheme(R.style.AppTheme);
-    super.onCreate(null)
-  }
+  @Test
+  fun humNativeModuleReturnsFalse() {
+    val result = AtomicReference<Boolean?>()
+    val latch = CountDownLatch(1)
 
-  /**
-   * Returns the name of the main component registered from JavaScript. This is used to schedule
-   * rendering of the component.
-   */
-  override fun getMainComponentName(): String = "main"
+    activityRule.scenario.onActivity { activity ->
+      val app = activity.application as ReactApplication
+      val manager = app.reactNativeHost.reactInstanceManager
 
-  /**
-   * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
-   * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
-   */
-  override fun createReactActivityDelegate(): ReactActivityDelegate {
-    return ReactActivityDelegateWrapper(
-          this,
-          BuildConfig.IS_NEW_ARCHITECTURE_ENABLED,
-          object : DefaultReactActivityDelegate(
-              this,
-              mainComponentName,
-              fabricEnabled
-          ){})
-  }
-
-  /**
-    * Align the back button behavior with Android S
-    * where moving root activities to background instead of finishing activities.
-    * @see <a href="https://developer.android.com/reference/android/app/Activity#onBackPressed()">onBackPressed</a>
-    */
-  override fun invokeDefaultOnBackPressed() {
-      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
-          if (!moveTaskToBack(false)) {
-              // For non-root activities, use the default implementation to finish them.
-              super.invokeDefaultOnBackPressed()
-          }
-          return
+      fun callModule(context: ReactContext) {
+        val module = context.getNativeModule(com.hum.nativepkg.HumNativeModule::class.java)
+        val resolveCb = Callback { args: Array<out Any?>? ->
+          result.set(args?.getOrNull(0) as? Boolean)
+          latch.countDown()
+        }
+        val rejectCb = Callback { _: Array<out Any?>? ->
+          latch.countDown()
+        }
+        val promise = PromiseImpl(resolveCb, rejectCb)
+        module?.clientIsAuthenticated(0.0, promise)
       }
 
-      // Use the default back button implementation on Android S
-      // because it's doing more than [Activity.moveTaskToBack] in fact.
-      super.invokeDefaultOnBackPressed()
+      manager.addReactInstanceEventListener(object : ReactInstanceEventListener {
+        override fun onReactContextInitialized(context: ReactContext) = callModule(context)
+      })
+
+      manager.currentReactContext?.let { callModule(it) }
+    }
+
+    assertTrue("native call timed out", latch.await(10, TimeUnit.SECONDS))
+    assertEquals(false, result.get())
   }
 }
