@@ -323,7 +323,7 @@ jobs:
             "$ANDROID_HOME/platform-tools/adb" kill-server || true
             "$ANDROID_HOME/platform-tools/adb" start-server || true
             "$ANDROID_HOME/emulator/emulator" -version || true
-          script: bash .github\scripts\android_instrumentation.sh
+          script: bash .github/scripts/android_instrumentation.sh
       # If anything failed/hung, collect as much as we can
       - name: (Always) Collect Android diagnostics
         if: always()
