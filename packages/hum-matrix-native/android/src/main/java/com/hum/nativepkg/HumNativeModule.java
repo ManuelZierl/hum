@@ -10,6 +10,10 @@ import com.facebook.react.bridge.ReactMethod;
 public class HumNativeModule extends ReactContextBaseJavaModule {
   public static final String NAME = "HumNative";
 
+  static {
+    System.loadLibrary("hum"); // Load the Rust library
+  }
+
   public HumNativeModule(ReactApplicationContext reactContext) {
     super(reactContext);
   }
@@ -22,9 +26,16 @@ public class HumNativeModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void createClient(String hsUrl, String storePath, Promise promise) {
-    // TODO: Implement Android JNI + FFI glue. For now, reject clearly.
-    promise.reject("ERR_UNIMPLEMENTED", "Android native glue not implemented yet");
+    String[] error = new String[1];
+    long handle = createClientNative(hsUrl, storePath, error);
+    if (handle != 0) {
+        promise.resolve(handle);
+    } else {
+        promise.reject("ERR_CREATE_CLIENT", error[0]);
+    }
   }
+
+  private native long createClientNative(String hsUrl, String storePath, String[] error);
 
   @ReactMethod
   public void clientFree(double handle, Promise promise) {
@@ -33,13 +44,29 @@ public class HumNativeModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void clientLogin(double handle, String username, String password, Promise promise) {
-    promise.reject("ERR_UNIMPLEMENTED", "Android native glue not implemented yet");
+    String[] error = new String[1];
+    int result = clientLoginNative(handle, username, password, error);
+    if (result == 0) {
+        promise.resolve(null);
+    } else {
+        promise.reject("ERR_LOGIN", error[0]);
+    }
   }
+
+  private native int clientLoginNative(double handle, String username, String password, String[] error);
 
   @ReactMethod
   public void clientLogout(double handle, Promise promise) {
-    promise.reject("ERR_UNIMPLEMENTED", "Android native glue not implemented yet");
+    String[] error = new String[1];
+    int result = clientLogoutNative(handle, error);
+    if (result == 0) {
+        promise.resolve(null);
+    } else {
+        promise.reject("ERR_LOGOUT", error[0]);
+    }
   }
+
+  private native int clientLogoutNative(double handle, String[] error);
 
   @ReactMethod
   public void clientIsAuthenticated(double handle, Promise promise) {

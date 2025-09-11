@@ -98,4 +98,8 @@ const rn = (() => {
 })();
 const nm = (rn.NativeModules ?? {}) as { HumNative?: unknown };
 const Native: Spec = (nm.HumNative ?? {}) as Spec;
+
+const NativeModules = (require('react-native') as { NativeModules: any }).NativeModules;
+console.log('NativeModules:', NativeModules);
+
 export default Native;
