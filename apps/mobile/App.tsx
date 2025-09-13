@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
+import Constants from 'expo-constants';
 import {
   ChatsScreen,
   ChatScreen,
@@ -9,9 +10,21 @@ import {
   type Chat,
 } from '@hum/ui-screens';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
-export default function App() {
+import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
+import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
+
+function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [showDev, setShowDev] = useState(false);
+  const enableDev = useMemo(() => {
+    type AppExtra = { devFeatures?: boolean };
+    type ExpoConfigLike = { extra?: AppExtra };
+    const expoCfg = (Constants as unknown as { expoConfig?: ExpoConfigLike })
+      .expoConfig;
+    const extra: AppExtra = expoCfg?.extra ?? {};
+    return !!extra.devFeatures;
+  }, []);
   const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
   const systemScheme = useColorScheme() ?? 'light';
@@ -21,14 +34,16 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider forcedScheme={resolvedScheme}>
         <View style={styles.container}>
-          {selectedChat ? (
+          {showDev ? (
+            <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
+          ) : selectedChat ? (
             <ChatScreen
               chatName={selectedChat.name}
               chatAvatar={selectedChat.avatar}
               onBack={() => setSelectedChat(null)}
             />
           ) : activeTab === 'chats' ? (
-            <ChatsScreen onNavigateToChat={setSelectedChat} />
+            <ChatsFromProvider onNavigateToChat={setSelectedChat} />
           ) : activeTab === 'lightning' ? (
             <LightningScreen />
           ) : settingsView === 'theme' ? (
@@ -43,11 +58,20 @@ export default function App() {
               onNavigateToTheme={() => setSettingsView('theme')}
             />
           )}
-          {!selectedChat && (
+          {!selectedChat && !showDev && (
             <BottomNavigation
               activeTab={activeTab}
               onTabChange={setActiveTab}
             />
+          )}
+          {enableDev && !showDev && (
+            <View style={styles.devButtonWrap}>
+              <View
+                style={styles.devEntry}
+                testID="btnOpenDev"
+                onTouchEnd={() => setShowDev(true)}
+              />
+            </View>
           )}
         </View>
       </ThemeProvider>
@@ -55,6 +79,34 @@ export default function App() {
   );
 }
 
+function ChatsFromProvider({
+  onNavigateToChat,
+}: {
+  onNavigateToChat: (c: Chat) => void;
+}) {
+  const { chats } = useHumClient();
+  return <ChatsScreen chats={chats} onNavigateToChat={onNavigateToChat} />;
+}
+
+export default function App() {
+  return (
+    <HumClientProvider>
+      <AppInner />
+    </HumClientProvider>
+  );
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  devButtonWrap: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+  },
+  devEntry: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#FF00AA',
+  },
 });

@@ -34,8 +34,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: config.ios?.bundleIdentifier ?? 'com.hum.app',
   },
   assetBundlePatterns: config.assetBundlePatterns ?? ['**/*'],
+  extra: {
+    ...(config.extra ?? {}),
+    devFeatures:
+      process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
+  },
   plugins: [
     ...(config.plugins ?? []),
     // './plugins/with-matrix-core',
+    ...(process.env.WITH_HUM_RUST === 'true'
+      ? ['./plugins/with-hum-rust']
+      : []),
   ],
 });
