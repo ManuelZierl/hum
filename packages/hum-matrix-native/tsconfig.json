@@ -6,9 +6,12 @@
     "outDir": "dist",
     "jsx": "react-jsx",
     "lib": ["ES2022"],
-    "types": ["react", "react-native"],
+    "types": ["react", "react-native", "node"],
     "typeRoots": ["../../tests", "../../node_modules/@types"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2019"
   },
   "include": ["src"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
