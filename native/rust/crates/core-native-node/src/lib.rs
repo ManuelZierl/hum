@@ -137,7 +137,7 @@ impl Task for HttpGetTask {
 }
 
 // Run a blocking plain-HTTP GET off the main thread
-struct HttpGetTask {
+pub struct HttpGetTask {
     url: String,
 }
 
@@ -219,7 +219,7 @@ impl From<()> for Void {
 // -------------------- Async wrappers for network-touching FFI --------------------
 
 // create_client
-struct CreateClientTask {
+pub struct CreateClientTask {
     hs_url: String,
     store_path: String,
 }
@@ -256,7 +256,7 @@ pub fn create_client(hs_url: String, store_path: String) -> AsyncTask<CreateClie
 }
 
 // client_login
-struct LoginTask {
+pub struct LoginTask {
     handle: BigInt,
     username: String,
     password: String,
@@ -294,7 +294,7 @@ pub fn client_login(handle: BigInt, username: String, password: String) -> Async
 }
 
 // client_logout
-struct LogoutTask {
+pub struct LogoutTask {
     handle: BigInt,
 }
 #[napi]
@@ -319,7 +319,7 @@ pub fn client_logout(handle: BigInt) -> AsyncTask<LogoutTask> {
 }
 
 // client_is_authenticated
-struct IsAuthTask {
+pub struct IsAuthTask {
     handle: BigInt,
 }
 #[napi]

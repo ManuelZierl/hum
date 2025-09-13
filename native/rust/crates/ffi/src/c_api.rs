@@ -1,4 +1,4 @@
-//! C ABI for Hum client. Functions return 0 on success; non-zero on error.
+#![allow(clippy::missing_safety_doc)]
 
 use std::{
     ffi::{CStr, CString},
@@ -37,7 +37,7 @@ fn set_error(err_out: *mut *mut c_char, msg: String) {
 
 /// Free a C string allocated by this library.
 #[no_mangle]
-pub extern "C" fn hum_free_string(s: *mut c_char) {
+pub unsafe extern "C" fn hum_free_string(s: *mut c_char) {
     if !s.is_null() {
         unsafe {
             let _ = CString::from_raw(s);
@@ -47,7 +47,7 @@ pub extern "C" fn hum_free_string(s: *mut c_char) {
 
 /// Create a new client handle.
 #[no_mangle]
-pub extern "C" fn hum_client_new(
+pub unsafe extern "C" fn hum_client_new(
     hs_url: *const c_char,
     store_path: *const c_char,
     err_out: *mut *mut c_char,
@@ -84,7 +84,7 @@ pub extern "C" fn hum_client_new(
 
 /// Free a client handle.
 #[no_mangle]
-pub extern "C" fn hum_client_free(handle: *mut HumClientHandle) {
+pub unsafe extern "C" fn hum_client_free(handle: *mut HumClientHandle) {
     if handle.is_null() {
         return;
     }
@@ -95,7 +95,7 @@ pub extern "C" fn hum_client_free(handle: *mut HumClientHandle) {
 
 /// Log in.
 #[no_mangle]
-pub extern "C" fn hum_client_login(
+pub unsafe extern "C" fn hum_client_login(
     handle: *mut HumClientHandle,
     username: *const c_char,
     password: *const c_char,
@@ -126,7 +126,7 @@ pub extern "C" fn hum_client_login(
 
 /// Logout.
 #[no_mangle]
-pub extern "C" fn hum_client_logout(
+pub unsafe extern "C" fn hum_client_logout(
     handle: *mut HumClientHandle,
     err_out: *mut *mut c_char,
 ) -> c_int {
@@ -146,7 +146,7 @@ pub extern "C" fn hum_client_logout(
 
 /// Check auth state.
 #[no_mangle]
-pub extern "C" fn hum_client_is_authenticated(
+pub unsafe extern "C" fn hum_client_is_authenticated(
     handle: *mut HumClientHandle,
     out_is_auth: *mut bool,
     err_out: *mut *mut c_char,
@@ -169,7 +169,7 @@ pub extern "C" fn hum_client_is_authenticated(
 
 /// Run one sync with timeout.
 #[no_mangle]
-pub extern "C" fn hum_client_sync_once(
+pub unsafe extern "C" fn hum_client_sync_once(
     handle: *mut HumClientHandle,
     timeout_ms: u64,
     err_out: *mut *mut c_char,
@@ -191,7 +191,7 @@ pub extern "C" fn hum_client_sync_once(
 
 /// Start continuous sync.
 #[no_mangle]
-pub extern "C" fn hum_client_start_sync_loop(
+pub unsafe extern "C" fn hum_client_start_sync_loop(
     handle: *mut HumClientHandle,
     timeout_ms: u64,
     err_out: *mut *mut c_char,
@@ -213,7 +213,7 @@ pub extern "C" fn hum_client_start_sync_loop(
 
 /// Stop continuous sync.
 #[no_mangle]
-pub extern "C" fn hum_client_stop_sync_loop(
+pub unsafe extern "C" fn hum_client_stop_sync_loop(
     handle: *mut HumClientHandle,
     err_out: *mut *mut c_char,
 ) -> c_int {
@@ -233,7 +233,7 @@ pub extern "C" fn hum_client_stop_sync_loop(
 
 /// Send text.
 #[no_mangle]
-pub extern "C" fn hum_client_send_text(
+pub unsafe extern "C" fn hum_client_send_text(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     body: *const c_char,
@@ -264,7 +264,7 @@ pub extern "C" fn hum_client_send_text(
 
 /// Create a room; returns room_id.
 #[no_mangle]
-pub extern "C" fn hum_client_create_room(
+pub unsafe extern "C" fn hum_client_create_room(
     handle: *mut HumClientHandle,
     name: *const c_char,
     topic: *const c_char,
@@ -321,7 +321,7 @@ pub extern "C" fn hum_client_create_room(
 
 /// Join a room by id or alias; returns room_id.
 #[no_mangle]
-pub extern "C" fn hum_client_join_room(
+pub unsafe extern "C" fn hum_client_join_room(
     handle: *mut HumClientHandle,
     id_or_alias: *const c_char,
     out_room_id: *mut *mut c_char,
@@ -356,7 +356,7 @@ pub extern "C" fn hum_client_join_room(
 
 /// Leave a room.
 #[no_mangle]
-pub extern "C" fn hum_client_leave_room(
+pub unsafe extern "C" fn hum_client_leave_room(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     err_out: *mut *mut c_char,
@@ -380,7 +380,7 @@ pub extern "C" fn hum_client_leave_room(
 
 /// Get joined rooms as JSON array of { room_id, name }.
 #[no_mangle]
-pub extern "C" fn hum_client_get_rooms(
+pub unsafe extern "C" fn hum_client_get_rooms(
     handle: *mut HumClientHandle,
     out_json: *mut *mut c_char,
     err_out: *mut *mut c_char,
@@ -405,7 +405,7 @@ pub extern "C" fn hum_client_get_rooms(
 
 /// Send reaction.
 #[no_mangle]
-pub extern "C" fn hum_client_send_reaction(
+pub unsafe extern "C" fn hum_client_send_reaction(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     event_id: *const c_char,
@@ -438,7 +438,7 @@ pub extern "C" fn hum_client_send_reaction(
 
 /// Redact event.
 #[no_mangle]
-pub extern "C" fn hum_client_redact(
+pub unsafe extern "C" fn hum_client_redact(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     event_id: *const c_char,
@@ -479,7 +479,7 @@ pub extern "C" fn hum_client_redact(
 
 /// Set typing state.
 #[no_mangle]
-pub extern "C" fn hum_client_set_typing(
+pub unsafe extern "C" fn hum_client_set_typing(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     is_typing: bool,
@@ -509,7 +509,7 @@ pub extern "C" fn hum_client_set_typing(
 
 /// Import recovery key (bootstrap secret storage).
 #[no_mangle]
-pub extern "C" fn hum_client_import_recovery_key(
+pub unsafe extern "C" fn hum_client_import_recovery_key(
     handle: *mut HumClientHandle,
     key: *const c_char,
     err_out: *mut *mut c_char,
@@ -534,7 +534,7 @@ pub extern "C" fn hum_client_import_recovery_key(
 
 /// Search users; returns a JSON string array of { user_id, display_name }.
 #[no_mangle]
-pub extern "C" fn hum_client_search_users(
+pub unsafe extern "C" fn hum_client_search_users(
     handle: *mut HumClientHandle,
     query: *const c_char,
     limit: u32,
@@ -574,7 +574,7 @@ pub extern "C" fn hum_client_search_users(
 
 /// Get devices; returns a JSON string array of { device_id, display_name }.
 #[no_mangle]
-pub extern "C" fn hum_client_get_devices(
+pub unsafe extern "C" fn hum_client_get_devices(
     handle: *mut HumClientHandle,
     out_json: *mut *mut c_char,
     err_out: *mut *mut c_char,
@@ -606,7 +606,7 @@ pub extern "C" fn hum_client_get_devices(
 
 /// Rename a device.
 #[no_mangle]
-pub extern "C" fn hum_client_rename_device(
+pub unsafe extern "C" fn hum_client_rename_device(
     handle: *mut HumClientHandle,
     device_id: *const c_char,
     name: *const c_char,
@@ -637,7 +637,7 @@ pub extern "C" fn hum_client_rename_device(
 
 /// Delete a device.
 #[no_mangle]
-pub extern "C" fn hum_client_delete_device(
+pub unsafe extern "C" fn hum_client_delete_device(
     handle: *mut HumClientHandle,
     device_id: *const c_char,
     err_out: *mut *mut c_char,
@@ -661,7 +661,7 @@ pub extern "C" fn hum_client_delete_device(
 
 /// Upload media. `data` is not owned and will not be freed by this function.
 #[no_mangle]
-pub extern "C" fn hum_client_upload_media(
+pub unsafe extern "C" fn hum_client_upload_media(
     handle: *mut HumClientHandle,
     data: *const u8,
     len: usize,
@@ -706,7 +706,7 @@ pub extern "C" fn hum_client_upload_media(
 
 /// Download media into an allocated buffer; caller must free via `hum_free_buf`.
 #[no_mangle]
-pub extern "C" fn hum_client_download_media(
+pub unsafe extern "C" fn hum_client_download_media(
     handle: *mut HumClientHandle,
     uri: *const c_char,
     out_buf: *mut *mut u8,
@@ -747,7 +747,7 @@ pub extern "C" fn hum_client_download_media(
 
 /// Free a buffer allocated by this library.
 #[no_mangle]
-pub extern "C" fn hum_free_buf(ptr: *mut u8, _len: usize) {
+pub unsafe extern "C" fn hum_free_buf(ptr: *mut u8, _len: usize) {
     if ptr.is_null() {
         return;
     }
@@ -756,7 +756,7 @@ pub extern "C" fn hum_free_buf(ptr: *mut u8, _len: usize) {
 
 /// Send read receipt.
 #[no_mangle]
-pub extern "C" fn hum_client_send_read_receipt(
+pub unsafe extern "C" fn hum_client_send_read_receipt(
     handle: *mut HumClientHandle,
     room_id: *const c_char,
     event_id: *const c_char,
@@ -787,7 +787,7 @@ pub extern "C" fn hum_client_send_read_receipt(
 
 /// Set presence: 0 Online, 1 Idle, 2 DoNotDisturb, 3 Invisible
 #[no_mangle]
-pub extern "C" fn hum_client_set_presence(
+pub unsafe extern "C" fn hum_client_set_presence(
     handle: *mut HumClientHandle,
     state: u32,
     err_out: *mut *mut c_char,
@@ -814,7 +814,7 @@ pub extern "C" fn hum_client_set_presence(
 
 /// Get presence for a user id; writes presence code as in `hum_client_set_presence`.
 #[no_mangle]
-pub extern "C" fn hum_client_get_presence(
+pub unsafe extern "C" fn hum_client_get_presence(
     handle: *mut HumClientHandle,
     user_id: *const c_char,
     out_state: *mut u32,
@@ -868,10 +868,17 @@ mod tests {
         let mut err: *mut c_char = std::ptr::null_mut();
         let user = CString::new("user").unwrap();
         let pass = CString::new("pass").unwrap();
-        let rc =
-            super::hum_client_login(std::ptr::null_mut(), user.as_ptr(), pass.as_ptr(), &mut err);
-        assert_ne!(rc, 0);
-        assert!(!err.is_null());
-        super::hum_free_string(err);
+
+        unsafe {
+            let rc = super::hum_client_login(
+                std::ptr::null_mut(),
+                user.as_ptr(),
+                pass.as_ptr(),
+                &mut err,
+            );
+            assert_ne!(rc, 0);
+            assert!(!err.is_null());
+            super::hum_free_string(err);
+        }
     }
 }
