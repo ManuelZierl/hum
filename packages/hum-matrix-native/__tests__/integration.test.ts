@@ -34,9 +34,6 @@ describe('@hum/hum-matrix-native integration tests', () => {
   let storeDir = '';
 
   beforeAll(async () => {
-    // Unique store dir per run to avoid reusing a persisted session.
-    storeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hum-store-'));
-
     server = http.createServer((req, res) => {
       const { method, url } = req;
 
@@ -93,6 +90,8 @@ describe('@hum/hum-matrix-native integration tests', () => {
     } else {
       throw new Error('Failed to bind test server');
     }
+
+    storeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hum-store-'));
 
     // sanity probe
     const probe = await fetch(`${baseUrl}/_matrix/client/versions`);

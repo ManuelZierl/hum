@@ -7,24 +7,28 @@ use base64::Engine;
 use hum_matrix_ffi::c_api::{
     // room mgmt
     hum_client_create_room,
-    // users/devices/presence
     hum_client_delete_device,
-    // media
     hum_client_download_media,
+
     // lifecycle / auth
     hum_client_free,
     hum_client_get_devices,
     hum_client_get_presence,
+
     // rooms/messages
     hum_client_get_rooms,
     hum_client_is_authenticated,
     hum_client_join_room,
     hum_client_leave_room,
+
     hum_client_login,
     hum_client_logout,
     hum_client_new,
+
     hum_client_redact,
+
     hum_client_rename_device,
+    // users/devices/presence
     hum_client_search_users,
     hum_client_send_reaction,
     hum_client_send_read_receipt,
@@ -35,6 +39,8 @@ use hum_matrix_ffi::c_api::{
     hum_client_start_sync_loop,
     hum_client_stop_sync_loop,
     hum_client_sync_once,
+
+    // media
     hum_client_upload_media,
     // types
     HumClientHandle,
@@ -44,11 +50,11 @@ use napi::bindgen_prelude::{BigInt, *};
 use napi_derive::napi;
 use url::Url;
 
-// -------------------- small helpers --------------------
+// ============== helpers ==============
 
 #[inline]
 unsafe fn take_cstring(ptr: *mut std::os::raw::c_char) -> String {
-    // ptr must come from CString::into_raw in the FFI crate.
+    // ptr must originate from CString::into_raw in the FFI crate.
     let s = CStr::from_ptr(ptr).to_string_lossy().into_owned();
     let _ = CString::from_raw(ptr); // free with this process' allocator
     s
@@ -96,17 +102,17 @@ where
 
 // BigInt <-> pointer conversions
 fn bigint_to_handle_ptr(h: &BigInt) -> *mut HumClientHandle {
-    let (neg, v, lossless) = h.get_u64();
-    if neg || !lossless {
-        panic!("invalid BigInt for handle");
+    let (is_negative, value, lossless) = h.get_u64();
+    if is_negative || !lossless {
+        panic!("invalid BigInt for handle (negative or not lossless)");
     }
-    v as usize as *mut HumClientHandle
+    value as usize as *mut HumClientHandle
 }
 fn handle_ptr_to_bigint(ptr: *mut HumClientHandle) -> BigInt {
     BigInt::from(ptr as usize as u64)
 }
 
-// -------------------- debug utilities --------------------
+// ============== debug utilities ==============
 
 #[napi]
 pub fn debug_print(msg: String) {
@@ -122,25 +128,10 @@ pub fn debug_tcp_connect(host: String, port: u16) -> Result<bool> {
     }
 }
 
-#[napi]
-impl Task for HttpGetTask {
-    type Output = String;
-    type JsValue = String;
-
-    fn compute(&mut self) -> Result<Self::Output> {
-        self.run()
-    }
-
-    fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
-        Ok(output)
-    }
-}
-
-// Run a blocking plain-HTTP GET off the main thread
+// Plain HTTP GET executed on a worker thread.
 pub struct HttpGetTask {
     url: String,
 }
-
 impl HttpGetTask {
     fn run(&self) -> Result<String> {
         let url = Url::parse(&self.url).map_err(|e| Error::from_reason(e.to_string()))?;
@@ -174,7 +165,6 @@ impl HttpGetTask {
             .map_err(|e| Error::from_reason(format!("write failed: {e}")))?;
         let _ = stream.shutdown(Shutdown::Write);
 
-        // Read to EOF with small backoff on WouldBlock
         let mut buf = Vec::new();
         let mut chunk = [0u8; 4096];
         let started = std::time::Instant::now();
@@ -201,30 +191,39 @@ impl HttpGetTask {
         String::from_utf8(buf).map_err(|e| Error::from_reason(format!("utf8 decode failed: {e}")))
     }
 }
+impl Task for HttpGetTask {
+    type Output = String;
+    type JsValue = String;
+
+    fn compute(&mut self) -> Result<Self::Output> {
+        self.run()
+    }
+    fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
+        Ok(output)
+    }
+}
 
 #[napi]
 pub fn debug_http_get(url: String) -> AsyncTask<HttpGetTask> {
     AsyncTask::new(HttpGetTask { url })
 }
 
+// Small helper so we can return `()` from Tasks.
 #[napi(object)]
 pub struct Void {}
-
 impl From<()> for Void {
     fn from(_: ()) -> Self {
         Void {}
     }
 }
 
-// -------------------- Async wrappers for network-touching FFI --------------------
+// ============== Async wrappers for network-touching FFI ==============
 
 // create_client
 pub struct CreateClientTask {
     hs_url: String,
     store_path: String,
 }
-
-#[napi]
 impl Task for CreateClientTask {
     type Output = BigInt;
     type JsValue = BigInt;
@@ -244,7 +243,6 @@ impl Task for CreateClientTask {
         }
         Ok(handle_ptr_to_bigint(handle))
     }
-
     fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
         Ok(output)
     }
@@ -255,13 +253,12 @@ pub fn create_client(hs_url: String, store_path: String) -> AsyncTask<CreateClie
     AsyncTask::new(CreateClientTask { hs_url, store_path })
 }
 
-// client_login
+// login
 pub struct LoginTask {
     handle: BigInt,
     username: String,
     password: String,
 }
-#[napi]
 impl Task for LoginTask {
     type Output = ();
     type JsValue = Void;
@@ -278,7 +275,6 @@ impl Task for LoginTask {
             )
         }
     }
-
     fn resolve(&mut self, _env: Env, _output: Self::Output) -> Result<Self::JsValue> {
         Ok(Void {})
     }
@@ -293,11 +289,10 @@ pub fn client_login(handle: BigInt, username: String, password: String) -> Async
     })
 }
 
-// client_logout
+// logout
 pub struct LogoutTask {
     handle: BigInt,
 }
-#[napi]
 impl Task for LogoutTask {
     type Output = ();
     type JsValue = Void;
@@ -307,7 +302,6 @@ impl Task for LogoutTask {
         let mut out_err: *mut std::os::raw::c_char = std::ptr::null_mut();
         unsafe { status_or_err(hum_client_logout(ptr, &mut out_err), &mut out_err) }
     }
-
     fn resolve(&mut self, _env: Env, _output: Self::Output) -> Result<Self::JsValue> {
         Ok(Void {})
     }
@@ -318,11 +312,10 @@ pub fn client_logout(handle: BigInt) -> AsyncTask<LogoutTask> {
     AsyncTask::new(LogoutTask { handle })
 }
 
-// client_is_authenticated
+// is_authenticated
 pub struct IsAuthTask {
     handle: BigInt,
 }
-#[napi]
 impl Task for IsAuthTask {
     type Output = bool;
     type JsValue = bool;
@@ -338,7 +331,6 @@ impl Task for IsAuthTask {
         }
         Ok(out)
     }
-
     fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
         Ok(output)
     }
@@ -349,7 +341,7 @@ pub fn client_is_authenticated(handle: BigInt) -> AsyncTask<IsAuthTask> {
     AsyncTask::new(IsAuthTask { handle })
 }
 
-// -------------------- The rest (cheap/fast ops kept sync) --------------------
+// ============== The rest: light/fast ops kept sync ==============
 
 #[napi]
 pub fn client_free(handle: BigInt) {
@@ -668,7 +660,7 @@ pub fn client_download_media(handle: BigInt, uri: String) -> Result<String> {
         }
         let slice = std::slice::from_raw_parts(out_buf, out_len);
         let b64 = base64::engine::general_purpose::STANDARD.encode(slice);
-        // TODO: provide & call hum_bytes_free(out_buf, out_len) in your FFI
+        // TODO: provide & call hum_bytes_free(out_buf, out_len) in your FFI.
         Ok(b64)
     }
 }
