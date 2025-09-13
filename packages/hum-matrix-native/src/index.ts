@@ -163,14 +163,24 @@ const Module: HumMatrixNative = {
         await Native.clientStartSyncLoop(handle, timeoutMs);
       },
       async stopSyncLoop() {
-        await Native.clientStopSyncLoop(handle);
+        try {
+          await Promise.resolve(Native.clientStopSyncLoop(handle));
+        } catch {
+          // ignore
+        }
       },
       async dispose() {
-        await Native.clientStopSyncLoop(handle).catch(() => {});
+        try {
+          await Promise.resolve(Native.clientStopSyncLoop(handle));
+        } catch {
+          // ignore
+        }
         await Native.clientFree(handle);
       },
       async importRecoveryKey(key: string) {
-        await Native.clientImportRecoveryKey(handle, key);
+        if (Native.clientImportRecoveryKey) {
+          await Native.clientImportRecoveryKey(handle, key);
+        }
       },
       async searchUsers(query: string, limit = 20) {
         const json = await Native.clientSearchUsers(handle, query, limit);
