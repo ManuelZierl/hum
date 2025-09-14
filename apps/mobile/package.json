@@ -21,17 +21,18 @@
     "@hum/hum-matrix-native": "file:../../packages/hum-matrix-native",
     "@hum/ui-components": "file:../../packages/ui-components",
     "@hum/ui-screens": "file:../../packages/ui-screens",
-    "@react-native-async-storage/async-storage": "2.1.2",
-    "expo": "~53.0.22",
-    "react": "19.0.0",
-    "react-native": "0.79.5",
-    "react-native-safe-area-context": "5.4.0",
-    "react-native-svg": "15.11.2"
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "expo": "54.0.7",
+    "react": "19.1.0",
+    "react-native": "0.81.4",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-svg": "15.12.1"
   },
   "devDependencies": {
-    "babel-preset-expo": "13.0.0",
-    "metro": "0.82.5",
-    "typescript": "~5.8.3"
+    "@expo/cli": "54.0.5",
+    "babel-preset-expo": "~54.0.0",
+    "metro": "^0.83.1",
+    "typescript": "~5.9.2"
   },
   "license": "AGPL-3.0-only",
   "repository": {

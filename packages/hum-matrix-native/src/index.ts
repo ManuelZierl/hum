@@ -10,7 +10,6 @@ import type {
 export * from './types';
 
 import Native from './nativeSpec';
-console.log('HumNative module:', Native);
 
 type RawRoom = Partial<{
   room_id: string;
