@@ -7,8 +7,10 @@
     "start": "npm --prefix apps/mobile start",
     "typecheck": "tsc -p tsconfig.typecheck.json",
     "lint": "eslint 'packages/**/*.{ts,tsx,js}' 'apps/**/*.{ts,tsx,js}' 'scripts/**/*.cjs' --fix",
-    "format": "prettier --write '**/*.{ts,tsx,js,json,md}'",
-    "format:check": "prettier --check '**/*.{ts,tsx,js,json,md}'",
+    "format": "prettier --write '**/*.{ts,tsx,js,json}'",
+    "format:check": "prettier --check '**/*.{ts,tsx,js,json}'",
+    "lint:md": "remark ./docs --ext .md --frail",
+    "lint:md:fix": "remark ./docs --ext .md --frail --output",
     "prepare": "husky",
     "test": "jest --runInBand",
     "build": "npm run -ws --if-present build",
@@ -42,8 +44,11 @@
     "**/*.ts?(x)": [
       "bash -lc 'npm run typecheck'"
     ],
-    "**/*.{ts,tsx,js,json,md}": [
+    "**/*.{ts,tsx,js,json}": [
       "bash -lc 'npm run format'"
+    ],
+    "**/*.md": [
+      "bash -lc 'npm run lint:md --'"
     ],
     "*": [
       "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'",
@@ -86,6 +91,9 @@
     "prettier": "^3.3.2",
     "react-native-svg-transformer": "^1.5.1",
     "react-test-renderer": "19.1.0",
+    "remark-cli": "^12.0.1",
+    "remark-preset-lint-recommended": "^7.0.1",
+    "remark-validate-links": "^13.1.0",
     "start-server-and-test": "^2.0.3",
     "ts-jest": "^29.1.1",
     "typescript": "^5.6.3"

@@ -11,22 +11,22 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     version: rest.version ?? '1.0.0',
     orientation: rest.orientation ?? 'portrait',
     userInterfaceStyle: rest.userInterfaceStyle ?? 'automatic',
-    icon: '../../imgs/logo-background.png',
+    icon: '../../docs/assets/img/logo-background.png',
     splash: {
-      image: '../../imgs/logo-transparent.png',
+      image: '../../docs/assets/img/logo-transparent.png',
       resizeMode: 'contain',
       backgroundColor: '#FFD755',
     },
     web: {
       ...(rest.web ?? {}),
-      favicon: '../../imgs/logo-transparent.png',
+      favicon: '../../docs/assets/img/logo-transparent.png',
     },
     android: {
       ...(rest.android ?? {}),
       package: rest.android?.package ?? 'com.hum.app',
       adaptiveIcon: {
         ...(rest.android?.adaptiveIcon ?? {}),
-        foregroundImage: '../../imgs/logo-transparent.png',
+        foregroundImage: '../../docs/assets/img/logo-transparent.png',
         backgroundColor: '#FFD755',
       },
     },
