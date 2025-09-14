@@ -8,8 +8,17 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "react-native": "./dist/index.js",
+      "browser": "./dist/index.js",
+      "node": "./index.node.js",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./nativeSpec": {
+      "react-native": "./dist/nativeSpec.native.js",
+      "browser": "./dist/nativeSpec.web.js",
+      "node": "./dist/nativeSpec.node.js",
+      "default": "./dist/nativeSpec.web.js"
     }
   },
   "files": [

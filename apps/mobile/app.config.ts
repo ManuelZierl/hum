@@ -1,49 +1,51 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
 
-// To experiment with the Matrix Core config plugin:
-// 1. Set WITH_MATRIX_CORE=true in your environment.
-// 2. Uncomment the line in the plugins array below.
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
-  name: config.name ?? 'hum',
-  slug: config.slug ?? 'hum',
-  version: config.version ?? '1.0.0',
-  orientation: config.orientation ?? 'portrait',
-  userInterfaceStyle: config.userInterfaceStyle ?? 'automatic',
-  icon: '../../imgs/logo-background.png',
-  splash: {
-    image: '../../imgs/logo-transparent.png',
-    resizeMode: 'contain',
-    backgroundColor: '#FFD755',
-  },
-  web: {
-    ...(config.web ?? {}),
-    favicon: '../../imgs/logo-transparent.png',
-  },
-  android: {
-    ...(config.android ?? {}),
-    package: config.android?.package ?? 'com.hum.app',
-    adaptiveIcon: {
-      ...(config.android?.adaptiveIcon ?? {}),
-      foregroundImage: '../../imgs/logo-transparent.png',
+export default ({ config }: ConfigContext): ExpoConfig => {
+  // strip any existing sdkVersion coming from config/defaults
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { sdkVersion: _ignore, ...rest } = config ?? {};
+
+  return {
+    name: rest.name ?? 'hum',
+    slug: rest.slug ?? 'hum',
+    version: rest.version ?? '1.0.0',
+    orientation: rest.orientation ?? 'portrait',
+    userInterfaceStyle: rest.userInterfaceStyle ?? 'automatic',
+    icon: '../../imgs/logo-background.png',
+    splash: {
+      image: '../../imgs/logo-transparent.png',
+      resizeMode: 'contain',
       backgroundColor: '#FFD755',
     },
-  },
-  ios: {
-    ...(config.ios ?? {}),
-    bundleIdentifier: config.ios?.bundleIdentifier ?? 'com.hum.app',
-  },
-  assetBundlePatterns: config.assetBundlePatterns ?? ['**/*'],
-  extra: {
-    ...(config.extra ?? {}),
-    devFeatures:
-      process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
-  },
-  plugins: [
-    ...(config.plugins ?? []),
-    // './plugins/with-matrix-core',
-    ...(process.env.WITH_HUM_RUST === 'true'
-      ? ['./plugins/with-hum-rust']
-      : []),
-  ],
-});
+    web: {
+      ...(rest.web ?? {}),
+      favicon: '../../imgs/logo-transparent.png',
+    },
+    android: {
+      ...(rest.android ?? {}),
+      package: rest.android?.package ?? 'com.hum.app',
+      adaptiveIcon: {
+        ...(rest.android?.adaptiveIcon ?? {}),
+        foregroundImage: '../../imgs/logo-transparent.png',
+        backgroundColor: '#FFD755',
+      },
+    },
+    ios: {
+      ...(rest.ios ?? {}),
+      bundleIdentifier: rest.ios?.bundleIdentifier ?? 'com.hum.app',
+    },
+    assetBundlePatterns: rest.assetBundlePatterns ?? ['**/*'],
+    extra: {
+      ...(rest.extra ?? {}),
+      devFeatures:
+        process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
+    },
+    plugins: [
+      ...(rest.plugins ?? []),
+      ...(process.env.WITH_HUM_RUST === 'true'
+        ? ['./plugins/with-hum-rust']
+        : []),
+    ],
+    // NOTE: Do NOT set sdkVersion here. Expo derives it from the installed "expo" package.
+  };
+};
