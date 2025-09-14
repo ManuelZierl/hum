@@ -35,58 +35,58 @@ function AppInner() {
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
 
-return (
-  <SafeAreaProvider>
-    <ThemeProvider forcedScheme={resolvedScheme}>
-      <OverlayProvider>
-        <View style={styles.container}>
-          {showDev ? (
-            <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
-          ) : selectedChat ? (
-            <ChatScreen
-              chatName={selectedChat.name}
-              chatAvatar={selectedChat.avatar}
-              onBack={() => setSelectedChat(null)}
-            />
-          ) : activeTab === 'chats' ? (
-            <ChatsFromProvider onNavigateToChat={setSelectedChat} />
-          ) : activeTab === 'calls' ? (
-            <CallsScreen />
-          ) : activeTab === 'payments' || activeTab === 'lightning' ? (
-            <LightningScreen />
-          ) : settingsView === 'theme' ? (
-            <ThemeSettingsScreen
-              theme={theme}
-              onBack={() => setSettingsView('main')}
-              onSelectTheme={setTheme}
-            />
-          ) : (
-            <MainSettingsScreen
-              theme={theme}
-              onNavigateToTheme={() => setSettingsView('theme')}
-            />
-          )}
-
-          {!selectedChat && !showDev && (
-            <BottomNavigation
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          )}
-
-          {enableDev && !showDev && (
-            <View style={styles.devButtonWrap}>
-              <View
-                style={styles.devEntry}
-                testID="btnOpenDev"
-                onTouchEnd={() => setShowDev(true)}
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider forcedScheme={resolvedScheme}>
+        <OverlayProvider>
+          <View style={styles.container}>
+            {showDev ? (
+              <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
+            ) : selectedChat ? (
+              <ChatScreen
+                chatName={selectedChat.name}
+                chatAvatar={selectedChat.avatar}
+                onBack={() => setSelectedChat(null)}
               />
-            </View>
-          )}
-        </View>
-      </OverlayProvider>
-    </ThemeProvider>
-  </SafeAreaProvider>
+            ) : activeTab === 'chats' ? (
+              <ChatsFromProvider onNavigateToChat={setSelectedChat} />
+            ) : activeTab === 'calls' ? (
+              <CallsScreen />
+            ) : activeTab === 'payments' || activeTab === 'lightning' ? (
+              <LightningScreen />
+            ) : settingsView === 'theme' ? (
+              <ThemeSettingsScreen
+                theme={theme}
+                onBack={() => setSettingsView('main')}
+                onSelectTheme={setTheme}
+              />
+            ) : (
+              <MainSettingsScreen
+                theme={theme}
+                onNavigateToTheme={() => setSettingsView('theme')}
+              />
+            )}
+
+            {!selectedChat && !showDev && (
+              <BottomNavigation
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            )}
+
+            {enableDev && !showDev && (
+              <View style={styles.devButtonWrap}>
+                <View
+                  style={styles.devEntry}
+                  testID="btnOpenDev"
+                  onTouchEnd={() => setShowDev(true)}
+                />
+              </View>
+            )}
+          </View>
+        </OverlayProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 

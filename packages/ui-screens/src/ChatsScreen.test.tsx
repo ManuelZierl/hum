@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react-native';
 import '@testing-library/jest-dom';
 import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
@@ -11,9 +11,9 @@ jest.mock('react-native-safe-area-context', () => ({
 function renderScreen(props?: Partial<ChatsScreenProps>) {
   return render(
     <ThemeProvider forcedScheme="dark">
-        <OverlayProvider>
-      <ChatsScreen {...props} chats={props?.chats ?? []} />
-        </OverlayProvider>
+      <OverlayProvider>
+        <ChatsScreen {...props} chats={props?.chats ?? []} />
+      </OverlayProvider>
     </ThemeProvider>,
   );
 }

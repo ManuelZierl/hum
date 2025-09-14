@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Chat, ChatsScreen } from '@hum/ui-screens';
-import { ThemeProvider, OverlayProvider  } from '@hum/ui-components';
+import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 
 const mockChats: Chat[] = [
   {

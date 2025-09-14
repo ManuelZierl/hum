@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    maxHeight: '90%',
   },
 });
 
