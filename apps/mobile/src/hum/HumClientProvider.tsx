@@ -98,16 +98,28 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const createClient = useCallback(async () => {
     if (!clientRef.current) {
+      const g = globalThis as Record<string, unknown> & {
+        __HUM_FORCE_MOCK__?: boolean;
+        __HUM_USE_BACKEND__?: string;
+      };
+      const forceMock =
+        extra.devFeatures === true ||
+        g.__HUM_FORCE_MOCK__ === true ||
+        Constants.appOwnership === 'expo' ||
+        Constants.executionEnvironment === 'storeClient';
       try {
+        if (forceMock) throw new Error('force-mock');
         clientRef.current = await HumNative.createClient(hsUrl, storePath);
+        g.__HUM_USE_BACKEND__ = 'native';
       } catch (e) {
-        // keep null on failure; provider still usable with empty data
-
-        console.warn('HumClientProvider: createClient failed', e);
+        console.warn('[Hum] Falling back to MockClient:', (e as Error).message);
+        const { MockClient } = await import('./MockClient');
+        clientRef.current = new MockClient(hsUrl, storePath);
+        g.__HUM_USE_BACKEND__ = 'mock';
       }
     }
     return clientRef.current;
-  }, [hsUrl, storePath]);
+  }, [hsUrl, storePath, extra.devFeatures]);
 
   const refreshRooms = useCallback(async () => {
     const c = await createClient();
