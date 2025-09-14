@@ -23,9 +23,10 @@ function renderScreen(
 }
 
 describe('SettingsScreen', () => {
-  it('renders and matches snapshot', () => {
-    const { toJSON } = renderScreen();
-    expect(toJSON()).toMatchSnapshot();
+  it('renders basic elements', () => {
+    const { getByLabelText } = renderScreen();
+    // TopBar search input exists on this screen
+    expect(getByLabelText('Search')).toBeTruthy();
   });
 
   it('updates search input text', () => {

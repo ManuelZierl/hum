@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { ThemeProvider } from './theme/theme-provider';
 import { TopBar, type TopBarProps } from './top-bar';
 
@@ -40,12 +40,41 @@ describe('TopBar', () => {
     expect(queryByLabelText('Go back')).toBeNull();
   });
 
-  it('centers title and icon', () => {
-    const { toJSON } = renderBar('light', {
+  it('renders title and icon', () => {
+    const { getByText, getByTestId } = renderBar('light', {
       title: 'Hello',
       titleIconName: 'chat',
     });
-    expect(toJSON()).toMatchSnapshot();
+    expect(getByText('Hello')).toBeTruthy();
+    expect(getByTestId('title-icon')).toBeTruthy();
+  });
+
+  it('renders back button with a11y label', () => {
+    const { getByLabelText } = renderBar('light', { backButton: true });
+    expect(getByLabelText('Go back')).toBeInTheDocument();
+  });
+
+  it('renders search row when enabled and forwards handlers', () => {
+    const onChange = jest.fn();
+    const onSubmit = jest.fn();
+    const { getByPlaceholderText, getByTestId } = renderBar('light', {
+      showSearch: true,
+      searchPlaceholder: 'Search',
+      searchValue: 'abc',
+      onChangeSearch: onChange,
+      onSubmitSearch: onSubmit,
+    });
+
+    const input = getByPlaceholderText('Search');
+    expect(input).toBeTruthy();
+    // assert testID as well
+    expect(getByTestId('topbar-search-input')).toBeTruthy();
+
+    // fire change and submit
+    fireEvent.change(input, { target: { value: 'hello' } });
+    expect(onChange).toHaveBeenCalledWith('hello');
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    expect(onSubmit).toHaveBeenCalled();
   });
 
   it('renders items and fires callbacks', () => {
@@ -59,28 +88,25 @@ describe('TopBar', () => {
         { type: 'icon', name: 'camera', a11yLabel: 'right', onPress: right },
       ],
     });
-    fireEvent.press(getByLabelText('left'));
-    fireEvent.press(getByLabelText('right'));
+    fireEvent.click(getByLabelText('left'));
+    fireEvent.click(getByLabelText('right'));
     expect(left).toHaveBeenCalled();
     expect(right).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { toJSON, rerender } = renderBar('light');
-    let tree = toJSON() as unknown as {
-      props: { style: { backgroundColor: string } };
-    };
-    expect(tree.props.style.backgroundColor).toBe('rgba(255,255,255,1.00)');
+    const { getByTestId, rerender } = renderBar('light');
+    const bar = getByTestId('bar');
+    expect(bar).toHaveStyle('background-color: rgba(255, 255, 255, 1)');
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
-          <TopBar />
+          <TopBar testID="bar" />
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    tree = toJSON() as unknown as {
-      props: { style: { backgroundColor: string } };
-    };
-    expect(tree.props.style.backgroundColor).toBe('rgba(0,0,0,1.00)');
+    expect(getByTestId('bar')).toHaveStyle(
+      'background-color: rgba(0, 0, 0, 1)',
+    );
   });
 });

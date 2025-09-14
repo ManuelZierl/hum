@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import '@testing-library/jest-dom';
 import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider } from '@hum/ui-components';
 
@@ -18,9 +18,9 @@ function renderScreen(props?: Partial<ChatsScreenProps>) {
 
 describe('ChatsScreen', () => {
   it('renders top bar', () => {
-    const { getByLabelText } = renderScreen();
-    expect(getByLabelText('Menu')).toBeTruthy();
-    expect(getByLabelText('Open camera')).toBeTruthy();
+    renderScreen();
+    expect(screen.getByLabelText('Menu')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Open camera')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {

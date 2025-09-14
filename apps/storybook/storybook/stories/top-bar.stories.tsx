@@ -38,6 +38,20 @@ export const WithActions: Story = {
   },
 };
 
+export const WithSearch: Story = {
+  args: {
+    title: 'Chats',
+    leftItems: [
+      { type: 'text', label: '⋯', a11yLabel: 'Menu', onPress: () => {} },
+    ],
+    rightItems: [
+      { type: 'icon', name: 'camera', a11yLabel: 'Camera', onPress: () => {} },
+    ],
+    showSearch: true,
+    searchPlaceholder: 'Search',
+  },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, width: 500 },
 });

@@ -176,3 +176,7 @@ export const LightMode: Story = {
     ),
   ],
 };
+
+export const WithSearch: Story = {
+  args: { showSearch: true },
+};
