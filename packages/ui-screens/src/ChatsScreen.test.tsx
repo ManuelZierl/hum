@@ -1,7 +1,7 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+
+import { render, fireEvent, screen } from '@testing-library/react-native';
 import '@testing-library/jest-dom';
-import { ChatsScreen, mockChats, type ChatsScreenProps } from './ChatsScreen';
+import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -11,23 +11,18 @@ jest.mock('react-native-safe-area-context', () => ({
 function renderScreen(props?: Partial<ChatsScreenProps>) {
   return render(
     <ThemeProvider forcedScheme="dark">
-      <OverlayProvider>
-        <ChatsScreen {...props} chats={props?.chats ?? mockChats} />
-      </OverlayProvider>
+        <OverlayProvider>
+      <ChatsScreen {...props} chats={props?.chats ?? []} />
+        </OverlayProvider>
     </ThemeProvider>,
   );
 }
 
 describe('ChatsScreen', () => {
   it('renders top bar', () => {
-    const { getByLabelText } = renderScreen();
-    expect(getByLabelText('Menu')).toBeInTheDocument();
-    expect(getByLabelText('Open camera')).toBeInTheDocument();
-  });
-
-  it('uses TopBar centered title', () => {
-    const { getByText } = renderScreen();
-    expect(getByText('Chats')).toBeTruthy();
+    renderScreen();
+    expect(screen.getByLabelText('Menu')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Open camera')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {

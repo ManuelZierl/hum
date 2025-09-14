@@ -1,0 +1,49 @@
+{
+  "name": "@hum/hum-matrix-native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hum Matrix native module wrapper (TurboModule/JSI) - scaffolding",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "react-native": "./dist/index.js",
+      "browser": "./dist/index.js",
+      "node": "./index.node.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./nativeSpec": {
+      "react-native": "./dist/nativeSpec.native.js",
+      "browser": "./dist/nativeSpec.web.js",
+      "node": "./dist/nativeSpec.node.js",
+      "default": "./dist/nativeSpec.web.js"
+    }
+  },
+  "files": [
+    "dist",
+    "android",
+    "ios",
+    "cpp",
+    "react-native.config.js",
+    "HumNative.podspec",
+    "index.node"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "pretest": "npm --prefix ../../native/rust/crates/core-native-node run build",
+    "test": "NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost HTTP_PROXY= HTTPS_PROXY= ALL_PROXY= jest -c jest.config.js"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-native": ">=0.75"
+  },
+  "devDependencies": {
+    "@swc/core": "1.13.5",
+    "@swc/jest": "0.2.39",
+    "@types/react": "^19.1.12",
+    "@hum/core-native-node": "file:../../native/rust/crates/core-native-node"
+  },
+  "license": "AGPL-3.0-only"
+}

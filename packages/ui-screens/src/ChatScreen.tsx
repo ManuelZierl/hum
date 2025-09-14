@@ -16,35 +16,6 @@ export interface ChatMessage extends MessageBubbleProps {
   id: string;
 }
 
-const mockMessages: ChatMessage[] = [
-  {
-    id: '1',
-    text: 'Hey! How are you doing?',
-    time: '14:15',
-    isOutgoing: false,
-  },
-  {
-    id: '2',
-    text: "I'm doing great! Just finished work. What about you?",
-    time: '14:17',
-    isOutgoing: true,
-    isRead: true,
-  },
-  {
-    id: '3',
-    text: 'Same here! Just wrapped up a big project',
-    time: '14:18',
-    isOutgoing: false,
-  },
-  {
-    id: '4',
-    text: "That's awesome! What kind of project was it?",
-    time: '14:20',
-    isOutgoing: true,
-    isRead: true,
-  },
-];
-
 export interface ChatScreenProps {
   chatName: string;
   chatAvatar: string;
@@ -56,7 +27,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   chatName,
   chatAvatar,
   onBack,
-  messages = mockMessages,
+  messages = [],
 }) => {
   const { colors, spacing, radius } = useTheme();
   const insets = useSafeAreaInsets();

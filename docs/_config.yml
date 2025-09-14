@@ -1,0 +1,19 @@
+title: Hum
+description: Hum is an open-source messenger with Matrix-based infrastructure, Lightning wallet integration.
+remote_theme: just-the-docs/just-the-docs
+logo: "/assets/img/logo-transparent.svg"
+favicon_ico: "/assets/img/logo-transparent.svg"
+color_scheme: dark
+baseurl: "/hum"
+search_enabled: true
+search.tokenizer_separator: /[\s/]+/
+
+gh_edit_link: true
+gh_edit_link_text: "Edit on GitHub."
+gh_edit_repository: "https://github.com/ManuelZierl/hum"
+gh_edit_branch: "main"
+gh_edit_source: "docs"
+gh_edit_view_mode: edit
+
+include:
+  - docs
