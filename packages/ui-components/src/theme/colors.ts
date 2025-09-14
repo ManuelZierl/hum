@@ -47,6 +47,7 @@ export const colors = {
     destructiveForeground: '#F2A6B1',
     border: '#2B2B2B',
     input: '#2B2B2B',
+    inputBackground: '#2B2B2B',
     ring: '#707070',
     sidebar: '#343434',
     sidebarForeground: '#FAFAFA',

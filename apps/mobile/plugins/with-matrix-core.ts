@@ -1,3 +1,4 @@
+// TODO: i think we can now remove this!
 import { ConfigPlugin, withDangerousMod } from '@expo/config-plugins';
 
 /**

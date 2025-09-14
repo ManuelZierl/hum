@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
-import { ChatsScreen, mockChats, type ChatsScreenProps } from './ChatsScreen';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import '@testing-library/jest-dom';
+import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -11,16 +11,16 @@ jest.mock('react-native-safe-area-context', () => ({
 function renderScreen(props?: Partial<ChatsScreenProps>) {
   return render(
     <ThemeProvider forcedScheme="dark">
-      <ChatsScreen {...props} chats={props?.chats ?? mockChats} />
+      <ChatsScreen {...props} chats={props?.chats ?? []} />
     </ThemeProvider>,
   );
 }
 
 describe('ChatsScreen', () => {
   it('renders top bar', () => {
-    const { getByLabelText } = renderScreen();
-    expect(getByLabelText('Menu')).toBeTruthy();
-    expect(getByLabelText('Open camera')).toBeTruthy();
+    renderScreen();
+    expect(screen.getByLabelText('Menu')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Open camera')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {
