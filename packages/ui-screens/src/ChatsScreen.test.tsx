@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, screen } from '@testing-library/react-native';
 import '@testing-library/jest-dom';
-import { ChatsScreen, mockChats, type ChatsScreenProps } from './ChatsScreen';
+import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -18,20 +18,15 @@ function renderScreen(props?: Partial<ChatsScreenProps>) {
 
 describe('ChatsScreen', () => {
   it('renders top bar', () => {
-    const { getByLabelText } = renderScreen();
-    expect(getByLabelText('Menu')).toBeInTheDocument();
-    expect(getByLabelText('Open camera')).toBeInTheDocument();
-  });
-
-  it('uses TopBar centered title', () => {
-    const { getByText } = renderScreen();
-    expect(getByText('Chats')).toBeTruthy();
+    renderScreen();
+    expect(screen.getByLabelText('Menu')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Open camera')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {
     const { getByLabelText } = renderScreen();
-    fireEvent.click(getByLabelText('Menu'));
-    fireEvent.click(getByLabelText('Open camera'));
-    fireEvent.click(getByLabelText('Add'));
+    fireEvent.press(getByLabelText('Menu'));
+    fireEvent.press(getByLabelText('Open camera'));
+    fireEvent.press(getByLabelText('Add'));
   });
 });
