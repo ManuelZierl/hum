@@ -9,6 +9,9 @@ import BoxIcon from '../../../../assets/icons/box.svg';
 import BriefcaseIcon from '../../../../assets/icons/briefcase.svg';
 import BroadcastIcon from '../../../../assets/icons/broadcast.svg';
 import BitcoinIcon from '../../../../assets/icons/bitcoin.svg';
+import CallIncomingIcon from '../../../../assets/icons/call_incoming.svg';
+import CallOutgoingIcon from '../../../../assets/icons/call_outgoing.svg';
+import CallMissedIcon from '../../../../assets/icons/call_missed.svg';
 import CameraIcon from '../../../../assets/icons/camera.svg';
 import CameraVideoIcon from '../../../../assets/icons/camera-video.svg';
 import ChatIcon from '../../../../assets/icons/chat.svg';
@@ -37,6 +40,7 @@ import TelephoneIcon from '../../../../assets/icons/telephone.svg';
 import TrashIcon from '../../../../assets/icons/trash.svg';
 import VolumeUpIcon from '../../../../assets/icons/volume-up.svg';
 import WalletIcon from '../../../../assets/icons/wallet.svg';
+import VideoCallIcon from '../../../../assets/icons/video_call.svg';
 
 const icons = {
   archive: ArchiveIcon,
@@ -46,6 +50,9 @@ const icons = {
   briefcase: BriefcaseIcon,
   broadcast: BroadcastIcon,
   bitcoin: BitcoinIcon,
+  call_incoming: CallIncomingIcon,
+  call_outgoing: CallOutgoingIcon,
+  call_missed: CallMissedIcon,
   camera: CameraIcon,
   'camera-video': CameraVideoIcon,
   chat: ChatIcon,
@@ -73,6 +80,7 @@ const icons = {
   telephone: TelephoneIcon,
   trash: TrashIcon,
   'volume-up': VolumeUpIcon,
+  video_call: VideoCallIcon,
   wallet: WalletIcon,
 };
 

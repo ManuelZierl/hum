@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ChatsScreen, mockChats, type ChatsScreenProps } from './ChatsScreen';
-import { ThemeProvider } from '@hum/ui-components';
+import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -11,7 +11,9 @@ jest.mock('react-native-safe-area-context', () => ({
 function renderScreen(props?: Partial<ChatsScreenProps>) {
   return render(
     <ThemeProvider forcedScheme="dark">
-      <ChatsScreen {...props} chats={props?.chats ?? mockChats} />
+      <OverlayProvider>
+        <ChatsScreen {...props} chats={props?.chats ?? mockChats} />
+      </OverlayProvider>
     </ThemeProvider>,
   );
 }

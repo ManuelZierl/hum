@@ -21,9 +21,20 @@ export { BottomNavigation } from './src/bottom-navigation';
 export type { BottomNavigationProps } from './src/bottom-navigation';
 export { ChatItem } from './src/chat-item';
 export type { ChatItemProps } from './src/chat-item';
+export { CallItem } from './src/CallItem';
+export type { CallItemProps } from './src/CallItem';
 export { TopBar } from './src/top-bar';
 export type { TopBarProps } from './src/top-bar';
 export { ContactInline } from './src/contact-inline';
 export type { ContactInlineProps } from './src/contact-inline';
 export { Icon } from './src/theme/icon';
 export type { IconName, IconProps } from './src/theme/icon';
+export {
+  BottomSlidingInOverlayScreen,
+  OverlayProvider,
+  useOverlay,
+} from './src/overlays';
+export type {
+  BottomSlidingInOverlayScreenProps,
+  BottomSlidingInOverlayScreenHandle,
+} from './src/BottomSlidingInOverlayScreen';

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
+import {
+  BottomNavigation,
+  ThemeProvider,
+  OverlayProvider,
+} from '@hum/ui-components';
 import {
   ChatsScreen,
   ChatScreen,
@@ -21,38 +25,40 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider forcedScheme={resolvedScheme}>
-        <View style={styles.container}>
-          {selectedChat ? (
-            <ChatScreen
-              chatName={selectedChat.name}
-              chatAvatar={selectedChat.avatar}
-              onBack={() => setSelectedChat(null)}
-            />
-          ) : activeTab === 'chats' ? (
-            <ChatsScreen onNavigateToChat={setSelectedChat} />
-          ) : activeTab === 'calls' ? (
-            <CallsScreen />
-          ) : activeTab === 'payments' ? (
-            <LightningScreen />
-          ) : settingsView === 'theme' ? (
-            <ThemeSettingsScreen
-              theme={theme}
-              onBack={() => setSettingsView('main')}
-              onSelectTheme={setTheme}
-            />
-          ) : (
-            <MainSettingsScreen
-              theme={theme}
-              onNavigateToTheme={() => setSettingsView('theme')}
-            />
-          )}
-          {!selectedChat && (
-            <BottomNavigation
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          )}
-        </View>
+        <OverlayProvider>
+          <View style={styles.container}>
+            {selectedChat ? (
+              <ChatScreen
+                chatName={selectedChat.name}
+                chatAvatar={selectedChat.avatar}
+                onBack={() => setSelectedChat(null)}
+              />
+            ) : activeTab === 'chats' ? (
+              <ChatsScreen onNavigateToChat={setSelectedChat} />
+            ) : activeTab === 'calls' ? (
+              <CallsScreen />
+            ) : activeTab === 'payments' ? (
+              <LightningScreen />
+            ) : settingsView === 'theme' ? (
+              <ThemeSettingsScreen
+                theme={theme}
+                onBack={() => setSettingsView('main')}
+                onSelectTheme={setTheme}
+              />
+            ) : (
+              <MainSettingsScreen
+                theme={theme}
+                onNavigateToTheme={() => setSettingsView('theme')}
+              />
+            )}
+            {!selectedChat && (
+              <BottomNavigation
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            )}
+          </View>
+        </OverlayProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );
