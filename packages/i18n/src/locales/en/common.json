@@ -16,7 +16,7 @@
     "login": "Login",
     "is_authenticated": "Is Authenticated?",
     "get_rooms": "Get Rooms",
-    "back": "Back",
+    "back": "Go back",
     "outgoing_message": "Outgoing message",
     "incoming_message": "Incoming message"
   },
