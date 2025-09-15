@@ -17,29 +17,33 @@ const isBrowser =
   typeof window.document !== 'undefined' &&
   typeof window.navigator !== 'undefined';
 
+declare const require: undefined | ((module: string) => unknown);
+
 function detectFromNativeApis(): string {
   try {
-    // expo-localization is only available on native targets. Requiring it in
-    // non-native environments (tests, SSR) throws, so we guard it.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- conditional native require
-    const localization = require('expo-localization');
-    const getLocales:
-      | (() => Array<{
+    if (typeof require === 'function') {
+      // expo-localization is only available on native targets. Requiring it in
+      // non-native environments (tests, SSR) throws, so we guard it.
+
+      const localization = require('expo-localization') as {
+        getLocales?: () => Array<{
           languageCode?: string;
           languageTag?: string;
-        }>)
-      | undefined = localization?.getLocales;
-    if (typeof getLocales === 'function') {
-      const locales = getLocales();
-      if (Array.isArray(locales) && locales.length > 0) {
-        const primary = locales[0];
-        if (primary?.languageCode) {
-          return primary.languageCode;
-        }
-        if (primary?.languageTag) {
-          const [language] = primary.languageTag.split('-');
-          if (language) {
-            return language;
+        }>;
+      };
+      const getLocales = localization?.getLocales;
+      if (typeof getLocales === 'function') {
+        const locales = getLocales();
+        if (Array.isArray(locales) && locales.length > 0) {
+          const primary = locales[0];
+          if (primary?.languageCode) {
+            return primary.languageCode;
+          }
+          if (primary?.languageTag) {
+            const [language] = primary.languageTag.split('-');
+            if (language) {
+              return language;
+            }
           }
         }
       }
