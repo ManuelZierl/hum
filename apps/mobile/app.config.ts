@@ -38,7 +38,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     extra: {
       ...(rest.extra ?? {}),
       devFeatures:
-        process.env.DEV_FEATURES === '1' || process.env.DEV_FEATURES === 'true',
+        rest.extra?.devFeatures ??
+        (process.env.DEV_FEATURES === '1' ||
+          process.env.DEV_FEATURES === 'true'),
     },
     plugins: [
       ...(rest.plugins ?? []),

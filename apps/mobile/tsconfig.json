@@ -7,6 +7,7 @@
     "paths": {
       "@hum/message-ui": ["packages/message-ui"],
       "@hum/mobile-ui": ["packages/mobile-ui"]
-    }
+    },
+    "resolveJsonModule": true
   }
 }
