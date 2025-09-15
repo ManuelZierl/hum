@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { CallsScreen, mockCalls } from '../CallsScreen';
+import { CallsScreen, mockCalls } from './CallsScreen';
 import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({

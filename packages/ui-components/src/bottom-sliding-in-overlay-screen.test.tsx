@@ -2,8 +2,8 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Text } from 'react-native';
-import { BottomSlidingInOverlayScreen } from '../BottomSlidingInOverlayScreen';
-import { ThemeProvider } from '../theme/theme-provider';
+import { BottomSlidingInOverlayScreen } from './bottom-sliding-in-overlay-screen';
+import { ThemeProvider } from './theme/theme-provider';
 // @ts-expect-error BackHandler not in react-native-web types
 import { BackHandler } from 'react-native';
 

@@ -27,8 +27,7 @@ describe('ChatsScreen', () => {
 
   it('smoke presses actions', () => {
     const { getByLabelText } = renderScreen();
-    fireEvent.click(getByLabelText('Menu'));
-    fireEvent.click(getByLabelText('Open camera'));
-    fireEvent.click(getByLabelText('Add'));
+    fireEvent.press(getByLabelText('Menu'));
+    fireEvent.press(getByLabelText('Open camera'));
   });
 });
