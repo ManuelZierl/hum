@@ -15,6 +15,10 @@ import {
  */
 export class MockClient implements Client {
   private rooms: RoomSummary[];
+  private messages = new Map<
+    string,
+    Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
+  >();
   private authed = false;
   private presence = new Map<string, PresenceState>();
 
@@ -26,14 +30,38 @@ export class MockClient implements Client {
         name: 'Alice',
         lastMessage: 'Hello from Alice',
         lastMessageTs: now - 60_000,
+        avatarUrl: 'https://picsum.photos/seed/alice/100',
       },
       {
         id: '!devs:mock',
         name: 'Hum Devs',
         lastMessage: 'Welcome to Hum',
         lastMessageTs: now - 120_000,
+        avatarUrl: 'https://picsum.photos/seed/humdevs/100',
       },
     ];
+    this.messages.set('!alice:mock', [
+      {
+        id: 'm1',
+        body: 'Hello from Alice',
+        ts: now - 60_000,
+        isOutgoing: false,
+      },
+      {
+        id: 'm2',
+        body: 'Hi Alice!',
+        ts: now - 30_000,
+        isOutgoing: true,
+      },
+    ]);
+    this.messages.set('!devs:mock', [
+      {
+        id: 'm3',
+        body: 'Welcome to Hum',
+        ts: now - 120_000,
+        isOutgoing: false,
+      },
+    ]);
   }
 
   async login(_username: string, _password: string): Promise<void> {
@@ -55,9 +83,26 @@ export class MockClient implements Client {
   async sendText(roomId: string, body: string): Promise<void> {
     const r = this.rooms.find((r) => r.id === roomId);
     if (r) {
+      const ts = Date.now();
       r.lastMessage = body;
-      r.lastMessageTs = Date.now();
+      r.lastMessageTs = ts;
+      const arr = this.messages.get(roomId) ?? [];
+      arr.push({
+        id: `${roomId}-${arr.length + 1}`,
+        body,
+        ts,
+        isOutgoing: true,
+      });
+      this.messages.set(roomId, arr);
     }
+  }
+
+  async getMessages(
+    roomId: string,
+  ): Promise<
+    Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
+  > {
+    return this.messages.get(roomId) ?? [];
   }
 
   async sendReaction(

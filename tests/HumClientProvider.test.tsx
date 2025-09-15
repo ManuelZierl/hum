@@ -10,6 +10,15 @@ jest.mock('expo-constants', () => ({
   },
 }));
 
+jest.mock('@hum/hum-matrix-native', () => ({
+  __esModule: true,
+  default: {
+    createClient: jest.fn(async () => {
+      throw new Error('native unavailable');
+    }),
+  },
+}));
+
 const {
   HumClientProvider,
   useHumClient,

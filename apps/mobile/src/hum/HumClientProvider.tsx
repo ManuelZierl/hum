@@ -16,6 +16,7 @@ import HumNative, {
   type PresenceState,
 } from '@hum/hum-matrix-native';
 import type { Chat } from '@hum/ui-screens';
+import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 import Constants from 'expo-constants';
 
 type AppExtra = {
@@ -78,6 +79,7 @@ export interface HumContextValue {
   downloadMedia: (uri: string) => Promise<Uint8Array | undefined>;
   setPresence: (state: PresenceState) => Promise<void>;
   getPresence: (userId: string) => Promise<PresenceState | undefined>;
+  getMessages: (roomId: string) => Promise<ChatMessage[]>;
 }
 
 const HumContext = createContext<HumContextValue | undefined>(undefined);
@@ -102,16 +104,19 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
         __HUM_FORCE_MOCK__?: boolean;
         __HUM_USE_BACKEND__?: string;
       };
-      const forceMock =
-        extra.devFeatures === true ||
-        g.__HUM_FORCE_MOCK__ === true ||
+      const isExpo =
         Constants.appOwnership === 'expo' ||
         Constants.executionEnvironment === 'storeClient';
+      const allowMock = __DEV__ || isExpo;
+      const forceMock =
+        allowMock &&
+        (extra.devFeatures === true || g.__HUM_FORCE_MOCK__ === true);
       try {
         if (forceMock) throw new Error('force-mock');
         clientRef.current = await HumNative.createClient(hsUrl, storePath);
         g.__HUM_USE_BACKEND__ = 'native';
       } catch (e) {
+        if (!allowMock) throw e;
         console.warn('[Hum] Falling back to MockClient:', (e as Error).message);
         const { MockClient } = await import('./MockClient');
         clientRef.current = new MockClient(hsUrl, storePath);
@@ -131,6 +136,33 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       console.warn('HumClientProvider: getRooms failed', e);
     }
   }, [createClient]);
+
+  const getMessages = useCallback(
+    async (roomId: string): Promise<ChatMessage[]> => {
+      const c = await createClient();
+      if (!c) return [];
+      const anyC = c as unknown as Record<string, unknown>;
+      const fn = anyC.getMessages as
+        | ((
+            roomId: string,
+          ) => Promise<
+            Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
+          >)
+        | undefined;
+      if (typeof fn === 'function') {
+        const msgs = await fn(roomId);
+        return msgs.map((m) => ({
+          id: m.id,
+          text: m.body,
+          time: formatTime(m.ts),
+          isOutgoing: m.isOutgoing,
+          isRead: true,
+        }));
+      }
+      return [];
+    },
+    [createClient],
+  );
 
   const login = useCallback(
     async (username: string, password: string) => {
@@ -351,6 +383,7 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       rooms,
       chats,
       refreshRooms,
+      getMessages,
       login,
       sendText,
       logout,
@@ -380,6 +413,7 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       rooms,
       chats,
       refreshRooms,
+      getMessages,
       login,
       sendText,
       logout,
