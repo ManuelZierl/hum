@@ -1,3 +1,12 @@
+---
+
+layout: default
+title: Dev Client Setup
+parent: Development
+nav_order: 6
+
+---
+
 Dev Client Setup (Expo New Architecture + Rust FFI)
 
 This guide shows how to build and run the app with a custom Expo Dev Client that includes the Hum native module and Rust artifacts.
