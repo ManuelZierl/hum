@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -20,6 +21,7 @@ import {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore useWindowDimensions not in react-native-web types
   useWindowDimensions,
+  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from './theme/theme-provider';
@@ -46,32 +48,62 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   const isControlled = controlledOpen !== undefined;
   const visible = isControlled ? controlledOpen : internalOpen;
   const translateY = useRef(new Animated.Value(windowHeight)).current;
+  const currentValueRef = useRef(windowHeight);
+  const gestureStartRef = useRef(0);
+  const closingRef = useRef(false);
+  const desiredSheetHeight = windowHeight * 0.9;
+  const availableHeight = windowHeight - insets.top;
+  const sheetHeight =
+    availableHeight > 0
+      ? Math.min(desiredSheetHeight, availableHeight)
+      : desiredSheetHeight;
+  const dismissThreshold = Math.max(sheetHeight * 0.2, 64);
+
+  const animateTo = useCallback(
+    (toValue: number, onEnd?: () => void) => {
+      translateY.stopAnimation();
+      Animated.timing(translateY, {
+        toValue,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(() => {
+        currentValueRef.current = toValue;
+        onEnd?.();
+      });
+    },
+    [translateY],
+  );
 
   const open = useCallback(() => {
     if (!isControlled) setInternalOpen(true);
   }, [isControlled]);
 
   const close = useCallback(() => {
-    Animated.timing(translateY, {
-      toValue: windowHeight,
-      duration: 200,
-      useNativeDriver: true,
-    }).start(() => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    animateTo(windowHeight, () => {
+      closingRef.current = false;
       if (!isControlled) setInternalOpen(false);
       onClose?.();
     });
-  }, [isControlled, onClose, translateY, windowHeight]);
+  }, [animateTo, isControlled, onClose, windowHeight]);
 
   useImperativeHandle(ref, () => ({ open, close }), [open, close]);
 
   useEffect(() => {
-    const toValue = visible ? 0 : windowHeight;
-    Animated.timing(translateY, {
-      toValue,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  }, [visible, windowHeight, translateY]);
+    if (!visible) {
+      closingRef.current = false;
+      currentValueRef.current = windowHeight;
+      translateY.setValue(windowHeight);
+      return;
+    }
+
+    closingRef.current = false;
+    gestureStartRef.current = windowHeight;
+    currentValueRef.current = windowHeight;
+    translateY.setValue(windowHeight);
+    animateTo(0);
+  }, [animateTo, translateY, visible, windowHeight]);
 
   useEffect(() => {
     if (!visible) return;
@@ -83,25 +115,47 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   }, [visible, close]);
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: (_: any, g: any) => g.dy > 5,
-      onPanResponderMove: (_: any, { dy }: any) => {
-        translateY.setValue(Math.min(windowHeight, Math.max(0, dy)));
-      },
-      onPanResponderRelease: (_: any, { dy, vy }: any) => {
-        if (dy > windowHeight * 0.25 || vy > 0.5) {
-          close();
-        } else {
-          Animated.timing(translateY, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-          }).start();
-        }
-      },
-    }),
-  ).current;
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_: any, gesture: any) =>
+          gesture.dy > 5 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+        onPanResponderGrant: () => {
+          translateY.stopAnimation((value?: number) => {
+            const numericValue =
+              typeof value === 'number' ? value : currentValueRef.current;
+            gestureStartRef.current = numericValue;
+            currentValueRef.current = numericValue;
+            closingRef.current = false;
+          });
+        },
+        onPanResponderMove: (_: any, { dy }: any) => {
+          const next = Math.min(
+            windowHeight,
+            Math.max(0, gestureStartRef.current + dy),
+          );
+          translateY.setValue(next);
+          currentValueRef.current = next;
+        },
+        onPanResponderRelease: (_: any, { dy, vy }: any) => {
+          const finalValue = Math.min(
+            windowHeight,
+            Math.max(0, gestureStartRef.current + dy),
+          );
+          currentValueRef.current = finalValue;
+
+          if (finalValue > dismissThreshold || vy > 0.5) {
+            close();
+          } else {
+            animateTo(0);
+          }
+        },
+        onPanResponderTerminate: () => {
+          animateTo(0);
+        },
+      }),
+    [animateTo, close, dismissThreshold, translateY, windowHeight],
+  );
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
   useEffect(() => {
@@ -131,11 +185,14 @@ export const BottomSlidingInOverlayScreen = forwardRef<
           {
             backgroundColor: colors.background,
             paddingBottom: insets.bottom,
-            height: windowHeight * 0.9,
+            height: sheetHeight,
             transform: [{ translateY }],
           },
         ]}
       >
+        <View style={styles.handleContainer}>
+          <View style={[styles.handle, { backgroundColor: colors.border }]} />
+        </View>
         {children}
       </Animated.View>
     </Modal>
@@ -156,6 +213,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
+  },
+  handleContainer: {
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  handle: {
+    width: 48,
+    height: 4,
+    borderRadius: 2,
   },
 });
 
