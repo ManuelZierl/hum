@@ -16,6 +16,19 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
   const [status, setStatus] = useState<string>('idle');
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [rooms, setRooms] = useState<RoomSummary[]>([]);
+  const g = globalThis as Record<string, unknown>;
+  const [backend, setBackend] = useState<string>(
+    (g.__HUM_USE_BACKEND__ as string | undefined) ??
+      ((g.__HUM_FORCE_MOCK__ as boolean | undefined) ? 'mock' : 'native'),
+  );
+
+  const toggleBackend = () => {
+    const g2 = globalThis as Record<string, unknown> & {
+      __HUM_FORCE_MOCK__?: boolean;
+    };
+    g2.__HUM_FORCE_MOCK__ = !g2.__HUM_FORCE_MOCK__;
+    setBackend(g2.__HUM_FORCE_MOCK__ ? 'mock' : 'native');
+  };
 
   const safeClient = async (): Promise<Client> => {
     if (!clientRef.current) {
@@ -85,6 +98,11 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
         Dev Bridge
       </Text>
 
+      <Text style={{ color: colors.mutedForeground }}>Backend: {backend}</Text>
+      <View style={{ height: spacing.xs }} />
+      <Button testID="btnToggleBackend" onPress={toggleBackend}>
+        <Text>Toggle Mock</Text>
+      </Button>
       <View style={{ height: spacing.sm }} />
 
       <Button testID="btnCreate" onPress={handleCreate}>
