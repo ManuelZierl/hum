@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme, Icon, TopBar } from '@hum/ui-components';
+import { useTranslation } from 'react-i18next';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
@@ -21,13 +22,16 @@ export interface SettingsScreenProps {
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   onBack,
   children,
-  profileName = 'Your Name',
-  profileStatus = 'Hey there! I am using Hum.',
+  profileName,
+  profileStatus,
   profileImageUri = 'https://picsum.photos/200/200',
 }) => {
   const { colors, spacing, radius, type } = useTheme();
   const insets = useSafeAreaInsets();
   const [search, setSearch] = React.useState('');
+  const { t } = useTranslation();
+  const pName = profileName ?? t('labels.your_name');
+  const pStatus = profileStatus ?? t('labels.profile_status_default');
 
   return (
     <View
@@ -36,7 +40,11 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         { backgroundColor: colors.background, paddingBottom: insets.bottom },
       ]}
     >
-      <TopBar backButton={!!onBack} onBackPress={onBack} title="Settings" />
+      <TopBar
+        backButton={!!onBack}
+        onBackPress={onBack}
+        title={t('nav.settings')}
+      />
 
       <ScrollView
         style={styles.scroll}
@@ -62,7 +70,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             <TextInput
               value={search}
               onChangeText={setSearch}
-              placeholder="Search"
+              placeholder={t('placeholders.search')}
               placeholderTextColor={colors.mutedForeground}
               style={[
                 styles.searchInput,
@@ -72,7 +80,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                   paddingVertical: spacing.sm,
                 },
               ]}
-              accessibilityLabel="Search"
+              accessibilityLabel={t('actions.search')}
               accessibilityRole="search"
             />
           </View>
@@ -89,7 +97,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               <Image
                 source={{ uri: profileImageUri }}
                 style={styles.profileImage}
-                accessibilityLabel="Profile"
+                accessibilityLabel={t('labels.profile')}
               />
               <View style={{ marginLeft: spacing.md }}>
                 <Text
@@ -99,7 +107,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                     fontWeight: type.weight.medium,
                   }}
                 >
-                  {profileName}
+                  {pName}
                 </Text>
                 <Text
                   style={{
@@ -107,7 +115,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                     fontSize: type.size.sm,
                   }}
                 >
-                  {profileStatus}
+                  {pStatus}
                 </Text>
               </View>
             </View>

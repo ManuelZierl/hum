@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from './theme/theme-provider';
+import { useTranslation } from 'react-i18next';
 
 export interface MessageBubbleProps {
   /** Message text */
@@ -22,6 +23,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   const { colors, spacing, radius, type } = useTheme();
   const dynamicStyles = { marginBottom: spacing.sm };
   const justifyStyle = isOutgoing ? styles.justifyEnd : styles.justifyStart;
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, justifyStyle, dynamicStyles]}>
@@ -29,7 +31,9 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         testID={isOutgoing ? 'outgoing-bubble' : 'incoming-bubble'}
         accessible
         accessibilityLabel={
-          isOutgoing ? 'Outgoing message' : 'Incoming message'
+          isOutgoing
+            ? t('actions.outgoing_message')
+            : t('actions.incoming_message')
         }
         style={[
           styles.bubble,

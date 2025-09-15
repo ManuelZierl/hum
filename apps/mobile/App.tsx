@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet, useColorScheme } from 'react-native';
+import { View, StyleSheet, useColorScheme, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { BottomNavigation, ThemeProvider } from '@hum/ui-components';
+import { BottomNavigation, ThemeProvider, Button } from '@hum/ui-components';
 import Constants from 'expo-constants';
 import {
   ChatsScreen,
@@ -12,6 +12,8 @@ import {
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import i18n from '@hum/i18n';
 
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
@@ -29,6 +31,7 @@ function AppInner() {
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
+  const { i18n: i18next } = useTranslation();
 
   return (
     <SafeAreaProvider>
@@ -71,6 +74,23 @@ function AppInner() {
                 testID="btnOpenDev"
                 onTouchEnd={() => setShowDev(true)}
               />
+              <View style={styles.langRow}>
+                <Button
+                  size="sm"
+                  onPress={() => i18next.changeLanguage('en')}
+                  testID="btnEn"
+                >
+                  <Text>EN</Text>
+                </Button>
+                <View style={styles.langSpacer} />
+                <Button
+                  size="sm"
+                  onPress={() => i18next.changeLanguage('de')}
+                  testID="btnDe"
+                >
+                  <Text>DE</Text>
+                </Button>
+              </View>
             </View>
           )}
         </View>
@@ -90,9 +110,11 @@ function ChatsFromProvider({
 
 export default function App() {
   return (
-    <HumClientProvider>
-      <AppInner />
-    </HumClientProvider>
+    <I18nextProvider i18n={i18n}>
+      <HumClientProvider>
+        <AppInner />
+      </HumClientProvider>
+    </I18nextProvider>
   );
 }
 
@@ -109,4 +131,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#FF00AA',
   },
+  langSpacer: { width: 8 },
+  langRow: { flexDirection: 'row', marginTop: 8 },
 });

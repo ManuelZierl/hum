@@ -1,6 +1,7 @@
 import React from 'react';
 import { SettingsItem, Icon, useTheme } from '@hum/ui-components';
 import { SettingsScreen } from '@hum/ui-screens';
+import { useTranslation } from 'react-i18next';
 
 export type MainSettingsScreenProps = {
   theme: 'light' | 'dark' | 'auto';
@@ -12,13 +13,13 @@ export const MainSettingsScreen: React.FC<MainSettingsScreenProps> = ({
   onNavigateToTheme,
 }) => {
   const { colors } = useTheme();
-  const themeLabel =
-    theme === 'auto' ? 'Auto' : theme.charAt(0).toUpperCase() + theme.slice(1);
+  const { t } = useTranslation();
+  const themeLabel = t(`labels.${theme}`);
   return (
     <SettingsScreen>
       <SettingsItem
         icon={<Icon name="palette" size={24} color={colors.humPrimary} />}
-        title="Theme"
+        title={t('labels.theme')}
         subtitle={themeLabel}
         onPress={onNavigateToTheme}
       />

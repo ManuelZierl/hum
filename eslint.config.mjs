@@ -30,6 +30,7 @@ export default [
         __dirname: 'readonly',
         __filename: 'readonly',
         process: 'readonly',
+        console: 'readonly',
       },
     },
     rules: {
@@ -48,11 +49,28 @@ export default [
       'prettier/prettier': 'error',
       'react-native/no-color-literals': 'off',
       'react-native/sort-styles': 'off',
+      'react/jsx-no-literals': ['error', {
+        noStrings: true,
+        allowedStrings: ['+', '⋮', '⋯', '‹', '›', '✓', '✓✓', '❤️', '📍', 'EN', 'DE', '• '],
+        ignoreProps: true,
+      }],
     },
     settings: {
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    files: ['**/*.test.{ts,tsx,js}', '**/tests/**'],
+    rules: {
+      'react/jsx-no-literals': 'off',
+    },
+  },
+  {
+    files: ['apps/storybook/**/*.{ts,tsx,js}'],
+    rules: {
+      'react/jsx-no-literals': 'off',
     },
   },
   prettierConfig,

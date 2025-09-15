@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme, Button } from '@hum/ui-components';
+import { useTranslation } from 'react-i18next';
 import HumNative, {
   type Client,
   type RoomSummary,
@@ -16,6 +17,7 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
   const [status, setStatus] = useState<string>('idle');
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [rooms, setRooms] = useState<RoomSummary[]>([]);
+  const { t } = useTranslation();
 
   const safeClient = async (): Promise<Client> => {
     if (!clientRef.current) {
@@ -82,25 +84,25 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
       ]}
     >
       <Text style={[styles.title, { color: colors.foreground }]}>
-        Dev Bridge
+        {t('labels.dev_bridge')}
       </Text>
 
       <View style={{ height: spacing.sm }} />
 
       <Button testID="btnCreate" onPress={handleCreate}>
-        <Text>Create Client</Text>
+        <Text>{t('actions.create_client')}</Text>
       </Button>
       <View style={{ height: spacing.xs }} />
       <Button testID="btnLogin" onPress={handleLogin}>
-        <Text>Login</Text>
+        <Text>{t('actions.login')}</Text>
       </Button>
       <View style={{ height: spacing.xs }} />
       <Button testID="btnIsAuth" onPress={handleIsAuth}>
-        <Text>Is Authenticated?</Text>
+        <Text>{t('actions.is_authenticated')}</Text>
       </Button>
       <View style={{ height: spacing.xs }} />
       <Button testID="btnGetRooms" onPress={handleGetRooms}>
-        <Text>Get Rooms</Text>
+        <Text>{t('actions.get_rooms')}</Text>
       </Button>
 
       <View style={{ height: spacing.md }} />
@@ -109,7 +111,7 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
         {status}
       </Text>
       <Text testID="isAuthValue" style={{ color: colors.mutedForeground }}>
-        {isAuth ? 'true' : 'false'}
+        {String(isAuth)}
       </Text>
       <Text testID="roomsCount" style={{ color: colors.mutedForeground }}>
         {String(rooms.length)}
@@ -118,7 +120,7 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
       {onBack && (
         <View style={[styles.backWrap, { top: insets.top + 8 }]}>
           <Button variant="secondary" testID="btnDevBack" onPress={onBack}>
-            <Text>Back</Text>
+            <Text>{t('actions.back')}</Text>
           </Button>
         </View>
       )}
