@@ -9,6 +9,7 @@ import {
   LightningScreen,
   type Chat,
 } from '@hum/ui-screens';
+import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
@@ -18,6 +19,7 @@ import i18n from '@hum/i18n';
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showDev, setShowDev] = useState(false);
   const enableDev = useMemo(() => {
     type AppExtra = { devFeatures?: boolean };
@@ -32,6 +34,21 @@ function AppInner() {
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
   const { i18n: i18next } = useTranslation();
+  const { getMessages } = useHumClient();
+
+  React.useEffect(() => {
+    let cancelled = false;
+    if (selectedChat) {
+      getMessages(selectedChat.id).then((msgs) => {
+        if (!cancelled) setChatMessages(msgs);
+      });
+    } else {
+      setChatMessages([]);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedChat, getMessages]);
 
   return (
     <SafeAreaProvider>
@@ -43,6 +60,7 @@ function AppInner() {
             <ChatScreen
               chatName={selectedChat.name}
               chatAvatar={selectedChat.avatar}
+              messages={chatMessages}
               onBack={() => setSelectedChat(null)}
             />
           ) : activeTab === 'chats' ? (
