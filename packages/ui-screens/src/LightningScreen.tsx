@@ -8,6 +8,7 @@ import {
   Icon,
   TopBar,
 } from '@hum/ui-components';
+import { useTranslation } from 'react-i18next';
 
 export interface LightningScreenProps {
   onBack?: () => void;
@@ -16,64 +17,50 @@ export interface LightningScreenProps {
 export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
   const { colors, spacing, type, radius } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const iconColor = colors.humPrimaryForeground;
   const heroSize = spacing.xl * 4;
 
   const features = [
     {
       icon: <Icon name="wallet" size={24} color={iconColor} />,
-      title: 'Lightning Wallet',
-      description:
-        'Manage your Lightning Bitcoin balance and make instant payments',
+      key: 'lightning.features.wallet',
     },
     {
       icon: <Icon name="qr-code" size={24} color={iconColor} />,
-      title: 'Send & Receive',
-      description:
-        'Scan QR codes or share payment links to send money instantly',
+      key: 'lightning.features.send_receive',
     },
     {
       icon: <Icon name="clock" size={24} color={iconColor} />,
-      title: 'Transaction History',
-      description: 'View all your Lightning payment history and receipts',
+      key: 'lightning.features.history',
     },
     {
       icon: <Icon name="credit-card" size={24} color={iconColor} />,
-      title: 'Payment Methods',
-      description:
-        'Connect your bank account or debit card to fund your wallet',
+      key: 'lightning.features.methods',
     },
     {
       icon: <Icon name="lightning" size={24} color={iconColor} />,
-      title: 'Instant Settlements',
-      description: 'Settle payments in milliseconds with low fees',
+      key: 'lightning.features.settlements',
     },
     {
       icon: <Icon name="arrow-left-right" size={24} color={iconColor} />,
-      title: 'Multi-Currency Support',
-      description: 'Support for Bitcoin, sats, and other Lightning currencies',
+      key: 'lightning.features.multicurrency',
     },
     {
       icon: <Icon name="receipt" size={24} color={iconColor} />,
-      title: 'Invoice Generation',
-      description: 'Create and share payment invoices with custom amounts',
+      key: 'lightning.features.invoice',
     },
     {
       icon: <Icon name="compass" size={24} color={iconColor} />,
-      title: 'Payment Routing',
-      description:
-        'Automatic routing through the Lightning Network for optimal fees',
+      key: 'lightning.features.routing',
     },
     {
       icon: <Icon name="broadcast" size={24} color={iconColor} />,
-      title: 'Channel Management',
-      description: 'Open and manage Lightning channels for better liquidity',
+      key: 'lightning.features.channel',
     },
     {
       icon: <Icon name="save" size={24} color={iconColor} />,
-      title: 'Backup & Recovery',
-      description:
-        'Secure backup and recovery options for your Lightning wallet',
+      key: 'lightning.features.backup',
     },
   ];
 
@@ -88,7 +75,7 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
       <TopBar
         backButton={!!onBack}
         onBackPress={onBack}
-        title="Lightning"
+        title={t('nav.lightning')}
         titleIconName="lightning"
       />
 
@@ -122,12 +109,12 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 marginBottom: spacing.sm,
               }}
             >
-              Lightning Payments
+              {t('lightning.hero.title')}
             </Text>
             <Text
               style={{ color: colors.mutedForeground, fontSize: type.size.sm }}
             >
-              Fast, cheap Bitcoin payments for everyone
+              {t('lightning.hero.subtitle')}
             </Text>
           </View>
 
@@ -136,11 +123,11 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
               marginBottom: idx === features.length - 1 ? 0 : spacing.lg,
             };
             return (
-              <View key={f.title} style={[styles.cardWrapper, wrapperStyle]}>
+              <View key={f.key} style={[styles.cardWrapper, wrapperStyle]}>
                 <FeatureCard
                   icon={f.icon}
-                  title={f.title}
-                  description={f.description}
+                  title={t(`${f.key}.title`)}
+                  description={t(`${f.key}.description`)}
                 />
               </View>
             );
@@ -166,13 +153,12 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 marginBottom: spacing.sm,
               }}
             >
-              Coming Soon
+              {t('lightning.coming.title')}
             </Text>
             <Text
               style={{ color: colors.mutedForeground, fontSize: type.size.sm }}
             >
-              Lightning payments will be available in a future update. Stay
-              tuned for instant Bitcoin transactions!
+              {t('lightning.coming.description')}
             </Text>
           </View>
 
@@ -196,49 +182,27 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 marginBottom: spacing.md,
               }}
             >
-              Why Lightning?
+              {t('lightning.why.title')}
             </Text>
             <View style={{ gap: spacing.sm }}>
-              <Text
-                style={{
-                  color: colors.mutedForeground,
-                  fontSize: type.size.sm,
-                }}
-              >
-                • Lightning Network enables instant Bitcoin payments
-              </Text>
-              <Text
-                style={{
-                  color: colors.mutedForeground,
-                  fontSize: type.size.sm,
-                }}
-              >
-                • Extremely low fees, often less than a penny
-              </Text>
-              <Text
-                style={{
-                  color: colors.mutedForeground,
-                  fontSize: type.size.sm,
-                }}
-              >
-                • Built on Bitcoin&apos;s secure infrastructure
-              </Text>
-              <Text
-                style={{
-                  color: colors.mutedForeground,
-                  fontSize: type.size.sm,
-                }}
-              >
-                • Perfect for microtransactions and everyday payments
-              </Text>
-              <Text
-                style={{
-                  color: colors.mutedForeground,
-                  fontSize: type.size.sm,
-                }}
-              >
-                • Global reach with 24/7 availability
-              </Text>
+              {[
+                t('lightning.why.bullets.instant'),
+                t('lightning.why.bullets.low_fees'),
+                t('lightning.why.bullets.secure'),
+                t('lightning.why.bullets.micro'),
+                t('lightning.why.bullets.global'),
+              ].map((b) => (
+                <Text
+                  key={b}
+                  style={{
+                    color: colors.mutedForeground,
+                    fontSize: type.size.sm,
+                  }}
+                >
+                  {'• '}
+                  {b}
+                </Text>
+              ))}
             </View>
           </View>
 
@@ -256,7 +220,7 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 marginBottom: spacing.sm,
               }}
             >
-              Get Early Access
+              {t('lightning.beta.title')}
             </Text>
             <Text
               style={[
@@ -268,10 +232,10 @@ export const LightningScreen: React.FC<LightningScreenProps> = ({ onBack }) => {
                 },
               ]}
             >
-              Be among the first to try Lightning payments when they launch.
+              {t('lightning.beta.message')}
             </Text>
-            <Button accessibilityLabel="Join beta waitlist">
-              <Text>Join Beta Waitlist</Text>
+            <Button accessibilityLabel={t('lightning.beta.button')}>
+              <Text>{t('lightning.beta.button')}</Text>
             </Button>
           </View>
         </View>

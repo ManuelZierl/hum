@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "lib": ["ES2022", "DOM"],
+    "types": ["react"],
+    "resolveJsonModule": true,
+    "typeRoots": ["../../node_modules/@types"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist"]
+}

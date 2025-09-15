@@ -11,6 +11,7 @@ import {
   TopBar,
   ContactInline,
 } from '@hum/ui-components';
+import { useTranslation } from 'react-i18next';
 
 export interface ChatMessage extends MessageBubbleProps {
   id: string;
@@ -32,6 +33,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const { colors, spacing, radius } = useTheme();
   const insets = useSafeAreaInsets();
   const [value, setValue] = useState('');
+  const { t } = useTranslation();
 
   return (
     <View
@@ -50,7 +52,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               <Avatar size={40}>
                 <AvatarImage
                   source={{ uri: chatAvatar }}
-                  accessibilityLabel={`${chatName} avatar`}
+                  accessibilityLabel={t('labels.avatar', { name: chatName })}
                 />
               </Avatar>
             ),
@@ -62,19 +64,19 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             type: 'icon',
             name: 'camera-video',
             onPress: () => {},
-            a11yLabel: 'Video call',
+            a11yLabel: t('actions.video_call'),
           },
           {
             type: 'icon',
             name: 'telephone',
             onPress: () => {},
-            a11yLabel: 'Voice call',
+            a11yLabel: t('actions.voice_call'),
           },
           {
             type: 'text',
             label: '⋮',
             onPress: () => {},
-            a11yLabel: 'More options',
+            a11yLabel: t('actions.more_options'),
           },
         ]}
       />
@@ -129,12 +131,12 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           >
             <TextInput
               style={[styles.textInput, { color: colors.foreground }]}
-              placeholder="Type a message..."
+              placeholder={t('placeholders.type_message')}
               placeholderTextColor={colors.mutedForeground}
               value={value}
               onChangeText={setValue}
               accessible
-              accessibilityLabel="Message input"
+              accessibilityLabel={t('labels.message_input')}
             />
             <Icon name="emoji-smile" size={20} color={colors.mutedForeground} />
           </View>

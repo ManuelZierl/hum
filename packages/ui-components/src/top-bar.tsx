@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from './theme/theme-provider';
 import { Icon, type IconName } from './theme/icon';
+import { useTranslation } from 'react-i18next';
 
 export type TopBarItem =
   | {
@@ -46,13 +47,15 @@ export const TopBar: React.FC<TopBarProps> = ({
   rightItems = [],
   testID,
   showSearch = false,
-  searchPlaceholder = 'Search',
+  searchPlaceholder,
   searchValue,
   onChangeSearch,
   onSubmitSearch,
 }) => {
   const { colors, spacing, type, radius } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
+  const placeholder = searchPlaceholder ?? t('placeholders.search');
 
   const renderItem = (item: TopBarItem, index: number) => {
     const commonTest = item.testID
@@ -116,7 +119,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             <Pressable
               onPress={onBackPress}
               accessibilityRole={onBackPress ? 'button' : undefined}
-              accessibilityLabel="Go back"
+              accessibilityLabel={t('actions.back')}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               style={leftItems.length ? { marginRight: spacing.md } : undefined}
               testID="back-button"
@@ -184,7 +187,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             <TextInput
               testID="topbar-search-input"
               {...{ 'data-testid': 'topbar-search-input' }}
-              placeholder={searchPlaceholder}
+              placeholder={placeholder}
               placeholderTextColor={colors.mutedForeground}
               value={searchValue}
               onChangeText={onChangeSearch}
