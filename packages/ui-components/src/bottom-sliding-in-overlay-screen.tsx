@@ -43,7 +43,7 @@ export const BottomSlidingInOverlayScreen = forwardRef<
 >(({ children, open: controlledOpen, onClose }, ref) => {
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
-  const { height: windowHeight } = useWindowDimensions();
+  const { height: windowHeight, width: windowWidth } = useWindowDimensions();
   const [internalOpen, setInternalOpen] = useState(false);
   const isControlled = controlledOpen !== undefined;
   const visible = isControlled ? controlledOpen : internalOpen;
@@ -57,6 +57,9 @@ export const BottomSlidingInOverlayScreen = forwardRef<
     availableHeight > 0
       ? Math.min(desiredSheetHeight, availableHeight)
       : desiredSheetHeight;
+  const horizontalGutter = windowWidth > 0 ? windowWidth * 0.025 : 0;
+  const leftInset = horizontalGutter + insets.left;
+  const rightInset = horizontalGutter + insets.right;
   const dismissThreshold = Math.max(sheetHeight * 0.2, 64);
 
   const animateTo = useCallback(
@@ -119,7 +122,9 @@ export const BottomSlidingInOverlayScreen = forwardRef<
     () =>
       PanResponder.create({
         onMoveShouldSetPanResponder: (_: any, gesture: any) =>
-          gesture.dy > 5 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+          gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+        onMoveShouldSetPanResponderCapture: (_: any, gesture: any) =>
+          gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onPanResponderGrant: () => {
           translateY.stopAnimation((value?: number) => {
             const numericValue =
@@ -179,6 +184,7 @@ export const BottomSlidingInOverlayScreen = forwardRef<
         onPress={close}
       />
       <Animated.View
+        testID="bottom-sliding-overlay"
         {...panResponder.panHandlers}
         style={[
           styles.sheet,
@@ -186,11 +192,13 @@ export const BottomSlidingInOverlayScreen = forwardRef<
             backgroundColor: colors.background,
             paddingBottom: insets.bottom,
             height: sheetHeight,
+            left: leftInset,
+            right: rightInset,
             transform: [{ translateY }],
           },
         ]}
       >
-        <View style={styles.handleContainer}>
+        <View style={styles.handleContainer} {...panResponder.panHandlers}>
           <View style={[styles.handle, { backgroundColor: colors.border }]} />
         </View>
         {children}
@@ -208,8 +216,6 @@ const styles = StyleSheet.create({
   },
   sheet: {
     position: 'absolute',
-    left: 0,
-    right: 0,
     bottom: 0,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
