@@ -18,7 +18,8 @@
     "get_rooms": "Räume abrufen",
     "back": "Zurück",
     "outgoing_message": "Ausgehende Nachricht",
-    "incoming_message": "Eingehende Nachricht"
+    "incoming_message": "Eingehende Nachricht",
+    "toggle_mock": "Mock umschalten"
   },
   "labels": {
     "archived": "Archiviert",
@@ -31,7 +32,8 @@
     "auto": "Auto",
     "your_name": "Dein Name",
     "profile_status_default": "Hey! Ich nutze Hum.",
-    "dev_bridge": "Dev Bridge"
+    "dev_bridge": "Dev Bridge",
+    "backend": "Backend"
   },
   "placeholders": {
     "search": "Suchen",

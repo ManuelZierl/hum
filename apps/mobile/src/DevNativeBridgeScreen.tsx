@@ -100,10 +100,12 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
         {t('labels.dev_bridge')}
       </Text>
 
-      <Text style={{ color: colors.mutedForeground }}>Backend: {backend}</Text>
+      <Text style={{ color: colors.mutedForeground }}>
+        {t('labels.backend')}:{backend}
+      </Text>
       <View style={{ height: spacing.xs }} />
       <Button testID="btnToggleBackend" onPress={toggleBackend}>
-        <Text>Toggle Mock</Text>
+        <Text>{t('actions.toggle_mock')}</Text>
       </Button>
       <View style={{ height: spacing.sm }} />
 

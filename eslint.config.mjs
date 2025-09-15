@@ -51,7 +51,7 @@ export default [
       'react-native/sort-styles': 'off',
       'react/jsx-no-literals': ['error', {
         noStrings: true,
-        allowedStrings: ['+', '⋮', '⋯', '‹', '›', '✓', '✓✓', '❤️', '📍', 'EN', 'DE', '• '],
+        allowedStrings: ['+', '⋮', '⋯', '‹', '›', '✓', '✓✓', '❤️', '📍', 'EN', 'DE', '• ', ":",],
         ignoreProps: true,
       }],
     },

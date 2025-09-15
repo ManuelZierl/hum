@@ -18,7 +18,8 @@
     "get_rooms": "Get Rooms",
     "back": "Go back",
     "outgoing_message": "Outgoing message",
-    "incoming_message": "Incoming message"
+    "incoming_message": "Incoming message",
+    "toggle_mock": "Toggle Mock"
   },
   "labels": {
     "archived": "Archived",
@@ -31,7 +32,8 @@
     "auto": "Auto",
     "your_name": "Your Name",
     "profile_status_default": "Hey there! I am using Hum.",
-    "dev_bridge": "Dev Bridge"
+    "dev_bridge": "Dev Bridge",
+    "backend": "Backend"
   },
   "placeholders": {
     "search": "Search",
