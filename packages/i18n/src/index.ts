@@ -1,27 +1,96 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
 
-import en from './locales/en/common.json';
 import de from './locales/de/common.json';
+import en from './locales/en/common.json';
 
-// Simple native detector using Intl APIs
-const nativeDetector = {
-  type: 'languageDetector' as const,
+type DetectorPlugin = {
+  type: 'languageDetector';
+  init: () => void;
+  detect: () => string;
+  cacheUserLanguage: () => void;
+};
+
+const isBrowser =
+  typeof window !== 'undefined' &&
+  typeof window.document !== 'undefined' &&
+  typeof window.navigator !== 'undefined';
+
+function detectFromNativeApis(): string {
+  try {
+    // expo-localization is only available on native targets. Requiring it in
+    // non-native environments (tests, SSR) throws, so we guard it.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- conditional native require
+    const localization = require('expo-localization');
+    const getLocales:
+      | (() => Array<{
+          languageCode?: string;
+          languageTag?: string;
+        }>)
+      | undefined = localization?.getLocales;
+    if (typeof getLocales === 'function') {
+      const locales = getLocales();
+      if (Array.isArray(locales) && locales.length > 0) {
+        const primary = locales[0];
+        if (primary?.languageCode) {
+          return primary.languageCode;
+        }
+        if (primary?.languageTag) {
+          const [language] = primary.languageTag.split('-');
+          if (language) {
+            return language;
+          }
+        }
+      }
+    }
+  } catch {
+    // expo-localization isn't available (e.g. jest or browser). Fall back to
+    // the Intl logic below.
+  }
+
+  if (typeof navigator !== 'undefined' && navigator.language) {
+    const [language] = navigator.language.split('-');
+    if (language) {
+      return language;
+    }
+  }
+
+  if (typeof Intl !== 'undefined') {
+    const locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    if (locale) {
+      const [language] = locale.split('-');
+      if (language) {
+        return language;
+      }
+    }
+  }
+
+  return 'en';
+}
+
+const nativeDetector: DetectorPlugin = {
+  type: 'languageDetector',
   init: () => {},
-  detect: () =>
-    Intl?.DateTimeFormat().resolvedOptions().locale.split('-')[0] ?? 'en',
+  detect: detectFromNativeApis,
   cacheUserLanguage: () => {},
 };
 
-const detector =
-  typeof window !== 'undefined' ? new LanguageDetector() : nativeDetector;
+const detector = isBrowser ? new LanguageDetector() : nativeDetector;
+
+const detectionConfig = isBrowser
+  ? {
+      order: ['htmlTag', 'navigator', 'querystring', 'cookie', 'localStorage'],
+    }
+  : undefined;
 
 void i18n
   .use(detector)
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
+    supportedLngs: ['en', 'de'],
+    compatibilityJSON: 'v3',
     resources: {
       en: { common: en },
       de: { common: de },
@@ -29,9 +98,7 @@ void i18n
     ns: ['common'],
     defaultNS: 'common',
     interpolation: { escapeValue: false },
-    detection: {
-      order: ['navigator', 'querystring', 'cookie', 'localStorage'],
-    },
+    detection: detectionConfig,
   });
 
 export default i18n;
