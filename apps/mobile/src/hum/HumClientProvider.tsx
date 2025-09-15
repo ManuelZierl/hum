@@ -144,20 +144,25 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       const anyC = c as unknown as Record<string, unknown>;
       const fn = anyC.getMessages as
         | ((
+            this: Client,
             roomId: string,
           ) => Promise<
             Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
           >)
         | undefined;
       if (typeof fn === 'function') {
-        const msgs = await fn(roomId);
-        return msgs.map((m) => ({
-          id: m.id,
-          text: m.body,
-          time: formatTime(m.ts),
-          isOutgoing: m.isOutgoing,
-          isRead: true,
-        }));
+        try {
+          const msgs = await fn.call(c, roomId);
+          return msgs.map((m) => ({
+            id: m.id,
+            text: m.body,
+            time: formatTime(m.ts),
+            isOutgoing: m.isOutgoing,
+            isRead: true,
+          }));
+        } catch (e) {
+          console.warn('HumClientProvider: getMessages failed', e);
+        }
       }
       return [];
     },

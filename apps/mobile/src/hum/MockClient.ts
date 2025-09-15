@@ -7,6 +7,47 @@ import {
   type UserSummary,
   type DeviceInfo,
 } from '@hum/hum-matrix-native';
+import seedData from './mock-data.json';
+
+type SeedMessage = {
+  id?: string;
+  body: string;
+  isOutgoing: boolean;
+  minutesAgo: number;
+};
+
+type SeedRoom = {
+  id: string;
+  name: string;
+  avatarUrl: string;
+  unreadCount?: number;
+  messages: SeedMessage[];
+};
+
+type SeedData = {
+  rooms: SeedRoom[];
+};
+
+type TimelineMessage = {
+  id: string;
+  body: string;
+  ts: number;
+  isOutgoing: boolean;
+};
+
+const SEED: SeedData = seedData as SeedData;
+
+function minutesAgoToTs(
+  minutesAgo: number,
+  index: number,
+  now: number,
+): number {
+  return now - Math.max(0, minutesAgo) * 60_000 - index;
+}
+
+function cloneTimeline(messages: TimelineMessage[]): TimelineMessage[] {
+  return messages.map((m) => ({ ...m }));
+}
 
 /**
  * In-memory mock implementation of the Hum Matrix client.
@@ -15,53 +56,37 @@ import {
  */
 export class MockClient implements Client {
   private rooms: RoomSummary[];
-  private messages = new Map<
-    string,
-    Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
-  >();
+  private messages = new Map<string, TimelineMessage[]>();
   private authed = false;
   private presence = new Map<string, PresenceState>();
 
   constructor(_hsUrl: string, _storePath: string) {
     const now = Date.now();
-    this.rooms = [
-      {
-        id: '!alice:mock',
-        name: 'Alice',
-        lastMessage: 'Hello from Alice',
-        lastMessageTs: now - 60_000,
-        avatarUrl: 'https://picsum.photos/seed/alice/100',
-      },
-      {
-        id: '!devs:mock',
-        name: 'Hum Devs',
-        lastMessage: 'Welcome to Hum',
-        lastMessageTs: now - 120_000,
-        avatarUrl: 'https://picsum.photos/seed/humdevs/100',
-      },
-    ];
-    this.messages.set('!alice:mock', [
-      {
-        id: 'm1',
-        body: 'Hello from Alice',
-        ts: now - 60_000,
-        isOutgoing: false,
-      },
-      {
-        id: 'm2',
-        body: 'Hi Alice!',
-        ts: now - 30_000,
-        isOutgoing: true,
-      },
-    ]);
-    this.messages.set('!devs:mock', [
-      {
-        id: 'm3',
-        body: 'Welcome to Hum',
-        ts: now - 120_000,
-        isOutgoing: false,
-      },
-    ]);
+    const rooms = SEED.rooms ?? [];
+    this.rooms = rooms.map((room, roomIndex) => {
+      const timeline = (room.messages ?? [])
+        .map((msg, messageIndex) => ({
+          id: msg.id ?? `${room.id}-msg-${messageIndex + 1}`,
+          body: msg.body,
+          ts: minutesAgoToTs(msg.minutesAgo ?? 0, messageIndex, now),
+          isOutgoing: msg.isOutgoing,
+        }))
+        .sort((a, b) => a.ts - b.ts);
+
+      this.messages.set(room.id, timeline);
+      const last = timeline[timeline.length - 1];
+      const fallbackTs = now - (roomIndex + 1) * 60_000;
+      return {
+        id: room.id,
+        name: room.name,
+        lastMessage: last?.body ?? '',
+        lastMessageTs: last?.ts ?? fallbackTs,
+        avatarUrl: room.avatarUrl,
+        unreadCount: room.unreadCount,
+      } satisfies RoomSummary;
+    });
+
+    this.rooms.sort((a, b) => (b.lastMessageTs ?? 0) - (a.lastMessageTs ?? 0));
   }
 
   async login(_username: string, _password: string): Promise<void> {
@@ -77,32 +102,41 @@ export class MockClient implements Client {
   }
 
   async getRooms(): Promise<RoomSummary[]> {
-    return this.rooms;
+    return this.rooms.map((room) => ({ ...room }));
   }
 
   async sendText(roomId: string, body: string): Promise<void> {
-    const r = this.rooms.find((r) => r.id === roomId);
-    if (r) {
-      const ts = Date.now();
-      r.lastMessage = body;
-      r.lastMessageTs = ts;
-      const arr = this.messages.get(roomId) ?? [];
-      arr.push({
-        id: `${roomId}-${arr.length + 1}`,
-        body,
-        ts,
-        isOutgoing: true,
+    const ts = Date.now();
+    const entry: TimelineMessage = {
+      id: `${roomId}-${ts}`,
+      body,
+      ts,
+      isOutgoing: true,
+    };
+    const existing = this.messages.get(roomId) ?? [];
+    const timeline = [...existing, entry];
+    this.messages.set(roomId, timeline);
+
+    const room = this.rooms.find((r) => r.id === roomId);
+    if (room) {
+      room.lastMessage = body;
+      room.lastMessageTs = ts;
+      room.unreadCount = 0;
+    } else {
+      this.rooms.push({
+        id: roomId,
+        name: roomId,
+        lastMessage: body,
+        lastMessageTs: ts,
       });
-      this.messages.set(roomId, arr);
     }
+
+    this.rooms.sort((a, b) => (b.lastMessageTs ?? 0) - (a.lastMessageTs ?? 0));
   }
 
-  async getMessages(
-    roomId: string,
-  ): Promise<
-    Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
-  > {
-    return this.messages.get(roomId) ?? [];
+  async getMessages(roomId: string): Promise<TimelineMessage[]> {
+    const timeline = this.messages.get(roomId) ?? [];
+    return cloneTimeline(timeline);
   }
 
   async sendReaction(
@@ -135,13 +169,17 @@ export class MockClient implements Client {
 
   async createRoom(options?: CreateRoomOptions): Promise<string> {
     const id = `!mock${this.rooms.length + 1}:mock`;
+    const ts = Date.now();
     const room: RoomSummary = {
       id,
       name: options?.name ?? `Room ${this.rooms.length + 1}`,
       lastMessage: '',
-      lastMessageTs: Date.now(),
+      lastMessageTs: ts,
+      avatarUrl: `https://picsum.photos/seed/mock${this.rooms.length + 1}/100`,
     };
     this.rooms.push(room);
+    this.messages.set(id, []);
+    this.rooms.sort((a, b) => (b.lastMessageTs ?? 0) - (a.lastMessageTs ?? 0));
     return id;
   }
 
@@ -151,6 +189,7 @@ export class MockClient implements Client {
 
   async leaveRoom(roomId: string): Promise<void> {
     this.rooms = this.rooms.filter((r) => r.id !== roomId);
+    this.messages.delete(roomId);
   }
 
   async startSyncLoop(_timeoutMs: number): Promise<void> {
