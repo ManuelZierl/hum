@@ -1,0 +1,15 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 80%
+    patch:
+      default:
+        target: 80%
+flags:
+  node:
+    carryforward: true
+  rust:
+    carryforward: true
+  storybook:
+    carryforward: true

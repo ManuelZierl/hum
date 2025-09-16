@@ -93,6 +93,15 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Upload Node coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          flags: node
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
+
       - name: Build packages
         run: npm run -ws --if-present build
 
@@ -140,8 +149,24 @@ jobs:
       - name: Clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Test
-        run: cargo test
+      - name: Install cargo-llvm-cov
+        run: |
+          rustup component add llvm-tools-preview
+          cargo install cargo-llvm-cov --locked
+
+      - name: Generate coverage report
+        run: |
+          cargo llvm-cov clean --workspace
+          cargo llvm-cov --workspace --lcov --output-path coverage/lcov.info
+
+      - name: Upload Rust coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./native/rust/coverage/lcov.info
+          flags: rust
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
 
       #- name: Test with sqlite
       #  run: cargo test --features sqlite
@@ -202,3 +227,20 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
         run: SB_STATIC=1 npm run test:sb:e2e
+
+  codecov-wait:
+    needs:
+      - node
+      - rust
+    runs-on: ubuntu-latest
+    if: ${{ always() && (needs.node.result == 'success' || needs.rust.result == 'success') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for Codecov uploads
+        uses: codecov/codecov-action@v4
+        with:
+          wait_for: node,rust,storybook
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
