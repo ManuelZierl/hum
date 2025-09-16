@@ -26,6 +26,10 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from './theme/theme-provider';
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+const HIDDEN_EXTRA_OFFSET = 48;
+
 export interface BottomSlidingInOverlayScreenProps {
   children?: React.ReactNode;
   open?: boolean;
@@ -47,30 +51,40 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   const [internalOpen, setInternalOpen] = useState(false);
   const isControlled = controlledOpen !== undefined;
   const visible = isControlled ? controlledOpen : internalOpen;
-  const translateY = useRef(new Animated.Value(windowHeight)).current;
-  const currentValueRef = useRef(windowHeight);
-  const gestureStartRef = useRef(0);
-  const closingRef = useRef(false);
-  const desiredSheetHeight = windowHeight * 0.9;
+
+  const desiredSheetHeight = windowHeight > 0 ? windowHeight * 0.9 : 0;
   const availableHeight = windowHeight - insets.top;
-  const sheetHeight =
+  const constrainedSheetHeight =
     availableHeight > 0
       ? Math.min(desiredSheetHeight, availableHeight)
       : desiredSheetHeight;
+  const sheetHeight =
+    constrainedSheetHeight > 0
+      ? constrainedSheetHeight
+      : Math.max(desiredSheetHeight, 360);
+  const hiddenOffset = sheetHeight + insets.bottom + HIDDEN_EXTRA_OFFSET;
+
   const horizontalGutter = windowWidth > 0 ? windowWidth * 0.025 : 0;
   const leftInset = horizontalGutter + insets.left;
   const rightInset = horizontalGutter + insets.right;
-  const dismissThreshold = Math.max(sheetHeight * 0.2, 64);
+  const dismissThreshold = Math.max(sheetHeight * 0.25, 80);
+
+  const translateYRef = useRef(new Animated.Value(hiddenOffset));
+  const translateY = translateYRef.current;
+  const currentValueRef = useRef(hiddenOffset);
+  const gestureStartRef = useRef(hiddenOffset);
+  const closingRef = useRef(false);
 
   const animateTo = useCallback(
     (toValue: number, onEnd?: () => void) => {
       translateY.stopAnimation();
       Animated.timing(translateY, {
         toValue,
-        duration: 200,
+        duration: 260,
         useNativeDriver: true,
       }).start(() => {
         currentValueRef.current = toValue;
+        gestureStartRef.current = toValue;
         onEnd?.();
       });
     },
@@ -84,29 +98,39 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   const close = useCallback(() => {
     if (closingRef.current) return;
     closingRef.current = true;
-    animateTo(windowHeight, () => {
+    animateTo(hiddenOffset, () => {
       closingRef.current = false;
       if (!isControlled) setInternalOpen(false);
       onClose?.();
     });
-  }, [animateTo, isControlled, onClose, windowHeight]);
+  }, [animateTo, hiddenOffset, isControlled, onClose]);
 
   useImperativeHandle(ref, () => ({ open, close }), [open, close]);
 
   useEffect(() => {
-    if (!visible) {
-      closingRef.current = false;
-      currentValueRef.current = windowHeight;
-      translateY.setValue(windowHeight);
-      return;
-    }
+    if (visible) return;
+
+    const hidden = hiddenOffset;
+    closingRef.current = false;
+    currentValueRef.current = hidden;
+    gestureStartRef.current = hidden;
+    translateY.setValue(hidden);
+  }, [hiddenOffset, translateY, visible]);
+
+  useEffect(() => {
+    if (!visible) return;
 
     closingRef.current = false;
-    gestureStartRef.current = windowHeight;
-    currentValueRef.current = windowHeight;
-    translateY.setValue(windowHeight);
-    animateTo(0);
-  }, [animateTo, translateY, visible, windowHeight]);
+    translateY.setValue(hiddenOffset);
+    currentValueRef.current = hiddenOffset;
+    gestureStartRef.current = hiddenOffset;
+
+    const frame = requestAnimationFrame(() => {
+      animateTo(0);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [visible, animateTo, hiddenOffset, translateY]);
 
   useEffect(() => {
     if (!visible) return;
@@ -127,25 +151,26 @@ export const BottomSlidingInOverlayScreen = forwardRef<
           gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onPanResponderGrant: () => {
           translateY.stopAnimation((value?: number) => {
-            const numericValue =
-              typeof value === 'number' ? value : currentValueRef.current;
+            const numericValue = clamp(
+              typeof value === 'number' ? value : currentValueRef.current,
+              0,
+              hiddenOffset,
+            );
             gestureStartRef.current = numericValue;
             currentValueRef.current = numericValue;
             closingRef.current = false;
           });
         },
         onPanResponderMove: (_: any, { dy }: any) => {
-          const next = Math.min(
-            windowHeight,
-            Math.max(0, gestureStartRef.current + dy),
-          );
+          const next = clamp(gestureStartRef.current + dy, 0, hiddenOffset);
           translateY.setValue(next);
           currentValueRef.current = next;
         },
         onPanResponderRelease: (_: any, { dy, vy }: any) => {
-          const finalValue = Math.min(
-            windowHeight,
-            Math.max(0, gestureStartRef.current + dy),
+          const finalValue = clamp(
+            gestureStartRef.current + dy,
+            0,
+            hiddenOffset,
           );
           currentValueRef.current = finalValue;
 
@@ -159,7 +184,7 @@ export const BottomSlidingInOverlayScreen = forwardRef<
           animateTo(0);
         },
       }),
-    [animateTo, close, dismissThreshold, translateY, windowHeight],
+    [animateTo, close, dismissThreshold, hiddenOffset, translateY],
   );
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
