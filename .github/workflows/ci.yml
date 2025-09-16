@@ -230,21 +230,3 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
         run: SB_STATIC=1 npm run test:sb:e2e
-
-  codecov-wait:
-    needs:
-      - node
-      - rust
-    runs-on: ubuntu-latest
-    if: ${{ always() && (needs.node.result == 'success' || needs.rust.result == 'success') }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Wait for Codecov uploads
-        uses: codecov/codecov-action@v4
-        with:
-          wait_for: node,rust,storybook
-          fail_ci_if_error: true
-          verbose: true
-          codecov_yml_path: ./codecov.yml
-          token: ${{ secrets.CODECOV_TOKEN }}
