@@ -93,6 +93,16 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Upload Node coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          flags: node
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Build packages
         run: npm run -ws --if-present build
 
@@ -140,8 +150,26 @@ jobs:
       - name: Clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Test
-        run: cargo test
+      - name: Install cargo-llvm-cov
+        run: |
+          rustup component add llvm-tools-preview
+          cargo install cargo-llvm-cov --locked
+
+      - name: Generate coverage report
+        run: |
+          mkdir -p coverage
+          cargo llvm-cov clean --workspace
+          cargo llvm-cov --workspace --lcov --output-path coverage/lcov.info
+
+      - name: Upload Rust coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./native/rust/coverage/lcov.info
+          flags: rust
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       #- name: Test with sqlite
       #  run: cargo test --features sqlite
