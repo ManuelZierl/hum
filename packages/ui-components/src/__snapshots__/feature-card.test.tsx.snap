@@ -1,96 +1,43 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FeatureCard renders and matches snapshot 1`] = `
-<div
-  className="css-view-g5y9jx r-borderWidth-rs99b7"
-  dir={null}
-  ref={[Function]}
-  style={
-    {
-      "backgroundColor": "rgba(255,255,255,1.00)",
-      "borderBottomColor": "rgba(0,0,0,0.10)",
-      "borderBottomLeftRadius": "12px",
-      "borderBottomRightRadius": "12px",
-      "borderLeftColor": "rgba(0,0,0,0.10)",
-      "borderRightColor": "rgba(0,0,0,0.10)",
-      "borderTopColor": "rgba(0,0,0,0.10)",
-      "borderTopLeftRadius": "12px",
-      "borderTopRightRadius": "12px",
-      "paddingBottom": "24px",
-      "paddingLeft": "24px",
-      "paddingRight": "24px",
-      "paddingTop": "24px",
-    }
-  }
->
+<DocumentFragment>
   <div
-    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
-    dir={null}
-    ref={[Function]}
-    style={
-      {
-        "marginBottom": "12px",
-      }
-    }
+    class="css-view-g5y9jx r-borderWidth-rs99b7"
+    data-testid="feature-card"
+    style="background-color: rgb(255, 255, 255); border-top-color: rgba(0, 0, 0, 0.1); border-right-color: rgba(0, 0, 0, 0.1); border-bottom-color: rgba(0, 0, 0, 0.1); border-left-color: rgba(0, 0, 0, 0.1); padding: 24px 24px 24px 24px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px;"
   >
     <div
-      className="css-view-g5y9jx r-alignItems-1awozwy r-justifyContent-1777fci"
-      dir={null}
-      ref={[Function]}
-      style={
-        {
-          "backgroundColor": "rgba(254,202,26,1.00)",
-          "borderBottomLeftRadius": "24px",
-          "borderBottomRightRadius": "24px",
-          "borderTopLeftRadius": "24px",
-          "borderTopRightRadius": "24px",
-          "height": "48px",
-          "marginRight": "12px",
-          "width": "48px",
-        }
-      }
+      class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      style="margin-bottom: 12px;"
     >
       <div
-        className="css-text-146c3p1"
-        dir="auto"
-        ref={[Function]}
-        style={
-          {
-            "color": "rgba(0,0,0,1.00)",
-            "fontSize": "24px",
-          }
-        }
+        class="css-view-g5y9jx r-alignItems-1awozwy r-justifyContent-1777fci"
+        style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px; background-color: rgb(254, 202, 26); margin-right: 12px;"
       >
-        I
+        <div
+          class="css-text-146c3p1"
+          dir="auto"
+          style="font-size: 24px; color: rgb(0, 0, 0);"
+        >
+          I
+        </div>
+      </div>
+      <div
+        class="css-text-146c3p1"
+        dir="auto"
+        style="color: rgb(10, 10, 10); font-size: 18px; font-weight: 500;"
+      >
+        Test Feature
       </div>
     </div>
     <div
-      className="css-text-146c3p1"
+      class="css-text-146c3p1"
       dir="auto"
-      ref={[Function]}
-      style={
-        {
-          "color": "rgba(10,10,10,1.00)",
-          "fontSize": "18px",
-          "fontWeight": "500",
-        }
-      }
+      style="color: rgb(113, 113, 130); font-size: 12px;"
     >
-      Test Feature
+      Description
     </div>
   </div>
-  <div
-    className="css-text-146c3p1"
-    dir="auto"
-    ref={[Function]}
-    style={
-      {
-        "color": "rgba(113,113,130,1.00)",
-        "fontSize": "12px",
-      }
-    }
-  >
-    Description
-  </div>
-</div>
+</DocumentFragment>
 `;
