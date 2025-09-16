@@ -101,6 +101,7 @@ jobs:
           fail_ci_if_error: true
           verbose: true
           codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build packages
         run: npm run -ws --if-present build
@@ -168,6 +169,7 @@ jobs:
           fail_ci_if_error: true
           verbose: true
           codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       #- name: Test with sqlite
       #  run: cargo test --features sqlite
@@ -245,3 +247,4 @@ jobs:
           fail_ci_if_error: true
           verbose: true
           codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
