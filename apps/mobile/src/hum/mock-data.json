@@ -1,0 +1,246 @@
+{
+  "rooms": [
+    {
+      "id": "!alice:mock",
+      "name": "Alice",
+      "avatarUrl": "https://picsum.photos/seed/alice/100",
+      "unreadCount": 0,
+      "messages": [
+        {
+          "id": "alice-1",
+          "body": "Morning! The push notifications fix just landed.",
+          "isOutgoing": false,
+          "minutesAgo": 58
+        },
+        {
+          "id": "alice-2",
+          "body": "Great! I'll QA it after standup.",
+          "isOutgoing": true,
+          "minutesAgo": 55
+        },
+        {
+          "id": "alice-3",
+          "body": "Thanks, ping me if anything feels off.",
+          "isOutgoing": false,
+          "minutesAgo": 52
+        },
+        {
+          "id": "alice-4",
+          "body": "Will do \uD83D\uDE0A",
+          "isOutgoing": true,
+          "minutesAgo": 50
+        }
+      ]
+    },
+    {
+      "id": "!devs:mock",
+      "name": "Hum Devs",
+      "avatarUrl": "https://picsum.photos/seed/humdevs/100",
+      "unreadCount": 2,
+      "messages": [
+        {
+          "id": "devs-1",
+          "body": "Daily sync in 5 minutes. Bring your blockers.",
+          "isOutgoing": false,
+          "minutesAgo": 48
+        },
+        {
+          "id": "devs-2",
+          "body": "I'll give an update on the Matrix bridge rollout.",
+          "isOutgoing": true,
+          "minutesAgo": 46
+        },
+        {
+          "id": "devs-3",
+          "body": "Nice, let's record it for the release notes.",
+          "isOutgoing": false,
+          "minutesAgo": 44
+        },
+        {
+          "id": "devs-4",
+          "body": "On it!",
+          "isOutgoing": true,
+          "minutesAgo": 43
+        }
+      ]
+    },
+    {
+      "id": "!onboarding:mock",
+      "name": "Onboarding Crew",
+      "avatarUrl": "https://picsum.photos/seed/onboarding/100",
+      "unreadCount": 1,
+      "messages": [
+        {
+          "id": "onboarding-1",
+          "body": "We just finished the new welcome flow mockups.",
+          "isOutgoing": false,
+          "minutesAgo": 38
+        },
+        {
+          "id": "onboarding-2",
+          "body": "Sweet, share them with marketing?",
+          "isOutgoing": true,
+          "minutesAgo": 36
+        },
+        {
+          "id": "onboarding-3",
+          "body": "Already dropped them in the drive.",
+          "isOutgoing": false,
+          "minutesAgo": 35
+        }
+      ]
+    },
+    {
+      "id": "!product:mock",
+      "name": "Product Feedback",
+      "avatarUrl": "https://picsum.photos/seed/product/100",
+      "unreadCount": 3,
+      "messages": [
+        {
+          "id": "product-1",
+          "body": "User interviews mention slow search again.",
+          "isOutgoing": false,
+          "minutesAgo": 32
+        },
+        {
+          "id": "product-2",
+          "body": "I'll add a perf spike card for next sprint.",
+          "isOutgoing": true,
+          "minutesAgo": 30
+        }
+      ]
+    },
+    {
+      "id": "!bob:mock",
+      "name": "Bob",
+      "avatarUrl": "https://picsum.photos/seed/bob/100",
+      "unreadCount": 0,
+      "messages": [
+        {
+          "id": "bob-1",
+          "body": "Want to grab coffee after lunch?",
+          "isOutgoing": false,
+          "minutesAgo": 22
+        },
+        {
+          "id": "bob-2",
+          "body": "Yes, 1:30pm works for me.",
+          "isOutgoing": true,
+          "minutesAgo": 21
+        },
+        {
+          "id": "bob-3",
+          "body": "Perfect, see you then!",
+          "isOutgoing": false,
+          "minutesAgo": 20
+        }
+      ]
+    },
+    {
+      "id": "!payments:mock",
+      "name": "Payments Squad",
+      "avatarUrl": "https://picsum.photos/seed/payments/100",
+      "unreadCount": 0,
+      "messages": [
+        {
+          "id": "payments-1",
+          "body": "Checkout sandbox was flaky overnight.",
+          "isOutgoing": false,
+          "minutesAgo": 17
+        },
+        {
+          "id": "payments-2",
+          "body": "Restarted the worker, looks stable now.",
+          "isOutgoing": true,
+          "minutesAgo": 15
+        },
+        {
+          "id": "payments-3",
+          "body": "Thanks! I'll keep an eye on metrics.",
+          "isOutgoing": false,
+          "minutesAgo": 14
+        }
+      ]
+    },
+    {
+      "id": "!support:mock",
+      "name": "Support Escalations",
+      "avatarUrl": "https://picsum.photos/seed/support/100",
+      "unreadCount": 4,
+      "messages": [
+        {
+          "id": "support-1",
+          "body": "Ticket #4821 reproduced on Android 14.",
+          "isOutgoing": false,
+          "minutesAgo": 11
+        },
+        {
+          "id": "support-2",
+          "body": "I'll hotfix the crash in the next build.",
+          "isOutgoing": true,
+          "minutesAgo": 9
+        }
+      ]
+    },
+    {
+      "id": "!coffee:mock",
+      "name": "Coffee Club",
+      "avatarUrl": "https://picsum.photos/seed/coffee/100",
+      "unreadCount": 0,
+      "messages": [
+        {
+          "id": "coffee-1",
+          "body": "Brew guide of the week: Aeropress inverted.",
+          "isOutgoing": false,
+          "minutesAgo": 8
+        },
+        {
+          "id": "coffee-2",
+          "body": "Love it! I'll bring my beans tomorrow.",
+          "isOutgoing": true,
+          "minutesAgo": 7
+        }
+      ]
+    },
+    {
+      "id": "!qa:mock",
+      "name": "QA Sync",
+      "avatarUrl": "https://picsum.photos/seed/qa/100",
+      "unreadCount": 0,
+      "messages": [
+        {
+          "id": "qa-1",
+          "body": "Regression suite green except chat reactions.",
+          "isOutgoing": false,
+          "minutesAgo": 4
+        },
+        {
+          "id": "qa-2",
+          "body": "I'll double-check the event IDs after lunch.",
+          "isOutgoing": true,
+          "minutesAgo": 3
+        }
+      ]
+    },
+    {
+      "id": "!beta:mock",
+      "name": "Beta Testers",
+      "avatarUrl": "https://picsum.photos/seed/beta/100",
+      "unreadCount": 6,
+      "messages": [
+        {
+          "id": "beta-1",
+          "body": "New testers reported that the dark theme toggles fine.",
+          "isOutgoing": false,
+          "minutesAgo": 2
+        },
+        {
+          "id": "beta-2",
+          "body": "Great, I'll prepare release notes tonight.",
+          "isOutgoing": true,
+          "minutesAgo": 1
+        }
+      ]
+    }
+  ]
+}

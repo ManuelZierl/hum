@@ -28,6 +28,7 @@
     "sb:build": "npm run storybook:build",
     "sb:ios": "npm run storybook:ios",
     "sb:android": "npm run storybook:android",
+    "i18n:missing": "node scripts/i18n-missing.cjs",
     "rust:test": "cargo test --manifest-path native/rust/Cargo.toml",
     "rust:format": "cargo fmt --all --manifest-path native/rust/Cargo.toml",
     "rust:lint": "cargo clippy --manifest-path native/rust/Cargo.toml --all-targets --all-features -- -D warnings",

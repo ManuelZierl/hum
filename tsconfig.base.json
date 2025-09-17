@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@apps/*": ["apps/*/src"],
       "@packages/*": ["packages/*/src"],
@@ -26,7 +27,8 @@
       "@hum/lightning-client/*": ["packages/lightning-client/src/*"],
       "@hum/lightning-mocks": ["packages/lightning-mocks/index.ts"],
       "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "dist"]
 }

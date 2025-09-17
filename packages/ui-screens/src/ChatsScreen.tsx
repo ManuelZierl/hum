@@ -10,6 +10,7 @@ import {
   ChatItem,
   useOverlay,
 } from '@hum/ui-components';
+import { useTranslation } from 'react-i18next';
 import NewChatScreen from './NewChatScreen';
 
 export interface Chat {
@@ -61,6 +62,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
   const insets = useSafeAreaInsets();
   const { open } = useOverlay();
   const [query, setQuery] = React.useState<string>('');
+  const { t } = useTranslation();
 
   const renderItem: ListRenderItem<Chat> = ({ item }) => (
     <ChatItem
@@ -88,20 +90,25 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
       ]}
     >
       <TopBar
-        title="Chats"
+        title={t('nav.chats')}
         leftItems={[
-          { type: 'text', label: '⋯', onPress: () => {}, a11yLabel: 'Menu' },
+          {
+            type: 'text',
+            label: '⋯',
+            onPress: () => {},
+            a11yLabel: t('actions.menu'),
+          },
         ]}
         rightItems={[
           {
             type: 'icon',
             name: 'camera',
             onPress: () => {},
-            a11yLabel: 'Open camera',
+            a11yLabel: t('actions.open_camera'),
           },
         ]}
         showSearch={showSearch}
-        searchPlaceholder="Search"
+        searchPlaceholder={t('placeholders.search')}
         searchValue={query}
         onChangeSearch={setQuery}
         onSubmitSearch={() => {}}
@@ -109,8 +116,8 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 
       <ListRow
         icon={<Icon name="archive" size={24} color={colors.mutedForeground} />}
-        label="Archiviert"
-        rightText="5"
+        label={t('labels.archived')}
+        rightText={String(5)}
         onPress={() => {}}
       />
 
@@ -123,7 +130,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 
       <Button
         size="icon"
-        accessibilityLabel="Add"
+        accessibilityLabel={t('actions.add')}
         style={[
           styles.fab,
           {

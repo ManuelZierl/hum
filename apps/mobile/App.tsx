@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet, useColorScheme } from 'react-native';
+import { View, StyleSheet, useColorScheme, Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   BottomNavigation,
   ThemeProvider,
   OverlayProvider,
+  Button,
 } from '@hum/ui-components';
 import Constants from 'expo-constants';
 import {
@@ -15,13 +16,17 @@ import {
   CallsScreen,
   type Chat,
 } from '@hum/ui-screens';
+import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import i18n from '@hum/i18n';
 
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showDev, setShowDev] = useState(false);
   const enableDev = useMemo(() => {
     type AppExtra = { devFeatures?: boolean };
@@ -35,60 +40,92 @@ function AppInner() {
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
+  const { i18n: i18next } = useTranslation();
+  const { getMessages } = useHumClient();
+
+  React.useEffect(() => {
+    let cancelled = false;
+    if (selectedChat) {
+      getMessages(selectedChat.id).then((msgs) => {
+        if (!cancelled) setChatMessages(msgs);
+      });
+    } else {
+      setChatMessages([]);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedChat, getMessages]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <ThemeProvider forcedScheme={resolvedScheme}>
-          <OverlayProvider>
-            <View style={styles.container}>
-            {showDev ? (
-              <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
-            ) : selectedChat ? (
-              <ChatScreen
-                chatName={selectedChat.name}
-                chatAvatar={selectedChat.avatar}
-                onBack={() => setSelectedChat(null)}
-              />
-            ) : activeTab === 'chats' ? (
-              <ChatsFromProvider onNavigateToChat={setSelectedChat} />
-            ) : activeTab === 'calls' ? (
+    <SafeAreaProvider>
+      <ThemeProvider forcedScheme={resolvedScheme}>
+      <OverlayProvider>
+        <View style={styles.container}>
+          {showDev ? (
+            <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
+          ) : selectedChat ? (
+            <ChatScreen
+              chatName={selectedChat.name}
+              chatAvatar={selectedChat.avatar}
+              messages={chatMessages}
+              onBack={() => setSelectedChat(null)}
+            />
+          ) : activeTab === 'chats' ? (
+            <ChatsFromProvider onNavigateToChat={setSelectedChat} />
+          ) : activeTab === 'calls' ? (
               <CallsScreen />
             ) : activeTab === 'payments' || activeTab === 'lightning' ? (
-              <LightningScreen />
-            ) : settingsView === 'theme' ? (
-              <ThemeSettingsScreen
-                theme={theme}
-                onBack={() => setSettingsView('main')}
-                onSelectTheme={setTheme}
+            <LightningScreen />
+          ) : settingsView === 'theme' ? (
+            <ThemeSettingsScreen
+              theme={theme}
+              onBack={() => setSettingsView('main')}
+              onSelectTheme={setTheme}
+            />
+          ) : (
+            <MainSettingsScreen
+              theme={theme}
+              onNavigateToTheme={() => setSettingsView('theme')}
+            />
+          )}
+          {!selectedChat && !showDev && (
+            <BottomNavigation
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
+          )}
+          {enableDev && !showDev && (
+            <View style={styles.devButtonWrap}>
+              <View
+                style={styles.devEntry}
+                testID="btnOpenDev"
+                onTouchEnd={() => setShowDev(true)}
               />
-            ) : (
-              <MainSettingsScreen
-                theme={theme}
-                onNavigateToTheme={() => setSettingsView('theme')}
-              />
-            )}
-
-            {!selectedChat && !showDev && (
-              <BottomNavigation
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
-            )}
-
-            {enableDev && !showDev && (
-              <View style={styles.devButtonWrap}>
-                <View
-                  style={styles.devEntry}
-                  testID="btnOpenDev"
-                  onTouchEnd={() => setShowDev(true)}
-                />
+              <View style={styles.langRow}>
+                <Button
+                  size="sm"
+                  onPress={() => i18next.changeLanguage('en')}
+                  testID="btnEn"
+                >
+                  <Text>EN</Text>
+                </Button>
+                <View style={styles.langSpacer} />
+                <Button
+                  size="sm"
+                  onPress={() => i18next.changeLanguage('de')}
+                  testID="btnDe"
+                >
+                  <Text>DE</Text>
+                </Button>
               </View>
-            )}
             </View>
-          </OverlayProvider>
-        </ThemeProvider>
-      </SafeAreaProvider>
+          )}
+        </View>
+        </OverlayProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
@@ -104,9 +141,11 @@ function ChatsFromProvider({
 
 export default function App() {
   return (
-    <HumClientProvider>
-      <AppInner />
-    </HumClientProvider>
+    <I18nextProvider i18n={i18n}>
+      <HumClientProvider>
+        <AppInner />
+      </HumClientProvider>
+    </I18nextProvider>
   );
 }
 
@@ -123,4 +162,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#FF00AA',
   },
+  langSpacer: { width: 8 },
+  langRow: { flexDirection: 'row', marginTop: 8 },
 });

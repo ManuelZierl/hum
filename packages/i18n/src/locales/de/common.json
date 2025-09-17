@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "chats": "Chats",
+    "lightning": "Lightning",
+    "settings": "Einstellungen"
+  },
+  "actions": {
+    "menu": "Menü",
+    "open_camera": "Kamera öffnen",
+    "video_call": "Videoanruf",
+    "voice_call": "Sprachanruf",
+    "more_options": "Weitere Optionen",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "create_client": "Client erstellen",
+    "login": "Anmelden",
+    "is_authenticated": "Authentifiziert?",
+    "get_rooms": "Räume abrufen",
+    "back": "Zurück",
+    "outgoing_message": "Ausgehende Nachricht",
+    "incoming_message": "Eingehende Nachricht",
+    "toggle_mock": "Mock umschalten"
+  },
+  "labels": {
+    "archived": "Archiviert",
+    "message_input": "Nachrichteneingabe",
+    "avatar": "Avatar von {{name}}",
+    "profile": "Profil",
+    "theme": "Thema",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "auto": "Auto",
+    "your_name": "Dein Name",
+    "profile_status_default": "Hey! Ich nutze Hum.",
+    "dev_bridge": "Dev Bridge",
+    "backend": "Backend"
+  },
+  "placeholders": {
+    "search": "Suchen",
+    "type_message": "Nachricht eingeben..."
+  },
+  "lightning": {
+    "hero": {
+      "title": "Lightning-Zahlungen",
+      "subtitle": "Schnelle, günstige Bitcoin-Zahlungen für alle"
+    },
+    "coming": {
+      "title": "Kommt bald",
+      "description": "Lightning-Zahlungen werden in einem zukünftigen Update verfügbar sein. Bleib dran für sofortige Bitcoin-Transaktionen!"
+    },
+    "why": {
+      "title": "Warum Lightning?",
+      "bullets": {
+        "instant": "Lightning-Netzwerk ermöglicht sofortige Bitcoin-Zahlungen",
+        "low_fees": "Sehr niedrige Gebühren, oft weniger als ein Cent",
+        "secure": "Auf der sicheren Bitcoin-Infrastruktur aufgebaut",
+        "micro": "Perfekt für Mikrotransaktionen und tägliche Zahlungen",
+        "global": "Globale Reichweite mit 24/7-Verfügbarkeit"
+      }
+    },
+    "beta": {
+      "title": "Frühen Zugriff erhalten",
+      "message": "Sei einer der Ersten, die Lightning-Zahlungen ausprobieren, sobald sie starten.",
+      "button": "Beta-Warteliste beitreten"
+    },
+    "features": {
+      "wallet": {
+        "title": "Lightning Wallet",
+        "description": "Verwalte dein Lightning-Bitcoin-Guthaben und tätige sofortige Zahlungen"
+      },
+      "send_receive": {
+        "title": "Senden & Empfangen",
+        "description": "Scanne QR-Codes oder teile Zahlungslinks, um sofort Geld zu senden"
+      },
+      "history": {
+        "title": "Transaktionsverlauf",
+        "description": "Sieh dir deinen gesamten Lightning-Zahlungsverlauf und Quittungen an"
+      },
+      "methods": {
+        "title": "Zahlungsmethoden",
+        "description": "Verbinde dein Bankkonto oder deine Debitkarte, um dein Wallet aufzuladen"
+      },
+      "settlements": {
+        "title": "Sofortige Abrechnung",
+        "description": "Begleiche Zahlungen in Millisekunden mit geringen Gebühren"
+      },
+      "multicurrency": {
+        "title": "Multiwährungsunterstützung",
+        "description": "Unterstützung für Bitcoin, Sats und andere Lightning-Währungen"
+      },
+      "invoice": {
+        "title": "Rechnungsstellung",
+        "description": "Erstelle und teile Zahlungsrechnungen mit individuellen Beträgen"
+      },
+      "routing": {
+        "title": "Zahlungsrouting",
+        "description": "Automatisches Routing durch das Lightning-Netzwerk für optimale Gebühren"
+      },
+      "channel": {
+        "title": "Kanalverwaltung",
+        "description": "Öffne und verwalte Lightning-Kanäle für bessere Liquidität"
+      },
+      "backup": {
+        "title": "Backup & Wiederherstellung",
+        "description": "Sichere Backup- und Wiederherstellungsoptionen für dein Lightning-Wallet"
+      }
+    }
+  }
+}

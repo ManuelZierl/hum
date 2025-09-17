@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react-native';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-native/extend-expect';
 import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 

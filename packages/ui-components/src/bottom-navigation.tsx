@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomNavItem } from './bottom-navigation-item';
 import { Icon } from './theme/icon';
 import { useTheme } from './theme/theme-provider';
+import { useTranslation } from 'react-i18next';
 
 export interface BottomNavigationProps {
   activeTab?: string;
@@ -18,17 +19,18 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const navItems = [
     {
       id: 'chats',
       icon: <Icon name="chat" />,
-      label: 'Chats',
+      label: t('nav.chats'),
       badgeCount: chatsBadgeCount,
     },
-    { id: 'calls', icon: <Icon name="telephone" />, label: 'Calls' },
-    { id: 'payments', icon: <Icon name="bitcoin" />, label: 'Payments' },
-    { id: 'settings', icon: <Icon name="gear" />, label: 'Settings' },
+    { id: 'calls', icon: <Icon name="telephone" />, label: 'Calls' }, // todo: add to i18n
+    { id: 'payments', icon: <Icon name="bitcoin" />, label: t('nav.lightning')' },
+    { id: 'settings', icon: <Icon name="gear" />, label: t('nav.settings') },
   ];
 
   return (
