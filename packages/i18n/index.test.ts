@@ -31,6 +31,6 @@ describe('i18n configuration', () => {
 
   it('falls back to English for unsupported locales', async () => {
     await i18n.changeLanguage('fr');
-    expect(i18n.t('nav.lightning')).toBe('Lightning');
+    expect(i18n.t('nav.payments')).toBe('Payments');
   });
 });

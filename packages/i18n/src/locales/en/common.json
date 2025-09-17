@@ -1,7 +1,8 @@
 {
   "nav": {
     "chats": "Chats",
-    "lightning": "Lightning",
+    "calls": "Calls",
+    "payments": "Payments",
     "settings": "Settings"
   },
   "actions": {

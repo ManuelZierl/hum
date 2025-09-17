@@ -1,24 +1,17 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContactInline renders name 1`] = `
-<div
-  className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
-  dir={null}
-  ref={[Function]}
->
+<DocumentFragment>
   <div
-    className="css-text-146c3p1"
-    dir="auto"
-    ref={[Function]}
-    style={
-      {
-        "color": "rgba(10,10,10,1.00)",
-        "fontSize": "16px",
-        "fontWeight": "500",
-      }
-    }
+    class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
   >
-    Alice
+    <div
+      class="css-text-146c3p1"
+      dir="auto"
+      style="color: rgb(10, 10, 10); font-size: 16px; font-weight: 500;"
+    >
+      Alice
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

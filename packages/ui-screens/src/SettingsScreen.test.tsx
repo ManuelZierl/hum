@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { SettingsItem } from '@hum/ui-components';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { SettingsScreen, type SettingsScreenProps } from './SettingsScreen';
@@ -26,20 +25,20 @@ describe('SettingsScreen', () => {
   it('renders basic elements', () => {
     const { getByLabelText } = renderScreen();
     // TopBar search input exists on this screen
-    expect(getByLabelText('Search')).toBeTruthy();
+    expect(getByLabelText('Search')).toBeInTheDocument();
   });
 
   it('updates search input text', () => {
     const { getByLabelText } = renderScreen();
     const input = getByLabelText('Search');
-    fireEvent.changeText(input, 'hello');
-    expect(input.props.value).toBe('hello');
+    fireEvent.change(input, { target: { value: 'hello' } });
+    expect(input).toHaveValue('hello');
   });
 
   it('fires onBack when back button pressed', () => {
     const onBack = jest.fn();
     const { getByLabelText } = renderScreen('light', { onBack });
-    fireEvent.press(getByLabelText('Go back'));
+    fireEvent.click(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
   });
 
@@ -47,7 +46,7 @@ describe('SettingsScreen', () => {
     const { getByLabelText } = renderScreen('light', {
       children: <SettingsItem title="Theme" />,
     });
-    expect(getByLabelText('Theme')).toBeTruthy();
+    expect(getByLabelText('Theme')).toBeInTheDocument();
   });
 
   it('renders in light and dark themes', () => {
@@ -57,5 +56,6 @@ describe('SettingsScreen', () => {
         <SettingsScreen />
       </ThemeProvider>,
     );
+    expect(screen.getByLabelText('Search')).toBeInTheDocument();
   });
 });

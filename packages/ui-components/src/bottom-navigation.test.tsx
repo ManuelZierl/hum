@@ -37,8 +37,16 @@ describe('BottomNavigation Component', () => {
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
     const { getByLabelText } = renderNav('light', { onTabChange });
-    fireEvent.press(getByLabelText('Lightning'));
-    expect(onTabChange).toHaveBeenCalledWith('lightning');
+    fireEvent.press(getByLabelText('Payments'));
+    expect(onTabChange).toHaveBeenCalledWith('payments');
+  });
+
+  it('renders Calls tab and it is selectable', () => {
+    // this works!
+    const onTabChange = jest.fn();
+    const { getByLabelText } = renderNav('light', { onTabChange });
+    fireEvent.press(getByLabelText('Calls'));
+    expect(onTabChange).toHaveBeenCalledWith('calls');
   });
 
   it('shows badge count', () => {
@@ -48,7 +56,7 @@ describe('BottomNavigation Component', () => {
 
   it('applies theme colors', () => {
     const { UNSAFE_getByProps, rerender } = renderNav('light');
-    expect(UNSAFE_getByProps({ children: 'Lightning' }).props.style).toEqual(
+    expect(UNSAFE_getByProps({ children: 'Payments' }).props.style).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ color: colors.light.mutedForeground }),
       ]),
@@ -58,7 +66,7 @@ describe('BottomNavigation Component', () => {
         <BottomNavigation {...baseProps} />
       </ThemeProvider>,
     );
-    expect(UNSAFE_getByProps({ children: 'Lightning' }).props.style).toEqual(
+    expect(UNSAFE_getByProps({ children: 'Payments' }).props.style).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ color: colors.dark.mutedForeground }),
       ]),

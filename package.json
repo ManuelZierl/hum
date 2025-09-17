@@ -90,7 +90,6 @@
     "node-fetch": "^3.3.2",
     "prettier": "^3.3.2",
     "react-native-svg-transformer": "^1.5.1",
-    "react-test-renderer": "19.1.0",
     "remark-cli": "^12.0.1",
     "remark-preset-lint-recommended": "^7.0.1",
     "remark-validate-links": "^13.1.0",
