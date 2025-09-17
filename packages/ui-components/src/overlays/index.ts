@@ -2,4 +2,4 @@ export {
   BottomSlidingInOverlayScreen,
   OverlayProvider,
   useOverlay,
-} from '../BottomSlidingInOverlayScreen';
+} from '../bottom-sliding-in-overlay-screen';

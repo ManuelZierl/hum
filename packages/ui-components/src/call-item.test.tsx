@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { CallItem, type CallItemProps } from '../CallItem';
-import { ThemeProvider } from '../theme/theme-provider';
+import { CallItem, type CallItemProps } from './call-item';
+import { ThemeProvider } from './theme/theme-provider';
 
 type Scheme = 'light' | 'dark';
 

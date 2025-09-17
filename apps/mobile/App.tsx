@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   BottomNavigation,
   ThemeProvider,
@@ -36,10 +37,11 @@ function AppInner() {
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider forcedScheme={resolvedScheme}>
-        <OverlayProvider>
-          <View style={styles.container}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider forcedScheme={resolvedScheme}>
+          <OverlayProvider>
+            <View style={styles.container}>
             {showDev ? (
               <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
             ) : selectedChat ? (
@@ -83,10 +85,11 @@ function AppInner() {
                 />
               </View>
             )}
-          </View>
-        </OverlayProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+            </View>
+          </OverlayProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
