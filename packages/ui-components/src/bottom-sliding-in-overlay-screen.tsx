@@ -45,6 +45,21 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   BottomSlidingInOverlayScreenHandle,
   BottomSlidingInOverlayScreenProps
 >(({ children, open: controlledOpen, onClose }, ref) => {
+  // Prefer react-native-gesture-handler in runtime, but fall back to PanResponder in tests
+  const rngh = useMemo(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      return require('react-native-gesture-handler');
+    } catch {
+      return null;
+    }
+  }, []);
+  const isTestEnv =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    typeof (globalThis as any)?.process !== 'undefined' &&
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    (globalThis as any).process?.env?.NODE_ENV === 'test';
+  const useRngh = !!rngh && !isTestEnv;
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
   const { height: windowHeight, width: windowWidth } = useWindowDimensions();
@@ -145,10 +160,17 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   const panResponder = useMemo(
     () =>
       PanResponder.create({
+        onStartShouldSetPanResponder: (_: any, gesture: any) =>
+          // Start capturing quickly if a vertical intent is detected
+          Math.abs(gesture.dy) > 2 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+        onStartShouldSetPanResponderCapture: (_: any, gesture: any) =>
+          Math.abs(gesture.dy) > 2 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onMoveShouldSetPanResponder: (_: any, gesture: any) =>
           gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onMoveShouldSetPanResponderCapture: (_: any, gesture: any) =>
           gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+        // Don't allow another view to take over mid-gesture
+        onPanResponderTerminationRequest: () => false,
         onPanResponderGrant: () => {
           translateY.stopAnimation((value?: number) => {
             const numericValue = clamp(
@@ -188,6 +210,49 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   );
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
+  // react-native-gesture-handler pan gesture (preferred on device)
+  const panGesture = useMemo(() => {
+    if (!useRngh) return null;
+    const Gesture = rngh.Gesture as any;
+    return Gesture.Pan()
+      .minDistance(3)
+      .onBegin(() => {
+        translateY.stopAnimation((value?: number) => {
+          const numericValue = clamp(
+            typeof value === 'number' ? value : currentValueRef.current,
+            0,
+            hiddenOffset,
+          );
+          gestureStartRef.current = numericValue;
+          currentValueRef.current = numericValue;
+          closingRef.current = false;
+        });
+      })
+      .onUpdate((e: { translationY: number }) => {
+        const next = clamp(
+          gestureStartRef.current + e.translationY,
+          0,
+          hiddenOffset,
+        );
+        translateY.setValue(next);
+        currentValueRef.current = next;
+      })
+      .onEnd((e: { translationY: number; velocityY: number }) => {
+        const finalValue = clamp(
+          gestureStartRef.current + e.translationY,
+          0,
+          hiddenOffset,
+        );
+        currentValueRef.current = finalValue;
+        if (finalValue > dismissThreshold || e.velocityY > 800) {
+          close();
+        } else {
+          animateTo(0);
+        }
+      })
+      .runOnJS(true);
+  }, [useRngh, rngh, translateY, hiddenOffset, dismissThreshold, close, animateTo]);
+
   useEffect(() => {
     if (isControlled && !visible) {
       onClose?.();
@@ -208,26 +273,53 @@ export const BottomSlidingInOverlayScreen = forwardRef<
         style={styles.backdrop}
         onPress={close}
       />
-      <Animated.View
-        testID="bottom-sliding-overlay"
-        {...panResponder.panHandlers}
-        style={[
-          styles.sheet,
-          {
-            backgroundColor: colors.background,
-            paddingBottom: insets.bottom,
-            height: sheetHeight,
-            left: leftInset,
-            right: rightInset,
-            transform: [{ translateY }],
-          },
-        ]}
-      >
-        <View style={styles.handleContainer} {...panResponder.panHandlers}>
-          <View style={[styles.handle, { backgroundColor: colors.border }]} />
-        </View>
-        {children}
-      </Animated.View>
+      {useRngh ? (
+        // Prefer RNGH on device for more reliable pan handling
+        <rngh.GestureDetector gesture={panGesture}>
+          <Animated.View
+            testID="bottom-sliding-overlay"
+            style={[
+              styles.sheet,
+              {
+                backgroundColor: colors.background,
+                paddingBottom: insets.bottom,
+                height: sheetHeight,
+                left: leftInset,
+                right: rightInset,
+                transform: [{ translateY }],
+              },
+            ]}
+          >
+            <View style={styles.handleContainer}>
+              <View
+                style={[styles.handle, { backgroundColor: colors.border }]}
+              />
+            </View>
+            {children}
+          </Animated.View>
+        </rngh.GestureDetector>
+      ) : (
+        <Animated.View
+          testID="bottom-sliding-overlay"
+          {...panResponder.panHandlers}
+          style={[
+            styles.sheet,
+            {
+              backgroundColor: colors.background,
+              paddingBottom: insets.bottom,
+              height: sheetHeight,
+              left: leftInset,
+              right: rightInset,
+              transform: [{ translateY }],
+            },
+          ]}
+        >
+          <View style={styles.handleContainer} {...panResponder.panHandlers}>
+            <View style={[styles.handle, { backgroundColor: colors.border }]} />
+          </View>
+          {children}
+        </Animated.View>
+      )}
     </Modal>
   );
 });
@@ -236,12 +328,21 @@ BottomSlidingInOverlayScreen.displayName = 'BottomSlidingInOverlayScreen';
 
 const styles = StyleSheet.create({
   backdrop: {
-    flex: 1,
+    // Ensure it fills the modal area reliably across platforms
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   sheet: {
     position: 'absolute',
     bottom: 0,
+    // Make sure the sheet sits above the backdrop and receives gestures
+    zIndex: 2,
+    // Elevation for Android to guarantee it appears above
+    elevation: 10,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
