@@ -56,9 +56,9 @@ export const BottomNavItem: React.FC<BottomNavItemProps> = ({
       style={({ pressed }: { pressed: boolean }) => [
         styles.container,
         {
-          paddingVertical: spacing.md,
+          paddingVertical: spacing.sm,
           paddingHorizontal: spacing.sm,
-          minHeight: 60,
+          minHeight: 52,
         },
         pressed && { backgroundColor: colors.muted },
       ]}

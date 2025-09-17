@@ -6,7 +6,7 @@ exports[`BottomNavItem renders and matches snapshot 1`] = `
     aria-label="Inbox"
     class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
     role="button"
-    style="padding: 12px 8px 12px 8px; min-height: 60px;"
+    style="padding: 8px 8px 8px 8px; min-height: 52px;"
     tabindex="0"
     type="button"
   >
