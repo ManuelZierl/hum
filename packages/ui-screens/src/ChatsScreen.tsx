@@ -8,8 +8,10 @@ import {
   Icon,
   TopBar,
   ChatItem,
+  useOverlay,
 } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
+import NewChatScreen from './NewChatScreen';
 
 export interface Chat {
   id: string;
@@ -58,6 +60,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 }) => {
   const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
+  const { open } = useOverlay();
   const [query, setQuery] = React.useState<string>('');
   const { t } = useTranslation();
 
@@ -136,7 +139,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
             bottom: spacing.lg + insets.bottom,
           },
         ]}
-        onPress={() => {}}
+        onPress={() => open(<NewChatScreen />)}
       >
         <Text style={[styles.plusText, { color: colors.humPrimaryForeground }]}>
           +

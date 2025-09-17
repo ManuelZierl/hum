@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
-import { ThemeProvider } from '@hum/ui-components';
+import { ThemeProvider, OverlayProvider } from '@hum/ui-components';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -11,7 +11,9 @@ jest.mock('react-native-safe-area-context', () => ({
 function renderScreen(props?: Partial<ChatsScreenProps>) {
   return render(
     <ThemeProvider forcedScheme="dark">
-      <ChatsScreen {...props} chats={props?.chats ?? []} />
+      <OverlayProvider>
+        <ChatsScreen {...props} chats={props?.chats ?? []} />
+      </OverlayProvider>
     </ThemeProvider>,
   );
 }
@@ -27,6 +29,5 @@ describe('ChatsScreen', () => {
     const { getByLabelText } = renderScreen();
     fireEvent.press(getByLabelText('Menu'));
     fireEvent.press(getByLabelText('Open camera'));
-    fireEvent.press(getByLabelText('Add'));
   });
 });

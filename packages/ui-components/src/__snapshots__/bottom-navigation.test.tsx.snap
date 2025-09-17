@@ -14,7 +14,7 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
         aria-label="Chats"
         class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
         role="button"
-        style="padding: 12px 8px 12px 8px; min-height: 60px;"
+        style="padding: 8px 8px 8px 8px; min-height: 52px;"
         tabindex="0"
         type="button"
       >
@@ -36,10 +36,10 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
         </div>
       </button>
       <button
-        aria-label="Lightning"
+        aria-label="Calls"
         class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
         role="button"
-        style="padding: 12px 8px 12px 8px; min-height: 60px;"
+        style="padding: 8px 8px 8px 8px; min-height: 52px;"
         tabindex="0"
         type="button"
       >
@@ -57,14 +57,39 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
           dir="auto"
           style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 4px;"
         >
-          Lightning
+          Calls
+        </div>
+      </button>
+      <button
+        aria-label="Payments"
+        class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+        role="button"
+        style="padding: 8px 8px 8px 8px; min-height: 52px;"
+        tabindex="0"
+        type="button"
+      >
+        <div
+          class="css-view-g5y9jx r-position-bnwqim"
+        >
+          <svg
+            fill="#717182"
+            height="24"
+            width="24"
+          />
+        </div>
+        <div
+          class="css-text-146c3p1 r-textAlign-q4m81j"
+          dir="auto"
+          style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 4px;"
+        >
+          Payments
         </div>
       </button>
       <button
         aria-label="Settings"
         class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
         role="button"
-        style="padding: 12px 8px 12px 8px; min-height: 60px;"
+        style="padding: 8px 8px 8px 8px; min-height: 52px;"
         tabindex="0"
         type="button"
       >

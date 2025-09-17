@@ -38,8 +38,16 @@ describe('BottomNavigation Component', () => {
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
     const { getByLabelText } = renderNav('light', { onTabChange });
-    fireEvent.click(getByLabelText('Lightning'));
-    expect(onTabChange).toHaveBeenCalledWith('lightning');
+    fireEvent.click(getByLabelText('Payments'));
+    expect(onTabChange).toHaveBeenCalledWith('payments');
+  });
+
+  it('renders Calls tab and it is selectable', () => {
+    // this works!
+    const onTabChange = jest.fn();
+    const { getByLabelText } = renderNav('light', { onTabChange });
+    fireEvent.click(getByLabelText('Calls'));
+    expect(onTabChange).toHaveBeenCalledWith('calls');
   });
 
   it('shows badge count', () => {
@@ -49,7 +57,7 @@ describe('BottomNavigation Component', () => {
 
   it('applies theme colors', () => {
     const { getByText, rerender } = renderNav('light');
-    expect(getByText('Lightning')).toHaveStyle({
+    expect(getByText('Payments')).toHaveStyle({
       color: colors.light.mutedForeground,
     });
     rerender(
@@ -57,7 +65,7 @@ describe('BottomNavigation Component', () => {
         <BottomNavigation {...baseProps} />
       </ThemeProvider>,
     );
-    expect(getByText('Lightning')).toHaveStyle({
+    expect(getByText('Payments')).toHaveStyle({
       color: colors.dark.mutedForeground,
     });
   });
