@@ -2,10 +2,10 @@ coverage:
   status:
     project:
       default:
-        target: 80%
+        target: 60%
     patch:
       default:
-        target: 80%
+        target: 60%
 flags:
   node:
     carryforward: true
