@@ -32,11 +32,11 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
       role="button"
       style={
         {
-          "minHeight": "60px",
-          "paddingBottom": "12px",
+          "minHeight": "52px",
+          "paddingBottom": "8px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "12px",
+          "paddingTop": "8px",
         }
       }
       tabIndex={0}
@@ -69,7 +69,7 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
       </div>
     </button>
     <button
-      aria-label="Lightning"
+      aria-label="Calls"
       className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
       dir={null}
       onBlur={[Function]}
@@ -81,11 +81,11 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
       role="button"
       style={
         {
-          "minHeight": "60px",
-          "paddingBottom": "12px",
+          "minHeight": "52px",
+          "paddingBottom": "8px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "12px",
+          "paddingTop": "8px",
         }
       }
       tabIndex={0}
@@ -114,7 +114,56 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
           }
         }
       >
-        Lightning
+        Calls
+      </div>
+    </button>
+    <button
+      aria-label="Payments"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "minHeight": "52px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <div
+        className="css-view-g5y9jx r-position-bnwqim"
+        dir={null}
+        ref={[Function]}
+      >
+        <svg
+          fill="#717182"
+          height={24}
+          width={24}
+        />
+      </div>
+      <div
+        className="css-text-146c3p1 r-textAlign-q4m81j"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(113,113,130,1.00)",
+            "fontSize": "12px",
+            "marginTop": "4px",
+          }
+        }
+      >
+        Payments
       </div>
     </button>
     <button
@@ -130,11 +179,11 @@ exports[`BottomNavigation Component renders and matches snapshot 1`] = `
       role="button"
       style={
         {
-          "minHeight": "60px",
-          "paddingBottom": "12px",
+          "minHeight": "52px",
+          "paddingBottom": "8px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "12px",
+          "paddingTop": "8px",
         }
       }
       tabIndex={0}

@@ -14,11 +14,11 @@ exports[`BottomNavItem renders and matches snapshot 1`] = `
   role="button"
   style={
     {
-      "minHeight": "60px",
-      "paddingBottom": "12px",
+      "minHeight": "52px",
+      "paddingBottom": "8px",
       "paddingLeft": "8px",
       "paddingRight": "8px",
-      "paddingTop": "12px",
+      "paddingTop": "8px",
     }
   }
   tabIndex={0}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react-native';
+import { View } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ContactInline } from './contact-inline';
 
@@ -13,12 +14,14 @@ describe('ContactInline', () => {
   }
 
   it('renders name', () => {
-    const { asFragment } = renderCI();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderCI();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('shows online dot when online', () => {
-    renderCI(true);
-    expect(screen.getByTestId('online-dot')).toBeInTheDocument();
+    const { UNSAFE_getAllByType } = renderCI(true);
+    const views = UNSAFE_getAllByType(View);
+    const dot = views.find((v) => v.props?.testID === 'online-dot');
+    expect(dot).toBeTruthy();
   });
 });
