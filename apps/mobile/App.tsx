@@ -63,69 +63,69 @@ function AppInner() {
         <ThemeProvider forcedScheme={resolvedScheme}>
           <OverlayProvider>
             <View style={styles.container}>
-          {showDev ? (
-            <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
-          ) : selectedChat ? (
-            <ChatScreen
-              chatName={selectedChat.name}
-              chatAvatar={selectedChat.avatar}
-              messages={chatMessages}
-              onBack={() => setSelectedChat(null)}
-            />
-          ) : activeTab === 'chats' ? (
-            <ChatsFromProvider onNavigateToChat={setSelectedChat} />
-          ) : activeTab === 'calls' ? (
-              <CallsScreen />
-            ) : activeTab === 'payments' || activeTab === 'lightning' ? (
-            <LightningScreen />
-          ) : settingsView === 'theme' ? (
-            <ThemeSettingsScreen
-              theme={theme}
-              onBack={() => setSettingsView('main')}
-              onSelectTheme={setTheme}
-            />
-          ) : (
-            <MainSettingsScreen
-              theme={theme}
-              onNavigateToTheme={() => setSettingsView('theme')}
-            />
-          )}
-          {!selectedChat && !showDev && (
-            <BottomNavigation
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          )}
-          {enableDev && !showDev && (
-            <View style={styles.devButtonWrap}>
-              <View
-                style={styles.devEntry}
-                testID="btnOpenDev"
-                onTouchEnd={() => setShowDev(true)}
-              />
-              <View style={styles.langRow}>
-                <Button
-                  size="sm"
-                  onPress={() => i18next.changeLanguage('en')}
-                  testID="btnEn"
-                >
-                  <Text>EN</Text>
-                </Button>
-                <View style={styles.langSpacer} />
-                <Button
-                  size="sm"
-                  onPress={() => i18next.changeLanguage('de')}
-                  testID="btnDe"
-                >
-                  <Text>DE</Text>
-                </Button>
-              </View>
+              {showDev ? (
+                <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
+              ) : selectedChat ? (
+                <ChatScreen
+                  chatName={selectedChat.name}
+                  chatAvatar={selectedChat.avatar}
+                  messages={chatMessages}
+                  onBack={() => setSelectedChat(null)}
+                />
+              ) : activeTab === 'chats' ? (
+                <ChatsFromProvider onNavigateToChat={setSelectedChat} />
+              ) : activeTab === 'calls' ? (
+                <CallsScreen />
+              ) : activeTab === 'payments' || activeTab === 'lightning' ? (
+                <LightningScreen />
+              ) : settingsView === 'theme' ? (
+                <ThemeSettingsScreen
+                  theme={theme}
+                  onBack={() => setSettingsView('main')}
+                  onSelectTheme={setTheme}
+                />
+              ) : (
+                <MainSettingsScreen
+                  theme={theme}
+                  onNavigateToTheme={() => setSettingsView('theme')}
+                />
+              )}
+              {!selectedChat && !showDev && (
+                <BottomNavigation
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                />
+              )}
+              {enableDev && !showDev && (
+                <View style={styles.devButtonWrap}>
+                  <View
+                    style={styles.devEntry}
+                    testID="btnOpenDev"
+                    onTouchEnd={() => setShowDev(true)}
+                  />
+                  <View style={styles.langRow}>
+                    <Button
+                      size="sm"
+                      onPress={() => i18next.changeLanguage('en')}
+                      testID="btnEn"
+                    >
+                      <Text>EN</Text>
+                    </Button>
+                    <View style={styles.langSpacer} />
+                    <Button
+                      size="sm"
+                      onPress={() => i18next.changeLanguage('de')}
+                      testID="btnDe"
+                    >
+                      <Text>DE</Text>
+                    </Button>
+                  </View>
+                </View>
+              )}
             </View>
-          )}
-        </View>
-        </OverlayProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+          </OverlayProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

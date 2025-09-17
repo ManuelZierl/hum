@@ -43,6 +43,7 @@ describe('BottomNavigation Component', () => {
   });
 
   it('renders Calls tab and it is selectable', () => {
+    // this works!
     const onTabChange = jest.fn();
     const { getByLabelText } = renderNav('light', { onTabChange });
     fireEvent.click(getByLabelText('Calls'));
