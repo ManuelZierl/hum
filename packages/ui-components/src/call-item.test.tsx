@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { CallItem, type CallItemProps } from './call-item';
 import { ThemeProvider } from './theme/theme-provider';
 import { Text } from 'react-native';
+import type { ReactTestInstance } from 'react-test-renderer';
 
 type Scheme = 'light' | 'dark';
 
@@ -37,7 +38,7 @@ describe('CallItem', () => {
   it('missed call uses destructive color', () => {
     const { UNSAFE_getAllByType } = renderItem('light', { type: 'missed' });
     const texts = UNSAFE_getAllByType(Text);
-    const findText = (node: any) => {
+    const findText = (node: ReactTestInstance) => {
       const c = node?.props?.children;
       const s = Array.isArray(c) ? c.join('') : String(c ?? '');
       return s.includes('Yesterday, 18:40');

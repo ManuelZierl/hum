@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import { Text, Animated, View } from 'react-native';
+import * as RNNS from 'react-native';
 import { BottomSlidingInOverlayScreen } from './bottom-sliding-in-overlay-screen';
 import { ThemeProvider } from './theme/theme-provider';
 // @ts-expect-error BackHandler not in react-native-web types
@@ -9,14 +10,21 @@ import { BackHandler } from 'react-native';
 import { PanResponder } from 'react-native';
 
 // Avoid Modal portal behavior by patching RN Modal to render children inline during this suite
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const RN = require('react-native');
-const OriginalModal = RN.Modal;
+const OriginalModal = RNNS.Modal;
+const InlineModal: React.FC<{ children?: React.ReactNode }> = ({
+  children,
+}) => <>{children}</>;
+InlineModal.displayName = 'InlineModal';
 beforeAll(() => {
-  RN.Modal = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
+  // Cast to satisfy type compatibility for tests
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  RNNS.Modal = InlineModal;
 });
 afterAll(() => {
-  RN.Modal = OriginalModal;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  RNNS.Modal = OriginalModal;
 });
 
 jest.mock('react-native-safe-area-context', () => ({

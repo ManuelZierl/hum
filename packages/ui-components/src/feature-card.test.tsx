@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { render } from '@testing-library/react-native';
+import type { ReactTestInstance } from 'react-test-renderer';
 
 import { FeatureCard, type FeatureCardProps } from './feature-card';
 import { ThemeProvider } from './theme/theme-provider';
@@ -38,13 +39,20 @@ describe('FeatureCard', () => {
 
   it('renders title and description', () => {
     const { UNSAFE_getAllByType } = renderCard();
-    const { Text } = require('react-native');
     const texts = UNSAFE_getAllByType(Text);
-    const hasTitle = texts.some((t: any) =>
-      String(Array.isArray(t.props.children) ? t.props.children.join('') : t.props.children ?? '').includes('Test Feature'),
+    const hasTitle = texts.some((t: ReactTestInstance) =>
+      String(
+        Array.isArray(t.props.children)
+          ? t.props.children.join('')
+          : (t.props.children ?? ''),
+      ).includes('Test Feature'),
     );
-    const hasDesc = texts.some((t: any) =>
-      String(Array.isArray(t.props.children) ? t.props.children.join('') : t.props.children ?? '').includes('Description'),
+    const hasDesc = texts.some((t: ReactTestInstance) =>
+      String(
+        Array.isArray(t.props.children)
+          ? t.props.children.join('')
+          : (t.props.children ?? ''),
+      ).includes('Description'),
     );
     expect(hasTitle).toBe(true);
     expect(hasDesc).toBe(true);
@@ -52,20 +60,30 @@ describe('FeatureCard', () => {
 
   it('applies theme colors', () => {
     const { rerender, UNSAFE_getAllByType } = renderCard('light');
-    const { Text } = require('react-native');
-    const flatten = (s: any) => (Array.isArray(s) ? Object.assign({}, ...s) : s);
-    const getTitle = () =>
-      UNSAFE_getAllByType(Text).find((t: any) =>
-        String(Array.isArray(t.props.children) ? t.props.children.join('') : t.props.children ?? '').includes('Test Feature'),
+    const flatten = (s: unknown): Record<string, unknown> =>
+      Array.isArray(s)
+        ? Object.assign({}, ...(s as ReadonlyArray<Record<string, unknown>>))
+        : (s as Record<string, unknown>);
+    const getTitle = (): ReactTestInstance | undefined =>
+      UNSAFE_getAllByType(Text).find((t: ReactTestInstance) =>
+        String(
+          Array.isArray(t.props.children)
+            ? t.props.children.join('')
+            : (t.props.children ?? ''),
+        ).includes('Test Feature'),
       );
     const title1 = getTitle()!;
-    expect(String(flatten(title1.props.style).color).toUpperCase()).toBe('#0A0A0A');
+    expect(
+      String(flatten(title1.props.style).color as unknown).toUpperCase(),
+    ).toBe('#0A0A0A');
     rerender(
       <ThemeProvider forcedScheme="dark">
         <FeatureCard {...baseProps} />
       </ThemeProvider>,
     );
     const title2 = getTitle()!;
-    expect(String(flatten(title2.props.style).color).toUpperCase()).toBe('#FAFAFA');
+    expect(
+      String(flatten(title2.props.style).color as unknown).toUpperCase(),
+    ).toBe('#FAFAFA');
   });
 });

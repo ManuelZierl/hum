@@ -40,9 +40,16 @@ describe('LightningScreen', () => {
   it('applies theme colors', () => {
     const { rerender, UNSAFE_getAllByType } = renderScreen('light');
     const getRoot = () =>
-      UNSAFE_getAllByType(View).find((v) => v.props?.testID === 'lightning-screen')!;
-    const flatten = (s: any) => (Array.isArray(s) ? Object.assign({}, ...s) : s);
-    const bg1 = flatten(getRoot().props.style).backgroundColor;
+      UNSAFE_getAllByType(View).find(
+        (v) => v.props?.testID === 'lightning-screen',
+      )!;
+    const flatten = (s: unknown): Record<string, unknown> =>
+      Array.isArray(s)
+        ? Object.assign({}, ...(s as ReadonlyArray<Record<string, unknown>>))
+        : (s as Record<string, unknown>);
+    const bg1 = (
+      flatten(getRoot().props.style) as { backgroundColor?: unknown }
+    ).backgroundColor;
     expect([bg1, String(bg1).toUpperCase()]).toContain('#FFFFFF');
     rerender(
       <SafeAreaProvider>
@@ -51,7 +58,9 @@ describe('LightningScreen', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    const bg2 = flatten(getRoot().props.style).backgroundColor;
+    const bg2 = (
+      flatten(getRoot().props.style) as { backgroundColor?: unknown }
+    ).backgroundColor;
     expect([bg2, String(bg2).toUpperCase()]).toContain('#000000');
   });
 });
