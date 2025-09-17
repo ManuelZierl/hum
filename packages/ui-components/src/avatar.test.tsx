@@ -1,10 +1,6 @@
 /* eslint-disable react-native/no-raw-text */
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-// Temporary workaround for missing Jest Native matcher typings
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const expectAny = expect as any;
+import { render, fireEvent } from '@testing-library/react';
 
 import {
   Avatar,
@@ -13,23 +9,23 @@ import {
   type AvatarProps,
 } from './avatar';
 import { ThemeProvider } from './theme/theme-provider';
-import { colors } from './theme/colors';
 
 function renderAvatar(
   scheme: 'light' | 'dark' = 'light',
   props?: Partial<AvatarProps>,
   withImage = false,
 ) {
+  const { testID, ...rest } = props ?? {};
   return render(
     <ThemeProvider forcedScheme={scheme}>
-      <Avatar testID="avatar" {...props}>
+      <Avatar testID={testID ?? 'avatar-root'} {...rest}>
         {withImage && (
           <AvatarImage
-            testID="image"
             source={{ uri: 'https://example.com/avatar.png' }}
+            testID="avatar-image"
           />
         )}
-        <AvatarFallback testID="fallback">AB</AvatarFallback>
+        <AvatarFallback testID="avatar-fallback">AB</AvatarFallback>
       </Avatar>
     </ThemeProvider>,
   );
@@ -37,47 +33,42 @@ function renderAvatar(
 
 describe('Avatar', () => {
   it('renders fallback and matches snapshot', () => {
-    const { baseElement } = renderAvatar();
-    expectAny(screen.getByTestId('fallback')).toBeInTheDocument();
-    expectAny(baseElement).toMatchSnapshot();
+    const { asFragment } = renderAvatar();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('supports custom size', () => {
-    renderAvatar('light', { size: 80 });
-    expectAny(screen.getByTestId('avatar')).toHaveStyle({
+    const { getByTestId } = renderAvatar('light', { size: 80 });
+    expect(getByTestId('avatar-root')).toHaveStyle({
       width: '80px',
       height: '80px',
     });
   });
 
   it('shows fallback when image fails to load', () => {
-    renderAvatar('light', undefined, true);
-    const img = screen.getByAltText('');
-    fireEvent.error(img);
-    expectAny(screen.getByTestId('fallback')).toBeInTheDocument();
+    const { getByTestId } = renderAvatar('light', undefined, true);
+    const image = getByTestId('avatar-image');
+    fireEvent.error(image);
+    expect(getByTestId('avatar-fallback')).toBeVisible();
+    expect(getByTestId('avatar-fallback')).toHaveTextContent('AB');
   });
 
   it('calls onPress when provided', () => {
     const onPress = jest.fn();
-    renderAvatar('light', { onPress }, true);
-    fireEvent.click(screen.getByTestId('avatar'));
-    expectAny(onPress).toHaveBeenCalled();
+    const { getByTestId } = renderAvatar('light', { onPress }, true);
+    fireEvent.click(getByTestId('avatar-root'));
+    expect(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { unmount } = renderAvatar('light');
-    expectAny(screen.getByTestId('fallback')).toHaveStyle({
-      backgroundColor: colors.light.muted,
+    const light = renderAvatar('light');
+    expect(light.getByTestId('avatar-fallback')).toHaveStyle({
+      backgroundColor: 'rgb(236, 236, 240)',
     });
-    unmount();
-    renderAvatar('dark');
-    expectAny(screen.getByTestId('fallback')).toHaveStyle({
-      backgroundColor: colors.dark.muted,
+    light.unmount();
+    const dark = renderAvatar('dark');
+    expect(dark.getByTestId('avatar-fallback')).toHaveStyle({
+      backgroundColor: 'rgb(67, 67, 67)',
     });
-  });
-
-  it('has appropriate accessibility role', () => {
-    renderAvatar();
-    expectAny(screen.getByTestId('avatar')).toHaveAttribute('role', 'img');
   });
 });

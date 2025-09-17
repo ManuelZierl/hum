@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import { ChatItem, type ChatItemProps } from './chat-item';
 import { ThemeProvider } from './theme/theme-provider';
 
@@ -49,16 +49,15 @@ describe('ChatItem Component', () => {
     const { getByLabelText, rerender } = renderChatItem('light', {
       unreadCount: 1,
     });
-    expect(getByLabelText('1 unread messages')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
-    });
+    const badge = getByLabelText('1 unread messages');
+    expect(badge).toHaveStyle({ backgroundColor: 'rgb(254, 202, 26)' });
     rerender(
       <ThemeProvider forcedScheme="dark">
         <ChatItem {...baseProps} unreadCount={1} />
       </ThemeProvider>,
     );
     expect(getByLabelText('1 unread messages')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
+      backgroundColor: 'rgb(254, 202, 26)',
     });
   });
 });

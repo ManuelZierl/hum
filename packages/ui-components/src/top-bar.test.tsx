@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import { ThemeProvider } from './theme/theme-provider';
 import { TopBar, type TopBarProps } from './top-bar';
 
@@ -26,10 +26,10 @@ function renderBar(scheme: Scheme = 'light', props?: Partial<TopBarProps>) {
 
 describe('TopBar', () => {
   it('renders with and without back button', () => {
-    const { queryByLabelText, rerender } = renderBar('light', {
+    const { getByLabelText, queryByLabelText, rerender } = renderBar('light', {
       backButton: true,
     });
-    expect(queryByLabelText('Go back')).toBeTruthy();
+    expect(getByLabelText('Go back')).toBeInTheDocument();
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="light">
@@ -45,8 +45,8 @@ describe('TopBar', () => {
       title: 'Hello',
       titleIconName: 'chat',
     });
-    expect(getByText('Hello')).toBeTruthy();
-    expect(getByTestId('title-icon')).toBeTruthy();
+    expect(getByText('Hello')).toBeInTheDocument();
+    expect(getByTestId('title-icon')).toBeInTheDocument();
   });
 
   it('renders back button with a11y label', () => {
@@ -57,7 +57,7 @@ describe('TopBar', () => {
   it('renders search row when enabled and forwards handlers', () => {
     const onChange = jest.fn();
     const onSubmit = jest.fn();
-    const { getByPlaceholderText, getByTestId } = renderBar('light', {
+    const { getByTestId } = renderBar('light', {
       showSearch: true,
       searchPlaceholder: 'Search',
       searchValue: 'abc',
@@ -65,12 +65,8 @@ describe('TopBar', () => {
       onSubmitSearch: onSubmit,
     });
 
-    const input = getByPlaceholderText('Search');
-    expect(input).toBeTruthy();
-    // assert testID as well
-    expect(getByTestId('topbar-search-input')).toBeTruthy();
-
-    // fire change and submit
+    const input = getByTestId('topbar-search-input') as HTMLInputElement;
+    expect(input.placeholder).toBe('Search');
     fireEvent.change(input, { target: { value: 'hello' } });
     expect(onChange).toHaveBeenCalledWith('hello');
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
@@ -95,9 +91,10 @@ describe('TopBar', () => {
   });
 
   it('applies theme colors', () => {
-    const { getByTestId, rerender } = renderBar('light');
-    const bar = getByTestId('bar');
-    expect(bar).toHaveStyle('background-color: rgba(255, 255, 255, 1)');
+    const { rerender, getByTestId } = renderBar('light');
+    expect(getByTestId('bar')).toHaveStyle({
+      backgroundColor: 'rgb(255, 255, 255)',
+    });
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
@@ -105,8 +102,6 @@ describe('TopBar', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    expect(getByTestId('bar')).toHaveStyle(
-      'background-color: rgba(0, 0, 0, 1)',
-    );
+    expect(getByTestId('bar')).toHaveStyle({ backgroundColor: 'rgb(0, 0, 0)' });
   });
 });

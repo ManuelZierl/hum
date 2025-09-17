@@ -1,12 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import {
   BottomNavigation,
   type BottomNavigationProps,
 } from './bottom-navigation';
 import { ThemeProvider } from './theme/theme-provider';
-import { colors } from './theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -37,8 +36,8 @@ describe('BottomNavigation Component', () => {
 
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
-    const { getByLabelText } = renderNav('light', { onTabChange });
-    fireEvent.click(getByLabelText('Lightning'));
+    const { getByRole } = renderNav('light', { onTabChange });
+    fireEvent.click(getByRole('button', { name: /lightning/i }));
     expect(onTabChange).toHaveBeenCalledWith('lightning');
   });
 
@@ -48,17 +47,14 @@ describe('BottomNavigation Component', () => {
   });
 
   it('applies theme colors', () => {
-    const { getByText, rerender } = renderNav('light');
-    expect(getByText('Lightning')).toHaveStyle({
-      color: colors.light.mutedForeground,
+    const light = renderNav('light');
+    expect(light.getByText(/Lightning/i)).toHaveStyle({
+      color: 'rgb(113, 113, 130)',
     });
-    rerender(
-      <ThemeProvider forcedScheme="dark">
-        <BottomNavigation {...baseProps} />
-      </ThemeProvider>,
-    );
-    expect(getByText('Lightning')).toHaveStyle({
-      color: colors.dark.mutedForeground,
+    light.unmount();
+    const dark = renderNav('dark');
+    expect(dark.getByText(/Lightning/i)).toHaveStyle({
+      color: 'rgb(181, 181, 181)',
     });
   });
 });

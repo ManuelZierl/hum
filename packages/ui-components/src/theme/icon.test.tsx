@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { render } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import { Icon, type IconProps } from './icon';
 import { ThemeProvider } from './theme-provider';
 import { colors } from './colors';
-
-const expectAny = expect as any;
 
 describe('Icon', () => {
   function renderIcon(props?: Partial<IconProps>) {
@@ -19,21 +16,24 @@ describe('Icon', () => {
 
   it('uses theme foreground color by default', () => {
     const { container } = renderIcon();
-    const svg = (container as any).querySelector('svg');
-    expectAny(svg).toHaveAttribute('fill', colors.light.foreground);
+    const svg = container.querySelector('svg');
+    expect(svg).not.toBeNull();
+    expect(svg?.getAttribute('fill')).toBe(colors.light.foreground);
   });
 
   it('allows overriding color', () => {
     const custom = '#123456';
     const { container } = renderIcon({ color: custom });
-    const svg = (container as any).querySelector('svg');
-    expectAny(svg).toHaveAttribute('fill', custom);
+    const svg = container.querySelector('svg');
+    expect(svg).not.toBeNull();
+    expect(svg?.getAttribute('fill')).toBe(custom);
   });
 
   it('applies size to width and height', () => {
     const { container } = renderIcon({ size: 32 });
-    const svg = (container as any).querySelector('svg');
-    expectAny(svg).toHaveAttribute('width', '32');
-    expectAny(svg).toHaveAttribute('height', '32');
+    const svg = container.querySelector('svg');
+    expect(svg).not.toBeNull();
+    expect(svg?.getAttribute('width')).toBe('32');
+    expect(svg?.getAttribute('height')).toBe('32');
   });
 });

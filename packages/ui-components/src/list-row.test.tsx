@@ -1,15 +1,12 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 import { ListRow, type ListRowProps } from './list-row';
 import { ThemeProvider } from './theme/theme-provider';
-import { Icon } from './theme/icon';
 
 const baseProps: ListRowProps = {
   label: 'Archiviert',
   rightText: '5',
-  icon: <Icon name="box" />,
 };
 
 type Scheme = 'light' | 'dark';
@@ -30,23 +27,20 @@ describe('ListRow', () => {
 
   it('fires onPress when pressed', () => {
     const onPress = jest.fn();
-    const { getByLabelText } = renderRow('light', { onPress });
-    fireEvent.click(getByLabelText('Archiviert'));
+    const { getByRole } = renderRow('light', { onPress });
+    fireEvent.click(getByRole('button', { name: 'Archiviert' }));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { getByText, rerender } = renderRow('light');
-    expect(getByText('Archiviert')).toHaveStyle({
-      color: 'rgba(10,10,10,1.00)',
+    const light = renderRow('light');
+    expect(light.getByText('Archiviert')).toHaveStyle({
+      color: 'rgb(10, 10, 10)',
     });
-    rerender(
-      <ThemeProvider forcedScheme="dark">
-        <ListRow {...baseProps} />
-      </ThemeProvider>,
-    );
-    expect(getByText('Archiviert')).toHaveStyle({
-      color: 'rgba(250,250,250,1.00)',
+    light.unmount();
+    const dark = renderRow('dark');
+    expect(dark.getByText('Archiviert')).toHaveStyle({
+      color: 'rgb(250, 250, 250)',
     });
   });
 });

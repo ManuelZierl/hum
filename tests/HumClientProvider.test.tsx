@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 jest.mock('expo-constants', () => ({
   __esModule: true,
@@ -72,18 +72,33 @@ jest.mock('../apps/mobile/src/hum/MockClient', () => ({
   },
 }));
 
+const Consumer: React.FC<{
+  onReady: (value: ReturnType<typeof useHumClient>) => void;
+}> =
+  // eslint-disable-next-line react/function-component-definition
+  ({ onReady }) => {
+    const value = useHumClient();
+    React.useEffect(() => {
+      if (value.ready) {
+        onReady(value);
+      }
+    }, [onReady, value]);
+    return null;
+  };
+
 describe('HumClientProvider fallback', () => {
   it('falls back to MockClient when native init fails', async () => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     (globalThis as any).__HUM_FORCE_MOCK__ = true;
 
-    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-      <HumClientProvider>{children}</HumClientProvider>
+    const onReady = jest.fn();
+    render(
+      <HumClientProvider>
+        <Consumer onReady={onReady} />
+      </HumClientProvider>,
     );
 
-    const { result } = renderHook(() => useHumClient(), { wrapper });
-
-    await waitFor(() => result.current.ready);
+    await waitFor(() => expect(onReady).toHaveBeenCalled());
     expect(warnSpy).toHaveBeenCalled();
     warnSpy.mockRestore();
     delete (globalThis as any).__HUM_FORCE_MOCK__;

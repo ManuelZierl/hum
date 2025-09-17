@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import { MessageBubble, type MessageBubbleProps } from './message-bubble';
 import { ThemeProvider } from './theme/theme-provider';
 
@@ -38,7 +38,7 @@ describe('MessageBubble', () => {
   it('applies theme colors', () => {
     const { getByLabelText, rerender } = renderBubble('light');
     expect(getByLabelText('Outgoing message')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
+      backgroundColor: 'rgb(254, 202, 26)',
     });
     rerender(
       <ThemeProvider forcedScheme="dark">
@@ -46,7 +46,7 @@ describe('MessageBubble', () => {
       </ThemeProvider>,
     );
     expect(getByLabelText('Outgoing message')).toHaveStyle({
-      backgroundColor: 'rgba(254,202,26,1.00)',
+      backgroundColor: 'rgb(254, 202, 26)',
     });
   });
 });

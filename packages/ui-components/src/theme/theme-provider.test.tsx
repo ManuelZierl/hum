@@ -1,32 +1,44 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
+
 import { ThemeProvider, useTheme } from './theme-provider';
 import { colors } from './colors';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const expectAny = expect as any;
+const TestComponent: React.FC<{
+  onRender: (value: ReturnType<typeof useTheme>) => void;
+}> = ({ onRender }) => {
+  const value = useTheme();
+  React.useEffect(() => {
+    onRender(value);
+  }, [onRender, value]);
+  return null;
+};
 
 describe('ThemeProvider', () => {
   it('provides light theme when forced', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <ThemeProvider forcedScheme="light">{children}</ThemeProvider>
+    const spy = jest.fn();
+    render(
+      <ThemeProvider forcedScheme="light">
+        <TestComponent onRender={spy} />
+      </ThemeProvider>,
     );
-    const { result } = renderHook(() => useTheme(), { wrapper });
-    expectAny(result.current.colors).toBe(colors.light);
+    expect(spy).toHaveBeenCalled();
+    expect(spy.mock.calls.at(-1)?.[0].colors).toBe(colors.light);
   });
 
   it('provides dark theme when forced', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <ThemeProvider forcedScheme="dark">{children}</ThemeProvider>
+    const spy = jest.fn();
+    render(
+      <ThemeProvider forcedScheme="dark">
+        <TestComponent onRender={spy} />
+      </ThemeProvider>,
     );
-    const { result } = renderHook(() => useTheme(), { wrapper });
-    expectAny(result.current.colors).toBe(colors.dark);
+    expect(spy).toHaveBeenCalled();
+    expect(spy.mock.calls.at(-1)?.[0].colors).toBe(colors.dark);
   });
 
   it('throws when used outside of ThemeProvider', () => {
-    expect(() => renderHook(() => useTheme())).toThrow(
-      'useTheme must be used within ThemeProvider',
-    );
+    const renderOutside = () => render(<TestComponent onRender={() => {}} />);
+    expect(renderOutside).toThrow('useTheme must be used within ThemeProvider');
   });
 });

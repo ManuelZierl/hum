@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+
 import {
   BottomNavItem,
   type BottomNavItemProps,
 } from './bottom-navigation-item';
 import { Icon } from './theme/icon';
 import { ThemeProvider } from './theme/theme-provider';
-import { colors } from './theme/colors';
 
 type Scheme = 'light' | 'dark';
 
@@ -30,8 +29,8 @@ describe('BottomNavItem', () => {
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
-    const { getByLabelText } = renderItem('light', { onPress });
-    fireEvent.click(getByLabelText('Inbox'));
+    const { getByRole } = renderItem('light', { onPress });
+    fireEvent.click(getByRole('button', { name: 'Inbox' }));
     expect(onPress).toHaveBeenCalled();
   });
 
@@ -47,28 +46,28 @@ describe('BottomNavItem', () => {
 
   it('applies active styling', () => {
     const { getByText, rerender } = renderItem();
-    const label = getByText('Inbox');
-    expect(label).toHaveStyle({ color: colors.light.mutedForeground });
+    expect(getByText('Inbox')).toHaveStyle({
+      color: 'rgb(113, 113, 130)',
+    });
     rerender(
       <ThemeProvider forcedScheme="light">
         <BottomNavItem icon={<Icon name="chat" />} label="Inbox" isActive />
       </ThemeProvider>,
     );
-    expect(getByText('Inbox')).toHaveStyle({ color: colors.light.humPrimary });
+    expect(getByText('Inbox')).toHaveStyle({
+      color: 'rgb(254, 202, 26)',
+    });
   });
 
   it('applies theme colors', () => {
-    const { getByText, rerender } = renderItem('light');
-    expect(getByText('Inbox')).toHaveStyle({
-      color: colors.light.mutedForeground,
+    const light = renderItem('light');
+    expect(light.getByText('Inbox')).toHaveStyle({
+      color: 'rgb(113, 113, 130)',
     });
-    rerender(
-      <ThemeProvider forcedScheme="dark">
-        <BottomNavItem icon={<Icon name="chat" />} label="Inbox" />
-      </ThemeProvider>,
-    );
-    expect(getByText('Inbox')).toHaveStyle({
-      color: colors.dark.mutedForeground,
+    light.unmount();
+    const dark = renderItem('dark');
+    expect(dark.getByText('Inbox')).toHaveStyle({
+      color: 'rgb(181, 181, 181)',
     });
   });
 });

@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Text } from 'react-native';
-import { render } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { render } from '@testing-library/react';
 
 import { FeatureCard, type FeatureCardProps } from './feature-card';
 import { ThemeProvider } from './theme/theme-provider';
@@ -33,31 +31,28 @@ function renderCard(
 
 describe('FeatureCard', () => {
   it('renders and matches snapshot', () => {
-    const { toJSON } = renderCard();
-    expect(toJSON()).toMatchSnapshot();
+    const { asFragment } = renderCard();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('renders title and description', () => {
-    const { toJSON } = renderCard();
-    const tree = toJSON() as any;
-    expect(JSON.stringify(tree)).toContain('Test Feature');
-    expect(JSON.stringify(tree)).toContain('Description');
+    const { getByText } = renderCard();
+    expect(getByText('Test Feature')).toBeInTheDocument();
+    expect(getByText('Description')).toBeInTheDocument();
   });
 
   it('applies theme colors', () => {
-    const { toJSON, rerender } = renderCard('light');
-    let tree = toJSON() as any;
-    expect(tree.children[0].children[1].props.style).toMatchObject({
-      color: 'rgba(10,10,10,1.00)',
+    const { getByText, rerender } = renderCard('light');
+    expect(getByText('Test Feature')).toHaveStyle({
+      color: 'rgb(10, 10, 10)',
     });
     rerender(
       <ThemeProvider forcedScheme="dark">
         <FeatureCard {...baseProps} />
       </ThemeProvider>,
     );
-    tree = toJSON() as any;
-    expect(tree.children[0].children[1].props.style).toMatchObject({
-      color: 'rgba(250,250,250,1.00)',
+    expect(getByText('Test Feature')).toHaveStyle({
+      color: 'rgb(250, 250, 250)',
     });
   });
 });
