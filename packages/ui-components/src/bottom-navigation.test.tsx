@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-
+import { render, fireEvent } from '@testing-library/react-native';
 import {
   BottomNavigation,
   type BottomNavigationProps,
 } from './bottom-navigation';
 import { ThemeProvider } from './theme/theme-provider';
+import { colors } from './theme/colors';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -30,31 +30,38 @@ function renderNav(
 
 describe('BottomNavigation Component', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderNav();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderNav();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
-    const { getByRole } = renderNav('light', { onTabChange });
-    fireEvent.click(getByRole('button', { name: /lightning/i }));
+    const { getByLabelText } = renderNav('light', { onTabChange });
+    fireEvent.press(getByLabelText('Lightning'));
     expect(onTabChange).toHaveBeenCalledWith('lightning');
   });
 
   it('shows badge count', () => {
-    const { getByText } = renderNav('light', { chatsBadgeCount: 4 });
-    expect(getByText('4')).toBeInTheDocument();
+    const { UNSAFE_getByProps } = renderNav('light', { chatsBadgeCount: 4 });
+    expect(UNSAFE_getByProps({ children: 4 })).toBeTruthy();
   });
 
   it('applies theme colors', () => {
-    const light = renderNav('light');
-    expect(light.getByText(/Lightning/i)).toHaveStyle({
-      color: 'rgb(113, 113, 130)',
-    });
-    light.unmount();
-    const dark = renderNav('dark');
-    expect(dark.getByText(/Lightning/i)).toHaveStyle({
-      color: 'rgb(181, 181, 181)',
-    });
+    const { UNSAFE_getByProps, rerender } = renderNav('light');
+    expect(UNSAFE_getByProps({ children: 'Lightning' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.light.mutedForeground }),
+      ]),
+    );
+    rerender(
+      <ThemeProvider forcedScheme="dark">
+        <BottomNavigation {...baseProps} />
+      </ThemeProvider>,
+    );
+    expect(UNSAFE_getByProps({ children: 'Lightning' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.dark.mutedForeground }),
+      ]),
+    );
   });
 });

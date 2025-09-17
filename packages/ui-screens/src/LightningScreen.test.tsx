@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react-native';
+import '@testing-library/jest-native/extend-expect';
 import { LightningScreen, type LightningScreenProps } from './LightningScreen';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -33,14 +35,15 @@ describe('LightningScreen', () => {
   it('calls onBack when back button pressed', () => {
     const onBack = jest.fn();
     const { getByLabelText } = renderScreen('light', { onBack });
-    fireEvent.click(getByLabelText('Go back'));
+    fireEvent.press(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { getByTestId, rerender } = renderScreen('light');
-    expect(getByTestId('lightning-screen')).toHaveStyle({
-      backgroundColor: 'rgb(255, 255, 255)',
+    const { toJSON, rerender } = renderScreen('light');
+    let tree = toJSON() as ReactTestRendererJSON;
+    expect(tree.props.style).toMatchObject({
+      backgroundColor: 'rgba(255,255,255,1.00)',
     });
     rerender(
       <SafeAreaProvider>
@@ -49,8 +52,9 @@ describe('LightningScreen', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    expect(getByTestId('lightning-screen')).toHaveStyle({
-      backgroundColor: 'rgb(0, 0, 0)',
+    tree = toJSON() as ReactTestRendererJSON;
+    expect(tree.props.style).toMatchObject({
+      backgroundColor: 'rgba(0,0,0,1.00)',
     });
   });
 });

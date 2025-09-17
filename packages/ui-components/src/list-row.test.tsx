@@ -1,12 +1,15 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react-native';
 
 import { ListRow, type ListRowProps } from './list-row';
 import { ThemeProvider } from './theme/theme-provider';
+import { Icon } from './theme/icon';
+import { colors } from './theme/colors';
 
 const baseProps: ListRowProps = {
   label: 'Archiviert',
   rightText: '5',
+  icon: <Icon name="box" />,
 };
 
 type Scheme = 'light' | 'dark';
@@ -21,26 +24,29 @@ function renderRow(scheme: Scheme = 'light', props?: Partial<ListRowProps>) {
 
 describe('ListRow', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderRow();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderRow();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('fires onPress when pressed', () => {
     const onPress = jest.fn();
-    const { getByRole } = renderRow('light', { onPress });
-    fireEvent.click(getByRole('button', { name: 'Archiviert' }));
+    const { getByLabelText } = renderRow('light', { onPress });
+    fireEvent.press(getByLabelText('Archiviert'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const light = renderRow('light');
-    expect(light.getByText('Archiviert')).toHaveStyle({
-      color: 'rgb(10, 10, 10)',
-    });
-    light.unmount();
-    const dark = renderRow('dark');
-    expect(dark.getByText('Archiviert')).toHaveStyle({
-      color: 'rgb(250, 250, 250)',
-    });
+    const { UNSAFE_getByProps, rerender } = renderRow('light');
+    const lightStyle = UNSAFE_getByProps({ children: 'Archiviert' }).props
+      .style as Record<string, unknown>;
+    expect(lightStyle).toMatchObject({ color: colors.light.foreground });
+    rerender(
+      <ThemeProvider forcedScheme="dark">
+        <ListRow {...baseProps} />
+      </ThemeProvider>,
+    );
+    const darkStyle = UNSAFE_getByProps({ children: 'Archiviert' }).props
+      .style as Record<string, unknown>;
+    expect(darkStyle).toMatchObject({ color: colors.dark.foreground });
   });
 });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-
+import { render, fireEvent } from '@testing-library/react-native';
 import { ChatItem, type ChatItemProps } from './chat-item';
 import { ThemeProvider } from './theme/theme-provider';
 
@@ -26,14 +25,14 @@ function renderChatItem(
 
 describe('ChatItem Component', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderChatItem();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderChatItem();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderChatItem('light', { onPress });
-    fireEvent.click(getByLabelText('Chat with Alice'));
+    fireEvent.press(getByLabelText('Chat with Alice'));
     expect(onPress).toHaveBeenCalled();
   });
 
@@ -42,22 +41,23 @@ describe('ChatItem Component', () => {
       unreadCount: 2,
       isRead: true,
     });
-    expect(getByLabelText('2 unread messages')).toBeInTheDocument();
+    expect(getByLabelText('2 unread messages')).toBeOnTheScreen();
   });
 
   it('applies theme colors', () => {
     const { getByLabelText, rerender } = renderChatItem('light', {
       unreadCount: 1,
     });
-    const badge = getByLabelText('1 unread messages');
-    expect(badge).toHaveStyle({ backgroundColor: 'rgb(254, 202, 26)' });
+    expect(getByLabelText('1 unread messages')).toHaveStyle({
+      backgroundColor: 'rgba(254,202,26,1.00)',
+    });
     rerender(
       <ThemeProvider forcedScheme="dark">
         <ChatItem {...baseProps} unreadCount={1} />
       </ThemeProvider>,
     );
     expect(getByLabelText('1 unread messages')).toHaveStyle({
-      backgroundColor: 'rgb(254, 202, 26)',
+      backgroundColor: 'rgba(254,202,26,1.00)',
     });
   });
 });

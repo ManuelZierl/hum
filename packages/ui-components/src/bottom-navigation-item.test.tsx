@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-
+import { render, fireEvent } from '@testing-library/react-native';
 import {
   BottomNavItem,
   type BottomNavItemProps,
 } from './bottom-navigation-item';
 import { Icon } from './theme/icon';
 import { ThemeProvider } from './theme/theme-provider';
+import { colors } from './theme/colors';
 
 type Scheme = 'light' | 'dark';
 
@@ -23,51 +23,64 @@ function renderItem(
 
 describe('BottomNavItem', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderItem();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderItem();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
-    const { getByRole } = renderItem('light', { onPress });
-    fireEvent.click(getByRole('button', { name: 'Inbox' }));
+    const { getByLabelText } = renderItem('light', { onPress });
+    fireEvent.press(getByLabelText('Inbox'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('shows badge when badgeCount > 0', () => {
-    const { getByText } = renderItem('light', { badgeCount: 3 });
-    expect(getByText('3')).toBeInTheDocument();
+    const { UNSAFE_getByProps } = renderItem('light', { badgeCount: 3 });
+    expect(UNSAFE_getByProps({ children: 3 })).toBeTruthy();
   });
 
   it('limits badge text to 9+', () => {
-    const { getByText } = renderItem('light', { badgeCount: 12 });
-    expect(getByText('9+')).toBeInTheDocument();
+    const { UNSAFE_getByProps } = renderItem('light', { badgeCount: 12 });
+    expect(UNSAFE_getByProps({ children: '9+' })).toBeTruthy();
   });
 
   it('applies active styling', () => {
-    const { getByText, rerender } = renderItem();
-    expect(getByText('Inbox')).toHaveStyle({
-      color: 'rgb(113, 113, 130)',
-    });
+    const { UNSAFE_getByProps, rerender } = renderItem();
+    const label = UNSAFE_getByProps({ children: 'Inbox' });
+    expect(label.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.light.mutedForeground }),
+      ]),
+    );
     rerender(
       <ThemeProvider forcedScheme="light">
         <BottomNavItem icon={<Icon name="chat" />} label="Inbox" isActive />
       </ThemeProvider>,
     );
-    expect(getByText('Inbox')).toHaveStyle({
-      color: 'rgb(254, 202, 26)',
-    });
+    const active = UNSAFE_getByProps({ children: 'Inbox' });
+    expect(active.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.light.humPrimary }),
+      ]),
+    );
   });
 
   it('applies theme colors', () => {
-    const light = renderItem('light');
-    expect(light.getByText('Inbox')).toHaveStyle({
-      color: 'rgb(113, 113, 130)',
-    });
-    light.unmount();
-    const dark = renderItem('dark');
-    expect(dark.getByText('Inbox')).toHaveStyle({
-      color: 'rgb(181, 181, 181)',
-    });
+    const { UNSAFE_getByProps, rerender } = renderItem('light');
+    expect(UNSAFE_getByProps({ children: 'Inbox' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.light.mutedForeground }),
+      ]),
+    );
+    rerender(
+      <ThemeProvider forcedScheme="dark">
+        <BottomNavItem icon={<Icon name="chat" />} label="Inbox" />
+      </ThemeProvider>,
+    );
+    expect(UNSAFE_getByProps({ children: 'Inbox' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.dark.mutedForeground }),
+      ]),
+    );
   });
 });

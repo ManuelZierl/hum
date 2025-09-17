@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-
+import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { TopBar, type TopBarProps } from './top-bar';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -26,10 +26,10 @@ function renderBar(scheme: Scheme = 'light', props?: Partial<TopBarProps>) {
 
 describe('TopBar', () => {
   it('renders with and without back button', () => {
-    const { getByLabelText, queryByLabelText, rerender } = renderBar('light', {
+    const { queryByLabelText, rerender } = renderBar('light', {
       backButton: true,
     });
-    expect(getByLabelText('Go back')).toBeInTheDocument();
+    expect(queryByLabelText('Go back')).toBeTruthy();
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="light">
@@ -41,23 +41,23 @@ describe('TopBar', () => {
   });
 
   it('renders title and icon', () => {
-    const { getByText, getByTestId } = renderBar('light', {
+    const { UNSAFE_getByProps } = renderBar('light', {
       title: 'Hello',
       titleIconName: 'chat',
     });
-    expect(getByText('Hello')).toBeInTheDocument();
-    expect(getByTestId('title-icon')).toBeInTheDocument();
+    expect(UNSAFE_getByProps({ children: 'Hello' })).toBeTruthy();
+    expect(UNSAFE_getByProps({ 'data-testid': 'title-icon' })).toBeTruthy();
   });
 
   it('renders back button with a11y label', () => {
     const { getByLabelText } = renderBar('light', { backButton: true });
-    expect(getByLabelText('Go back')).toBeInTheDocument();
+    expect(getByLabelText('Go back')).toBeOnTheScreen();
   });
 
   it('renders search row when enabled and forwards handlers', () => {
     const onChange = jest.fn();
     const onSubmit = jest.fn();
-    const { getByTestId } = renderBar('light', {
+    const { UNSAFE_getByProps } = renderBar('light', {
       showSearch: true,
       searchPlaceholder: 'Search',
       searchValue: 'abc',
@@ -65,11 +65,14 @@ describe('TopBar', () => {
       onSubmitSearch: onSubmit,
     });
 
-    const input = getByTestId('topbar-search-input') as HTMLInputElement;
-    expect(input.placeholder).toBe('Search');
-    fireEvent.change(input, { target: { value: 'hello' } });
+    const input = UNSAFE_getByProps({ 'data-testid': 'topbar-search-input' });
+    expect(input).toBeTruthy();
+    expect(input.props.placeholder).toBe('Search');
+
+    // fire change and submit
+    fireEvent.changeText(input, 'hello');
     expect(onChange).toHaveBeenCalledWith('hello');
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    fireEvent(input, 'submitEditing');
     expect(onSubmit).toHaveBeenCalled();
   });
 
@@ -84,17 +87,18 @@ describe('TopBar', () => {
         { type: 'icon', name: 'camera', a11yLabel: 'right', onPress: right },
       ],
     });
-    fireEvent.click(getByLabelText('left'));
-    fireEvent.click(getByLabelText('right'));
+    fireEvent.press(getByLabelText('left'));
+    fireEvent.press(getByLabelText('right'));
     expect(left).toHaveBeenCalled();
     expect(right).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { rerender, getByTestId } = renderBar('light');
-    expect(getByTestId('bar')).toHaveStyle({
-      backgroundColor: 'rgb(255, 255, 255)',
-    });
+    const { rerender, toJSON } = renderBar('light');
+    const initialTree = toJSON() as ReactTestRendererJSON | null;
+    expect(initialTree?.props?.style).toEqual(
+      expect.objectContaining({ backgroundColor: 'rgba(255,255,255,1.00)' }),
+    );
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
@@ -102,6 +106,9 @@ describe('TopBar', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    expect(getByTestId('bar')).toHaveStyle({ backgroundColor: 'rgb(0, 0, 0)' });
+    const darkTree = toJSON() as ReactTestRendererJSON | null;
+    expect(darkTree?.props?.style).toEqual(
+      expect.objectContaining({ backgroundColor: 'rgba(0,0,0,1.00)' }),
+    );
   });
 });

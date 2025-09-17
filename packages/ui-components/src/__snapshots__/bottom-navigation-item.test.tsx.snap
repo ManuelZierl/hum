@@ -1,31 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BottomNavItem renders and matches snapshot 1`] = `
-<DocumentFragment>
-  <button
-    aria-label="Inbox"
-    class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
-    role="button"
-    style="padding: 12px 8px 12px 8px; min-height: 60px;"
-    tabindex="0"
-    type="button"
+<button
+  aria-label="Inbox"
+  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+  dir={null}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onContextMenu={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  ref={[Function]}
+  role="button"
+  style={
+    {
+      "minHeight": "60px",
+      "paddingBottom": "12px",
+      "paddingLeft": "8px",
+      "paddingRight": "8px",
+      "paddingTop": "12px",
+    }
+  }
+  tabIndex={0}
+  type="button"
+>
+  <div
+    className="css-view-g5y9jx r-position-bnwqim"
+    dir={null}
+    ref={[Function]}
   >
-    <div
-      class="css-view-g5y9jx r-position-bnwqim"
-    >
-      <svg
-        fill="#717182"
-        height="24"
-        width="24"
-      />
-    </div>
-    <div
-      class="css-text-146c3p1 r-textAlign-q4m81j"
-      dir="auto"
-      style="color: rgb(113, 113, 130); font-size: 12px; margin-top: 4px;"
-    >
-      Inbox
-    </div>
-  </button>
-</DocumentFragment>
+    <svg
+      fill="#717182"
+      height={24}
+      width={24}
+    />
+  </div>
+  <div
+    className="css-text-146c3p1 r-textAlign-q4m81j"
+    dir="auto"
+    ref={[Function]}
+    style={
+      {
+        "color": "rgba(113,113,130,1.00)",
+        "fontSize": "12px",
+        "marginTop": "4px",
+      }
+    }
+  >
+    Inbox
+  </div>
+</button>
 `;

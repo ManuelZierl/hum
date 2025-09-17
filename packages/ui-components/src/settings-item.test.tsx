@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react-native';
+import '@testing-library/jest-native/extend-expect';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
 import { ThemeProvider } from './theme/theme-provider';
@@ -26,14 +27,14 @@ function renderItem(
 
 describe('SettingsItem', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderItem();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderItem();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderItem('light', { onPress });
-    fireEvent.click(getByLabelText('Account'));
+    fireEvent.press(getByLabelText('Account'));
     expect(onPress).toHaveBeenCalled();
   });
 

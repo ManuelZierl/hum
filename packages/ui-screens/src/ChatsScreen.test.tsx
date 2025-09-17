@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react-native';
+import '@testing-library/jest-native/extend-expect';
 import { ChatsScreen, type ChatsScreenProps } from './ChatsScreen';
 import { ThemeProvider } from '@hum/ui-components';
 
@@ -18,14 +19,14 @@ function renderScreen(props?: Partial<ChatsScreenProps>) {
 describe('ChatsScreen', () => {
   it('renders top bar', () => {
     renderScreen();
-    expect(screen.getByLabelText('Menu')).toBeInTheDocument();
-    expect(screen.getByLabelText('Open camera')).toBeInTheDocument();
+    expect(screen.getByLabelText('Menu')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Open camera')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {
     const { getByLabelText } = renderScreen();
-    fireEvent.click(getByLabelText('Menu'));
-    fireEvent.click(getByLabelText('Open camera'));
-    fireEvent.click(getByLabelText('Add'));
+    fireEvent.press(getByLabelText('Menu'));
+    fireEvent.press(getByLabelText('Open camera'));
+    fireEvent.press(getByLabelText('Add'));
   });
 });

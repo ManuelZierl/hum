@@ -1,52 +1,94 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`SettingsItem renders and matches snapshot 1`] = `
-<DocumentFragment>
+<div
+  aria-label="Account"
+  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
+  dir={null}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onContextMenu={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  ref={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(0,0,0,0.00)",
+      "paddingBottom": "12px",
+      "paddingLeft": "16px",
+      "paddingRight": "16px",
+      "paddingTop": "12px",
+    }
+  }
+  tabIndex={0}
+>
   <div
-    aria-label="Account"
-    class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1wtj0ep"
-    style="padding: 12px 16px 12px 16px; background-color: rgba(0, 0, 0, 0);"
-    tabindex="0"
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+    dir={null}
+    ref={[Function]}
   >
     <div
-      class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "marginRight": "12px",
+        }
+      }
     >
-      <div
-        class="css-view-g5y9jx"
-        style="margin-right: 12px;"
-      >
-        <svg
-          fill="#0A0A0A"
-          height="24"
-          width="24"
-        />
-      </div>
-      <div
-        class="css-view-g5y9jx"
-      >
-        <div
-          class="css-text-146c3p1"
-          dir="auto"
-          style="color: rgb(10, 10, 10); font-size: 16px; font-weight: 500;"
-        >
-          Account
-        </div>
-        <div
-          class="css-text-146c3p1"
-          dir="auto"
-          style="color: rgb(113, 113, 130); font-size: 12px;"
-        >
-          Manage your account
-        </div>
-      </div>
+      <svg
+        fill="#0A0A0A"
+        height={24}
+        width={24}
+      />
     </div>
     <div
-      class="css-text-146c3p1"
-      dir="auto"
-      style="color: rgb(113, 113, 130); font-size: 18px;"
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
     >
-      ›
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(10,10,10,1.00)",
+            "fontSize": "16px",
+            "fontWeight": "500",
+          }
+        }
+      >
+        Account
+      </div>
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(113,113,130,1.00)",
+            "fontSize": "12px",
+          }
+        }
+      >
+        Manage your account
+      </div>
     </div>
   </div>
-</DocumentFragment>
+  <div
+    className="css-text-146c3p1"
+    dir="auto"
+    ref={[Function]}
+    style={
+      {
+        "color": "rgba(113,113,130,1.00)",
+        "fontSize": "18px",
+      }
+    }
+  >
+    ›
+  </div>
+</div>
 `;

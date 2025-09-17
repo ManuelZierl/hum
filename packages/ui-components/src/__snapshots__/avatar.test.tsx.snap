@@ -1,27 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Avatar renders fallback and matches snapshot 1`] = `
-<DocumentFragment>
+<div
+  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+  data-testid="avatar"
+  dir={null}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onContextMenu={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  ref={[Function]}
+  role="img"
+  style={
+    {
+      "borderBottomLeftRadius": "20px",
+      "borderBottomRightRadius": "20px",
+      "borderTopLeftRadius": "20px",
+      "borderTopRightRadius": "20px",
+      "height": "40px",
+      "width": "40px",
+    }
+  }
+  tabIndex={0}
+>
   <div
-    class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
-    data-testid="avatar-root"
-    role="img"
-    style="width: 40px; height: 40px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;"
-    tabindex="0"
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+    data-testid="fallback"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(236,236,240,1.00)",
+      }
+    }
   >
     <div
-      class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
-      data-testid="avatar-fallback"
-      style="background-color: rgb(236, 236, 240);"
+      className="css-text-146c3p1 r-textAlign-q4m81j"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "color": "rgba(113,113,130,1.00)",
+          "fontSize": "16px",
+          "fontWeight": "500",
+        }
+      }
     >
-      <div
-        class="css-text-146c3p1 r-textAlign-q4m81j"
-        dir="auto"
-        style="color: rgb(113, 113, 130); font-size: 16px; font-weight: 500;"
-      >
-        AB
-      </div>
+      AB
     </div>
   </div>
-</DocumentFragment>
+</div>
 `;
