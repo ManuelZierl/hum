@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { Text, View } from 'react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import { LightningScreen, type LightningScreenProps } from './LightningScreen';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 
@@ -33,15 +33,17 @@ describe('LightningScreen', () => {
   it('calls onBack when back button pressed', () => {
     const onBack = jest.fn();
     const { getByLabelText } = renderScreen('light', { onBack });
-    fireEvent.click(getByLabelText('Go back'));
+    fireEvent.press(getByLabelText('Go back'));
     expect(onBack).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { rerender } = renderScreen('light');
-    expect(screen.getByTestId('lightning-screen')).toHaveStyle({
-      backgroundColor: 'rgba(255,255,255,1.00)',
-    });
+    const { rerender, UNSAFE_getAllByType } = renderScreen('light');
+    const getRoot = () =>
+      UNSAFE_getAllByType(View).find((v) => v.props?.testID === 'lightning-screen')!;
+    const flatten = (s: any) => (Array.isArray(s) ? Object.assign({}, ...s) : s);
+    const bg1 = flatten(getRoot().props.style).backgroundColor;
+    expect([bg1, String(bg1).toUpperCase()]).toContain('#FFFFFF');
     rerender(
       <SafeAreaProvider>
         <ThemeProvider forcedScheme="dark">
@@ -49,8 +51,7 @@ describe('LightningScreen', () => {
         </ThemeProvider>
       </SafeAreaProvider>,
     );
-    expect(screen.getByTestId('lightning-screen')).toHaveStyle({
-      backgroundColor: 'rgba(0,0,0,1.00)',
-    });
+    const bg2 = flatten(getRoot().props.style).backgroundColor;
+    expect([bg2, String(bg2).toUpperCase()]).toContain('#000000');
   });
 });

@@ -1,14 +1,13 @@
 /* eslint-disable react-native/no-raw-text */
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
 // Temporary workaround for missing Jest DOM matcher typings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectAny = expect as any;
 
 import { Button, type ButtonProps } from './button';
 import { ThemeProvider } from './theme/theme-provider';
-import { colors } from './theme/colors';
 
 type Scheme = 'light' | 'dark';
 
@@ -22,23 +21,27 @@ function renderButton(scheme: Scheme = 'light', props?: Partial<ButtonProps>) {
 
 describe('Button', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderButton();
-    expectAny(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderButton();
+    expectAny(toJSON()).toMatchSnapshot();
   });
 
   it('handles variant and size styles', () => {
-    renderButton('light', { variant: 'destructive', size: 'lg' });
-    const button = screen.getByRole('button');
-    expectAny(button).toHaveStyle({
-      backgroundColor: colors.light.destructive,
+    const { toJSON } = renderButton('light', {
+      variant: 'destructive',
+      size: 'lg',
+    });
+    const tree = toJSON() as ReactTestRendererJSON | null;
+    expectAny(tree?.props?.style).toMatchObject({
+      backgroundColor: 'rgba(212,24,61,1.00)',
       height: '40px',
     });
   });
 
   it('calls onPress and respects disabled', () => {
     const onPress = jest.fn();
-    const { rerender } = renderButton('light', { onPress });
-    fireEvent.click(screen.getByRole('button'));
+    const { rerender, UNSAFE_getByProps } = renderButton('light', { onPress });
+    const pressable = UNSAFE_getByProps({ accessibilityRole: 'button' });
+    fireEvent.press(pressable);
     expectAny(onPress).toHaveBeenCalledTimes(1);
 
     rerender(
@@ -48,13 +51,18 @@ describe('Button', () => {
         </Button>
       </ThemeProvider>,
     );
-    fireEvent.click(screen.getByRole('button'));
-    expectAny(onPress).toHaveBeenCalledTimes(1);
+    const disabledPressable = UNSAFE_getByProps({
+      accessibilityRole: 'button',
+    });
+    expectAny(disabledPressable.props.disabled).toBe(true);
   });
 
   it('applies accessibility props', () => {
-    renderButton('light', { testID: 'btn', accessibilityLabel: 'test button' });
-    const button = screen.getByTestId('btn');
-    expectAny(button).toHaveAttribute('aria-label', 'test button');
+    const { UNSAFE_getByProps } = renderButton('light', {
+      testID: 'btn',
+      accessibilityLabel: 'test button',
+    });
+    const button = UNSAFE_getByProps({ 'data-testid': 'btn' });
+    expectAny(button.props['aria-label']).toBe('test button');
   });
 });

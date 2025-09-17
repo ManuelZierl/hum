@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react-native';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
 import { ThemeProvider } from './theme/theme-provider';
@@ -26,24 +26,24 @@ function renderItem(
 
 describe('SettingsItem', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderItem();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderItem();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderItem('light', { onPress });
-    fireEvent.click(getByLabelText('Account'));
+    fireEvent.press(getByLabelText('Account'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('renders in both themes', () => {
-    const { rerender } = renderItem('light');
+    const { rerender, getByLabelText } = renderItem('light');
     rerender(
       <ThemeProvider forcedScheme="dark">
         <SettingsItem {...baseProps} />
       </ThemeProvider>,
     );
-    expect(screen.getByText('Account')).toBeInTheDocument();
+    expect(getByLabelText('Account')).toBeOnTheScreen();
   });
 });
