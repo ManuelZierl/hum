@@ -46,19 +46,35 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   BottomSlidingInOverlayScreenProps
 >(({ children, open: controlledOpen, onClose }, ref) => {
   // Prefer react-native-gesture-handler in runtime, but fall back to PanResponder in tests
+  type PanBuilder = {
+    minDistance: (n: number) => PanBuilder;
+    onBegin: (cb: () => void) => PanBuilder;
+    onUpdate: (cb: (e: { translationY: number }) => void) => PanBuilder;
+    onEnd: (
+      cb: (e: { translationY: number; velocityY: number }) => void,
+    ) => PanBuilder;
+    runOnJS: (enable: boolean) => PanBuilder;
+  };
+  type RNGHLike = {
+    Gesture: {
+      Pan: () => PanBuilder;
+    };
+    GestureDetector: React.ComponentType<{
+      gesture: unknown;
+      children?: React.ReactNode;
+    }>;
+  };
   const rngh = useMemo(() => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require('react-native-gesture-handler');
+      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+      return require('react-native-gesture-handler') as unknown as RNGHLike;
     } catch {
       return null;
     }
   }, []);
-  const isTestEnv =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    typeof (globalThis as any)?.process !== 'undefined' &&
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    (globalThis as any).process?.env?.NODE_ENV === 'test';
+  type GlobalWithNodeProcess = { process?: { env?: { NODE_ENV?: string } } };
+  const gw = globalThis as GlobalWithNodeProcess;
+  const isTestEnv = gw.process?.env?.NODE_ENV === 'test';
   const useRngh = !!rngh && !isTestEnv;
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
@@ -162,9 +178,11 @@ export const BottomSlidingInOverlayScreen = forwardRef<
       PanResponder.create({
         onStartShouldSetPanResponder: (_: any, gesture: any) =>
           // Start capturing quickly if a vertical intent is detected
-          Math.abs(gesture.dy) > 2 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+          Math.abs(gesture.dy) > 2 &&
+          Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onStartShouldSetPanResponderCapture: (_: any, gesture: any) =>
-          Math.abs(gesture.dy) > 2 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
+          Math.abs(gesture.dy) > 2 &&
+          Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onMoveShouldSetPanResponder: (_: any, gesture: any) =>
           gesture.dy > 3 && Math.abs(gesture.dy) > Math.abs(gesture.dx),
         onMoveShouldSetPanResponderCapture: (_: any, gesture: any) =>
@@ -212,8 +230,8 @@ export const BottomSlidingInOverlayScreen = forwardRef<
 
   // react-native-gesture-handler pan gesture (preferred on device)
   const panGesture = useMemo(() => {
-    if (!useRngh) return null;
-    const Gesture = rngh.Gesture as any;
+    if (!useRngh || !rngh) return null;
+    const Gesture = rngh.Gesture;
     return Gesture.Pan()
       .minDistance(3)
       .onBegin(() => {
@@ -251,7 +269,15 @@ export const BottomSlidingInOverlayScreen = forwardRef<
         }
       })
       .runOnJS(true);
-  }, [useRngh, rngh, translateY, hiddenOffset, dismissThreshold, close, animateTo]);
+  }, [
+    useRngh,
+    rngh,
+    translateY,
+    hiddenOffset,
+    dismissThreshold,
+    close,
+    animateTo,
+  ]);
 
   useEffect(() => {
     if (isControlled && !visible) {

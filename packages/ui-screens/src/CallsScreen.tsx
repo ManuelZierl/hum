@@ -11,6 +11,11 @@ import {
 } from '@hum/ui-components';
 import NewCallScreen from './NewCallScreen';
 
+const STRINGS = {
+  noCallsYet: 'No calls yet',
+  startACall: 'Start a call',
+} as const;
+
 export interface Call {
   id: string;
   avatar: string;
@@ -95,12 +100,12 @@ export function CallsScreen({ calls = mockCalls }: CallsScreenProps) {
               marginBottom: spacing.md,
             }}
           >
-            No calls yet
+            {STRINGS.noCallsYet}
           </Text>
           <Button accessibilityLabel="Start a call" onPress={() => {}}>
             <Icon name="telephone" />
             <Text style={{ color: colors.foreground, marginLeft: spacing.sm }}>
-              Start a call
+              {STRINGS.startACall}
             </Text>
           </Button>
         </View>

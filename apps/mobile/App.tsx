@@ -58,11 +58,11 @@ function AppInner() {
   }, [selectedChat, getMessages]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaProvider>
-      <ThemeProvider forcedScheme={resolvedScheme}>
-      <OverlayProvider>
-        <View style={styles.container}>
+    <GestureHandlerRootView style={styles.gestureRoot}>
+      <SafeAreaProvider>
+        <ThemeProvider forcedScheme={resolvedScheme}>
+          <OverlayProvider>
+            <View style={styles.container}>
           {showDev ? (
             <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
           ) : selectedChat ? (
@@ -151,6 +151,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  gestureRoot: { flex: 1 },
   devButtonWrap: {
     position: 'absolute',
     top: 8,

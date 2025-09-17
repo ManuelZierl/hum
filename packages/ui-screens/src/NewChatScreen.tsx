@@ -4,9 +4,10 @@ import { useTheme } from '@hum/ui-components';
 
 export function NewChatScreen() {
   const { colors } = useTheme();
+  const STRINGS = { title: 'New Chat' } as const;
   return (
     <View style={styles.container}>
-      <Text style={{ color: colors.foreground }}>New Chat</Text>
+      <Text style={{ color: colors.foreground }}>{STRINGS.title}</Text>
     </View>
   );
 }
