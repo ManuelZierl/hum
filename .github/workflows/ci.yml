@@ -124,7 +124,6 @@ jobs:
 
       - name: Lint Markdown
         run: npm run lint:md
-
   rust:
     needs: changes
     runs-on: ubuntu-latest
@@ -147,32 +146,40 @@ jobs:
       - name: Format
         run: cargo fmt --all -- --check
 
-      - name: Clippy
+      - name: Clippy (stable, all features)
         run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Install nightly + llvm-tools
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: llvm-tools-preview
 
       - name: Install coverage tools
         run: |
-          rustup component add llvm-tools-preview
           cargo install cargo-llvm-cov --locked
-          cargo install cargo-nextest  --locked
+          cargo install cargo-nextest --locked
           # isolate instrumented artifacts from normal cached target
           echo "CARGO_LLVM_COV_TARGET_DIR=${{ runner.temp }}/cov-target" >> $GITHUB_ENV
 
       - name: Show tool versions
         run: |
-          cargo llvm-cov --version
-          cargo nextest --version
+          cargo +nightly llvm-cov --version
+          cargo +nightly nextest --version
 
       - name: Generate LCOV report
+        env:
+          RUSTFLAGS: --cfg coverage_nightly
         run: |
           mkdir -p coverage
-          cargo llvm-cov clean --workspace
-          cargo llvm-cov nextest --workspace --no-clean --features coverage_nightly \
+          cargo +nightly llvm-cov clean --workspace
+          cargo +nightly llvm-cov nextest --workspace --no-clean \
             --lcov --output-path coverage/lcov.info
 
       - name: Generate HTML report (optional)
+        env:
+          RUSTFLAGS: --cfg coverage_nightly
         run: |
-          cargo llvm-cov nextest --workspace --no-clean --features coverage_nightly \
+          cargo +nightly llvm-cov nextest --workspace --no-clean \
             --html --output-dir coverage/html
 
       - name: Sanity check coverage outputs

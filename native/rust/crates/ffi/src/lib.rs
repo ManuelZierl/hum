@@ -1,5 +1,5 @@
 #![allow(clippy::missing_safety_doc)]
-#![cfg_attr(feature = "coverage_nightly", feature(coverage_attribute))]
+#![cfg_attr(coverage_nightly, feature(coverage_attribute))]
 
 use std::{
     ffi::{CStr, CString},

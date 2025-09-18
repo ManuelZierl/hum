@@ -1,6 +1,7 @@
 fn main() {
     println!("cargo:rerun-if-changed=src");
     println!("cargo:rerun-if-changed=Cargo.toml");
+    println!("cargo:rustc-check-cfg=cfg(coverage_nightly)");
 
     // Generate C header for the C ABI as include/hum.h
     let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
