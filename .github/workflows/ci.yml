@@ -150,16 +150,38 @@ jobs:
       - name: Clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Install cargo-llvm-cov
+      - name: Install cargo-llvm-cov + nextest
         run: |
           rustup component add llvm-tools-preview
           cargo install cargo-llvm-cov --locked
+          cargo install cargo-nextest --locked
 
-      - name: Generate coverage report
+      # Avoid stale non-instrumented artifacts for coverage
+      - name: Set isolated target dir for coverage
+        run: echo "CARGO_LLVM_COV_TARGET_DIR=${{ runner.temp }}/cov-target" >> $GITHUB_ENV
+
+      - name: Generate coverage report (LCOV + HTML)
         run: |
           mkdir -p coverage
+          # Full clean of instrumented target dir (not your normal build cache)
           cargo llvm-cov clean --workspace
-          cargo llvm-cov --workspace --lcov --output-path coverage/lcov.info
+          # Use nextest and keep artifacts to avoid re-link churn
+          cargo llvm-cov --workspace --nextest --no-clean \
+            --lcov --output-path coverage/lcov.info \
+            --html --output-dir coverage/html
+
+      - name: Sanity check coverage outputs
+        run: |
+          pwd
+          ls -la
+          ls -la coverage
+          test -s coverage/lcov.info
+
+      - name: Upload HTML report as artifact (optional but helpful)
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-coverage-html
+          path: native/rust/coverage/html
 
       - name: Upload Rust coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -170,9 +192,6 @@ jobs:
           verbose: true
           codecov_yml_path: ./codecov.yml
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      #- name: Test with sqlite
-      #  run: cargo test --features sqlite
 
   storybook-e2e:
     needs: changes
