@@ -27,6 +27,8 @@ export { TopBar } from './src/top-bar';
 export type { TopBarProps } from './src/top-bar';
 export { ContactInline } from './src/contact-inline';
 export type { ContactInlineProps } from './src/contact-inline';
+export { ChatInputBar } from './src/chat-input-bar';
+export type { ChatInputBarProps } from './src/chat-input-bar';
 export { Icon } from './src/theme/icon';
 export type { IconName, IconProps } from './src/theme/icon';
 export {
