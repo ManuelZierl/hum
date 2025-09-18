@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
 
 import { SettingsItem, type SettingsItemProps } from './settings-item';
 import { ThemeProvider } from './theme/theme-provider';
@@ -39,11 +38,12 @@ describe('SettingsItem', () => {
   });
 
   it('renders in both themes', () => {
-    const { rerender } = renderItem('light');
+    const { rerender, getByLabelText } = renderItem('light');
     rerender(
       <ThemeProvider forcedScheme="dark">
         <SettingsItem {...baseProps} />
       </ThemeProvider>,
     );
+    expect(getByLabelText('Account')).toBeOnTheScreen();
   });
 });

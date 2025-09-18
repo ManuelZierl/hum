@@ -41,7 +41,6 @@
     "@types/react": "^19.1.12"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "6.8.0",
     "react-i18next": "^13.2.2"
   }
 }

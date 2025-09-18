@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { ChatScreen, type ChatScreenProps } from './ChatScreen';
 
@@ -33,8 +32,8 @@ function renderScreen(props?: Partial<ChatScreenProps>) {
 describe('ChatScreen', () => {
   it('renders top bar items', () => {
     const { getByLabelText } = renderScreen();
-    expect(getByLabelText('Go back')).toBeTruthy();
-    expect(getByLabelText('Video call')).toBeTruthy();
+    expect(getByLabelText('Go back')).toBeOnTheScreen();
+    expect(getByLabelText('Video call')).toBeOnTheScreen();
   });
 
   it('dummy actions do not crash', () => {

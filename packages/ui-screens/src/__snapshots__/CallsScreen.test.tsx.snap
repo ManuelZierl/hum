@@ -1,380 +1,784 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CallsScreen matches empty state snapshot 1`] = `
-<DocumentFragment>
+<div
+  className="css-view-g5y9jx r-flex-13awgt0"
+  dir={null}
+  ref={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(0,0,0,1.00)",
+      "paddingBottom": "0px",
+    }
+  }
+>
   <div
-    class="css-view-g5y9jx r-flex-13awgt0"
-    style="background-color: rgb(0, 0, 0); padding-bottom: 0px;"
+    className="css-view-g5y9jx r-alignItems-1oszu61"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(0,0,0,1.00)",
+        "paddingBottom": "8px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "8px",
+      }
+    }
   >
     <div
-      class="css-view-g5y9jx r-alignItems-1oszu61"
-      style="padding: 8px 12px 8px 12px; background-color: rgb(0, 0, 0);"
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
     >
       <div
-        class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+        dir={null}
+        ref={[Function]}
+      />
+      <div
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+        dir={null}
+        ref={[Function]}
       >
         <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-        />
-        <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-text-146c3p1 r-textAlign-q4m81j"
+          dir="auto"
+          ref={[Function]}
+          style={
+            {
+              "color": "rgba(250,250,250,1.00)",
+              "fontSize": "18px",
+              "fontWeight": "500",
+            }
+          }
+        >
+          Calls
+        </div>
+      </div>
+      <div
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
+        dir={null}
+        ref={[Function]}
+      >
+        <button
+          aria-label="Add call"
+          className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+          dir={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          ref={[Function]}
+          role="button"
+          style={
+            {
+              "marginLeft": "0px",
+            }
+          }
+          tabIndex={0}
+          type="button"
         >
           <div
-            class="css-text-146c3p1 r-textAlign-q4m81j"
+            className="css-text-146c3p1 r-fontSize-1x35g6"
             dir="auto"
-            style="color: rgb(250, 250, 250); font-size: 18px; font-weight: 500;"
+            ref={[Function]}
+            style={
+              {
+                "color": "rgba(250,250,250,1.00)",
+              }
+            }
           >
-            Calls
+            +
           </div>
-        </div>
-        <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
-        >
-          <button
-            aria-label="Add call"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
-            role="button"
-            style="margin-left: 0px;"
-            tabindex="0"
-            type="button"
-          >
-            <div
-              class="css-text-146c3p1 r-fontSize-1x35g6"
-              dir="auto"
-              style="color: rgb(250, 250, 250);"
-            >
-              +
-            </div>
-          </button>
-        </div>
+        </button>
       </div>
-    </div>
-    <div
-      class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
-      data-testid="empty-calls"
-    >
-      <div
-        class="css-text-146c3p1"
-        dir="auto"
-        style="color: rgb(181, 181, 181); margin-bottom: 12px;"
-      >
-        No calls yet
-      </div>
-      <button
-        aria-label="Start a call"
-        class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-        role="button"
-        style="height: 36px; padding: 8px 16px 8px 16px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); opacity: 1;"
-        tabindex="0"
-        type="button"
-      >
-        <svg
-          fill="#FAFAFA"
-          height="24"
-          width="24"
-        />
-        <div
-          class="css-text-146c3p1"
-          dir="auto"
-          style="color: rgb(250, 250, 250); margin-left: 8px;"
-        >
-          Start a call
-        </div>
-      </button>
     </div>
   </div>
-</DocumentFragment>
+  <div
+    className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+    data-testid="empty-calls"
+    dir={null}
+    ref={[Function]}
+  >
+    <div
+      className="css-text-146c3p1"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "color": "rgba(181,181,181,1.00)",
+          "marginBottom": "12px",
+        }
+      }
+    >
+      No calls yet
+    </div>
+    <button
+      aria-label="Start a call"
+      className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+      dir={null}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      ref={[Function]}
+      role="button"
+      style={
+        {
+          "backgroundColor": "rgba(254,202,26,1.00)",
+          "borderBottomLeftRadius": "10px",
+          "borderBottomRightRadius": "10px",
+          "borderTopLeftRadius": "10px",
+          "borderTopRightRadius": "10px",
+          "height": "36px",
+          "opacity": 1,
+          "paddingBottom": "8px",
+          "paddingLeft": "16px",
+          "paddingRight": "16px",
+          "paddingTop": "8px",
+        }
+      }
+      tabIndex={0}
+      type="button"
+    >
+      <svg
+        fill="#FAFAFA"
+        height={24}
+        width={24}
+      />
+      <div
+        className="css-text-146c3p1"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(250,250,250,1.00)",
+            "marginLeft": "8px",
+          }
+        }
+      >
+        Start a call
+      </div>
+    </button>
+  </div>
+</div>
 `;
 
 exports[`CallsScreen matches populated snapshot 1`] = `
-<DocumentFragment>
+<div
+  className="css-view-g5y9jx r-flex-13awgt0"
+  dir={null}
+  ref={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(0,0,0,1.00)",
+      "paddingBottom": "0px",
+    }
+  }
+>
   <div
-    class="css-view-g5y9jx r-flex-13awgt0"
-    style="background-color: rgb(0, 0, 0); padding-bottom: 0px;"
+    className="css-view-g5y9jx r-alignItems-1oszu61"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(0,0,0,1.00)",
+        "paddingBottom": "8px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "8px",
+      }
+    }
   >
     <div
-      class="css-view-g5y9jx r-alignItems-1oszu61"
-      style="padding: 8px 12px 8px 12px; background-color: rgb(0, 0, 0);"
+      className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+      dir={null}
+      ref={[Function]}
     >
       <div
-        class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
+        dir={null}
+        ref={[Function]}
+      />
+      <div
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+        dir={null}
+        ref={[Function]}
       >
         <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz"
-        />
-        <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"
+          className="css-text-146c3p1 r-textAlign-q4m81j"
+          dir="auto"
+          ref={[Function]}
+          style={
+            {
+              "color": "rgba(250,250,250,1.00)",
+              "fontSize": "18px",
+              "fontWeight": "500",
+            }
+          }
         >
-          <div
-            class="css-text-146c3p1 r-textAlign-q4m81j"
-            dir="auto"
-            style="color: rgb(250, 250, 250); font-size: 18px; font-weight: 500;"
-          >
-            Calls
-          </div>
-        </div>
-        <div
-          class="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
-        >
-          <button
-            aria-label="Add call"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
-            role="button"
-            style="margin-left: 0px;"
-            tabindex="0"
-            type="button"
-          >
-            <div
-              class="css-text-146c3p1 r-fontSize-1x35g6"
-              dir="auto"
-              style="color: rgb(250, 250, 250);"
-            >
-              +
-            </div>
-          </button>
+          Calls
         </div>
       </div>
-    </div>
-    <div
-      class="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx"
-    >
       <div
-        class="css-view-g5y9jx"
-        style="padding-bottom: 96px;"
+        className="css-view-g5y9jx r-alignItems-1awozwy r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-17s6mgv"
+        dir={null}
+        ref={[Function]}
       >
-        <div
-          class="css-view-g5y9jx"
+        <button
+          aria-label="Add call"
+          className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73"
+          dir={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          ref={[Function]}
+          role="button"
+          style={
+            {
+              "marginLeft": "0px",
+            }
+          }
+          tabIndex={0}
+          type="button"
         >
-          <button
-            aria-label="Call with Alice"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
-            role="button"
-            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
-            tabindex="0"
-            type="button"
+          <div
+            className="css-text-146c3p1 r-fontSize-1x35g6"
+            dir="auto"
+            ref={[Function]}
+            style={
+              {
+                "color": "rgba(250,250,250,1.00)",
+              }
+            }
           >
-            <div
-              class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
-              role="img"
-              style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px; margin-right: 12px;"
-              tabindex="0"
-            >
-              <div
-                aria-label="Alice avatar"
-                class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
-              >
-                <div
-                  class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
-                  style="background-image: url("https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080");"
-                />
-                <img
-                  alt="Alice avatar"
-                  class="css-accessibilityImage-9pa8cd"
-                  draggable="false"
-                  src="https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                />
-              </div>
-            </div>
-            <div
-              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
-            >
-              <div
-                class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
-                dir="auto"
-                style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
-              >
-                Alice
-              </div>
-              <div
-                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
-              >
-                <svg
-                  fill="#B5B5B5"
-                  height="16"
-                  style="margin-right: 4px;"
-                  width="16"
-                />
-                <div
-                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
-                  dir="auto"
-                  style="color: rgb(181, 181, 181); font-size: 12px;"
-                >
-                  Yesterday, 18:40
-                </div>
-              </div>
-            </div>
-          </button>
-          <button
-            aria-label="Call voice"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-            role="button"
-            style="width: 36px; height: 36px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); opacity: 1; margin-left: 12px;"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              fill="#000000"
-              height="24"
-              width="24"
-            />
-          </button>
-        </div>
-        <div
-          class="css-view-g5y9jx"
-        >
-          <button
-            aria-label="Call with Bob"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
-            role="button"
-            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
-            tabindex="0"
-            type="button"
-          >
-            <div
-              class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
-              role="img"
-              style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px; margin-right: 12px;"
-              tabindex="0"
-            >
-              <div
-                aria-label="Bob avatar"
-                class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
-              >
-                <div
-                  class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
-                  style="background-image: url("https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080");"
-                />
-                <img
-                  alt="Bob avatar"
-                  class="css-accessibilityImage-9pa8cd"
-                  draggable="false"
-                  src="https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                />
-              </div>
-            </div>
-            <div
-              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
-            >
-              <div
-                class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
-                dir="auto"
-                style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
-              >
-                Bob
-              </div>
-              <div
-                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
-              >
-                <svg
-                  fill="#B5B5B5"
-                  height="16"
-                  style="margin-right: 4px;"
-                  width="16"
-                />
-                <div
-                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
-                  dir="auto"
-                  style="color: rgb(181, 181, 181); font-size: 12px;"
-                >
-                  Yesterday, 09:15
-                </div>
-              </div>
-            </div>
-          </button>
-          <button
-            aria-label="Call video"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-            role="button"
-            style="width: 36px; height: 36px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); opacity: 1; margin-left: 12px;"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              fill="#000000"
-              height="24"
-              width="24"
-            />
-          </button>
-        </div>
-        <div
-          class="css-view-g5y9jx"
-        >
-          <button
-            aria-label="Call with Charlie"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
-            role="button"
-            style="padding: 8px 12px 8px 12px; background-color: rgba(0, 0, 0, 0);"
-            tabindex="0"
-            type="button"
-          >
-            <div
-              class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
-              role="img"
-              style="width: 48px; height: 48px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-right-radius: 24px; border-bottom-left-radius: 24px; margin-right: 12px;"
-              tabindex="0"
-            >
-              <div
-                aria-label="Charlie avatar"
-                class="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
-              >
-                <div
-                  class="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
-                  style="background-image: url("https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080");"
-                />
-                <img
-                  alt="Charlie avatar"
-                  class="css-accessibilityImage-9pa8cd"
-                  draggable="false"
-                  src="https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                />
-              </div>
-            </div>
-            <div
-              class="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
-            >
-              <div
-                class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
-                dir="auto"
-                style="color: rgb(250, 250, 250); font-size: 16px; font-weight: 500;"
-              >
-                Charlie
-              </div>
-              <div
-                class="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
-              >
-                <svg
-                  fill="#8F2439"
-                  height="16"
-                  style="margin-right: 4px;"
-                  width="16"
-                />
-                <div
-                  class="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
-                  dir="auto"
-                  style="color: rgb(143, 36, 57); font-size: 12px;"
-                >
-                  2 days ago
-                </div>
-              </div>
-            </div>
-          </button>
-          <button
-            aria-label="Call voice"
-            class="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
-            role="button"
-            style="width: 36px; height: 36px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; background-color: rgb(254, 202, 26); opacity: 1; margin-left: 12px;"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              fill="#000000"
-              height="24"
-              width="24"
-            />
-          </button>
-        </div>
+            +
+          </div>
+        </button>
       </div>
     </div>
   </div>
-</DocumentFragment>
+  <div
+    className="css-view-g5y9jx r-WebkitOverflowScrolling-150rngu r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-transform-agouwx"
+    dir={null}
+    onScroll={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    onWheel={[Function]}
+    ref={[Function]}
+  >
+    <div
+      className="css-view-g5y9jx"
+      dir={null}
+      ref={[Function]}
+      style={
+        {
+          "paddingBottom": "96px",
+        }
+      }
+    >
+      <div
+        className="css-view-g5y9jx"
+        dir={null}
+        ref={[Function]}
+      >
+        <button
+          aria-label="Call with Alice"
+          className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+          dir={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          ref={[Function]}
+          role="button"
+          style={
+            {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "paddingBottom": "8px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "8px",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="img"
+            style={
+              {
+                "borderBottomLeftRadius": "24px",
+                "borderBottomRightRadius": "24px",
+                "borderTopLeftRadius": "24px",
+                "borderTopRightRadius": "24px",
+                "height": "48px",
+                "marginRight": "12px",
+                "width": "48px",
+              }
+            }
+            tabIndex={0}
+          >
+            <div
+              aria-label="Alice avatar"
+              className="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+              dir={null}
+              ref={[Function]}
+            >
+              <div
+                className="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                dir={null}
+                ref={[Function]}
+                style={
+                  {
+                    "backgroundImage": "url("https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080")",
+                  }
+                }
+                suppressHydrationWarning={true}
+              />
+              <img
+                alt="Alice avatar"
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                ref={
+                  {
+                    "current": null,
+                  }
+                }
+                src="https://images.unsplash.com/photo-1655249481446-25d575f1c054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              />
+            </div>
+          </div>
+          <div
+            className="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            dir={null}
+            ref={[Function]}
+          >
+            <div
+              className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
+              dir="auto"
+              ref={[Function]}
+              style={
+                {
+                  "color": "rgba(250,250,250,1.00)",
+                  "fontSize": "16px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              Alice
+            </div>
+            <div
+              className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              dir={null}
+              ref={[Function]}
+            >
+              <svg
+                fill="#B5B5B5"
+                height={16}
+                style={
+                  {
+                    "marginRight": 4,
+                  }
+                }
+                width={16}
+              />
+              <div
+                className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                dir="auto"
+                ref={[Function]}
+                style={
+                  {
+                    "color": "rgba(181,181,181,1.00)",
+                    "fontSize": "12px",
+                  }
+                }
+              >
+                Yesterday, 18:40
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Call voice"
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="button"
+            style={
+              {
+                "backgroundColor": "rgba(254,202,26,1.00)",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "height": "36px",
+                "marginLeft": "12px",
+                "opacity": 1,
+                "width": "36px",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            <svg
+              fill="#000000"
+              height={24}
+              width={24}
+            />
+          </button>
+        </button>
+      </div>
+      <div
+        className="css-view-g5y9jx"
+        dir={null}
+        ref={[Function]}
+      >
+        <button
+          aria-label="Call with Bob"
+          className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+          dir={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          ref={[Function]}
+          role="button"
+          style={
+            {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "paddingBottom": "8px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "8px",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="img"
+            style={
+              {
+                "borderBottomLeftRadius": "24px",
+                "borderBottomRightRadius": "24px",
+                "borderTopLeftRadius": "24px",
+                "borderTopRightRadius": "24px",
+                "height": "48px",
+                "marginRight": "12px",
+                "width": "48px",
+              }
+            }
+            tabIndex={0}
+          >
+            <div
+              aria-label="Bob avatar"
+              className="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+              dir={null}
+              ref={[Function]}
+            >
+              <div
+                className="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                dir={null}
+                ref={[Function]}
+                style={
+                  {
+                    "backgroundImage": "url("https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080")",
+                  }
+                }
+                suppressHydrationWarning={true}
+              />
+              <img
+                alt="Bob avatar"
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                ref={
+                  {
+                    "current": null,
+                  }
+                }
+                src="https://images.unsplash.com/photo-1675705444858-97005ce93298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              />
+            </div>
+          </div>
+          <div
+            className="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            dir={null}
+            ref={[Function]}
+          >
+            <div
+              className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
+              dir="auto"
+              ref={[Function]}
+              style={
+                {
+                  "color": "rgba(250,250,250,1.00)",
+                  "fontSize": "16px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              Bob
+            </div>
+            <div
+              className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              dir={null}
+              ref={[Function]}
+            >
+              <svg
+                fill="#B5B5B5"
+                height={16}
+                style={
+                  {
+                    "marginRight": 4,
+                  }
+                }
+                width={16}
+              />
+              <div
+                className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                dir="auto"
+                ref={[Function]}
+                style={
+                  {
+                    "color": "rgba(181,181,181,1.00)",
+                    "fontSize": "12px",
+                  }
+                }
+              >
+                Yesterday, 09:15
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Call video"
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="button"
+            style={
+              {
+                "backgroundColor": "rgba(254,202,26,1.00)",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "height": "36px",
+                "marginLeft": "12px",
+                "opacity": 1,
+                "width": "36px",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            <svg
+              fill="#000000"
+              height={24}
+              width={24}
+            />
+          </button>
+        </button>
+      </div>
+      <div
+        className="css-view-g5y9jx"
+        dir={null}
+        ref={[Function]}
+      >
+        <button
+          aria-label="Call with Charlie"
+          className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz"
+          dir={null}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onContextMenu={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          ref={[Function]}
+          role="button"
+          style={
+            {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "paddingBottom": "8px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "8px",
+            }
+          }
+          tabIndex={0}
+          type="button"
+        >
+          <div
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-justifyContent-1777fci r-overflow-1udh08x"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="img"
+            style={
+              {
+                "borderBottomLeftRadius": "24px",
+                "borderBottomRightRadius": "24px",
+                "borderTopLeftRadius": "24px",
+                "borderTopRightRadius": "24px",
+                "height": "48px",
+                "marginRight": "12px",
+                "width": "48px",
+              }
+            }
+            tabIndex={0}
+          >
+            <div
+              aria-label="Charlie avatar"
+              className="css-view-g5y9jx r-flexBasis-1mlwlqe r-overflow-1udh08x r-zIndex-417010 r-height-1pi2tsx r-width-13qz1uu"
+              dir={null}
+              ref={[Function]}
+            >
+              <div
+                className="css-view-g5y9jx r-backgroundColor-1niwhzg r-backgroundPosition-vvn4in r-backgroundRepeat-u6sd8q r-bottom-1p0dtai r-height-1pi2tsx r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af r-width-13qz1uu r-zIndex-1wyyakw r-backgroundSize-4gszlv"
+                dir={null}
+                ref={[Function]}
+                style={
+                  {
+                    "backgroundImage": "url("https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080")",
+                  }
+                }
+                suppressHydrationWarning={true}
+              />
+              <img
+                alt="Charlie avatar"
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                ref={
+                  {
+                    "current": null,
+                  }
+                }
+                src="https://images.unsplash.com/photo-1597202992582-9ee5c6672095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              />
+            </div>
+          </div>
+          <div
+            className="css-view-g5y9jx r-flex-13awgt0 r-minWidth-bcqeeo"
+            dir={null}
+            ref={[Function]}
+          >
+            <div
+              className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-marginBottom-zl2h9q"
+              dir="auto"
+              ref={[Function]}
+              style={
+                {
+                  "color": "rgba(250,250,250,1.00)",
+                  "fontSize": "16px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              Charlie
+            </div>
+            <div
+              className="css-view-g5y9jx r-alignItems-1awozwy r-flexDirection-18u37iz"
+              dir={null}
+              ref={[Function]}
+            >
+              <svg
+                fill="#8F2439"
+                height={16}
+                style={
+                  {
+                    "marginRight": 4,
+                  }
+                }
+                width={16}
+              />
+              <div
+                className="css-text-146c3p1 r-maxWidth-dnmrzs r-overflow-1udh08x r-textOverflow-1udbk01 r-whiteSpace-3s2u2q r-wordWrap-1iln25a r-flexShrink-1wbh5a2"
+                dir="auto"
+                ref={[Function]}
+                style={
+                  {
+                    "color": "rgba(143,36,57,1.00)",
+                    "fontSize": "12px",
+                  }
+                }
+              >
+                2 days ago
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Call voice"
+            className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1777fci"
+            dir={null}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            ref={[Function]}
+            role="button"
+            style={
+              {
+                "backgroundColor": "rgba(254,202,26,1.00)",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "height": "36px",
+                "marginLeft": "12px",
+                "opacity": 1,
+                "width": "36px",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            <svg
+              fill="#000000"
+              height={24}
+              width={24}
+            />
+          </button>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 `;

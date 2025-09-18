@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 import { ChatItem, type ChatItemProps } from './chat-item';
 import { ThemeProvider } from './theme/theme-provider';
 
@@ -26,14 +25,14 @@ function renderChatItem(
 
 describe('ChatItem Component', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderChatItem();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderChatItem();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onPress when pressed', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderChatItem('light', { onPress });
-    fireEvent.click(getByLabelText('Chat with Alice'));
+    fireEvent.press(getByLabelText('Chat with Alice'));
     expect(onPress).toHaveBeenCalled();
   });
 
@@ -42,7 +41,7 @@ describe('ChatItem Component', () => {
       unreadCount: 2,
       isRead: true,
     });
-    expect(getByLabelText('2 unread messages')).toBeInTheDocument();
+    expect(getByLabelText('2 unread messages')).toBeOnTheScreen();
   });
 
   it('applies theme colors', () => {
