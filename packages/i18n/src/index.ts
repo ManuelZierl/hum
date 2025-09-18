@@ -105,4 +105,10 @@ void i18n
     detection: detectionConfig,
   });
 
+export const __testing__ = {
+  detectFromNativeApis,
+  nativeDetector,
+  isBrowser,
+};
+
 export default i18n;
