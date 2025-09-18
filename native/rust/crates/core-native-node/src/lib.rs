@@ -648,6 +648,16 @@ mod ffi {
         pub _id: usize,
     }
 
+    macro_rules! allow_unused_unit {
+        (() => $($rest:tt)*) => {
+            #[allow(clippy::unused_unit)]
+            $($rest)*
+        };
+        ($ret:ty => $($rest:tt)*) => {
+            $($rest)*
+        };
+    }
+
     macro_rules! define_mocks {
         ($(fn $name:ident($($arg:ident : $arg_ty:ty),* $(,)?) -> $ret:ty);* $(;)?) => {
             pub struct Mocks {
@@ -671,15 +681,18 @@ mod ffi {
             }
 
             $(
-            pub unsafe extern "C" fn $name($($arg: $arg_ty),*) -> $ret {
-                MOCKS.with(|cell| {
-                    let mut mocks = cell.borrow_mut();
-                    let cb = mocks
-                        .$name
-                        .as_mut()
-                        .expect(concat!(stringify!($name), " not mocked"));
-                    cb($($arg),*)
-                })
+            allow_unused_unit! {
+                $ret =>
+                pub unsafe extern "C" fn $name($($arg: $arg_ty),*) -> $ret {
+                    MOCKS.with(|cell| {
+                        let mut mocks = cell.borrow_mut();
+                        let cb = mocks
+                            .$name
+                            .as_mut()
+                            .expect(concat!(stringify!($name), " not mocked"));
+                        cb($($arg),*)
+                    })
+                }
             }
             )*
         };
