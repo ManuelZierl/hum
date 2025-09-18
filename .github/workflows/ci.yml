@@ -150,34 +150,33 @@ jobs:
       - name: Clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Install cargo-llvm-cov + nextest
+      - name: Install coverage tools
         run: |
           rustup component add llvm-tools-preview
           cargo install cargo-llvm-cov --locked
-          cargo install cargo-nextest --locked
+          cargo install cargo-nextest  --locked
+          # isolate instrumented artifacts from normal cached target
+          echo "CARGO_LLVM_COV_TARGET_DIR=${{ runner.temp }}/cov-target" >> $GITHUB_ENV
 
-      # Avoid stale non-instrumented artifacts for coverage
-      - name: Set isolated target dir for coverage
-        run: echo "CARGO_LLVM_COV_TARGET_DIR=${{ runner.temp }}/cov-target" >> $GITHUB_ENV
+      - name: Show tool versions
+        run: |
+          cargo llvm-cov --version
+          cargo nextest --version
 
       - name: Generate coverage report (LCOV + HTML)
         run: |
           mkdir -p coverage
-          # Full clean of instrumented target dir (not your normal build cache)
           cargo llvm-cov clean --workspace
-          # Use nextest and keep artifacts to avoid re-link churn
-          cargo llvm-cov --workspace --nextest --no-clean \
+          cargo llvm-cov nextest --workspace --no-clean \
             --lcov --output-path coverage/lcov.info \
             --html --output-dir coverage/html
 
       - name: Sanity check coverage outputs
         run: |
-          pwd
-          ls -la
           ls -la coverage
           test -s coverage/lcov.info
 
-      - name: Upload HTML report as artifact (optional but helpful)
+      - name: Upload HTML report (optional)
         uses: actions/upload-artifact@v4
         with:
           name: rust-coverage-html
