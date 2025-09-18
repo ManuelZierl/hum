@@ -2,6 +2,7 @@
 
 use std::{
     ffi::{CStr, CString},
+    mem::ManuallyDrop,
     os::raw::{c_char, c_int},
     path::PathBuf,
     ptr,
@@ -21,8 +22,22 @@ pub struct HumClientHandle {
 }
 
 struct HandleInner {
-    inner: Arc<HumClient>,
+    inner: ManuallyDrop<Arc<HumClient>>,
     runtime: tokio::runtime::Runtime,
+}
+
+impl Drop for HandleInner {
+    fn drop(&mut self) {
+        // SAFETY: `inner` is initialized in `hum_client_new` and never taken
+        // again, so taking ownership during drop is sound.
+        let client = unsafe { ManuallyDrop::take(&mut self.inner) };
+        let _ = self.runtime.block_on(async {
+            let _ = client.stop_sync_loop().await;
+        });
+        let _ = self.runtime.block_on(async move {
+            drop(client);
+        });
+    }
 }
 
 fn set_error(err_out: *mut *mut c_char, msg: String) {
@@ -64,7 +79,7 @@ pub unsafe extern "C" fn hum_client_new(
             match runtime.block_on(HumClient::new(cfg)) {
                 Ok(inner) => {
                     let handle = HandleInner {
-                        inner: Arc::new(inner),
+                        inner: ManuallyDrop::new(Arc::new(inner)),
                         runtime,
                     };
                     Box::into_raw(Box::new(handle)) as *mut HumClientHandle
