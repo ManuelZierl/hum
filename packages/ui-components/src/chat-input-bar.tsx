@@ -18,7 +18,7 @@ export interface ChatInputBarProps {
   micAccessibilityLabel?: string;
 }
 
-export const ChatInputBar: React.FC<ChatInputBarProps> = ({
+const ChatInputBar: React.FC<ChatInputBarProps> = ({
   value,
   onChangeText,
   placeholder,
