@@ -31,10 +31,12 @@ impl Drop for HandleInner {
         // SAFETY: `inner` is initialized in `hum_client_new` and never taken
         // again, so taking ownership during drop is sound.
         let client = unsafe { ManuallyDrop::take(&mut self.inner) };
-        let _ = self.runtime.block_on(async {
-            let _ = client.stop_sync_loop().await;
+        self.runtime.block_on(async {
+            if client.stop_sync_loop().await.is_err() {
+                // Best-effort shutdown; ignore errors during drop.
+            }
         });
-        let _ = self.runtime.block_on(async move {
+        self.runtime.block_on(async move {
             drop(client);
         });
     }
