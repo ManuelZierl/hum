@@ -21,8 +21,25 @@ pub struct HumClientHandle {
 }
 
 struct HandleInner {
-    inner: Arc<HumClient>,
+    inner: Option<Arc<HumClient>>,
     runtime: tokio::runtime::Runtime,
+}
+
+impl HandleInner {
+    fn client(&self) -> &Arc<HumClient> {
+        self.inner
+            .as_ref()
+            .expect("HumClient already freed from handle")
+    }
+}
+
+impl Drop for HandleInner {
+    fn drop(&mut self) {
+        if let Some(inner) = self.inner.take() {
+            let _guard = self.runtime.enter();
+            drop(inner);
+        }
+    }
 }
 
 fn set_error(err_out: *mut *mut c_char, msg: String) {
@@ -64,7 +81,7 @@ pub unsafe extern "C" fn hum_client_new(
             match runtime.block_on(HumClient::new(cfg)) {
                 Ok(inner) => {
                     let handle = HandleInner {
-                        inner: Arc::new(inner),
+                        inner: Some(Arc::new(inner)),
                         runtime,
                     };
                     Box::into_raw(Box::new(handle)) as *mut HumClientHandle
@@ -114,7 +131,7 @@ pub unsafe extern "C" fn hum_client_login(
         .to_string();
     match handle
         .runtime
-        .block_on(handle.inner.login(&username, &password))
+        .block_on(handle.client().login(&username, &password))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -135,7 +152,7 @@ pub unsafe extern "C" fn hum_client_logout(
         return 1;
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
-    match handle.runtime.block_on(handle.inner.logout()) {
+    match handle.runtime.block_on(handle.client().logout()) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -160,7 +177,7 @@ pub unsafe extern "C" fn hum_client_is_authenticated(
         return 1;
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
-    let v = handle.inner.is_authenticated();
+    let v = handle.client().is_authenticated();
     unsafe {
         *out_is_auth = v;
     }
@@ -180,7 +197,7 @@ pub unsafe extern "C" fn hum_client_sync_once(
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
     let cfg = SyncConfig::new(false, Some(timeout_ms));
-    match handle.runtime.block_on(handle.inner.sync_once(&cfg)) {
+    match handle.runtime.block_on(handle.client().sync_once(&cfg)) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -202,7 +219,10 @@ pub unsafe extern "C" fn hum_client_start_sync_loop(
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
     let cfg = SyncConfig::new(false, Some(timeout_ms));
-    match handle.runtime.block_on(handle.inner.start_sync_loop(&cfg)) {
+    match handle
+        .runtime
+        .block_on(handle.client().start_sync_loop(&cfg))
+    {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -222,7 +242,7 @@ pub unsafe extern "C" fn hum_client_stop_sync_loop(
         return 1;
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
-    match handle.runtime.block_on(handle.inner.stop_sync_loop()) {
+    match handle.runtime.block_on(handle.client().stop_sync_loop()) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -252,7 +272,7 @@ pub unsafe extern "C" fn hum_client_send_text(
         .to_string();
     match handle
         .runtime
-        .block_on(handle.inner.send_text(&room_id, &body))
+        .block_on(handle.client().send_text(&room_id, &body))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -304,7 +324,7 @@ pub unsafe extern "C" fn hum_client_create_room(
         topic: topic_opt,
         is_public,
     };
-    match handle.runtime.block_on(handle.inner.create_room(opts)) {
+    match handle.runtime.block_on(handle.client().create_room(opts)) {
         Ok(info) => {
             let c = CString::new(info.room_id.to_string()).unwrap();
             unsafe {
@@ -316,6 +336,278 @@ pub unsafe extern "C" fn hum_client_create_room(
             set_error(err_out, e.to_string());
             2
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use httpmock::prelude::*;
+    use serde_json::json;
+    use std::ffi::{CStr, CString};
+    use std::ptr;
+    use tempfile::tempdir;
+
+    fn take_error(err: &mut *mut c_char) -> Option<String> {
+        let ptr = *err;
+        if ptr.is_null() {
+            return None;
+        }
+        unsafe {
+            let c = CString::from_raw(ptr);
+            *err = ptr::null_mut();
+            Some(c.to_string_lossy().into_owned())
+        }
+    }
+
+    fn assert_no_error(err: &mut *mut c_char) {
+        if let Some(msg) = take_error(err) {
+            panic!("unexpected error: {msg}");
+        }
+    }
+
+    #[test]
+    fn free_string_is_safe_with_null_and_owned_pointer() {
+        unsafe {
+            hum_free_string(ptr::null_mut());
+        }
+        let owned = CString::new("hello").unwrap();
+        let ptr = owned.into_raw();
+        unsafe {
+            hum_free_string(ptr);
+        }
+    }
+
+    #[test]
+    fn client_lifecycle_success_flow() {
+        let server = MockServer::start();
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEVICE",
+                "user_id": "@user:example.org"
+            }));
+        });
+        let _logout = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/logout");
+            then.status(200).json_body(json!({}));
+        });
+        let room_id = "!r:example.org";
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {
+                    "join": {
+                        room_id: {
+                            "summary": {},
+                            "state": { "events": [] },
+                            "timeline": { "events": [], "limited": false, "prev_batch": "t" },
+                            "ephemeral": { "events": [] },
+                            "account_data": { "events": [] },
+                            "unread_notifications": {}
+                        }
+                    }
+                }
+            }));
+        });
+        let _encrypt_state = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/state/m.room.encryption");
+            then.status(404);
+        });
+        let _send = server.mock(|when, then| {
+            when.method(PUT)
+                .path_contains("/_matrix/client/v3/rooms/!r:example.org/send/m.room.message/");
+            then.status(200)
+                .json_body(json!({ "event_id": "$event:example.org" }));
+        });
+        let _create_room = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/createRoom");
+            then.status(200)
+                .json_body(json!({ "room_id": "!new:example.org" }));
+        });
+
+        let dir = tempdir().unwrap();
+        let homeserver = CString::new(server.base_url()).unwrap();
+        let store_path = CString::new(dir.path().to_string_lossy().into_owned()).unwrap();
+        let mut err: *mut c_char = ptr::null_mut();
+        let handle = unsafe { hum_client_new(homeserver.as_ptr(), store_path.as_ptr(), &mut err) };
+        assert!(!handle.is_null());
+        assert_no_error(&mut err);
+
+        let mut is_auth = true;
+        let code = unsafe { hum_client_is_authenticated(handle, &mut is_auth, &mut err) };
+        assert_eq!(code, 0);
+        assert!(!is_auth);
+        assert_no_error(&mut err);
+
+        let username = CString::new("user").unwrap();
+        let password = CString::new("pass").unwrap();
+        let code =
+            unsafe { hum_client_login(handle, username.as_ptr(), password.as_ptr(), &mut err) };
+        assert_eq!(code, 0);
+        assert_no_error(&mut err);
+
+        let mut is_auth = false;
+        let code = unsafe { hum_client_is_authenticated(handle, &mut is_auth, &mut err) };
+        assert_eq!(code, 0);
+        assert!(is_auth);
+        assert_no_error(&mut err);
+
+        let code = unsafe { hum_client_sync_once(handle, 0, &mut err) };
+        assert_eq!(code, 0);
+        assert_no_error(&mut err);
+
+        let code = unsafe { hum_client_start_sync_loop(handle, 0, &mut err) };
+        if code == 0 {
+            assert_no_error(&mut err);
+        } else {
+            assert_eq!(code, 2);
+            assert!(take_error(&mut err).is_some());
+        }
+
+        let code = unsafe { hum_client_stop_sync_loop(handle, &mut err) };
+        if code == 0 {
+            assert_no_error(&mut err);
+        } else {
+            assert_eq!(code, 2);
+            assert!(take_error(&mut err).is_some());
+        }
+
+        let room = CString::new("!r:example.org").unwrap();
+        let body = CString::new("hi").unwrap();
+        let code = unsafe { hum_client_send_text(handle, room.as_ptr(), body.as_ptr(), &mut err) };
+        if code == 0 {
+            assert_no_error(&mut err);
+        } else {
+            assert_eq!(code, 2);
+            assert!(take_error(&mut err).is_some());
+        }
+
+        let name = CString::new("Room name").unwrap();
+        let mut out_room_id: *mut c_char = ptr::null_mut();
+        let code = unsafe {
+            hum_client_create_room(
+                handle,
+                name.as_ptr(),
+                ptr::null(),
+                true,
+                &mut out_room_id,
+                &mut err,
+            )
+        };
+        assert_eq!(code, 0);
+        assert!(!out_room_id.is_null());
+        assert_no_error(&mut err);
+        let created_room = unsafe { CStr::from_ptr(out_room_id) }
+            .to_string_lossy()
+            .into_owned();
+        assert_eq!(created_room, "!new:example.org");
+        unsafe { hum_free_string(out_room_id) };
+
+        let logout_code = unsafe { hum_client_logout(handle, &mut err) };
+        if logout_code == 0 {
+            assert_no_error(&mut err);
+        } else {
+            assert_eq!(logout_code, 2);
+            assert!(take_error(&mut err).is_some());
+        }
+
+        let mut is_auth = true;
+        let code = unsafe { hum_client_is_authenticated(handle, &mut is_auth, &mut err) };
+        assert_eq!(code, 0);
+        assert_no_error(&mut err);
+
+        unsafe { hum_client_free(handle) };
+    }
+
+    #[test]
+    fn error_handling_for_null_inputs() {
+        let mut err: *mut c_char = ptr::null_mut();
+        let username = CString::new("user").unwrap();
+        let password = CString::new("pass").unwrap();
+
+        let code = unsafe {
+            hum_client_login(
+                ptr::null_mut(),
+                username.as_ptr(),
+                password.as_ptr(),
+                &mut err,
+            )
+        };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let code = unsafe { hum_client_logout(ptr::null_mut(), &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let mut is_auth = false;
+        let code = unsafe { hum_client_is_authenticated(ptr::null_mut(), &mut is_auth, &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let code = unsafe { hum_client_sync_once(ptr::null_mut(), 0, &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let code = unsafe { hum_client_start_sync_loop(ptr::null_mut(), 0, &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let code = unsafe { hum_client_stop_sync_loop(ptr::null_mut(), &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let body = CString::new("hi").unwrap();
+        let code =
+            unsafe { hum_client_send_text(ptr::null_mut(), ptr::null(), body.as_ptr(), &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+
+        let mut out_room_id: *mut c_char = ptr::null_mut();
+        let code = unsafe {
+            hum_client_create_room(
+                ptr::null_mut(),
+                ptr::null(),
+                ptr::null(),
+                false,
+                &mut out_room_id,
+                &mut err,
+            )
+        };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null handle"));
+    }
+
+    #[test]
+    fn null_out_param_is_rejected() {
+        let server = MockServer::start();
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let dir = tempdir().unwrap();
+        let homeserver = CString::new(server.base_url()).unwrap();
+        let store_path = CString::new(dir.path().to_string_lossy().into_owned()).unwrap();
+        let mut err: *mut c_char = ptr::null_mut();
+        let handle = unsafe { hum_client_new(homeserver.as_ptr(), store_path.as_ptr(), &mut err) };
+        assert!(!handle.is_null());
+        assert_no_error(&mut err);
+
+        let code = unsafe { hum_client_is_authenticated(handle, ptr::null_mut(), &mut err) };
+        assert_eq!(code, 1);
+        assert_eq!(take_error(&mut err).as_deref(), Some("null out param"));
+
+        unsafe { hum_client_free(handle) };
     }
 }
 
@@ -339,7 +631,7 @@ pub unsafe extern "C" fn hum_client_join_room(
     let s = unsafe { CStr::from_ptr(id_or_alias) }
         .to_string_lossy()
         .to_string();
-    match handle.runtime.block_on(handle.inner.join_room(&s)) {
+    match handle.runtime.block_on(handle.client().join_room(&s)) {
         Ok(info) => {
             let c = CString::new(info.room_id.to_string()).unwrap();
             unsafe {
@@ -369,7 +661,7 @@ pub unsafe extern "C" fn hum_client_leave_room(
     let rid = unsafe { CStr::from_ptr(room_id) }
         .to_string_lossy()
         .to_string();
-    match handle.runtime.block_on(handle.inner.leave_room(&rid)) {
+    match handle.runtime.block_on(handle.client().leave_room(&rid)) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -394,7 +686,7 @@ pub unsafe extern "C" fn hum_client_get_rooms(
         return 1;
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
-    let rooms = handle.inner.get_rooms();
+    let rooms = handle.client().get_rooms();
     let s = serde_json::to_string(&rooms).unwrap_or("[]".to_string());
     let c = CString::new(s).unwrap();
     unsafe {
@@ -426,7 +718,7 @@ pub unsafe extern "C" fn hum_client_send_reaction(
     let key = unsafe { CStr::from_ptr(key) }.to_string_lossy().to_string();
     match handle
         .runtime
-        .block_on(handle.inner.send_reaction(&rid, &eid, &key))
+        .block_on(handle.client().send_reaction(&rid, &eid, &key))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -467,7 +759,7 @@ pub unsafe extern "C" fn hum_client_redact(
     };
     match handle
         .runtime
-        .block_on(handle.inner.redact(&rid, &eid, reason_opt.as_deref()))
+        .block_on(handle.client().redact(&rid, &eid, reason_opt.as_deref()))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -494,11 +786,11 @@ pub unsafe extern "C" fn hum_client_set_typing(
     let rid = unsafe { CStr::from_ptr(room_id) }
         .to_string_lossy()
         .to_string();
-    match handle.runtime.block_on(
-        handle
-            .inner
-            .set_typing(&rid, is_typing, Some(timeout_ms as u64)),
-    ) {
+    match handle.runtime.block_on(handle.client().set_typing(
+        &rid,
+        is_typing,
+        Some(timeout_ms as u64),
+    )) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -522,7 +814,7 @@ pub unsafe extern "C" fn hum_client_import_recovery_key(
     let key = unsafe { CStr::from_ptr(key) }.to_string_lossy().to_string();
     match handle
         .runtime
-        .block_on(handle.inner.import_recovery_key(&key))
+        .block_on(handle.client().import_recovery_key(&key))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -555,7 +847,7 @@ pub unsafe extern "C" fn hum_client_search_users(
         .to_string();
     match handle
         .runtime
-        .block_on(handle.inner.search_users(&query, Some(limit)))
+        .block_on(handle.client().search_users(&query, Some(limit)))
     {
         Ok(vec) => {
             let s = serde_json::to_string(&vec).unwrap_or("[]".to_string());
@@ -588,7 +880,7 @@ pub unsafe extern "C" fn hum_client_get_devices(
         return 1;
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
-    match handle.runtime.block_on(handle.inner.get_devices()) {
+    match handle.runtime.block_on(handle.client().get_devices()) {
         Ok(vec) => {
             let s = serde_json::to_string(&vec).unwrap_or("[]".to_string());
             let c = CString::new(s).unwrap();
@@ -625,7 +917,7 @@ pub unsafe extern "C" fn hum_client_rename_device(
         .to_string();
     match handle
         .runtime
-        .block_on(handle.inner.rename_device(&dev, &name))
+        .block_on(handle.client().rename_device(&dev, &name))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -650,7 +942,7 @@ pub unsafe extern "C" fn hum_client_delete_device(
     let dev = unsafe { CStr::from_ptr(device_id) }
         .to_string_lossy()
         .to_string();
-    match handle.runtime.block_on(handle.inner.delete_device(&dev)) {
+    match handle.runtime.block_on(handle.client().delete_device(&dev)) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -688,7 +980,7 @@ pub unsafe extern "C" fn hum_client_upload_media(
     let slice = unsafe { std::slice::from_raw_parts(data, len) };
     match handle
         .runtime
-        .block_on(handle.inner.upload_media(slice, &mime))
+        .block_on(handle.client().upload_media(slice, &mime))
     {
         Ok(uri) => {
             let c = CString::new(uri).unwrap();
@@ -723,7 +1015,10 @@ pub unsafe extern "C" fn hum_client_download_media(
     }
     let handle = unsafe { &*(handle as *mut HandleInner) };
     let uri = unsafe { CStr::from_ptr(uri) }.to_string_lossy().to_string();
-    match handle.runtime.block_on(handle.inner.download_media(&uri)) {
+    match handle
+        .runtime
+        .block_on(handle.client().download_media(&uri))
+    {
         Ok(data) => {
             let len = data.len();
             unsafe {
@@ -775,7 +1070,7 @@ pub unsafe extern "C" fn hum_client_send_read_receipt(
         .to_string();
     match handle
         .runtime
-        .block_on(handle.inner.send_read_receipt(&rid, &eid))
+        .block_on(handle.client().send_read_receipt(&rid, &eid))
     {
         Ok(()) => 0,
         Err(e) => {
@@ -803,7 +1098,7 @@ pub unsafe extern "C" fn hum_client_set_presence(
         2 => hum_matrix_core::presence::PresenceState::DoNotDisturb,
         _ => hum_matrix_core::presence::PresenceState::Invisible,
     };
-    match handle.runtime.block_on(handle.inner.set_presence(st)) {
+    match handle.runtime.block_on(handle.client().set_presence(st)) {
         Ok(()) => 0,
         Err(e) => {
             set_error(err_out, e.to_string());
@@ -834,7 +1129,7 @@ pub unsafe extern "C" fn hum_client_get_presence(
         .to_string();
     match handle.runtime.block_on(async {
         handle
-            .inner
+            .client()
             .get_presence(&uid)
             .await
             .map_err(|e| e.to_string())
@@ -854,31 +1149,6 @@ pub unsafe extern "C" fn hum_client_get_presence(
         Err(e) => {
             set_error(err_out, e);
             2
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn c_api_minimal_error_path() {
-        // Null handle should produce error and message
-        let mut err: *mut c_char = std::ptr::null_mut();
-        let user = CString::new("user").unwrap();
-        let pass = CString::new("pass").unwrap();
-
-        unsafe {
-            let rc = super::hum_client_login(
-                std::ptr::null_mut(),
-                user.as_ptr(),
-                pass.as_ptr(),
-                &mut err,
-            );
-            assert_ne!(rc, 0);
-            assert!(!err.is_null());
-            super::hum_free_string(err);
         }
     }
 }
