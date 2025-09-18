@@ -1,8 +1,9 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FeatureCard renders and matches snapshot 1`] = `
 <div
   className="css-view-g5y9jx r-borderWidth-rs99b7"
+  data-testid="feature-card"
   dir={null}
   ref={[Function]}
   style={

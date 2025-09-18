@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
 import { SettingsItem } from '@hum/ui-components';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { SettingsScreen, type SettingsScreenProps } from './SettingsScreen';
@@ -26,14 +25,14 @@ describe('SettingsScreen', () => {
   it('renders basic elements', () => {
     const { getByLabelText } = renderScreen();
     // TopBar search input exists on this screen
-    expect(getByLabelText('Search')).toBeTruthy();
+    expect(getByLabelText('Search')).toBeOnTheScreen();
   });
 
   it('updates search input text', () => {
     const { getByLabelText } = renderScreen();
     const input = getByLabelText('Search');
     fireEvent.changeText(input, 'hello');
-    expect(input.props.value).toBe('hello');
+    expect(input).toHaveProp('value', 'hello');
   });
 
   it('fires onBack when back button pressed', () => {
@@ -47,15 +46,16 @@ describe('SettingsScreen', () => {
     const { getByLabelText } = renderScreen('light', {
       children: <SettingsItem title="Theme" />,
     });
-    expect(getByLabelText('Theme')).toBeTruthy();
+    expect(getByLabelText('Theme')).toBeOnTheScreen();
   });
 
   it('renders in light and dark themes', () => {
-    const { rerender } = renderScreen('light');
+    const { rerender, getByLabelText } = renderScreen('light');
     rerender(
       <ThemeProvider forcedScheme="dark">
         <SettingsScreen />
       </ThemeProvider>,
     );
+    expect(getByLabelText('Search')).toBeOnTheScreen();
   });
 });

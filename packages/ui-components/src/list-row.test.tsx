@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 
 import { ListRow, type ListRowProps } from './list-row';
 import { ThemeProvider } from './theme/theme-provider';
 import { Icon } from './theme/icon';
+import { colors } from './theme/colors';
 
 const baseProps: ListRowProps = {
   label: 'Archiviert',
@@ -24,29 +24,29 @@ function renderRow(scheme: Scheme = 'light', props?: Partial<ListRowProps>) {
 
 describe('ListRow', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderRow();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderRow();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('fires onPress when pressed', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderRow('light', { onPress });
-    fireEvent.click(getByLabelText('Archiviert'));
+    fireEvent.press(getByLabelText('Archiviert'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { getByText, rerender } = renderRow('light');
-    expect(getByText('Archiviert')).toHaveStyle({
-      color: 'rgba(10,10,10,1.00)',
-    });
+    const { UNSAFE_getByProps, rerender } = renderRow('light');
+    const lightStyle = UNSAFE_getByProps({ children: 'Archiviert' }).props
+      .style as Record<string, unknown>;
+    expect(lightStyle).toMatchObject({ color: colors.light.foreground });
     rerender(
       <ThemeProvider forcedScheme="dark">
         <ListRow {...baseProps} />
       </ThemeProvider>,
     );
-    expect(getByText('Archiviert')).toHaveStyle({
-      color: 'rgba(250,250,250,1.00)',
-    });
+    const darkStyle = UNSAFE_getByProps({ children: 'Archiviert' }).props
+      .style as Record<string, unknown>;
+    expect(darkStyle).toMatchObject({ color: colors.dark.foreground });
   });
 });

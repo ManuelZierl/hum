@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-raw-text */
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 // Temporary workaround for missing Jest Native matcher typings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const expectAny = expect as any;
@@ -37,47 +36,59 @@ function renderAvatar(
 
 describe('Avatar', () => {
   it('renders fallback and matches snapshot', () => {
-    const { baseElement } = renderAvatar();
-    expectAny(screen.getByTestId('fallback')).toBeInTheDocument();
-    expectAny(baseElement).toMatchSnapshot();
+    const { toJSON, UNSAFE_getByProps } = renderAvatar();
+    expectAny(UNSAFE_getByProps({ 'data-testid': 'fallback' })).toBeTruthy();
+    expectAny(toJSON()).toMatchSnapshot();
   });
 
   it('supports custom size', () => {
-    renderAvatar('light', { size: 80 });
-    expectAny(screen.getByTestId('avatar')).toHaveStyle({
-      width: '80px',
-      height: '80px',
-    });
+    const { UNSAFE_getByProps } = renderAvatar('light', { size: 80 });
+    const avatar = UNSAFE_getByProps({ 'data-testid': 'avatar' });
+    expectAny(avatar.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ width: 80, height: 80 }),
+      ]),
+    );
   });
 
   it('shows fallback when image fails to load', () => {
-    renderAvatar('light', undefined, true);
-    const img = screen.getByAltText('');
-    fireEvent.error(img);
-    expectAny(screen.getByTestId('fallback')).toBeInTheDocument();
+    const { UNSAFE_getByProps } = renderAvatar('light', undefined, true);
+    const image = UNSAFE_getByProps({ 'data-testid': 'image' });
+    fireEvent(image, 'error');
+    expectAny(UNSAFE_getByProps({ 'data-testid': 'fallback' })).toBeTruthy();
   });
 
   it('calls onPress when provided', () => {
     const onPress = jest.fn();
-    renderAvatar('light', { onPress }, true);
-    fireEvent.click(screen.getByTestId('avatar'));
+    const { UNSAFE_getByProps } = renderAvatar('light', { onPress }, true);
+    fireEvent.press(UNSAFE_getByProps({ 'data-testid': 'avatar' }));
     expectAny(onPress).toHaveBeenCalled();
   });
 
   it('applies theme colors', () => {
-    const { unmount } = renderAvatar('light');
-    expectAny(screen.getByTestId('fallback')).toHaveStyle({
-      backgroundColor: colors.light.muted,
-    });
+    const { unmount, UNSAFE_getByProps } = renderAvatar('light');
+    expectAny(
+      UNSAFE_getByProps({ 'data-testid': 'fallback' }).props.style,
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ backgroundColor: colors.light.muted }),
+      ]),
+    );
     unmount();
-    renderAvatar('dark');
-    expectAny(screen.getByTestId('fallback')).toHaveStyle({
-      backgroundColor: colors.dark.muted,
-    });
+    const { UNSAFE_getByProps: getByPropsDark } = renderAvatar('dark');
+    expectAny(
+      getByPropsDark({ 'data-testid': 'fallback' }).props.style,
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ backgroundColor: colors.dark.muted }),
+      ]),
+    );
   });
 
   it('has appropriate accessibility role', () => {
-    renderAvatar();
-    expectAny(screen.getByTestId('avatar')).toHaveAttribute('role', 'img');
+    const { UNSAFE_getByProps } = renderAvatar();
+    expectAny(
+      UNSAFE_getByProps({ 'data-testid': 'avatar' }).props.accessibilityRole,
+    ).toBe('image');
   });
 });

@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 import { CallItem, type CallItemProps } from './call-item';
 import { ThemeProvider } from './theme/theme-provider';
+import { Text } from 'react-native';
+import type { ReactTestInstance } from 'react-test-renderer';
 
 type Scheme = 'light' | 'dark';
 
@@ -25,17 +26,28 @@ describe('CallItem', () => {
   it('renders and handles press', () => {
     const onPress = jest.fn();
     const { getByLabelText } = renderItem('light', { onPress });
-    fireEvent.click(getByLabelText('Call with Alice'));
+    fireEvent.press(getByLabelText('Call with Alice'));
     expect(onPress).toHaveBeenCalled();
   });
 
   it('renders video action', () => {
     const { getByLabelText } = renderItem('light', { isVideo: true });
-    expect(getByLabelText('Call video')).toBeInTheDocument();
+    expect(getByLabelText('Call video')).toBeOnTheScreen();
   });
 
   it('missed call uses destructive color', () => {
-    const { getByText } = renderItem('light', { type: 'missed' });
-    expect(getByText('Yesterday, 18:40')).toHaveStyle({ color: '#D4183D' });
+    const { UNSAFE_getAllByType } = renderItem('light', { type: 'missed' });
+    const texts = UNSAFE_getAllByType(Text);
+    const findText = (node: ReactTestInstance) => {
+      const c = node?.props?.children;
+      const s = Array.isArray(c) ? c.join('') : String(c ?? '');
+      return s.includes('Yesterday, 18:40');
+    };
+    const subtitle = texts.find(findText);
+    expect(subtitle).toBeTruthy();
+    const style = Array.isArray(subtitle!.props.style)
+      ? Object.assign({}, ...subtitle!.props.style)
+      : subtitle!.props.style;
+    expect(style.color).toBe('#D4183D');
   });
 });
