@@ -158,7 +158,7 @@ mod tests {
     use httpmock::prelude::*;
     use matrix_sdk::{
         config::SyncSettings,
-        ruma::{OwnedRoomId, RoomId, UserId},
+        ruma::{RoomId, UserId},
     };
     use serde_json::json;
     use tempfile::tempdir;
@@ -453,7 +453,7 @@ mod tests {
 
         let room_id = RoomId::parse("!room:example.org").unwrap();
         let info = client.get_room(&room_id).unwrap();
-        assert_eq!(info.room_id, OwnedRoomId::from(room_id));
+        assert_eq!(info.room_id, room_id);
     }
 
     #[tokio::test]
