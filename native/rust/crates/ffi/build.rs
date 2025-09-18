@@ -1,6 +1,6 @@
 fn main() {
-    println!("cargo:rerun-if-changed=src/lib.rs");
-    println!("cargo:rerun-if-changed=src/c_api.rs");
+    println!("cargo:rerun-if-changed=src");
+    println!("cargo:rerun-if-changed=Cargo.toml");
 
     // Generate C header for the C ABI as include/hum.h
     let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
