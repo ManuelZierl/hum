@@ -822,17 +822,17 @@ mod tests {
         });
         let _send = server.mock(|when, then| {
             when.method(PUT)
-                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/send/"));
+                .path_contains(format!("/_matrix/client/v3/rooms/{room_id}/send/"));
             then.status(200).json_body(json!({ "event_id": event_id }));
         });
         let _redact = server.mock(|when, then| {
             when.method(PUT)
-                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/redact/"));
+                .path_contains(format!("/_matrix/client/v3/rooms/{room_id}/redact/"));
             then.status(200).json_body(json!({ "event_id": event_id }));
         });
         let _typing = server.mock(|when, then| {
             when.method(PUT)
-                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/typing/"));
+                .path_contains(format!("/_matrix/client/v3/rooms/{room_id}/typing/"));
             then.status(200).json_body(json!({}));
         });
         let _create_room = server.mock(|when, then| {
@@ -847,7 +847,7 @@ mod tests {
         });
         let _leave = server.mock(|when, then| {
             when.method(POST)
-                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/leave"));
+                .path_contains(format!("/_matrix/client/v3/rooms/{room_id}/leave"));
             then.status(200).json_body(json!({}));
         });
         let _search = server.mock(|when, then| {
@@ -1014,30 +1014,5 @@ mod tests {
         logout.compute().unwrap();
 
         client_free(handle);
-
-        drop((
-            _versions,
-            _well_known,
-            _login,
-            _logout,
-            _sync,
-            _encryption,
-            _send,
-            _redact,
-            _typing,
-            _create_room,
-            _join,
-            _leave,
-            _search,
-            _devices,
-            _rename_device,
-            _delete_device,
-            _set_presence,
-            _get_presence,
-            _upload_cfg,
-            _upload,
-            _download,
-            _fallback,
-        ));
     }
 }
