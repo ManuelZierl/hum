@@ -2,11 +2,14 @@
 #![cfg_attr(coverage_nightly, feature(coverage_attribute))]
 
 use std::{
+    backtrace::Backtrace,
     ffi::{CStr, CString},
+    io::{self, Write},
     os::raw::{c_char, c_int},
     path::PathBuf,
     ptr,
-    sync::Arc,
+    sync::{Arc, Once},
+    thread,
 };
 
 use hum_matrix_core::rooms::CreateRoomOptions;
@@ -55,6 +58,27 @@ pub(crate) fn set_error(err_out: *mut *mut c_char, msg: String) {
     unsafe {
         *err_out = c.into_raw();
     }
+}
+
+static PANIC_HOOK: Once = Once::new();
+
+pub(crate) fn install_panic_hook() {
+    PANIC_HOOK.call_once(|| {
+        std::panic::set_hook(Box::new(|info| {
+            let thread = thread::current();
+            let thread_name = thread.name().unwrap_or("unnamed");
+            let thread_id = format!("{:?}", thread.id());
+
+            let mut stderr = io::stderr();
+            let _ = writeln!(
+                stderr,
+                "[hum-ffi][panic] thread={thread_name} id={thread_id}: {info}"
+            );
+            let backtrace = Backtrace::force_capture();
+            let _ = writeln!(stderr, "[hum-ffi][panic] backtrace:\n{backtrace}");
+            let _ = stderr.flush();
+        }));
+    });
 }
 
 // Expose submodules
