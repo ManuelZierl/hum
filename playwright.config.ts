@@ -4,7 +4,7 @@ const PORT = 6006;
 const isStatic = !!process.env.SB_STATIC;
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: './apps/storybook/e2e',
   use: {
     baseURL: `http://localhost:${PORT}`,
   },

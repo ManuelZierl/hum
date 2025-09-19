@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet, useColorScheme, Text } from 'react-native';
+import { View, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   BottomNavigation,
   ThemeProvider,
   OverlayProvider,
-  Button,
 } from '@hum/ui-components';
 import Constants from 'expo-constants';
 import {
@@ -19,6 +18,7 @@ import {
 import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
+import { DevToolsOverlay } from './src/DevToolsOverlay';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '@hum/i18n';
@@ -57,39 +57,54 @@ function AppInner() {
     };
   }, [selectedChat, getMessages]);
 
+  const renderCurrentScreen = () => {
+    if (showDev) {
+      return <DevNativeBridgeScreen onBack={() => setShowDev(false)} />;
+    }
+
+    if (selectedChat) {
+      return (
+        <ChatScreen
+          chatName={selectedChat.name}
+          chatAvatar={selectedChat.avatar}
+          messages={chatMessages}
+          onBack={() => setSelectedChat(null)}
+        />
+      );
+    }
+
+    switch (activeTab) {
+      case 'chats':
+        return <ChatsFromProvider onNavigateToChat={setSelectedChat} />;
+      case 'calls':
+        return <CallsScreen />;
+      case 'payments':
+      case 'lightning':
+        return <LightningScreen />;
+      case 'settings':
+      default:
+        return settingsView === 'theme' ? (
+          <ThemeSettingsScreen
+            theme={theme}
+            onBack={() => setSettingsView('main')}
+            onSelectTheme={setTheme}
+          />
+        ) : (
+          <MainSettingsScreen
+            theme={theme}
+            onNavigateToTheme={() => setSettingsView('theme')}
+          />
+        );
+    }
+  };
+
   return (
     <GestureHandlerRootView style={styles.gestureRoot}>
       <SafeAreaProvider>
         <ThemeProvider forcedScheme={resolvedScheme}>
           <OverlayProvider>
             <View style={styles.container}>
-              {showDev ? (
-                <DevNativeBridgeScreen onBack={() => setShowDev(false)} />
-              ) : selectedChat ? (
-                <ChatScreen
-                  chatName={selectedChat.name}
-                  chatAvatar={selectedChat.avatar}
-                  messages={chatMessages}
-                  onBack={() => setSelectedChat(null)}
-                />
-              ) : activeTab === 'chats' ? (
-                <ChatsFromProvider onNavigateToChat={setSelectedChat} />
-              ) : activeTab === 'calls' ? (
-                <CallsScreen />
-              ) : activeTab === 'payments' || activeTab === 'lightning' ? (
-                <LightningScreen />
-              ) : settingsView === 'theme' ? (
-                <ThemeSettingsScreen
-                  theme={theme}
-                  onBack={() => setSettingsView('main')}
-                  onSelectTheme={setTheme}
-                />
-              ) : (
-                <MainSettingsScreen
-                  theme={theme}
-                  onNavigateToTheme={() => setSettingsView('theme')}
-                />
-              )}
+              {renderCurrentScreen()}
               {!selectedChat && !showDev && (
                 <BottomNavigation
                   activeTab={activeTab}
@@ -97,30 +112,10 @@ function AppInner() {
                 />
               )}
               {enableDev && !showDev && (
-                <View style={styles.devButtonWrap}>
-                  <View
-                    style={styles.devEntry}
-                    testID="btnOpenDev"
-                    onTouchEnd={() => setShowDev(true)}
-                  />
-                  <View style={styles.langRow}>
-                    <Button
-                      size="sm"
-                      onPress={() => i18next.changeLanguage('en')}
-                      testID="btnEn"
-                    >
-                      <Text>EN</Text>
-                    </Button>
-                    <View style={styles.langSpacer} />
-                    <Button
-                      size="sm"
-                      onPress={() => i18next.changeLanguage('de')}
-                      testID="btnDe"
-                    >
-                      <Text>DE</Text>
-                    </Button>
-                  </View>
-                </View>
+                <DevToolsOverlay
+                  onOpenDev={() => setShowDev(true)}
+                  onSelectLanguage={i18next.changeLanguage}
+                />
               )}
             </View>
           </OverlayProvider>
@@ -152,17 +147,4 @@ export default function App() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   gestureRoot: { flex: 1 },
-  devButtonWrap: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-  },
-  devEntry: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#FF00AA',
-  },
-  langSpacer: { width: 8 },
-  langRow: { flexDirection: 'row', marginTop: 8 },
 });
