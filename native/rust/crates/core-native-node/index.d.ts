@@ -5,19 +5,19 @@
 
 export declare function debugPrint(msg: string): void;
 export declare function debugTcpConnect(host: string, port: number): boolean;
-export declare function debugHttpGet(url: string): Promise<string>;
+export declare function debugHttpGet(url: string): Promise<unknown>;
 export interface Void {}
 export declare function createClient(
   hsUrl: string,
   storePath: string,
-): Promise<bigint>;
+): Promise<unknown>;
 export declare function clientLogin(
   handle: bigint,
   username: string,
   password: string,
-): Promise<Void>;
-export declare function clientLogout(handle: bigint): Promise<Void>;
-export declare function clientIsAuthenticated(handle: bigint): Promise<boolean>;
+): Promise<unknown>;
+export declare function clientLogout(handle: bigint): Promise<unknown>;
+export declare function clientIsAuthenticated(handle: bigint): Promise<unknown>;
 export declare function clientFree(handle: bigint): void;
 export declare function clientGetRooms(handle: bigint): string;
 export declare function clientSendText(

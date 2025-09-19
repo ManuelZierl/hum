@@ -113,8 +113,11 @@ impl HumClient {
     /// Stop continuous sync loop if running.
     pub async fn stop_sync_loop(&self) -> Result<()> {
         let mut guard = self.sync_task.lock().await;
-        if let Some(handle) = guard.take() {
+        let handle = guard.take();
+        drop(guard);
+        if let Some(handle) = handle {
             handle.abort();
+            let _ = handle.await;
         }
         Ok(())
     }
