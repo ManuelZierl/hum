@@ -27,6 +27,8 @@ Use this site to learn how to use, develop, and contribute to Hum.
    - [Contributing](development/contributing.md)
    - [Theming](development/theming.md)
    - [Testing](development/testing.md)
+   - [Dev Client Setup](development/dev_client.md)
+   - [Internationalization](development/i18n.md)
 
 3. **[Community](community/index.md)**
    - [Governance](community/governance.md)
