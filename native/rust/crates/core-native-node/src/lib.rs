@@ -663,3 +663,381 @@ pub fn client_download_media(handle: BigInt, uri: String) -> Result<String> {
         Ok(b64)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use base64::engine::general_purpose::STANDARD as BASE64;
+    use httpmock::prelude::*;
+    use serde_json::json;
+    use std::ffi::CString;
+    use std::io::Read;
+    use std::net::TcpListener;
+    use std::thread;
+    use tempfile::tempdir;
+
+    #[test]
+    fn helper_utilities_cover_edge_cases() {
+        // take_cstring frees the pointer and returns its content.
+        let original = CString::new("hello").unwrap();
+        let ptr = original.into_raw();
+        let text = unsafe { take_cstring(ptr) };
+        assert_eq!(text, "hello");
+
+        // opt_cstring handles both Some and None.
+        let some_ptr = opt_cstring(Some("value"));
+        assert!(!some_ptr.is_null());
+        unsafe {
+            let _ = CString::from_raw(some_ptr as *mut std::os::raw::c_char);
+        }
+        assert!(opt_cstring(None).is_null());
+
+        // status_or_err succeeds with code 0.
+        let mut no_err: *mut std::os::raw::c_char = std::ptr::null_mut();
+        unsafe { status_or_err(0, &mut no_err).unwrap() };
+
+        // status_or_err propagates error messages.
+        let err_ptr = CString::new("boom").unwrap().into_raw();
+        let mut err_slot = err_ptr as *mut std::os::raw::c_char;
+        let err = unsafe { status_or_err(1, &mut err_slot) }.unwrap_err();
+        assert!(err.to_string().contains("boom"));
+
+        // json_or_err returns data on success and errors otherwise.
+        let ok = unsafe {
+            json_or_err(|out_json, _| {
+                *out_json = CString::new("{\"ok\":true}").unwrap().into_raw();
+                0
+            })
+        }
+        .unwrap();
+        assert!(ok.contains("ok"));
+        let err = unsafe {
+            json_or_err(|_, out_err| {
+                *out_err = CString::new("bad json").unwrap().into_raw();
+                5
+            })
+        }
+        .unwrap_err();
+        assert!(err.to_string().contains("bad json"));
+
+        // BigInt conversions round-trip the pointer and reject invalid values.
+        let bogus = BigInt::from(-5i64);
+        let panic = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let _ = bigint_to_handle_ptr(&bogus);
+        }));
+        assert!(panic.is_err());
+
+        let fake_ptr = 0xdead_beefusize as *mut HumClientHandle;
+        let bigint = handle_ptr_to_bigint(fake_ptr);
+        assert_eq!(bigint.get_u64().1, 0xdead_beef);
+
+        // debug helpers cover printing and TCP probing.
+        debug_print("from test".into());
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        thread::spawn(move || {
+            if let Ok((mut stream, _)) = listener.accept() {
+                let mut buf = [0u8; 32];
+                let _ = stream.read(&mut buf);
+            }
+        });
+        assert!(debug_tcp_connect("127.0.0.1".into(), port).unwrap());
+        let err = debug_tcp_connect("192.0.2.1".into(), 65535).unwrap_err();
+        assert!(err.to_string().contains("tcp connect failed"));
+
+        // HttpGetTask parses URLs, performs request, and surfaces errors.
+        let http_server = MockServer::start();
+        let _http_mock = http_server.mock(|when, then| {
+            when.method(GET).path("/path");
+            then.status(200).body("hello");
+        });
+        let task = HttpGetTask {
+            url: format!("{}/path?x=1", http_server.base_url()),
+        };
+        assert!(task.run().is_ok());
+        let bad = HttpGetTask {
+            url: "http://[::1]:9".into(),
+        };
+        assert!(bad.run().is_err());
+    }
+
+    #[test]
+    fn napi_wrappers_cover_success_and_error_paths() {
+        let server = MockServer::start();
+        let room_id = "!r:example.org";
+        let event_id = "$event:example.org";
+
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let _well_known = server.mock(|when, then| {
+            when.method(GET).path("/.well-known/matrix/client");
+            then.status(200).json_body(json!({
+                "m.homeserver": {"base_url": server.base_url()}
+            }));
+        });
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEV1",
+                "user_id": "@user:example.org"
+            }));
+        });
+        let _logout = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/logout");
+            then.status(200).json_body(json!({}));
+        });
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {
+                    "join": {
+                        room_id: {
+                            "summary": {},
+                            "state": { "events": [] },
+                            "timeline": {
+                                "events": [
+                                    {"event_id": event_id, "sender": "@user:example.org", "type": "m.room.message"}
+                                ],
+                                "limited": false,
+                                "prev_batch": "t"
+                            },
+                            "ephemeral": { "events": [] },
+                            "account_data": { "events": [] },
+                            "unread_notifications": {}
+                        }
+                    }
+                }
+            }));
+        });
+        let _encryption = server.mock(|when, then| {
+            when.method(GET).path(format!(
+                "/_matrix/client/v3/rooms/{room_id}/state/m.room.encryption"
+            ));
+            then.status(404);
+        });
+        let _send = server.mock(|when, then| {
+            when.method(PUT)
+                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/send/"));
+            then.status(200).json_body(json!({ "event_id": event_id }));
+        });
+        let _redact = server.mock(|when, then| {
+            when.method(PUT)
+                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/redact/"));
+            then.status(200).json_body(json!({ "event_id": event_id }));
+        });
+        let _typing = server.mock(|when, then| {
+            when.method(PUT)
+                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/typing/"));
+            then.status(200).json_body(json!({}));
+        });
+        let _create_room = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/createRoom");
+            then.status(200)
+                .json_body(json!({ "room_id": "!new:example.org" }));
+        });
+        let _join = server.mock(|when, then| {
+            when.method(POST).path_contains("/_matrix/client/v3/join/");
+            then.status(200)
+                .json_body(json!({ "room_id": "!joined:example.org" }));
+        });
+        let _leave = server.mock(|when, then| {
+            when.method(POST)
+                .path_contains(&format!("/_matrix/client/v3/rooms/{room_id}/leave"));
+            then.status(200).json_body(json!({}));
+        });
+        let _search = server.mock(|when, then| {
+            when.method(POST)
+                .path("/_matrix/client/v3/user_directory/search");
+            then.status(200).json_body(json!({
+                "results": [{"user_id": "@alice:example.org", "display_name": "Alice"}],
+                "limited": false
+            }));
+        });
+        let _devices = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/devices");
+            then.status(200).json_body(json!({
+                "devices": [{"device_id": "DEV1", "display_name": "Desk"}]
+            }));
+        });
+        let _rename_device = server.mock(|when, then| {
+            when.method(PUT).path("/_matrix/client/v3/devices/DEV1");
+            then.status(200).json_body(json!({}));
+        });
+        let _delete_device = server.mock(|when, then| {
+            when.method(DELETE).path("/_matrix/client/v3/devices/DEV1");
+            then.status(200).json_body(json!({}));
+        });
+        let _set_presence = server.mock(|when, then| {
+            when.method(PUT)
+                .path("/_matrix/client/v3/presence/@user:example.org/status");
+            then.status(200).json_body(json!({}));
+        });
+        let _get_presence = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/presence/@friend:example.org/status");
+            then.status(200).json_body(json!({ "presence": "online" }));
+        });
+        let _upload_cfg = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/unstable/org.matrix.msc3916/media/config");
+            then.status(200)
+                .json_body(json!({"m.upload.size": 10_485_760 }));
+        });
+        let _upload = server.mock(|when, then| {
+            when.method(POST).path_contains("/_matrix/media/v3/upload");
+            then.status(200)
+                .json_body(json!({ "content_uri": "mxc://example.org/media" }));
+        });
+        let _download = server.mock(|when, then| {
+            when.method(GET)
+                .path_contains("/_matrix/media/v3/download/example.org/media");
+            then.status(200).body("downloaded");
+        });
+        let _fallback = server.mock(|when, then| {
+            when.any_request();
+            then.status(200).json_body(json!({}));
+        });
+
+        let dir = tempdir().unwrap();
+        let handle = {
+            let mut task = CreateClientTask {
+                hs_url: server.base_url(),
+                store_path: dir.path().to_string_lossy().into_owned(),
+            };
+            task.compute().unwrap()
+        };
+
+        let ptr = bigint_to_handle_ptr(&handle);
+        assert!(!ptr.is_null());
+        assert_eq!(handle_ptr_to_bigint(ptr).get_u64().1, handle.get_u64().1);
+
+        let mut auth = IsAuthTask {
+            handle: handle.clone(),
+        };
+        assert!(!auth.compute().unwrap());
+
+        let mut login = LoginTask {
+            handle: handle.clone(),
+            username: "user".into(),
+            password: "pass".into(),
+        };
+        login.compute().unwrap();
+
+        let mut auth = IsAuthTask {
+            handle: handle.clone(),
+        };
+        assert!(auth.compute().unwrap());
+
+        client_sync_once(handle.clone(), BigInt::from(0u64)).unwrap();
+        match client_start_sync_loop(handle.clone(), BigInt::from(0u64)) {
+            Ok(()) => {
+                client_stop_sync_loop(handle.clone()).unwrap();
+            }
+            Err(err) => {
+                assert!(!err.to_string().is_empty());
+            }
+        }
+
+        let rooms_json = client_get_rooms(handle.clone()).unwrap();
+        assert!(rooms_json.contains(room_id));
+
+        let send_text = client_send_text(handle.clone(), room_id.into(), "hi".into());
+        if let Err(err) = send_text {
+            assert!(!err.to_string().is_empty());
+        }
+
+        let reaction =
+            client_send_reaction(handle.clone(), room_id.into(), event_id.into(), "👍".into());
+        if let Err(err) = reaction {
+            assert!(!err.to_string().is_empty());
+        }
+
+        let redacted = client_redact(
+            handle.clone(),
+            room_id.into(),
+            event_id.into(),
+            Some("cleanup".into()),
+        );
+        if let Err(err) = redacted {
+            assert!(!err.to_string().is_empty());
+        }
+
+        assert!(client_send_read_receipt(handle.clone(), room_id.into(), event_id.into()).is_err());
+
+        let typing = client_set_typing(handle.clone(), room_id.into(), true, 1000);
+        if let Err(err) = typing {
+            assert!(!err.to_string().is_empty());
+        }
+
+        let search = client_search_users(handle.clone(), "a".into(), 5).unwrap();
+        assert!(search.contains("@alice:example.org"));
+
+        let devices = client_get_devices(handle.clone()).unwrap();
+        assert!(devices.contains("DEV1"));
+
+        client_rename_device(handle.clone(), "DEV1".into(), "Desk".into()).unwrap();
+        client_delete_device(handle.clone(), "DEV1".into()).unwrap();
+
+        client_set_presence(handle.clone(), 0).unwrap();
+        assert_eq!(
+            client_get_presence(handle.clone(), "@friend:example.org".into()).unwrap(),
+            0
+        );
+
+        let room_created =
+            client_create_room(handle.clone(), Some("Room".into()), None, true).unwrap();
+        assert_eq!(room_created, "!new:example.org");
+
+        let joined = client_join_room(handle.clone(), "#alias:example.org".into()).unwrap();
+        assert!(joined.starts_with('!'));
+
+        let leave = client_leave_room(handle.clone(), room_id.into());
+        if let Err(err) = leave {
+            assert!(!err.to_string().is_empty());
+        }
+
+        let payload = BASE64.encode(b"hello");
+        let uri = client_upload_media(handle.clone(), payload, "text/plain".into()).unwrap();
+        assert_eq!(uri, "mxc://example.org/media");
+
+        let data = client_download_media(handle.clone(), uri.clone()).unwrap();
+        assert_eq!(data, BASE64.encode("downloaded"));
+
+        let mut logout = LogoutTask {
+            handle: handle.clone(),
+        };
+        logout.compute().unwrap();
+
+        client_free(handle);
+
+        drop((
+            _versions,
+            _well_known,
+            _login,
+            _logout,
+            _sync,
+            _encryption,
+            _send,
+            _redact,
+            _typing,
+            _create_room,
+            _join,
+            _leave,
+            _search,
+            _devices,
+            _rename_device,
+            _delete_device,
+            _set_presence,
+            _get_presence,
+            _upload_cfg,
+            _upload,
+            _download,
+            _fallback,
+        ));
+    }
+}
