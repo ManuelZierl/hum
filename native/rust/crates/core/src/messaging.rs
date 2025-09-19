@@ -221,4 +221,230 @@ mod tests {
 
         client.send_read_receipt(room_id, "$ev").await.unwrap_or(());
     }
+
+    #[tokio::test]
+    async fn send_text_message_aliases_send_text() {
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(
+            "https://example.com".into(),
+            dir.path().to_path_buf(),
+        );
+        let client = HumClient::new(cfg).await.unwrap();
+
+        let err = client
+            .send_text_message("!room:example.com", "hi")
+            .await
+            .unwrap_err();
+
+        match err {
+            HumError::Other(msg) => assert_eq!(msg, "room not found"),
+            other => panic!("unexpected error variant: {other:?}"),
+        }
+    }
+
+    #[tokio::test]
+    async fn send_reaction_reaches_server() {
+        let server = MockServer::start();
+
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEVICE",
+                "user_id": "@user:example.org"
+            }));
+        });
+        let room_id = "!r:example.org";
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {"join": {"!r:example.org": {
+                    "summary": {},
+                    "state": { "events": [] },
+                    "timeline": { "events": [], "limited": false, "prev_batch": "t" },
+                    "ephemeral": { "events": [] },
+                    "account_data": { "events": [] },
+                    "unread_notifications": {},
+                }}}
+            }));
+        });
+        let _encrypt_state = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/state/m.room.encryption");
+            then.status(404);
+        });
+
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+        client.login_username("user", "pass").await.unwrap();
+        client
+            .inner()
+            .sync_once(matrix_sdk::config::SyncSettings::default())
+            .await
+            .unwrap();
+
+        let err = client
+            .send_reaction(room_id, "$event:example.org", "👍")
+            .await
+            .unwrap_err();
+        match err {
+            HumError::Matrix(_) => {}
+            other => panic!("unexpected error variant: {other:?}"),
+        }
+    }
+
+    #[tokio::test]
+    async fn redact_event_reaches_server() {
+        let server = MockServer::start();
+
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEVICE",
+                "user_id": "@user:example.org"
+            }));
+        });
+        let room_id = "!r:example.org";
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {"join": {"!r:example.org": {
+                    "summary": {},
+                    "state": { "events": [] },
+                    "timeline": { "events": [], "limited": false, "prev_batch": "t" },
+                    "ephemeral": { "events": [] },
+                    "account_data": { "events": [] },
+                    "unread_notifications": {},
+                }}}
+            }));
+        });
+        let _encrypt_state = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/state/m.room.encryption");
+            then.status(404);
+        });
+
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+        client.login_username("user", "pass").await.unwrap();
+        client
+            .inner()
+            .sync_once(matrix_sdk::config::SyncSettings::default())
+            .await
+            .unwrap();
+
+        let err = client
+            .redact(room_id, "$event:example.org", Some("cleanup"))
+            .await
+            .unwrap_err();
+        match err {
+            HumError::Other(msg) => {
+                assert!(
+                    msg.contains("Request did not match any route"),
+                    "unexpected message: {msg}"
+                );
+            }
+            other => panic!("unexpected error variant: {other:?}"),
+        }
+    }
+
+    #[tokio::test]
+    async fn typing_notice_true_and_false() {
+        let server = MockServer::start();
+
+        let _versions = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        let _login = server.mock(|when, then| {
+            when.method(POST).path("/_matrix/client/v3/login");
+            then.status(200).json_body(json!({
+                "access_token": "ACCESS",
+                "device_id": "DEVICE",
+                "user_id": "@user:example.org"
+            }));
+        });
+        let room_id = "!r:example.org";
+        let _sync = server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(200).json_body(json!({
+                "next_batch": "s1",
+                "rooms": {"join": {"!r:example.org": {
+                    "summary": {},
+                    "state": { "events": [] },
+                    "timeline": { "events": [], "limited": false, "prev_batch": "t" },
+                    "ephemeral": { "events": [] },
+                    "account_data": { "events": [] },
+                    "unread_notifications": {},
+                }}}
+            }));
+        });
+        let _encrypt_state = server.mock(|when, then| {
+            when.method(GET)
+                .path("/_matrix/client/v3/rooms/!r:example.org/state/m.room.encryption");
+            then.status(404);
+        });
+        let _typing = server.mock(|when, then| {
+            when.method(PUT)
+                .path("/_matrix/client/v3/rooms/!r:example.org/typing/@user:example.org");
+            then.status(200).json_body(json!({}));
+        });
+
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+        client.login_username("user", "pass").await.unwrap();
+        client
+            .inner()
+            .sync_once(matrix_sdk::config::SyncSettings::default())
+            .await
+            .unwrap();
+
+        client
+            .set_typing(room_id, true, Some(1234))
+            .await
+            .expect("typing start should succeed");
+        client
+            .set_typing(room_id, false, None)
+            .await
+            .expect("typing stop should succeed");
+    }
+
+    #[tokio::test]
+    async fn send_read_receipt_returns_error() {
+        let dir = tempdir().unwrap();
+        let cfg = crate::config::ClientConfig::new(
+            "https://example.com".into(),
+            dir.path().to_path_buf(),
+        );
+        let client = HumClient::new(cfg).await.unwrap();
+
+        let err = client
+            .send_read_receipt("!room:example.com", "$event:example.com")
+            .await
+            .unwrap_err();
+
+        match err {
+            HumError::Other(msg) => {
+                assert_eq!(msg, "send_read_receipt not implemented");
+            }
+            other => panic!("unexpected error variant: {other:?}"),
+        }
+    }
 }
