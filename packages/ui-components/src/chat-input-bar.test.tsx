@@ -1,6 +1,5 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
 import { ThemeProvider } from './theme/theme-provider';
 import { ChatInputBar } from './chat-input-bar';
 
