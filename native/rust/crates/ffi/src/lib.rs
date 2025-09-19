@@ -37,10 +37,11 @@ impl HandleInner {
 impl Drop for HandleInner {
     fn drop(&mut self) {
         if let Some(inner) = self.inner.take() {
-            self.runtime.block_on(async {
+            let inner = self.runtime.block_on(async {
                 let _ = inner.stop_sync_loop().await;
-                drop(inner);
+                inner
             });
+            drop(inner);
         }
     }
 }
