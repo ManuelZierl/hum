@@ -1,19 +1,12 @@
 //! Synchronisation related helpers.
 
-use crate::{client::HumClient, error::Result};
-use matrix_sdk::config::SyncSettings;
-use tracing::error;
+use crate::{client::HumClient, config::SyncConfig, error::Result};
 
 impl HumClient {
     /// Start the sync loop in a background task.
     pub async fn start_sync_background(&self) -> Result<()> {
-        let client = self.client.clone();
-        tokio::spawn(async move {
-            if let Err(e) = client.sync(SyncSettings::default()).await {
-                error!("sync error: {e}");
-            }
-        });
-        Ok(())
+        // Reuse the tracked sync loop so shutdown paths can abort gracefully.
+        self.start_sync_loop(&SyncConfig::default()).await
     }
 
     /// Compatibility wrapper retaining the previous API.
@@ -25,16 +18,59 @@ impl HumClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use httpmock::prelude::*;
+    use serde_json::json;
     use tempfile::tempdir;
+    use tokio::time::{Duration, sleep};
+
+    fn setup_mock_server() -> MockServer {
+        let server = MockServer::start();
+        server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/versions");
+            then.status(200)
+                .json_body(json!({ "versions": ["v1.8"], "unstable_features": {} }));
+        });
+        server.mock(|when, then| {
+            when.method(GET).path("/_matrix/client/v3/sync");
+            then.status(401)
+                .header("content-type", "application/json")
+                .json_body(json!({
+                    "errcode": "M_UNKNOWN_TOKEN",
+                    "error": "not logged in",
+                }));
+        });
+        server
+    }
 
     #[tokio::test]
     async fn start_sync_stub() {
         let dir = tempdir().unwrap();
-        let cfg = crate::config::ClientConfig::new(
-            "https://example.com".into(),
-            dir.path().to_path_buf(),
-        );
+        let server = setup_mock_server();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
         let client = HumClient::new(cfg).await.unwrap();
         client.start_sync_background().await.unwrap();
+        sleep(Duration::from_millis(50)).await;
+    }
+
+    #[tokio::test]
+    async fn start_sync_wrapper_forwards_call() {
+        let dir = tempdir().unwrap();
+        let server = setup_mock_server();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+
+        client.start_sync(true).await.unwrap();
+        sleep(Duration::from_millis(50)).await;
+    }
+
+    #[tokio::test]
+    async fn start_sync_background_handles_errors_gracefully() {
+        let dir = tempdir().unwrap();
+        let server = setup_mock_server();
+        let cfg = crate::config::ClientConfig::new(server.base_url(), dir.path().to_path_buf());
+        let client = HumClient::new(cfg).await.unwrap();
+
+        client.start_sync_background().await.unwrap();
+        sleep(Duration::from_millis(50)).await;
     }
 }
