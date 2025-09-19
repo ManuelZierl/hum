@@ -4,7 +4,7 @@ use std::net::{Shutdown, TcpStream};
 use std::time::Duration;
 
 use base64::Engine;
-use hum_matrix_ffi::c_api::{
+use hum_matrix_ffi::ffi::{
     // room mgmt
     hum_client_create_room,
     hum_client_delete_device,
@@ -42,9 +42,8 @@ use hum_matrix_ffi::c_api::{
 
     // media
     hum_client_upload_media,
-    // types
-    HumClientHandle,
 };
+use hum_matrix_ffi::HumClientHandle;
 
 use napi::bindgen_prelude::{BigInt, *};
 use napi_derive::napi;
