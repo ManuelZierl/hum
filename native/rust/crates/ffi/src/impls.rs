@@ -14,6 +14,7 @@ pub(crate) unsafe fn hum_client_new_impl(
     store_path: *const c_char,
     err_out: *mut *mut c_char,
 ) -> *mut HumClientHandle {
+    install_panic_hook();
     let hs_url = CStr::from_ptr(hs_url).to_string_lossy().to_string();
     let store = CStr::from_ptr(store_path).to_string_lossy().to_string();
     match tokio::runtime::Runtime::new() {
