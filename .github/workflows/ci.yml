@@ -95,6 +95,16 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Upload Node coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          flags: node
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Build packages
         run: npm run -ws --if-present build
 
@@ -116,7 +126,6 @@ jobs:
 
       - name: Lint Markdown
         run: npm run lint:md
-
   rust:
     needs: changes
     runs-on: ubuntu-latest
@@ -139,14 +148,62 @@ jobs:
       - name: Format
         run: cargo fmt --all -- --check
 
-      - name: Clippy
+      - name: Clippy (stable, all features)
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Test
-        run: cargo test
+      - name: Install nightly + llvm-tools
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: llvm-tools-preview
 
-      #- name: Test with sqlite
-      #  run: cargo test --features sqlite
+      - name: Install coverage tools
+        run: |
+          cargo install cargo-llvm-cov --locked
+          cargo install cargo-nextest --locked
+          # isolate instrumented artifacts from normal cached target
+          echo "CARGO_LLVM_COV_TARGET_DIR=${{ runner.temp }}/cov-target" >> $GITHUB_ENV
+
+      - name: Show tool versions
+        run: |
+          cargo +nightly llvm-cov --version
+          cargo +nightly nextest --version
+
+      - name: Generate LCOV report
+        env:
+          RUSTFLAGS: --cfg coverage_nightly
+        run: |
+          mkdir -p coverage
+          cargo +nightly llvm-cov clean --workspace
+          cargo +nightly llvm-cov nextest --workspace --no-clean \
+            --lcov --output-path coverage/lcov.info
+
+      - name: Generate HTML report (optional)
+        env:
+          RUSTFLAGS: --cfg coverage_nightly
+        run: |
+          cargo +nightly llvm-cov nextest --workspace --no-clean \
+            --html --output-dir coverage/html
+
+      - name: Sanity check coverage outputs
+        run: |
+          ls -la coverage
+          test -s coverage/lcov.info
+
+      - name: Upload HTML report (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-coverage-html
+          path: native/rust/coverage/html
+
+      - name: Upload Rust coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./native/rust/coverage/lcov.info
+          flags: rust
+          fail_ci_if_error: true
+          verbose: true
+          codecov_yml_path: ./codecov.yml
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   storybook-e2e:
     needs: changes

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import { View } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ContactInline } from './contact-inline';
 
@@ -19,8 +19,9 @@ describe('ContactInline', () => {
   });
 
   it('shows online dot when online', () => {
-    const { toJSON } = renderCI(true);
-    const tree = toJSON() as unknown as { children?: unknown[] };
-    expect((tree.children ?? []).length).toBe(2);
+    const { UNSAFE_getAllByType } = renderCI(true);
+    const views = UNSAFE_getAllByType(View);
+    const dot = views.find((v) => v.props?.testID === 'online-dot');
+    expect(dot).toBeTruthy();
   });
 });

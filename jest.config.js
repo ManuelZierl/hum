@@ -27,4 +27,7 @@ module.exports = {
     '^@hum/i18n$': '<rootDir>/packages/i18n/src/index.ts',
     '\\.svg$': '<rootDir>/tests/__mocks__/svgMock.tsx',
   },
+  collectCoverage: true,
+  coverageDirectory: '<rootDir>/coverage',
+  coverageReporters: ['text', 'lcov'],
 };

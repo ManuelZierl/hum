@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react-native';
 import {
   BottomNavigation,
   type BottomNavigationProps,
@@ -31,34 +30,46 @@ function renderNav(
 
 describe('BottomNavigation Component', () => {
   it('renders and matches snapshot', () => {
-    const { asFragment } = renderNav();
-    expect(asFragment()).toMatchSnapshot();
+    const { toJSON } = renderNav();
+    expect(toJSON()).toMatchSnapshot();
   });
 
   it('calls onTabChange when a tab is pressed', () => {
     const onTabChange = jest.fn();
     const { getByLabelText } = renderNav('light', { onTabChange });
-    fireEvent.click(getByLabelText('Lightning'));
-    expect(onTabChange).toHaveBeenCalledWith('lightning');
+    fireEvent.press(getByLabelText('Payments'));
+    expect(onTabChange).toHaveBeenCalledWith('payments');
+  });
+
+  it('renders Calls tab and it is selectable', () => {
+    // this works!
+    const onTabChange = jest.fn();
+    const { getByLabelText } = renderNav('light', { onTabChange });
+    fireEvent.press(getByLabelText('Calls'));
+    expect(onTabChange).toHaveBeenCalledWith('calls');
   });
 
   it('shows badge count', () => {
-    const { getByText } = renderNav('light', { chatsBadgeCount: 4 });
-    expect(getByText('4')).toBeInTheDocument();
+    const { UNSAFE_getByProps } = renderNav('light', { chatsBadgeCount: 4 });
+    expect(UNSAFE_getByProps({ children: 4 })).toBeTruthy();
   });
 
   it('applies theme colors', () => {
-    const { getByText, rerender } = renderNav('light');
-    expect(getByText('Lightning')).toHaveStyle({
-      color: colors.light.mutedForeground,
-    });
+    const { UNSAFE_getByProps, rerender } = renderNav('light');
+    expect(UNSAFE_getByProps({ children: 'Payments' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.light.mutedForeground }),
+      ]),
+    );
     rerender(
       <ThemeProvider forcedScheme="dark">
         <BottomNavigation {...baseProps} />
       </ThemeProvider>,
     );
-    expect(getByText('Lightning')).toHaveStyle({
-      color: colors.dark.mutedForeground,
-    });
+    expect(UNSAFE_getByProps({ children: 'Payments' }).props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ color: colors.dark.mutedForeground }),
+      ]),
+    );
   });
 });

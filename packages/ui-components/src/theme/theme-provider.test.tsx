@@ -1,6 +1,5 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { renderHook } from '@testing-library/react-native';
 import { ThemeProvider, useTheme } from './theme-provider';
 import { colors } from './colors';
 

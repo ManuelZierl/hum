@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Text } from 'react-native';
 import { render } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+import type { ReactTestInstance } from 'react-test-renderer';
 
 import { FeatureCard, type FeatureCardProps } from './feature-card';
 import { ThemeProvider } from './theme/theme-provider';
@@ -16,6 +15,7 @@ const baseProps: FeatureCardProps = {
   icon: <MockIcon />,
   title: 'Test Feature',
   description: 'Description',
+  testID: 'feature-card',
 };
 
 type Scheme = 'light' | 'dark';
@@ -38,26 +38,52 @@ describe('FeatureCard', () => {
   });
 
   it('renders title and description', () => {
-    const { toJSON } = renderCard();
-    const tree = toJSON() as any;
-    expect(JSON.stringify(tree)).toContain('Test Feature');
-    expect(JSON.stringify(tree)).toContain('Description');
+    const { UNSAFE_getAllByType } = renderCard();
+    const texts = UNSAFE_getAllByType(Text);
+    const hasTitle = texts.some((t: ReactTestInstance) =>
+      String(
+        Array.isArray(t.props.children)
+          ? t.props.children.join('')
+          : (t.props.children ?? ''),
+      ).includes('Test Feature'),
+    );
+    const hasDesc = texts.some((t: ReactTestInstance) =>
+      String(
+        Array.isArray(t.props.children)
+          ? t.props.children.join('')
+          : (t.props.children ?? ''),
+      ).includes('Description'),
+    );
+    expect(hasTitle).toBe(true);
+    expect(hasDesc).toBe(true);
   });
 
   it('applies theme colors', () => {
-    const { toJSON, rerender } = renderCard('light');
-    let tree = toJSON() as any;
-    expect(tree.children[0].children[1].props.style).toMatchObject({
-      color: 'rgba(10,10,10,1.00)',
-    });
+    const { rerender, UNSAFE_getAllByType } = renderCard('light');
+    const flatten = (s: unknown): Record<string, unknown> =>
+      Array.isArray(s)
+        ? Object.assign({}, ...(s as ReadonlyArray<Record<string, unknown>>))
+        : (s as Record<string, unknown>);
+    const getTitle = (): ReactTestInstance | undefined =>
+      UNSAFE_getAllByType(Text).find((t: ReactTestInstance) =>
+        String(
+          Array.isArray(t.props.children)
+            ? t.props.children.join('')
+            : (t.props.children ?? ''),
+        ).includes('Test Feature'),
+      );
+    const title1 = getTitle()!;
+    expect(
+      String(flatten(title1.props.style).color as unknown).toUpperCase(),
+    ).toBe('#0A0A0A');
     rerender(
       <ThemeProvider forcedScheme="dark">
         <FeatureCard {...baseProps} />
       </ThemeProvider>,
     );
-    tree = toJSON() as any;
-    expect(tree.children[0].children[1].props.style).toMatchObject({
-      color: 'rgba(250,250,250,1.00)',
-    });
+    const title2 = getTitle()!;
+    expect(
+      String(flatten(title2.props.style).color as unknown).toUpperCase(),
+    ).toBe('#FAFAFA');
   });
 });

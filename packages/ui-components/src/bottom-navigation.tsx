@@ -28,10 +28,11 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
       label: t('nav.chats'),
       badgeCount: chatsBadgeCount,
     },
+    { id: 'calls', icon: <Icon name="telephone" />, label: t('nav.calls') },
     {
-      id: 'lightning',
-      icon: <Icon name="lightning" />,
-      label: t('nav.lightning'),
+      id: 'payments',
+      icon: <Icon name="bitcoin" />,
+      label: t('nav.payments'),
     },
     { id: 'settings', icon: <Icon name="gear" />, label: t('nav.settings') },
   ];

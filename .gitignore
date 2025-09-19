@@ -50,3 +50,5 @@ native/rust/target/
 
 hum_store/
 temp/
+coverage/
+.local/
