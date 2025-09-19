@@ -34,6 +34,11 @@ describe('MessageBubble', () => {
     expect(UNSAFE_getByProps({ children: '✓✓' })).toBeTruthy();
   });
 
+  it('hides read indicator when message is unread', () => {
+    const { queryByText } = renderBubble('light', { isRead: false });
+    expect(queryByText('✓✓')).toBeNull();
+  });
+
   it('applies theme colors', () => {
     const { getByLabelText, rerender } = renderBubble('light');
     expect(getByLabelText('Outgoing message')).toHaveStyle({
@@ -47,5 +52,26 @@ describe('MessageBubble', () => {
     expect(getByLabelText('Outgoing message')).toHaveStyle({
       backgroundColor: 'rgba(254,202,26,1.00)',
     });
+  });
+
+  it('renders incoming messages with correct styles and accessibility', () => {
+    const { getByLabelText } = renderBubble('light', {
+      isOutgoing: false,
+      isRead: false,
+    });
+
+    const bubble = getByLabelText('Incoming message');
+    expect(bubble).toBeTruthy();
+    expect(bubble).toHaveStyle({
+      backgroundColor: 'rgba(236,236,240,1.00)',
+    });
+    const messageText = bubble.findByProps({ children: baseProps.text });
+    expect(messageText.props.style).toEqual(
+      expect.arrayContaining([expect.objectContaining({ color: '#0A0A0A' })]),
+    );
+    const timeText = bubble.findByProps({ children: baseProps.time });
+    expect(timeText.props.style).toEqual(
+      expect.arrayContaining([expect.objectContaining({ color: '#717182' })]),
+    );
   });
 });
