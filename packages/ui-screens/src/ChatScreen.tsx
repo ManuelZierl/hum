@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Avatar,
@@ -7,9 +13,9 @@ import {
   useTheme,
   MessageBubble,
   type MessageBubbleProps,
-  Icon,
   TopBar,
   ContactInline,
+  ChatInputBar,
 } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +36,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   onBack,
   messages = [],
 }) => {
-  const { colors, spacing, radius } = useTheme();
+  const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
   const [value, setValue] = useState('');
   const { t } = useTranslation();
@@ -99,61 +105,18 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
         ))}
       </ScrollView>
 
-      <View
-        style={[
-          styles.inputArea,
-          {
-            borderTopColor: colors.border,
-            paddingHorizontal: spacing.md,
-            paddingVertical: spacing.sm,
-          },
-        ]}
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoider}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={insets.bottom}
       >
-        <View style={styles.inputRow}>
-          <Text
-            style={[
-              styles.iconLarge,
-              { marginRight: spacing.sm, color: colors.mutedForeground },
-            ]}
-          >
-            {'+'}
-          </Text>
-          <View
-            style={[
-              styles.textInputContainer,
-              {
-                backgroundColor: colors.muted,
-                borderRadius: radius.xl,
-                paddingHorizontal: spacing.md,
-                paddingVertical: spacing.xs,
-              },
-            ]}
-          >
-            <TextInput
-              style={[styles.textInput, { color: colors.foreground }]}
-              placeholder={t('placeholders.type_message')}
-              placeholderTextColor={colors.mutedForeground}
-              value={value}
-              onChangeText={setValue}
-              accessible
-              accessibilityLabel={t('labels.message_input')}
-            />
-            <Icon name="emoji-smile" size={20} color={colors.mutedForeground} />
-          </View>
-          <Icon
-            name="camera"
-            size={24}
-            style={{ marginLeft: spacing.sm }}
-            color={colors.mutedForeground}
-          />
-          <Icon
-            name="mic"
-            size={24}
-            style={{ marginLeft: spacing.sm }}
-            color={colors.mutedForeground}
-          />
-        </View>
-      </View>
+        <ChatInputBar
+          value={value}
+          onChangeText={setValue}
+          placeholder={t('placeholders.type_message')}
+          inputAccessibilityLabel={t('labels.message_input')}
+        />
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -165,24 +128,8 @@ const styles = StyleSheet.create({
   messages: {
     flex: 1,
   },
-  inputArea: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textInputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textInput: {
-    flex: 1,
-    padding: 0,
-  },
-  iconLarge: {
-    fontSize: 24,
+  keyboardAvoider: {
+    flexShrink: 0,
   },
 });
 

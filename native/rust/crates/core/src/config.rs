@@ -65,4 +65,34 @@ mod tests {
         let de: ClientConfig = serde_json::from_str(&json).unwrap();
         assert_eq!(de.homeserver_url, cfg.homeserver_url);
     }
+
+    #[test]
+    fn sync_config_construction() {
+        let cfg = SyncConfig::new(true, Some(1_500));
+        assert!(cfg.sliding);
+        assert_eq!(cfg.timeout_ms, Some(1_500));
+
+        let default_cfg = SyncConfig::default();
+        assert!(!default_cfg.sliding);
+        assert_eq!(default_cfg.timeout_ms, None);
+    }
+
+    #[test]
+    fn sync_settings_default_matches_sdk_default() {
+        let cfg = SyncConfig::default();
+        let settings = cfg.to_sync_settings();
+        let expected = matrix_sdk::config::SyncSettings::default();
+
+        assert_eq!(format!("{settings:?}"), format!("{expected:?}"));
+    }
+
+    #[test]
+    fn sync_settings_applies_custom_timeout() {
+        let cfg = SyncConfig::new(false, Some(1_500));
+        let settings = cfg.to_sync_settings();
+        let expected =
+            matrix_sdk::config::SyncSettings::default().timeout(Duration::from_millis(1_500));
+
+        assert_eq!(format!("{settings:?}"), format!("{expected:?}"));
+    }
 }

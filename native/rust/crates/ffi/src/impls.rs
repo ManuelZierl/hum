@@ -14,6 +14,7 @@ pub(crate) unsafe fn hum_client_new_impl(
     store_path: *const c_char,
     err_out: *mut *mut c_char,
 ) -> *mut HumClientHandle {
+    install_panic_hook();
     let hs_url = CStr::from_ptr(hs_url).to_string_lossy().to_string();
     let store = CStr::from_ptr(store_path).to_string_lossy().to_string();
     match tokio::runtime::Runtime::new() {
@@ -45,7 +46,12 @@ pub(crate) unsafe fn hum_client_free_impl(handle: *mut HumClientHandle) {
     if handle.is_null() {
         return;
     }
-    drop(Box::from_raw(handle as *mut HandleInner));
+    let inner_ptr = handle as *mut HandleInner;
+    // Enter the runtime while dropping to keep tokio's reactor available for
+    // store cleanup code (`deadpool` spawns blocking tasks during drop).
+    let runtime_handle = (*inner_ptr).runtime.handle().clone();
+    let _enter = runtime_handle.enter();
+    drop(Box::from_raw(inner_ptr));
 }
 
 #[inline(never)]
