@@ -7,7 +7,7 @@ use std::{
 };
 
 use anyhow::Error;
-use hum_matrix_core::{HumClient, Result, TextMessage, config::ClientConfig};
+use hum_matrix_core::{HumClient, Result, SyncConfig, TextMessage, config::ClientConfig};
 use matrix_sdk::{
     Client,
     authentication::matrix::MatrixSession,
@@ -108,7 +108,7 @@ async fn main() -> Result<()> {
         }
     }
 
-    client.start_sync_background().await?;
+    client.start_sync_loop(&SyncConfig::default()).await?;
     if let Ok(room) = env::var("MATRIX_ROOM") {
         client.send_text(&room, "Hello from Hum CLI").await?;
     }
@@ -133,8 +133,10 @@ async fn main() -> Result<()> {
         .collect::<Vec<_>>();
 
     let mut app = App::new(my_user, rooms);
-    run_ui(&sdk_client, &client, rx, &mut app).await?;
-    Ok(())
+    let ui_result = run_ui(&sdk_client, &client, rx, &mut app).await;
+    let stop_result = client.stop_sync_loop().await;
+    stop_result?;
+    ui_result
 }
 
 // === UI Types and Logic ===

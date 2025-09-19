@@ -1,19 +1,12 @@
 //! Synchronisation related helpers.
 
-use crate::{client::HumClient, error::Result};
-use matrix_sdk::config::SyncSettings;
-use tracing::error;
+use crate::{client::HumClient, config::SyncConfig, error::Result};
 
 impl HumClient {
     /// Start the sync loop in a background task.
     pub async fn start_sync_background(&self) -> Result<()> {
-        let client = self.client.clone();
-        tokio::spawn(async move {
-            if let Err(e) = client.sync(SyncSettings::default()).await {
-                error!("sync error: {e}");
-            }
-        });
-        Ok(())
+        // Reuse the tracked sync loop so shutdown paths can abort gracefully.
+        self.start_sync_loop(&SyncConfig::default()).await
     }
 
     /// Compatibility wrapper retaining the previous API.
