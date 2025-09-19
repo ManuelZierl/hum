@@ -4,21 +4,46 @@ use std::net::{Shutdown, TcpStream};
 use std::time::Duration;
 
 use base64::Engine;
-#[cfg(not(test))]
-mod ffi {
-    pub use hum_matrix_ffi::c_api::*;
-}
+use hum_matrix_ffi::ffi::{
+    // room mgmt
+    hum_client_create_room,
+    hum_client_delete_device,
+    hum_client_download_media,
 
-use ffi::{
-    hum_client_create_room, hum_client_delete_device, hum_client_download_media, hum_client_free,
-    hum_client_get_devices, hum_client_get_presence, hum_client_get_rooms,
-    hum_client_is_authenticated, hum_client_join_room, hum_client_leave_room, hum_client_login,
-    hum_client_logout, hum_client_new, hum_client_redact, hum_client_rename_device,
-    hum_client_search_users, hum_client_send_reaction, hum_client_send_read_receipt,
-    hum_client_send_text, hum_client_set_presence, hum_client_set_typing,
-    hum_client_start_sync_loop, hum_client_stop_sync_loop, hum_client_sync_once,
-    hum_client_upload_media, HumClientHandle,
+    // lifecycle / auth
+    hum_client_free,
+    hum_client_get_devices,
+    hum_client_get_presence,
+
+    // rooms/messages
+    hum_client_get_rooms,
+    hum_client_is_authenticated,
+    hum_client_join_room,
+    hum_client_leave_room,
+
+    hum_client_login,
+    hum_client_logout,
+    hum_client_new,
+
+    hum_client_redact,
+
+    hum_client_rename_device,
+    // users/devices/presence
+    hum_client_search_users,
+    hum_client_send_reaction,
+    hum_client_send_read_receipt,
+    hum_client_send_text,
+    hum_client_set_presence,
+    hum_client_set_typing,
+    // sync
+    hum_client_start_sync_loop,
+    hum_client_stop_sync_loop,
+    hum_client_sync_once,
+
+    // media
+    hum_client_upload_media,
 };
+use hum_matrix_ffi::HumClientHandle;
 
 use napi::bindgen_prelude::{BigInt, *};
 use napi_derive::napi;

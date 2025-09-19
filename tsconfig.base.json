@@ -27,8 +27,7 @@
       "@hum/lightning-client/*": ["packages/lightning-client/src/*"],
       "@hum/lightning-mocks": ["packages/lightning-mocks/index.ts"],
       "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"]
-    },
-    "resolveJsonModule": true
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
