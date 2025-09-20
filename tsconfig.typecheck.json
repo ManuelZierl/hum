@@ -3,6 +3,8 @@
   "compilerOptions": {
     "noEmit": true,
     "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "types": ["node", "jest", "react", "react-native"]
   },
   "include": [

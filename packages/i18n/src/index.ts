@@ -94,7 +94,6 @@ void i18n
   .init({
     fallbackLng: 'en',
     supportedLngs: ['en', 'de'],
-    compatibilityJSON: 'v3',
     resources: {
       en: { common: en },
       de: { common: de },
