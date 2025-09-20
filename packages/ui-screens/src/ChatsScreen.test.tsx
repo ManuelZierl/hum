@@ -53,6 +53,7 @@ describe('ChatsScreen', () => {
     const { getByLabelText } = renderScreen();
     expect(getByLabelText('Menu')).toBeOnTheScreen();
     expect(getByLabelText('Open camera')).toBeOnTheScreen();
+    expect(getByLabelText('Add')).toBeOnTheScreen();
   });
 
   it('smoke presses actions', () => {
@@ -90,7 +91,7 @@ describe('ChatsScreen', () => {
     expect(onNavigate).toHaveBeenCalledWith(chat);
   });
 
-  it('opens the new chat overlay from the floating action button', () => {
+  it('opens the new chat overlay from the top bar action', () => {
     const open = jest.fn();
     const close = jest.fn();
     useOverlaySpy.mockReturnValue({
@@ -98,11 +99,7 @@ describe('ChatsScreen', () => {
       close,
     });
 
-    const { getByLabelText } = render(
-      <ThemeProvider forcedScheme="dark">
-        <ChatsScreen chats={[]} />
-      </ThemeProvider>,
-    );
+    const { getByLabelText } = renderScreen({ chats: [] });
 
     fireEvent.press(getByLabelText('Add'));
     expect(open).toHaveBeenCalledTimes(1);

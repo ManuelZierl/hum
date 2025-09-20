@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
+import { View, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useTheme,
-  Button,
   ListRow,
   Icon,
   TopBar,
@@ -58,7 +57,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
   onNavigateToChat,
   showSearch,
 }) => {
-  const { colors, spacing, type } = useTheme();
+  const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
   const { open } = useOverlay();
   const [query, setQuery] = React.useState<string>('');
@@ -106,6 +105,12 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
             onPress: () => {},
             a11yLabel: t('actions.open_camera'),
           },
+          {
+            type: 'text',
+            label: '+',
+            onPress: () => open(<NewChatScreen />),
+            a11yLabel: t('actions.add'),
+          },
         ]}
         showSearch={showSearch}
         searchPlaceholder={t('placeholders.search')}
@@ -127,30 +132,6 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: spacing.xl * 4 }}
       />
-
-      <Button
-        size="icon"
-        accessibilityLabel={t('actions.add')}
-        style={[
-          styles.fab,
-          {
-            backgroundColor: colors.humPrimary,
-            right: spacing.lg,
-            bottom: spacing.lg + insets.bottom,
-          },
-        ]}
-        onPress={() => open(<NewChatScreen />)}
-      >
-        <Text
-          style={{
-            color: colors.humPrimaryForeground,
-            fontSize: type.size['2xl'],
-            lineHeight: type.size['2xl'],
-          }}
-        >
-          +
-        </Text>
-      </Button>
     </View>
   );
 };
@@ -158,14 +139,6 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  fab: {
-    position: 'absolute',
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 
