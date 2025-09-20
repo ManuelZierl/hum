@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Icon } from './theme/icon';
 import { useTheme } from './theme/theme-provider';
@@ -33,6 +33,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   micAccessibilityLabel,
 }) => {
   const { colors, spacing, radius } = useTheme();
+  const minInputHeight = spacing.lg * 2;
+  const maxInputHeight = spacing.xl * 6;
+  const [inputHeight, setInputHeight] = useState(minInputHeight);
+  const [isScrollable, setIsScrollable] = useState(false);
   const themedStyles = useMemo(
     () => ({
       container: {
@@ -51,9 +55,11 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         borderRadius: radius.xl,
         paddingHorizontal: spacing.md,
         paddingVertical: spacing.xs,
+        overflow: 'hidden' as const,
       },
       textInput: {
         color: colors.foreground,
+        textAlignVertical: 'top' as const,
       },
       emojiButton: {
         marginLeft: spacing.xs,
@@ -73,6 +79,32 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
       spacing.xs,
     ],
   );
+
+  const handleContentSizeChange = useCallback(
+    (event: {
+      nativeEvent: {
+        contentSize: {
+          height: number;
+        };
+      };
+    }) => {
+      const contentHeight = event.nativeEvent.contentSize.height;
+      const clampedHeight = Math.min(
+        Math.max(contentHeight, minInputHeight),
+        maxInputHeight,
+      );
+      setInputHeight(clampedHeight);
+      setIsScrollable(contentHeight > maxInputHeight);
+    },
+    [maxInputHeight, minInputHeight],
+  );
+
+  useEffect(() => {
+    if (value.length === 0) {
+      setInputHeight(minInputHeight);
+      setIsScrollable(false);
+    }
+  }, [minInputHeight, value]);
 
   return (
     <View style={[styles.container, themedStyles.container]}>
@@ -101,13 +133,26 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
 
         <View style={[styles.textInputContainer, themedStyles.inputContainer]}>
           <TextInput
-            style={[styles.textInput, themedStyles.textInput]}
+            style={[
+              styles.textInput,
+              themedStyles.textInput,
+              {
+                minHeight: minInputHeight,
+                maxHeight: maxInputHeight,
+                height: inputHeight,
+              },
+            ]}
             placeholder={placeholder}
             placeholderTextColor={colors.mutedForeground}
             value={value}
             onChangeText={onChangeText}
             accessible
             accessibilityLabel={inputAccessibilityLabel}
+            multiline
+            onContentSizeChange={handleContentSizeChange}
+            scrollEnabled={isScrollable}
+            blurOnSubmit={false}
+            testID="chat-input-bar-text-input"
           />
           <Pressable
             accessibilityRole={onEmojiPress ? 'button' : undefined}
