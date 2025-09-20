@@ -25,16 +25,28 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
     {
       id: 'chats',
       icon: <Icon name="chat" />,
+      activeIcon: <Icon name="chat-fill" />,
       label: t('nav.chats'),
       badgeCount: chatsBadgeCount,
     },
-    { id: 'calls', icon: <Icon name="telephone" />, label: t('nav.calls') },
+    {
+      id: 'calls',
+      icon: <Icon name="telephone" />,
+      activeIcon: <Icon name="telephone-fill" />,
+      label: t('nav.calls'),
+    },
     {
       id: 'payments',
-      icon: <Icon name="bitcoin" />,
+      icon: <Icon name="bitcoin-outline" />,
+      activeIcon: <Icon name="bitcoin" />,
       label: t('nav.payments'),
     },
-    { id: 'settings', icon: <Icon name="gear" />, label: t('nav.settings') },
+    {
+      id: 'settings',
+      icon: <Icon name="gear" />,
+      activeIcon: <Icon name="gear-fill" />,
+      label: t('nav.settings'),
+    },
   ];
 
   return (
@@ -54,6 +66,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
           <BottomNavItem
             key={item.id}
             icon={item.icon}
+            activeIcon={item.activeIcon}
             label={item.label}
             isActive={activeTab === item.id}
             onPress={() => onTabChange?.(item.id)}
