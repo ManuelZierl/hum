@@ -38,7 +38,8 @@ exports[`MessageBubble renders and matches snapshot 1`] = `
       style={
         {
           "color": "rgba(0,0,0,1.00)",
-          "fontSize": "12px",
+          "fontSize": "15px",
+          "fontWeight": "500",
         }
       }
     >
