@@ -108,7 +108,7 @@ describe('TopBar', () => {
     );
     const darkTree = toJSON() as ReactTestRendererJSON | null;
     expect(darkTree?.props?.style).toEqual(
-      expect.objectContaining({ backgroundColor: 'rgba(0,0,0,1.00)' }),
+      expect.objectContaining({ backgroundColor: 'rgba(27,27,27,1.00)' }),
     );
   });
 });

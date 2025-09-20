@@ -4,7 +4,7 @@ import { useColorScheme } from 'react-native';
 import { colors } from './colors';
 import { spacing } from './spacing';
 import { radius } from './radius';
-import { type } from './typography';
+import { useTypography, type TypographyDefinition } from './typography';
 
 type Scheme = 'light' | 'dark';
 type Theme = {
@@ -12,7 +12,7 @@ type Theme = {
   colors: (typeof colors)[Scheme];
   spacing: typeof spacing;
   radius: typeof radius;
-  type: typeof type;
+  type: TypographyDefinition;
 };
 const ThemeCtx = createContext<Theme | null>(null);
 
@@ -22,9 +22,16 @@ export const ThemeProvider: React.FC<{
 }> = ({ children, forcedScheme }) => {
   const device = useColorScheme() ?? 'light';
   const scheme = forcedScheme ?? (device === 'dark' ? 'dark' : 'light');
+  const { type: typography } = useTypography();
   const value = useMemo<Theme>(
-    () => ({ scheme, colors: colors[scheme], spacing, radius, type }),
-    [scheme],
+    () => ({
+      scheme,
+      colors: colors[scheme],
+      spacing,
+      radius,
+      type: typography,
+    }),
+    [scheme, typography],
   );
   return <ThemeCtx.Provider value={value}>{children}</ThemeCtx.Provider>;
 };
