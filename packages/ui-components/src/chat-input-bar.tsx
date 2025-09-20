@@ -24,6 +24,7 @@ export interface ChatInputBarProps {
   onChangeText: (text: string) => void;
   placeholder?: string;
   inputAccessibilityLabel?: string;
+  inputTestID?: string;
   onAttachmentPress?: () => void;
   onEmojiPress?: () => void;
   onCameraPress?: () => void;
@@ -47,6 +48,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   emojiAccessibilityLabel,
   cameraAccessibilityLabel,
   micAccessibilityLabel,
+  inputTestID,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
@@ -67,6 +69,8 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         },
         attachmentText: {
           color: colors.mutedForeground,
+          fontSize: type.size['2xl'],
+          lineHeight: type.size['2xl'],
         },
         inputContainer: {
           backgroundColor: colors.muted,
@@ -161,10 +165,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
           <Text
             style={[
               themedStyles.attachmentText,
-              {
-                fontSize: type.size['2xl'],
-                lineHeight: type.size['2xl'],
-              },
               !onAttachmentPress && styles.disabledControl,
             ]}
           >
@@ -175,7 +175,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         <View style={[styles.textInputContainer, themedStyles.inputContainer]}>
           <View style={styles.expandingArea}>
             <View
-              pointerEvents="none"
               accessibilityElementsHidden
               importantForAccessibility="no-hide-descendants"
               style={styles.hiddenMeasureWrapper}
@@ -213,6 +212,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
               onChangeText={onChangeText}
               accessible
               accessibilityLabel={inputAccessibilityLabel}
+              testID={inputTestID ?? 'chat-input-bar.text-input'}
             />
           </View>
           <Pressable
@@ -284,6 +284,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     opacity: 0,
+    pointerEvents: 'none',
   },
   hiddenMeasureText: {
     padding: 0,

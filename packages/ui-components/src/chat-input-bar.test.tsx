@@ -4,6 +4,8 @@ import { StyleSheet } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ChatInputBar } from './chat-input-bar';
 
+const TEXT_INPUT_TEST_ID = 'chat-input-bar.text-input';
+
 describe('ChatInputBar', () => {
   function renderComponent(
     props?: Partial<React.ComponentProps<typeof ChatInputBar>>,
@@ -43,8 +45,10 @@ describe('ChatInputBar', () => {
   });
 
   it('grows with content size and enables scrolling past the limit', () => {
-    const { getByLabelText } = renderComponent();
-    const input = getByLabelText('Message input');
+    const { getByLabelText, getByTestId } = renderComponent();
+    expect(getByLabelText('Message input')).toBeTruthy();
+
+    const input = getByTestId(TEXT_INPUT_TEST_ID);
 
     expect(input.props.multiline).toBe(true);
     expect(input.props.scrollEnabled).toBe(false);
@@ -53,7 +57,7 @@ describe('ChatInputBar', () => {
       nativeEvent: { contentSize: { height: 20 } },
     });
 
-    let updatedInput = getByLabelText('Message input');
+    let updatedInput = getByTestId(TEXT_INPUT_TEST_ID);
     let flattened = StyleSheet.flatten(updatedInput.props.style);
     expect(flattened.height).toBe(flattened.minHeight);
     expect(updatedInput.props.scrollEnabled).toBe(false);
@@ -62,7 +66,7 @@ describe('ChatInputBar', () => {
       nativeEvent: { contentSize: { height: 300 } },
     });
 
-    updatedInput = getByLabelText('Message input');
+    updatedInput = getByTestId(TEXT_INPUT_TEST_ID);
     flattened = StyleSheet.flatten(updatedInput.props.style);
     expect(flattened.height).toBe(flattened.maxHeight);
     expect(updatedInput.props.scrollEnabled).toBe(true);
