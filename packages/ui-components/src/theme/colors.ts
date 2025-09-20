@@ -27,7 +27,7 @@ export const colors = {
     sidebarForeground: '#0A0A0A',
   },
   dark: {
-    background: '#000000',
+    background: '#1b1b1bff',
     foreground: '#FAFAFA',
     card: '#232323',
     cardForeground: '#FAFAFA',

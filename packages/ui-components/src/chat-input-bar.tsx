@@ -32,7 +32,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   cameraAccessibilityLabel,
   micAccessibilityLabel,
 }) => {
-  const { colors, spacing, radius } = useTheme();
+  const { colors, spacing, radius, type } = useTheme();
   const themedStyles = useMemo(
     () => ({
       container: {
@@ -90,8 +90,11 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         >
           <Text
             style={[
-              styles.iconLarge,
               themedStyles.attachmentText,
+              {
+                fontSize: type.size['2xl'],
+                lineHeight: type.size['2xl'],
+              },
               !onAttachmentPress && styles.disabledControl,
             ]}
           >
@@ -171,9 +174,6 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     padding: 0,
-  },
-  iconLarge: {
-    fontSize: 24,
   },
   disabledControl: {
     opacity: 0.4,

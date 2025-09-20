@@ -6,6 +6,8 @@ import {
   BottomNavigation,
   ThemeProvider,
   OverlayProvider,
+  TypographyProvider,
+  TYPOGRAPHY_SCALE_OPTIONS,
 } from '@hum/ui-components';
 import Constants from 'expo-constants';
 import {
@@ -22,6 +24,22 @@ import { DevToolsOverlay } from './src/DevToolsOverlay';
 import { HumClientProvider, useHumClient } from './src/hum/HumClientProvider';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18n from '@hum/i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const TYPOGRAPHY_SCALE_STORAGE_KEY = 'settings.typography.scaleIndex';
+const DEFAULT_TYPOGRAPHY_INDEX = Math.max(
+  0,
+  TYPOGRAPHY_SCALE_OPTIONS.findIndex((option) => option.id === 'md'),
+);
+
+const clampTypographyIndex = (value: number) =>
+  Math.min(
+    Math.max(
+      Math.round(Number.isFinite(value) ? value : DEFAULT_TYPOGRAPHY_INDEX),
+      0,
+    ),
+    TYPOGRAPHY_SCALE_OPTIONS.length - 1,
+  );
 
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
@@ -38,6 +56,9 @@ function AppInner() {
   }, []);
   const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
+  const [typographyScaleIndex, setTypographyScaleIndex] = useState<number>(
+    DEFAULT_TYPOGRAPHY_INDEX,
+  );
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
   const { i18n: i18next } = useTranslation();
@@ -56,6 +77,33 @@ function AppInner() {
       cancelled = true;
     };
   }, [selectedChat, getMessages]);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    AsyncStorage.getItem(TYPOGRAPHY_SCALE_STORAGE_KEY)
+      .then((stored) => {
+        if (!isMounted || stored == null) return;
+        const parsed = Number(stored);
+        if (Number.isNaN(parsed)) return;
+        const clamped = clampTypographyIndex(parsed);
+        setTypographyScaleIndex(clamped);
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleTypographyScaleChange = React.useCallback((index: number) => {
+    const clamped = clampTypographyIndex(index);
+    setTypographyScaleIndex((current) => {
+      if (current === clamped) return current;
+      AsyncStorage.setItem(TYPOGRAPHY_SCALE_STORAGE_KEY, String(clamped)).catch(
+        () => {},
+      );
+      return clamped;
+    });
+  }, []);
 
   const renderCurrentScreen = () => {
     if (showDev) {
@@ -101,25 +149,30 @@ function AppInner() {
   return (
     <GestureHandlerRootView style={styles.gestureRoot}>
       <SafeAreaProvider>
-        <ThemeProvider forcedScheme={resolvedScheme}>
-          <OverlayProvider>
-            <View style={styles.container}>
-              {renderCurrentScreen()}
-              {!selectedChat && !showDev && (
-                <BottomNavigation
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                />
-              )}
-              {enableDev && !showDev && (
-                <DevToolsOverlay
-                  onOpenDev={() => setShowDev(true)}
-                  onSelectLanguage={i18next.changeLanguage}
-                />
-              )}
-            </View>
-          </OverlayProvider>
-        </ThemeProvider>
+        <TypographyProvider
+          initialScaleIndex={typographyScaleIndex}
+          onScaleIndexChange={handleTypographyScaleChange}
+        >
+          <ThemeProvider forcedScheme={resolvedScheme}>
+            <OverlayProvider>
+              <View style={styles.container}>
+                {renderCurrentScreen()}
+                {!selectedChat && !showDev && (
+                  <BottomNavigation
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                  />
+                )}
+                {enableDev && !showDev && (
+                  <DevToolsOverlay
+                    onOpenDev={() => setShowDev(true)}
+                    onSelectLanguage={i18next.changeLanguage}
+                  />
+                )}
+              </View>
+            </OverlayProvider>
+          </ThemeProvider>
+        </TypographyProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

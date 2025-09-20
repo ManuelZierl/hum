@@ -63,6 +63,32 @@ jest.mock('@hum/ui-components', () => {
   const OverlayProvider = ({ children }: { children: React.ReactNode }) => (
     <View>{children}</View>
   );
+  const TYPOGRAPHY_SCALE_OPTIONS = [
+    { id: 'md', multiplier: 1, labelKey: 'text_size.default' },
+  ] as const;
+  const TypographyProvider = ({
+    children,
+    initialScaleIndex = 0,
+    onScaleIndexChange,
+  }: {
+    children: React.ReactNode;
+    initialScaleIndex?: number;
+    onScaleIndexChange?: (
+      index: number,
+      option: (typeof TYPOGRAPHY_SCALE_OPTIONS)[number],
+    ) => void;
+  }) => {
+    React.useEffect(() => {
+      if (onScaleIndexChange) {
+        const clamped = Math.max(
+          0,
+          Math.min(initialScaleIndex, TYPOGRAPHY_SCALE_OPTIONS.length - 1),
+        );
+        onScaleIndexChange(clamped, TYPOGRAPHY_SCALE_OPTIONS[clamped]);
+      }
+    }, [initialScaleIndex, onScaleIndexChange]);
+    return <>{children}</>;
+  };
   const Button = ({
     children,
     onPress,
@@ -111,6 +137,8 @@ jest.mock('@hum/ui-components', () => {
     ThemeProvider,
     OverlayProvider,
     Button,
+    TypographyProvider,
+    TYPOGRAPHY_SCALE_OPTIONS,
     __themeState: themeState,
   };
 });

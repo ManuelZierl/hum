@@ -52,7 +52,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
               color: isOutgoing
                 ? colors.humPrimaryForeground
                 : colors.foreground,
-              fontSize: type.size.sm,
+              fontSize: type.size.base,
+              fontWeight: type.weight.medium,
             },
           ]}
         >
