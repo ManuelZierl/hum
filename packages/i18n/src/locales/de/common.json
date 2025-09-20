@@ -106,5 +106,15 @@
         "description": "Sichere Backup- und Wiederherstellungsoptionen für dein Lightning-Wallet"
       }
     }
+  },
+  "text_size": {
+    "label": "Textgröße",
+    "extra_small": "Sehr klein",
+    "small": "Klein",
+    "default": "Standard",
+    "large": "Groß",
+    "extra_large": "Sehr groß",
+    "preview_title": "Beispielüberschrift",
+    "preview_body": "Dies ist ein Beispieltext, der zeigt, wie sich die Schriftgrößen der App anpassen."
   }
 }

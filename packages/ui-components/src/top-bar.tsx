@@ -86,7 +86,14 @@ export const TopBar: React.FC<TopBarProps> = ({
           style={marginStyle}
           {...commonTest}
         >
-          <Text style={[styles.iconText, { color: colors.foreground }]}>
+          <Text
+            style={{
+              color: colors.foreground,
+              fontSize: type.size['2xl'],
+              fontWeight: type.weight.medium,
+              lineHeight: type.size['2xl'],
+            }}
+          >
             {item.label}
           </Text>
         </Pressable>
@@ -125,7 +132,13 @@ export const TopBar: React.FC<TopBarProps> = ({
               testID="back-button"
               {...{ 'data-testid': 'back-button' }}
             >
-              <Text style={[styles.backIcon, { color: colors.foreground }]}>
+              <Text
+                style={{
+                  color: colors.foreground,
+                  fontSize: type.size['2xl'],
+                  lineHeight: type.size['2xl'],
+                }}
+              >
                 ‹
               </Text>
             </Pressable>
@@ -218,14 +231,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  backIcon: {
-    fontSize: 24,
-  },
   title: {
     textAlign: 'center',
-  },
-  iconText: {
-    fontSize: 24,
   },
   right: {
     justifyContent: 'flex-end',

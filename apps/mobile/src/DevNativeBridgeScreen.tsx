@@ -12,7 +12,7 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
   onBack,
 }) => {
   const insets = useSafeAreaInsets();
-  const { colors, spacing } = useTheme();
+  const { colors, spacing, type } = useTheme();
   const clientRef = useRef<Client | null>(null);
   const [status, setStatus] = useState<string>('idle');
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -96,7 +96,13 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
         },
       ]}
     >
-      <Text style={[styles.title, { color: colors.foreground }]}>
+      <Text
+        style={{
+          color: colors.foreground,
+          fontSize: type.size.xl,
+          fontWeight: type.weight.bold,
+        }}
+      >
         {t('labels.dev_bridge')}
       </Text>
 
@@ -153,10 +159,6 @@ export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
   },
   backWrap: {
     position: 'absolute',

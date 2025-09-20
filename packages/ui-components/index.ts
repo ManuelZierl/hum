@@ -1,4 +1,13 @@
 export { ThemeProvider, useTheme } from './src/theme/theme-provider';
+export {
+  TypographyProvider,
+  useTypography,
+  TYPOGRAPHY_SCALE_OPTIONS,
+} from './src/theme/typography';
+export type {
+  TypographyDefinition,
+  TypographyScaleOption,
+} from './src/theme/typography';
 export { Avatar, AvatarImage, AvatarFallback } from './src/avatar';
 export type {
   AvatarProps,
