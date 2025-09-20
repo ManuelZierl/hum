@@ -36,7 +36,7 @@ exports[`Button renders and matches snapshot 1`] = `
     style={
       {
         "color": "rgba(0,0,0,1.00)",
-        "fontSize": "14px",
+        "fontSize": "15px",
         "fontWeight": "500",
       }
     }

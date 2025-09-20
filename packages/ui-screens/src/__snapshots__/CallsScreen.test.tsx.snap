@@ -7,7 +7,7 @@ exports[`CallsScreen matches empty state snapshot 1`] = `
   ref={[Function]}
   style={
     {
-      "backgroundColor": "rgba(0,0,0,1.00)",
+      "backgroundColor": "rgba(27,27,27,1.00)",
       "paddingBottom": "0px",
     }
   }
@@ -18,7 +18,7 @@ exports[`CallsScreen matches empty state snapshot 1`] = `
     ref={[Function]}
     style={
       {
-        "backgroundColor": "rgba(0,0,0,1.00)",
+        "backgroundColor": "rgba(27,27,27,1.00)",
         "paddingBottom": "8px",
         "paddingLeft": "12px",
         "paddingRight": "12px",
@@ -81,12 +81,15 @@ exports[`CallsScreen matches empty state snapshot 1`] = `
           type="button"
         >
           <div
-            className="css-text-146c3p1 r-fontSize-1x35g6"
+            className="css-text-146c3p1"
             dir="auto"
             ref={[Function]}
             style={
               {
                 "color": "rgba(250,250,250,1.00)",
+                "fontSize": "24px",
+                "fontWeight": "500",
+                "lineHeight": "24px",
               }
             }
           >
@@ -174,7 +177,7 @@ exports[`CallsScreen matches populated snapshot 1`] = `
   ref={[Function]}
   style={
     {
-      "backgroundColor": "rgba(0,0,0,1.00)",
+      "backgroundColor": "rgba(27,27,27,1.00)",
       "paddingBottom": "0px",
     }
   }
@@ -185,7 +188,7 @@ exports[`CallsScreen matches populated snapshot 1`] = `
     ref={[Function]}
     style={
       {
-        "backgroundColor": "rgba(0,0,0,1.00)",
+        "backgroundColor": "rgba(27,27,27,1.00)",
         "paddingBottom": "8px",
         "paddingLeft": "12px",
         "paddingRight": "12px",
@@ -248,12 +251,15 @@ exports[`CallsScreen matches populated snapshot 1`] = `
           type="button"
         >
           <div
-            className="css-text-146c3p1 r-fontSize-1x35g6"
+            className="css-text-146c3p1"
             dir="auto"
             ref={[Function]}
             style={
               {
                 "color": "rgba(250,250,250,1.00)",
+                "fontSize": "24px",
+                "fontWeight": "500",
+                "lineHeight": "24px",
               }
             }
           >
