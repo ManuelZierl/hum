@@ -1,73 +1,47 @@
 import Module from '../src/index';
 import Native from '../src/nativeSpec';
+import type { NativeBindings } from '../src/nativeSpec.types';
 import { PresenceState } from '../src/types';
 
-type NativeMethod =
-  | 'createClient'
-  | 'clientLogin'
-  | 'clientLogout'
-  | 'clientIsAuthenticated'
-  | 'clientGetRooms'
-  | 'clientSendText'
-  | 'clientStartSyncLoop'
-  | 'clientStopSyncLoop'
-  | 'clientFree'
-  | 'clientSearchUsers'
-  | 'clientGetDevices'
-  | 'clientRenameDevice'
-  | 'clientDeleteDevice'
-  | 'clientSyncOnce'
-  | 'clientSendReaction'
-  | 'clientRedact'
-  | 'clientSendReadReceipt'
-  | 'clientSetTyping'
-  | 'clientCreateRoom'
-  | 'clientJoinRoom'
-  | 'clientLeaveRoom'
-  | 'clientUploadMedia'
-  | 'clientDownloadMedia'
-  | 'clientSetPresence'
-  | 'clientGetPresence';
-
 type NativeMock = {
-  [K in NativeMethod]: jest.Mock<unknown, unknown[]>;
-} & {
-  clientImportRecoveryKey?: jest.Mock<unknown, unknown[]>;
+  [K in keyof NativeBindings]: NativeBindings[K] extends (
+    ...args: infer Args
+  ) => infer Return
+    ? jest.Mock<Promise<Awaited<Return>>, Args>
+    : never;
 };
 
-function mockFn(): jest.Mock<unknown, unknown[]> {
-  return jest.fn<unknown, unknown[]>();
-}
-
 function createNativeMock(): NativeMock {
-  return {
-    createClient: mockFn(),
-    clientLogin: mockFn(),
-    clientLogout: mockFn(),
-    clientIsAuthenticated: mockFn(),
-    clientGetRooms: mockFn(),
-    clientSendText: mockFn(),
-    clientStartSyncLoop: mockFn(),
-    clientStopSyncLoop: mockFn(),
-    clientFree: mockFn(),
-    clientSearchUsers: mockFn(),
-    clientGetDevices: mockFn(),
-    clientRenameDevice: mockFn(),
-    clientDeleteDevice: mockFn(),
-    clientSyncOnce: mockFn(),
-    clientSendReaction: mockFn(),
-    clientRedact: mockFn(),
-    clientSendReadReceipt: mockFn(),
-    clientSetTyping: mockFn(),
-    clientCreateRoom: mockFn(),
-    clientJoinRoom: mockFn(),
-    clientLeaveRoom: mockFn(),
-    clientUploadMedia: mockFn(),
-    clientDownloadMedia: mockFn(),
-    clientSetPresence: mockFn(),
-    clientGetPresence: mockFn(),
-    clientImportRecoveryKey: mockFn(),
-  };
+  const methodEntries = Object.entries({
+    createClient: jest.fn(),
+    clientLogin: jest.fn(),
+    clientLogout: jest.fn(),
+    clientIsAuthenticated: jest.fn(),
+    clientGetRooms: jest.fn(),
+    clientSendText: jest.fn(),
+    clientStartSyncLoop: jest.fn(),
+    clientStopSyncLoop: jest.fn(),
+    clientFree: jest.fn(),
+    clientSearchUsers: jest.fn(),
+    clientGetDevices: jest.fn(),
+    clientRenameDevice: jest.fn(),
+    clientDeleteDevice: jest.fn(),
+    clientSyncOnce: jest.fn(),
+    clientSendReaction: jest.fn(),
+    clientRedact: jest.fn(),
+    clientSendReadReceipt: jest.fn(),
+    clientSetTyping: jest.fn(),
+    clientCreateRoom: jest.fn(),
+    clientJoinRoom: jest.fn(),
+    clientLeaveRoom: jest.fn(),
+    clientUploadMedia: jest.fn(),
+    clientDownloadMedia: jest.fn(),
+    clientSetPresence: jest.fn(),
+    clientGetPresence: jest.fn(),
+    clientImportRecoveryKey: jest.fn(),
+  }) as [keyof NativeBindings, NativeMock[keyof NativeBindings]][];
+
+  return Object.fromEntries(methodEntries) as NativeMock;
 }
 
 jest.mock('../src/nativeSpec', () => ({
@@ -77,39 +51,8 @@ jest.mock('../src/nativeSpec', () => ({
 
 const nativeMock = Native as unknown as NativeMock;
 
-const methodNames: NativeMethod[] = [
-  'createClient',
-  'clientLogin',
-  'clientLogout',
-  'clientIsAuthenticated',
-  'clientGetRooms',
-  'clientSendText',
-  'clientStartSyncLoop',
-  'clientStopSyncLoop',
-  'clientFree',
-  'clientSearchUsers',
-  'clientGetDevices',
-  'clientRenameDevice',
-  'clientDeleteDevice',
-  'clientSyncOnce',
-  'clientSendReaction',
-  'clientRedact',
-  'clientSendReadReceipt',
-  'clientSetTyping',
-  'clientCreateRoom',
-  'clientJoinRoom',
-  'clientLeaveRoom',
-  'clientUploadMedia',
-  'clientDownloadMedia',
-  'clientSetPresence',
-  'clientGetPresence',
-];
-
 const resetNativeMocks = () => {
-  methodNames.forEach((method) => {
-    nativeMock[method] = mockFn();
-  });
-  nativeMock.clientImportRecoveryKey = mockFn();
+  Object.assign(nativeMock, createNativeMock());
 };
 
 beforeEach(() => {
@@ -118,7 +61,7 @@ beforeEach(() => {
 
 describe('hum-matrix-native module', () => {
   it('creates a client that proxies native operations and maps data', async () => {
-    nativeMock.createClient.mockResolvedValue('handle-1');
+    nativeMock.createClient.mockResolvedValue(1);
     nativeMock.clientIsAuthenticated.mockResolvedValue(true);
     nativeMock.clientGetRooms.mockResolvedValue(
       JSON.stringify([
@@ -166,25 +109,21 @@ describe('hum-matrix-native module', () => {
     );
 
     await client.login('user', 'pass');
-    expect(nativeMock.clientLogin).toHaveBeenCalledWith(
-      'handle-1',
-      'user',
-      'pass',
-    );
+    expect(nativeMock.clientLogin).toHaveBeenCalledWith(1, 'user', 'pass');
 
     await client.logout();
-    expect(nativeMock.clientLogout).toHaveBeenCalledWith('handle-1');
+    expect(nativeMock.clientLogout).toHaveBeenCalledWith(1);
 
     await client.sendText('room-1', 'hello everyone');
     expect(nativeMock.clientSendText).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'room-1',
       'hello everyone',
     );
 
     await client.sendReaction('room-1', 'event-5', '👍');
     expect(nativeMock.clientSendReaction).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'room-1',
       'event-5',
       '👍',
@@ -194,14 +133,14 @@ describe('hum-matrix-native module', () => {
     await client.redact('room-1', 'event-7', 'cleanup');
     expect(nativeMock.clientRedact).toHaveBeenNthCalledWith(
       1,
-      'handle-1',
+      1,
       'room-1',
       'event-6',
       null,
     );
     expect(nativeMock.clientRedact).toHaveBeenNthCalledWith(
       2,
-      'handle-1',
+      1,
       'room-1',
       'event-7',
       'cleanup',
@@ -209,14 +148,14 @@ describe('hum-matrix-native module', () => {
 
     await client.sendReadReceipt('room-1', 'event-8');
     expect(nativeMock.clientSendReadReceipt).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'room-1',
       'event-8',
     );
 
     await client.setTyping('room-1', true);
     expect(nativeMock.clientSetTyping).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'room-1',
       true,
       0,
@@ -229,7 +168,7 @@ describe('hum-matrix-native module', () => {
     expect(createdDefault).toBe('room-created-1');
     expect(nativeMock.clientCreateRoom).toHaveBeenNthCalledWith(
       1,
-      'handle-1',
+      1,
       null,
       null,
       false,
@@ -243,7 +182,7 @@ describe('hum-matrix-native module', () => {
     expect(createdCustom).toBe('room-created-2');
     expect(nativeMock.clientCreateRoom).toHaveBeenNthCalledWith(
       2,
-      'handle-1',
+      1,
       'Room name',
       'Topic',
       true,
@@ -252,29 +191,20 @@ describe('hum-matrix-native module', () => {
     nativeMock.clientJoinRoom.mockResolvedValue('joined-room');
     const joined = await client.joinRoom('#alias:server');
     expect(joined).toBe('joined-room');
-    expect(nativeMock.clientJoinRoom).toHaveBeenCalledWith(
-      'handle-1',
-      '#alias:server',
-    );
+    expect(nativeMock.clientJoinRoom).toHaveBeenCalledWith(1, '#alias:server');
 
     await client.leaveRoom('room-1');
-    expect(nativeMock.clientLeaveRoom).toHaveBeenCalledWith(
-      'handle-1',
-      'room-1',
-    );
+    expect(nativeMock.clientLeaveRoom).toHaveBeenCalledWith(1, 'room-1');
 
     await client.startSyncLoop(1234);
-    expect(nativeMock.clientStartSyncLoop).toHaveBeenCalledWith(
-      'handle-1',
-      1234,
-    );
+    expect(nativeMock.clientStartSyncLoop).toHaveBeenCalledWith(1, 1234);
 
     await client.syncOnce(777);
-    expect(nativeMock.clientSyncOnce).toHaveBeenCalledWith('handle-1', 777);
+    expect(nativeMock.clientSyncOnce).toHaveBeenCalledWith(1, 777);
 
     const authed = await client.isAuthenticated();
     expect(authed).toBe(true);
-    expect(nativeMock.clientIsAuthenticated).toHaveBeenCalledWith('handle-1');
+    expect(nativeMock.clientIsAuthenticated).toHaveBeenCalledWith(1);
 
     const rooms = await client.getRooms();
     expect(rooms).toEqual([
@@ -297,11 +227,7 @@ describe('hum-matrix-native module', () => {
     ]);
 
     const users = await client.searchUsers('ali');
-    expect(nativeMock.clientSearchUsers).toHaveBeenCalledWith(
-      'handle-1',
-      'ali',
-      20,
-    );
+    expect(nativeMock.clientSearchUsers).toHaveBeenCalledWith(1, 'ali', 20);
     expect(users).toEqual([
       { userId: '@alice', displayName: 'Alice' },
       { userId: '', displayName: 'No Id' },
@@ -315,33 +241,30 @@ describe('hum-matrix-native module', () => {
 
     await client.renameDevice('device-1', 'New name');
     expect(nativeMock.clientRenameDevice).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'device-1',
       'New name',
     );
 
     await client.deleteDevice('device-2');
-    expect(nativeMock.clientDeleteDevice).toHaveBeenCalledWith(
-      'handle-1',
-      'device-2',
-    );
+    expect(nativeMock.clientDeleteDevice).toHaveBeenCalledWith(1, 'device-2');
 
     await client.importRecoveryKey('secret');
     expect(nativeMock.clientImportRecoveryKey).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'secret',
     );
 
     await client.setPresence(PresenceState.Idle);
     expect(nativeMock.clientSetPresence).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       PresenceState.Idle,
     );
 
     const presence = await client.getPresence('@user:server');
     expect(presence).toBe(PresenceState.DoNotDisturb);
     expect(nativeMock.clientGetPresence).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       '@user:server',
     );
 
@@ -352,7 +275,7 @@ describe('hum-matrix-native module', () => {
     expect(uploadOne).toBe('mxc://upload-1');
     expect(nativeMock.clientUploadMedia).toHaveBeenNthCalledWith(
       1,
-      'handle-1',
+      1,
       Buffer.from([1, 2, 3, 4]).toString('base64'),
       'text/plain',
     );
@@ -364,24 +287,24 @@ describe('hum-matrix-native module', () => {
     expect(uploadTwo).toBe('mxc://upload-2');
     expect(nativeMock.clientUploadMedia).toHaveBeenNthCalledWith(
       2,
-      'handle-1',
+      1,
       Buffer.from([5, 6]).toString('base64'),
       'text/plain',
     );
 
     const media = await client.downloadMedia('mxc://file');
     expect(nativeMock.clientDownloadMedia).toHaveBeenCalledWith(
-      'handle-1',
+      1,
       'mxc://file',
     );
     expect(Array.from(media)).toEqual([1, 2, 3, 4]);
 
     await client.stopSyncLoop();
-    expect(nativeMock.clientStopSyncLoop).toHaveBeenCalledWith('handle-1');
+    expect(nativeMock.clientStopSyncLoop).toHaveBeenCalledWith(1);
   });
 
   it('swallows stop loop failures and always frees the client on dispose', async () => {
-    nativeMock.createClient.mockResolvedValue('handle-2');
+    nativeMock.createClient.mockResolvedValue(2);
     const error = new Error('stop failed');
     nativeMock.clientStopSyncLoop.mockRejectedValue(error);
     nativeMock.clientFree.mockResolvedValue(undefined);
@@ -393,11 +316,11 @@ describe('hum-matrix-native module', () => {
 
     await expect(client.dispose()).resolves.toBeUndefined();
     expect(nativeMock.clientStopSyncLoop).toHaveBeenCalledTimes(2);
-    expect(nativeMock.clientFree).toHaveBeenCalledWith('handle-2');
+    expect(nativeMock.clientFree).toHaveBeenCalledWith(2);
   });
 
   it('handles optional recovery key import gracefully', async () => {
-    nativeMock.createClient.mockResolvedValue('handle-3');
+    nativeMock.createClient.mockResolvedValue(3);
     nativeMock.clientImportRecoveryKey = undefined;
 
     const client = await Module.createClient('hs', 'store');
@@ -405,7 +328,7 @@ describe('hum-matrix-native module', () => {
   });
 
   it('throws descriptive errors when room JSON is invalid', async () => {
-    nativeMock.createClient.mockResolvedValue('handle-4');
+    nativeMock.createClient.mockResolvedValue(4);
     nativeMock.clientGetRooms
       .mockResolvedValueOnce('[{}]')
       .mockResolvedValueOnce('not json');
@@ -421,7 +344,7 @@ describe('hum-matrix-native module', () => {
   });
 
   it('throws descriptive errors when user or device JSON cannot be parsed', async () => {
-    nativeMock.createClient.mockResolvedValue('handle-5');
+    nativeMock.createClient.mockResolvedValue(5);
     nativeMock.clientSearchUsers.mockResolvedValue('not json');
     nativeMock.clientGetDevices.mockResolvedValue('still not json');
 
