@@ -66,7 +66,7 @@ export const BottomSlidingInOverlayScreen = forwardRef<
   };
   const rngh = useMemo(() => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       return require('react-native-gesture-handler') as unknown as RNGHLike;
     } catch {
       return null;

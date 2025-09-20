@@ -84,7 +84,6 @@ describe('ListRow', () => {
     expect(darkStyle).toMatchObject({ color: colors.dark.foreground });
   });
 
-
   it('renders spacing and background colors based on press state', () => {
     renderRow();
     expect(pressableStyles).toHaveLength(1);
