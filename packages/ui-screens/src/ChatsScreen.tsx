@@ -57,7 +57,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
   onNavigateToChat,
   showSearch,
 }) => {
-  const { colors, spacing, type } = useTheme();
+  const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
   const { open } = useOverlay();
   const [query, setQuery] = React.useState<string>('');
