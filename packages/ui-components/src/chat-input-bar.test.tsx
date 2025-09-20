@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ChatInputBar } from './chat-input-bar';
 
@@ -39,5 +40,31 @@ describe('ChatInputBar', () => {
     fireEvent.press(getByLabelText('Add attachment'));
 
     expect(onAttachmentPress).toHaveBeenCalled();
+  });
+
+  it('grows with content size and enables scrolling past the limit', () => {
+    const { getByLabelText } = renderComponent();
+    const input = getByLabelText('Message input');
+
+    expect(input.props.multiline).toBe(true);
+    expect(input.props.scrollEnabled).toBe(false);
+
+    fireEvent(input, 'contentSizeChange', {
+      nativeEvent: { contentSize: { height: 20 } },
+    });
+
+    let updatedInput = getByLabelText('Message input');
+    let flattened = StyleSheet.flatten(updatedInput.props.style);
+    expect(flattened.height).toBe(flattened.minHeight);
+    expect(updatedInput.props.scrollEnabled).toBe(false);
+
+    fireEvent(updatedInput, 'contentSizeChange', {
+      nativeEvent: { contentSize: { height: 300 } },
+    });
+
+    updatedInput = getByLabelText('Message input');
+    flattened = StyleSheet.flatten(updatedInput.props.style);
+    expect(flattened.height).toBe(flattened.maxHeight);
+    expect(updatedInput.props.scrollEnabled).toBe(true);
   });
 });

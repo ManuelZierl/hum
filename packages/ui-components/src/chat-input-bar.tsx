@@ -1,7 +1,23 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Icon } from './theme/icon';
 import { useTheme } from './theme/theme-provider';
+
+type ContentSizeChangeEvent = {
+  nativeEvent: {
+    contentSize?: {
+      height?: number;
+    };
+  };
+};
+
+type LayoutEvent = {
+  nativeEvent?: {
+    layout?: {
+      height?: number;
+    };
+  };
+};
 
 export interface ChatInputBarProps {
   value: string;
@@ -33,45 +49,99 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   micAccessibilityLabel,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
-  const themedStyles = useMemo(
-    () => ({
-      container: {
-        borderTopColor: colors.border,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm,
+
+  const { themedStyles, minInputHeight, maxInputHeight } = useMemo(() => {
+    const minHeight = type.lineHeight.relaxed + spacing.xs * 2;
+    const maxHeight = minHeight * 4;
+    return {
+      minInputHeight: minHeight,
+      maxInputHeight: maxHeight,
+      themedStyles: {
+        container: {
+          borderTopColor: colors.border,
+          paddingHorizontal: spacing.md,
+          paddingVertical: spacing.sm,
+        },
+        attachmentButton: {
+          marginRight: spacing.sm,
+        },
+        attachmentText: {
+          color: colors.mutedForeground,
+        },
+        inputContainer: {
+          backgroundColor: colors.muted,
+          borderRadius: radius.xl,
+          paddingHorizontal: spacing.md,
+          paddingVertical: spacing.xs,
+        },
+        textInput: {
+          color: colors.foreground,
+          fontSize: type.size.base,
+          lineHeight: type.lineHeight.relaxed,
+        },
+        emojiButton: {
+          marginLeft: spacing.xs,
+        },
+        actionButton: {
+          marginLeft: spacing.sm,
+        },
       },
-      attachmentButton: {
-        marginRight: spacing.sm,
-      },
-      attachmentText: {
-        color: colors.mutedForeground,
-      },
-      inputContainer: {
-        backgroundColor: colors.muted,
-        borderRadius: radius.xl,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.xs,
-      },
-      textInput: {
-        color: colors.foreground,
-      },
-      emojiButton: {
-        marginLeft: spacing.xs,
-      },
-      actionButton: {
-        marginLeft: spacing.sm,
-      },
-    }),
-    [
-      colors.border,
-      colors.foreground,
-      colors.muted,
-      colors.mutedForeground,
-      radius.xl,
-      spacing.md,
-      spacing.sm,
-      spacing.xs,
-    ],
+    };
+  }, [
+    colors.border,
+    colors.foreground,
+    colors.muted,
+    colors.mutedForeground,
+    radius.xl,
+    spacing.md,
+    spacing.sm,
+    spacing.xs,
+    type.lineHeight.relaxed,
+    type.size.base,
+    type.size['2xl'],
+  ]);
+
+  const measurementText = useMemo(() => {
+    if (!value) return ' ';
+    return `${value}\u200B`;
+  }, [value]);
+
+  const [inputHeight, setInputHeight] = useState(minInputHeight);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(false);
+
+  useEffect(() => {
+    setInputHeight(minInputHeight);
+    setIsScrollEnabled(false);
+  }, [minInputHeight]);
+
+  const applyMeasuredHeight = useCallback(
+    (height: number | undefined) => {
+      if (typeof height !== 'number' || Number.isNaN(height)) return;
+      const rounded = Math.ceil(height);
+      const clampedHeight = Math.min(
+        Math.max(rounded, minInputHeight),
+        maxInputHeight,
+      );
+      setInputHeight((current) =>
+        current === clampedHeight ? current : clampedHeight,
+      );
+      setIsScrollEnabled(rounded > maxInputHeight);
+    },
+    [maxInputHeight, minInputHeight],
+  );
+
+  const handleContentSizeChange = useCallback(
+    (event: ContentSizeChangeEvent) => {
+      applyMeasuredHeight(event.nativeEvent?.contentSize?.height);
+    },
+    [applyMeasuredHeight],
+  );
+
+  const handleMeasureLayout = useCallback(
+    (event: LayoutEvent) => {
+      applyMeasuredHeight(event.nativeEvent?.layout?.height);
+    },
+    [applyMeasuredHeight],
   );
 
   return (
@@ -103,15 +173,48 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         </Pressable>
 
         <View style={[styles.textInputContainer, themedStyles.inputContainer]}>
-          <TextInput
-            style={[styles.textInput, themedStyles.textInput]}
-            placeholder={placeholder}
-            placeholderTextColor={colors.mutedForeground}
-            value={value}
-            onChangeText={onChangeText}
-            accessible
-            accessibilityLabel={inputAccessibilityLabel}
-          />
+          <View style={styles.expandingArea}>
+            <View
+              pointerEvents="none"
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+              style={styles.hiddenMeasureWrapper}
+            >
+              <Text
+                onLayout={handleMeasureLayout}
+                style={[
+                  styles.hiddenMeasureText,
+                  themedStyles.textInput,
+                  {
+                    minHeight: minInputHeight,
+                  },
+                ]}
+              >
+                {measurementText}
+              </Text>
+            </View>
+
+            <TextInput
+              multiline
+              onContentSizeChange={handleContentSizeChange}
+              scrollEnabled={isScrollEnabled}
+              style={[
+                styles.textInput,
+                themedStyles.textInput,
+                {
+                  minHeight: minInputHeight,
+                  maxHeight: maxInputHeight,
+                  height: inputHeight,
+                },
+              ]}
+              placeholder={placeholder}
+              placeholderTextColor={colors.mutedForeground}
+              value={value}
+              onChangeText={onChangeText}
+              accessible
+              accessibilityLabel={inputAccessibilityLabel}
+            />
+          </View>
           <Pressable
             accessibilityRole={onEmojiPress ? 'button' : undefined}
             accessibilityLabel={emojiAccessibilityLabel}
@@ -171,9 +274,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  textInput: {
+  expandingArea: {
     flex: 1,
+    position: 'relative',
+  },
+  hiddenMeasureWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    opacity: 0,
+  },
+  hiddenMeasureText: {
     padding: 0,
+    width: '100%',
+  },
+  textInput: {
+    width: '100%',
+    padding: 0,
+    textAlignVertical: 'top',
   },
   disabledControl: {
     opacity: 0.4,
