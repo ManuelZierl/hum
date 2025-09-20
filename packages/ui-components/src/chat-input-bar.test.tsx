@@ -1,10 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ChatInputBar } from './chat-input-bar';
-
-const TEXT_INPUT_TEST_ID = 'chat-input-bar.text-input';
 
 describe('ChatInputBar', () => {
   function renderComponent(
@@ -45,10 +43,10 @@ describe('ChatInputBar', () => {
   });
 
   it('grows with content size and enables scrolling past the limit', () => {
-    const { getByLabelText, getByTestId } = renderComponent();
+    const { getByLabelText, UNSAFE_getByType } = renderComponent();
     expect(getByLabelText('Message input')).toBeTruthy();
 
-    const input = getByTestId(TEXT_INPUT_TEST_ID);
+    let input = UNSAFE_getByType(TextInput);
 
     expect(input.props.multiline).toBe(true);
     expect(input.props.scrollEnabled).toBe(false);
@@ -57,18 +55,18 @@ describe('ChatInputBar', () => {
       nativeEvent: { contentSize: { height: 20 } },
     });
 
-    let updatedInput = getByTestId(TEXT_INPUT_TEST_ID);
-    let flattened = StyleSheet.flatten(updatedInput.props.style);
+    input = UNSAFE_getByType(TextInput);
+    let flattened = StyleSheet.flatten(input.props.style);
     expect(flattened.height).toBe(flattened.minHeight);
-    expect(updatedInput.props.scrollEnabled).toBe(false);
+    expect(input.props.scrollEnabled).toBe(false);
 
-    fireEvent(updatedInput, 'contentSizeChange', {
+    fireEvent(input, 'contentSizeChange', {
       nativeEvent: { contentSize: { height: 300 } },
     });
 
-    updatedInput = getByTestId(TEXT_INPUT_TEST_ID);
-    flattened = StyleSheet.flatten(updatedInput.props.style);
+    input = UNSAFE_getByType(TextInput);
+    flattened = StyleSheet.flatten(input.props.style);
     expect(flattened.height).toBe(flattened.maxHeight);
-    expect(updatedInput.props.scrollEnabled).toBe(true);
+    expect(input.props.scrollEnabled).toBe(true);
   });
 });

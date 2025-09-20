@@ -24,7 +24,6 @@ export interface ChatInputBarProps {
   onChangeText: (text: string) => void;
   placeholder?: string;
   inputAccessibilityLabel?: string;
-  inputTestID?: string;
   onAttachmentPress?: () => void;
   onEmojiPress?: () => void;
   onCameraPress?: () => void;
@@ -48,7 +47,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   emojiAccessibilityLabel,
   cameraAccessibilityLabel,
   micAccessibilityLabel,
-  inputTestID,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
@@ -212,7 +210,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
               onChangeText={onChangeText}
               accessible
               accessibilityLabel={inputAccessibilityLabel}
-              testID={inputTestID ?? 'chat-input-bar.text-input'}
             />
           </View>
           <Pressable
