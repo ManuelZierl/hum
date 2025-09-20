@@ -58,7 +58,7 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
   onNavigateToChat,
   showSearch,
 }) => {
-  const { colors, spacing } = useTheme();
+  const { colors, spacing, type } = useTheme();
   const insets = useSafeAreaInsets();
   const { open } = useOverlay();
   const [query, setQuery] = React.useState<string>('');
@@ -141,7 +141,13 @@ const ChatsScreenInner: React.FC<InnerProps> = ({
         ]}
         onPress={() => open(<NewChatScreen />)}
       >
-        <Text style={[styles.plusText, { color: colors.humPrimaryForeground }]}>
+        <Text
+          style={{
+            color: colors.humPrimaryForeground,
+            fontSize: type.size['2xl'],
+            lineHeight: type.size['2xl'],
+          }}
+        >
           +
         </Text>
       </Button>
@@ -160,9 +166,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  plusText: {
-    fontSize: 24,
   },
 });
 
