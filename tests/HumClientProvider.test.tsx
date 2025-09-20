@@ -31,6 +31,7 @@ jest.mock('../apps/mobile/src/hum/MockClient', () => ({
       return [{ id: 'r1' }];
     }
     async sendText() {}
+    async sendMessage() {}
     async sendReaction() {}
     async redact() {}
     async sendReadReceipt() {}
@@ -114,6 +115,7 @@ describe('HumClientProvider', () => {
       {
         id: 'msg1',
         body: 'Hello',
+        formattedBody: '<strong>Hello</strong>',
         ts: Date.UTC(2023, 0, 1, 13, 0),
         isOutgoing: true,
       },
@@ -129,6 +131,7 @@ describe('HumClientProvider', () => {
         .mockResolvedValueOnce(false),
       getRooms: jest.fn().mockResolvedValue(roomList),
       sendText: jest.fn().mockResolvedValue(undefined),
+      sendMessage: jest.fn().mockResolvedValue(undefined),
       sendReaction: jest.fn().mockResolvedValue(undefined),
       redact: jest.fn().mockResolvedValue(undefined),
       sendReadReceipt: jest.fn().mockResolvedValue(undefined),
@@ -197,6 +200,12 @@ describe('HumClientProvider', () => {
       await result.current.renameDevice('device-1', 'Phone');
       await result.current.deleteDevice('device-1');
       await result.current.setPresence(0);
+      await result.current.sendMessage('room1', {
+        msgtype: 'm.text',
+        body: 'Hello',
+        format: 'org.matrix.custom.html',
+        formatted_body: '<strong>Hello</strong>',
+      });
     });
 
     expect(client.sendText).toHaveBeenCalledWith('room1', 'hello');
@@ -212,6 +221,13 @@ describe('HumClientProvider', () => {
     expect(client.renameDevice).toHaveBeenCalledWith('device-1', 'Phone');
     expect(client.deleteDevice).toHaveBeenCalledWith('device-1');
     expect(client.setPresence).toHaveBeenCalledWith(0);
+    expect(client.sendMessage).toHaveBeenCalledWith(
+      'room1',
+      expect.objectContaining({
+        body: 'Hello',
+        formatted_body: '<strong>Hello</strong>',
+      }),
+    );
 
     let createdRoom: string | undefined;
     let joinedRoom: string | undefined;
@@ -247,6 +263,7 @@ describe('HumClientProvider', () => {
       expect.objectContaining({
         id: 'msg1',
         text: 'Hello',
+        formattedBody: '<strong>Hello</strong>',
         isOutgoing: true,
         isRead: true,
       }),
@@ -260,6 +277,56 @@ describe('HumClientProvider', () => {
     await waitFor(() => expect(result.current.isAuthenticated).toBe(false));
     expect(client.logout).toHaveBeenCalled();
     expect(client.isAuthenticated).toHaveBeenCalledTimes(3);
+  });
+
+  it('falls back to sendText when sendMessage is unavailable', async () => {
+    const client = {
+      login: jest.fn().mockResolvedValue(undefined),
+      logout: jest.fn().mockResolvedValue(undefined),
+      isAuthenticated: jest.fn().mockResolvedValue(false),
+      getRooms: jest.fn().mockResolvedValue([]),
+      sendText: jest.fn().mockResolvedValue(undefined),
+      sendReaction: jest.fn().mockResolvedValue(undefined),
+      redact: jest.fn().mockResolvedValue(undefined),
+      sendReadReceipt: jest.fn().mockResolvedValue(undefined),
+      setTyping: jest.fn().mockResolvedValue(undefined),
+      createRoom: jest.fn().mockResolvedValue('room'),
+      joinRoom: jest.fn().mockResolvedValue('room'),
+      leaveRoom: jest.fn().mockResolvedValue(undefined),
+      startSyncLoop: jest.fn().mockResolvedValue(undefined),
+      stopSyncLoop: jest.fn().mockResolvedValue(undefined),
+      syncOnce: jest.fn().mockResolvedValue(undefined),
+      importRecoveryKey: jest.fn().mockResolvedValue(undefined),
+      searchUsers: jest.fn().mockResolvedValue([]),
+      getDevices: jest.fn().mockResolvedValue([]),
+      renameDevice: jest.fn().mockResolvedValue(undefined),
+      deleteDevice: jest.fn().mockResolvedValue(undefined),
+      uploadMedia: jest.fn().mockResolvedValue('mxc://mock'),
+      downloadMedia: jest.fn().mockResolvedValue(new Uint8Array()),
+      setPresence: jest.fn().mockResolvedValue(undefined),
+      getPresence: jest.fn().mockResolvedValue(0),
+      getMessages: jest.fn().mockResolvedValue([]),
+    };
+
+    createClientMock.mockResolvedValue(client);
+
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <HumClientProvider>{children}</HumClientProvider>
+    );
+
+    const { result } = renderHook(() => useHumClient(), { wrapper });
+    await waitFor(() => expect(result.current.ready).toBe(true));
+
+    await act(async () => {
+      await result.current.sendMessage('room1', {
+        msgtype: 'm.text',
+        body: 'Fallback',
+        format: 'org.matrix.custom.html',
+        formatted_body: '<strong>Fallback</strong>',
+      });
+    });
+
+    expect(client.sendText).toHaveBeenCalledWith('room1', 'Fallback');
   });
 
   it('throws when useHumClient is used without a provider', () => {

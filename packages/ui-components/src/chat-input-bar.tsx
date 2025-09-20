@@ -25,11 +25,11 @@ export interface ChatInputBarProps {
   placeholder?: string;
   inputAccessibilityLabel?: string;
   onAttachmentPress?: () => void;
-  onEmojiPress?: () => void;
+  onRichInputPress?: () => void;
   onCameraPress?: () => void;
   onMicPress?: () => void;
   attachmentAccessibilityLabel?: string;
-  emojiAccessibilityLabel?: string;
+  richInputAccessibilityLabel?: string;
   cameraAccessibilityLabel?: string;
   micAccessibilityLabel?: string;
 }
@@ -40,18 +40,22 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   placeholder,
   inputAccessibilityLabel,
   onAttachmentPress,
-  onEmojiPress,
+  onRichInputPress,
   onCameraPress,
   onMicPress,
   attachmentAccessibilityLabel,
-  emojiAccessibilityLabel,
+  richInputAccessibilityLabel,
   cameraAccessibilityLabel,
   micAccessibilityLabel,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
+  const baseFontSize = type.size.base;
+  const doubleXlFontSize = type.size['2xl'];
+  const relaxedLineHeight = type.lineHeight.relaxed;
+
   const { themedStyles, minInputHeight, maxInputHeight } = useMemo(() => {
-    const minHeight = type.lineHeight.relaxed + spacing.xs * 2;
+    const minHeight = relaxedLineHeight + spacing.xs * 2;
     const maxHeight = minHeight * 4;
     return {
       minInputHeight: minHeight,
@@ -67,8 +71,8 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         },
         attachmentText: {
           color: colors.mutedForeground,
-          fontSize: type.size['2xl'],
-          lineHeight: type.size['2xl'],
+          fontSize: doubleXlFontSize,
+          lineHeight: doubleXlFontSize,
         },
         inputContainer: {
           backgroundColor: colors.muted,
@@ -78,10 +82,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         },
         textInput: {
           color: colors.foreground,
-          fontSize: type.size.base,
-          lineHeight: type.lineHeight.relaxed,
+          fontSize: baseFontSize,
+          lineHeight: relaxedLineHeight,
         },
-        emojiButton: {
+        richInputButton: {
           marginLeft: spacing.xs,
         },
         actionButton: {
@@ -98,9 +102,9 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     spacing.md,
     spacing.sm,
     spacing.xs,
-    type.lineHeight.relaxed,
-    type.size.base,
-    type.size['2xl'],
+    relaxedLineHeight,
+    baseFontSize,
+    doubleXlFontSize,
   ]);
 
   const measurementText = useMemo(() => {
@@ -213,17 +217,17 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
             />
           </View>
           <Pressable
-            accessibilityRole={onEmojiPress ? 'button' : undefined}
-            accessibilityLabel={emojiAccessibilityLabel}
-            onPress={onEmojiPress}
-            disabled={!onEmojiPress}
+            accessibilityRole={onRichInputPress ? 'button' : undefined}
+            accessibilityLabel={richInputAccessibilityLabel}
+            onPress={onRichInputPress}
+            disabled={!onRichInputPress}
             hitSlop={spacing.xs}
             style={[
-              themedStyles.emojiButton,
-              !onEmojiPress && styles.disabledControl,
+              themedStyles.richInputButton,
+              !onRichInputPress && styles.disabledControl,
             ]}
           >
-            <Icon name="emoji-smile" size={20} color={colors.mutedForeground} />
+            <Icon name="file-text" size={20} color={colors.mutedForeground} />
           </Pressable>
         </View>
 

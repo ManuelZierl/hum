@@ -32,14 +32,19 @@ describe('ChatInputBar', () => {
 
   it('invokes action handlers when provided', () => {
     const onAttachmentPress = jest.fn();
+    const onRichInputPress = jest.fn();
     const { getByLabelText } = renderComponent({
       onAttachmentPress,
+      onRichInputPress,
       attachmentAccessibilityLabel: 'Add attachment',
+      richInputAccessibilityLabel: 'Open rich editor',
     });
 
     fireEvent.press(getByLabelText('Add attachment'));
+    fireEvent.press(getByLabelText('Open rich editor'));
 
     expect(onAttachmentPress).toHaveBeenCalled();
+    expect(onRichInputPress).toHaveBeenCalled();
   });
 
   it('grows with content size and enables scrolling past the limit', () => {

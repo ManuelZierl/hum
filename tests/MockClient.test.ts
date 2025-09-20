@@ -1,6 +1,7 @@
 import { PresenceState } from '@hum/hum-matrix-native';
 
 import { MockClient } from '../apps/mobile/src/hum/MockClient';
+import { createMatrixMessageContent } from '../apps/mobile/src/rich-text';
 
 describe('MockClient', () => {
   const BASE_TS = 1_700_000_000_000;
@@ -95,6 +96,23 @@ describe('MockClient', () => {
     const msgs = await c.getMessages(newRoomId);
     expect(msgs).toHaveLength(1);
     expect(msgs[0]!.isOutgoing).toBe(true);
+  });
+
+  it('stores formatted bodies when sendMessage is used', async () => {
+    const c = new MockClient('hs', 'store');
+    const roomId = '!rich:mock';
+    const payload = createMatrixMessageContent({
+      html: '<strong>Bold</strong><ul><li>Item</li></ul>',
+      text: 'Bold\nItem',
+    });
+
+    await c.sendMessage(roomId, payload);
+
+    const timeline = await c.getMessages(roomId);
+    const last = timeline[timeline.length - 1]!;
+    expect(last.body).toBe(payload.body);
+    expect(last.formattedBody).toBe(payload.formatted_body);
+    expect(last.isOutgoing).toBe(true);
   });
 
   it('creates, joins, and leaves rooms', async () => {
