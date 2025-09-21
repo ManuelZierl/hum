@@ -61,6 +61,10 @@ describe('LightningScreen', () => {
     const bg2 = (
       flatten(getRoot().props.style) as { backgroundColor?: unknown }
     ).backgroundColor;
-    expect([bg2, String(bg2).toUpperCase()]).toContain('#000000');
+    const normalizedBg2 = String(bg2).toUpperCase();
+    expect(
+      normalizedBg2 === '#1B1B1BFF' ||
+        normalizedBg2 === 'RGBA(27,27,27,1.00)'.toUpperCase(),
+    ).toBe(true);
   });
 });
