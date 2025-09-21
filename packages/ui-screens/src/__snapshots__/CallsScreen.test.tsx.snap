@@ -148,8 +148,14 @@ exports[`CallsScreen matches empty state snapshot 1`] = `
       type="button"
     >
       <svg
+        color="#FAFAFA"
         fill="#FAFAFA"
         height={24}
+        style={
+          {
+            "overflow": "visible",
+          }
+        }
         width={24}
       />
       <div
@@ -395,11 +401,13 @@ exports[`CallsScreen matches populated snapshot 1`] = `
               ref={[Function]}
             >
               <svg
+                color="#B5B5B5"
                 fill="#B5B5B5"
                 height={16}
                 style={
                   {
                     "marginRight": 4,
+                    "overflow": "visible",
                   }
                 }
                 width={16}
@@ -447,8 +455,14 @@ exports[`CallsScreen matches populated snapshot 1`] = `
             type="button"
           >
             <svg
+              color="#000000"
               fill="#000000"
               height={24}
+              style={
+                {
+                  "overflow": "visible",
+                }
+              }
               width={24}
             />
           </button>
@@ -560,11 +574,13 @@ exports[`CallsScreen matches populated snapshot 1`] = `
               ref={[Function]}
             >
               <svg
+                color="#B5B5B5"
                 fill="#B5B5B5"
                 height={16}
                 style={
                   {
                     "marginRight": 4,
+                    "overflow": "visible",
                   }
                 }
                 width={16}
@@ -612,8 +628,14 @@ exports[`CallsScreen matches populated snapshot 1`] = `
             type="button"
           >
             <svg
+              color="#000000"
               fill="#000000"
               height={24}
+              style={
+                {
+                  "overflow": "visible",
+                }
+              }
               width={24}
             />
           </button>
@@ -725,11 +747,13 @@ exports[`CallsScreen matches populated snapshot 1`] = `
               ref={[Function]}
             >
               <svg
+                color="#8F2439"
                 fill="#8F2439"
                 height={16}
                 style={
                   {
                     "marginRight": 4,
+                    "overflow": "visible",
                   }
                 }
                 width={16}
@@ -777,8 +801,14 @@ exports[`CallsScreen matches populated snapshot 1`] = `
             type="button"
           >
             <svg
+              color="#000000"
               fill="#000000"
               height={24}
+              style={
+                {
+                  "overflow": "visible",
+                }
+              }
               width={24}
             />
           </button>
