@@ -1,14 +1,14 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme, Icon, TopBar } from '@hum/ui-components';
+import {
+  useTheme,
+  Icon,
+  TopBar,
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
 
 export interface SettingsScreenProps {
@@ -32,6 +32,13 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   const { t } = useTranslation();
   const pName = profileName ?? t('labels.your_name');
   const pStatus = profileStatus ?? t('labels.profile_status_default');
+  const fallbackInitials = pName
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase())
+    .filter(Boolean)
+    .join('');
 
   return (
     <View
@@ -94,11 +101,15 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         >
           <View style={styles.profileRow}>
             <View style={styles.profileInfo}>
-              <Image
-                source={{ uri: profileImageUri }}
-                style={styles.profileImage}
-                accessibilityLabel={t('labels.profile')}
-              />
+              <Avatar size={64} accessibilityRole="image">
+                <AvatarImage
+                  source={{ uri: profileImageUri }}
+                  accessibilityLabel={t('labels.profile')}
+                />
+                {!!fallbackInitials && (
+                  <AvatarFallback>{fallbackInitials}</AvatarFallback>
+                )}
+              </Avatar>
               <View style={{ marginLeft: spacing.md }}>
                 <Text
                   style={{
@@ -157,11 +168,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileSection: {},
-  profileImage: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-  },
 });
 
 export default SettingsScreen;
