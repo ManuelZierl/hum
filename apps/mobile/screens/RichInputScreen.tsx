@@ -1,181 +1,335 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { Button, TopBar, useTheme } from '@hum/ui-components';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+} from 'react-native';
+import { TopBar, useTheme } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
-import { stripHtmlTags } from '../src/rich-text';
+import type { EditorBridge } from '@10play/tentap-editor';
+import {
+  RichText,
+  useEditorBridge,
+  useBridgeState,
+  Images,
+} from '@10play/tentap-editor';
+import {
+  BoldBridge,
+  ItalicBridge,
+  UnderlineBridge,
+  StrikeBridge,
+  HeadingBridge,
+  OrderedListBridge,
+  BulletListBridge,
+  ListItemBridge,
+  BlockquoteBridge,
+  CodeBridge,
+  LinkBridge,
+  HistoryBridge,
+  CoreBridge,
+  HardBreakBridge,
+  PlaceholderBridge,
+} from '@10play/tentap-editor';
+import { sanitizeRichTextHtml } from '@hum/rich-text';
 
-type Selection = { start: number; end: number };
+const BRIDGE_EXTENSIONS = [
+  BoldBridge,
+  ItalicBridge,
+  UnderlineBridge,
+  StrikeBridge,
+  HeadingBridge,
+  OrderedListBridge,
+  BulletListBridge,
+  BlockquoteBridge,
+  CodeBridge,
+  LinkBridge,
+  HistoryBridge,
+  ListItemBridge,
+  HardBreakBridge,
+  PlaceholderBridge,
+  CoreBridge,
+] as const;
 
-type ToolbarAction = {
+type ToolbarButtonConfig = {
+  key: string;
+  icon: number;
   label: string;
   onPress: () => void;
-  accessibilityLabel: string;
+  active?: boolean;
+  disabled?: boolean;
 };
-
-type SelectionChangeEvent = { nativeEvent: { selection: Selection } };
 
 export interface RichInputScreenProps {
   initialHtml?: string;
   onCancel: () => void;
   onSubmit: (payload: { html: string; text: string }) => void;
+  onContentChange?: (payload: { html: string; text: string }) => void;
 }
 
 export const RichInputScreen: React.FC<RichInputScreenProps> = ({
   initialHtml = '',
   onCancel,
   onSubmit,
+  onContentChange,
 }) => {
-  const { colors, spacing, radius, type } = useTheme();
+  const { colors, spacing, radius } = useTheme();
   const { t } = useTranslation();
-  const [value, setValue] = useState<string>(initialHtml);
-  const [selection, setSelection] = useState<Selection>({
-    start: initialHtml.length,
-    end: initialHtml.length,
-  });
-  const selectionRef = useRef(selection);
+  const sanitizedInitial = useMemo(
+    () => sanitizeRichTextHtml(initialHtml || ''),
+    [initialHtml],
+  );
+  const editorRef = useRef<EditorBridge | null>(null);
+  const [isLinkMode, setIsLinkMode] = useState(false);
+  const [pendingLink, setPendingLink] = useState('');
+  const hasInitialisedContent = useRef(false);
 
-  const updateSelection = useCallback((next: Selection) => {
-    selectionRef.current = next;
-    setSelection(next);
+  const fetchContent = useCallback(async () => {
+    if (!editorRef.current) {
+      return { html: '', text: '' };
+    }
+
+    const [html, text] = await Promise.all([
+      editorRef.current.getHTML(),
+      editorRef.current.getText(),
+    ]);
+    const sanitizedHtml = sanitizeRichTextHtml(html);
+    const normalizedText = text.replace(/\r\n?/g, '\n');
+
+    return { html: sanitizedHtml, text: normalizedText };
   }, []);
 
-  const handleSelectionChange = useCallback(
-    (event: SelectionChangeEvent) => {
-      const next = event.nativeEvent.selection;
-      updateSelection(next);
-    },
-    [updateSelection],
-  );
+  const handleContentChange = useCallback(async () => {
+    const payload = await fetchContent();
+    if (!payload.html && !payload.text) {
+      onContentChange?.({ html: '', text: '' });
+      return;
+    }
 
-  const wrapSelection = useCallback(
-    (openTag: string, closeTag: string) => {
-      setValue((current) => {
-        const { start, end } = selectionRef.current;
-        const safeStart = Math.max(0, Math.min(start, current.length));
-        const safeEnd = Math.max(safeStart, Math.min(end, current.length));
-        const before = current.slice(0, safeStart);
-        const selected = current.slice(safeStart, safeEnd);
-        const after = current.slice(safeEnd);
-        const nextValue = `${before}${openTag}${selected}${closeTag}${after}`;
-        const cursor =
-          safeStart + openTag.length + selected.length + closeTag.length;
-        const nextSelection = { start: cursor, end: cursor };
-        updateSelection(nextSelection);
-        return nextValue;
+    onContentChange?.(payload);
+  }, [fetchContent, onContentChange]);
+
+  const editor = useEditorBridge({
+    bridgeExtensions: BRIDGE_EXTENSIONS.slice(),
+    initialContent: sanitizedInitial,
+    dynamicHeight: true,
+    avoidIosKeyboard: true,
+    onChange: () => {
+      void handleContentChange();
+    },
+  });
+
+  useEffect(() => {
+    editorRef.current = editor;
+  }, [editor]);
+
+  const editorState = useBridgeState(editor);
+
+  useEffect(() => {
+    hasInitialisedContent.current = false;
+  }, [sanitizedInitial]);
+
+  useEffect(() => {
+    if (!editorRef.current) return;
+    editorRef.current.setPlaceholder(t('placeholders.type_message'));
+    if (!hasInitialisedContent.current) {
+      hasInitialisedContent.current = true;
+      if (sanitizedInitial) {
+        editorRef.current.setContent(sanitizedInitial);
+      }
+    }
+    void handleContentChange();
+  }, [editor, handleContentChange, sanitizedInitial, t]);
+
+  const restoreSelectionAndRun = useCallback(
+    (run: () => void) => {
+      const selection = editorState.selection;
+      editor.focus();
+      if (
+        selection &&
+        typeof selection.from === 'number' &&
+        typeof selection.to === 'number'
+      ) {
+        editor.setSelection(selection.from, selection.to);
+      }
+
+      const scheduler =
+        typeof requestAnimationFrame === 'function'
+          ? requestAnimationFrame
+          : (cb: () => void) => setTimeout(cb, 0);
+      scheduler(() => {
+        run();
+        void handleContentChange();
       });
     },
-    [updateSelection],
+    [editor, editorState.selection, handleContentChange],
   );
 
-  const insertSnippet = useCallback(
-    (snippet: string) => {
-      setValue((current) => {
-        const { start, end } = selectionRef.current;
-        const safeStart = Math.max(0, Math.min(start, current.length));
-        const safeEnd = Math.max(safeStart, Math.min(end, current.length));
-        const before = current.slice(0, safeStart);
-        const after = current.slice(safeEnd);
-        const nextValue = `${before}${snippet}${after}`;
-        const cursor = safeStart + snippet.length;
-        const nextSelection = { start: cursor, end: cursor };
-        updateSelection(nextSelection);
-        return nextValue;
-      });
-    },
-    [updateSelection],
-  );
-
-  const toolbarActions = useMemo<ToolbarAction[]>(() => {
+  const toolbarButtons: ToolbarButtonConfig[] = useMemo(() => {
     return [
       {
-        label: 'B',
-        onPress: () => wrapSelection('<strong>', '</strong>'),
-        accessibilityLabel: t('labels.format_bold'),
+        key: 'bold',
+        icon: Images.bold,
+        label: t('labels.format_bold'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleBold()),
+        active: editorState.isBoldActive,
+        disabled: !editorState.canToggleBold,
       },
       {
-        label: 'I',
-        onPress: () => wrapSelection('<em>', '</em>'),
-        accessibilityLabel: t('labels.format_italic'),
+        key: 'italic',
+        icon: Images.italic,
+        label: t('labels.format_italic'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleItalic()),
+        active: editorState.isItalicActive,
+        disabled: !editorState.canToggleItalic,
       },
       {
-        label: 'U',
-        onPress: () => wrapSelection('<u>', '</u>'),
-        accessibilityLabel: t('labels.format_underline'),
+        key: 'underline',
+        icon: Images.underline,
+        label: t('labels.format_underline'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleUnderline()),
+        active: editorState.isUnderlineActive,
+        disabled: !editorState.canToggleUnderline,
       },
       {
-        label: 'S',
-        onPress: () => wrapSelection('<s>', '</s>'),
-        accessibilityLabel: t('labels.format_strikethrough'),
+        key: 'strike',
+        icon: Images.strikethrough,
+        label: t('labels.format_strikethrough'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleStrike()),
+        active: editorState.isStrikeActive,
+        disabled: !editorState.canToggleStrike,
       },
       {
-        label: 'H1',
-        onPress: () => wrapSelection('<h1>', '</h1>'),
-        accessibilityLabel: t('labels.format_heading', { level: '1' }),
+        key: 'h1',
+        icon: Images.h1,
+        label: t('labels.format_heading', { level: '1' }),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(1)),
+        active: editorState.headingLevel === 1,
+        disabled: !editorState.canToggleHeading,
       },
       {
-        label: 'H2',
-        onPress: () => wrapSelection('<h2>', '</h2>'),
-        accessibilityLabel: t('labels.format_heading', { level: '2' }),
+        key: 'h2',
+        icon: Images.h2,
+        label: t('labels.format_heading', { level: '2' }),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(2)),
+        active: editorState.headingLevel === 2,
+        disabled: !editorState.canToggleHeading,
       },
       {
-        label: 'H3',
-        onPress: () => wrapSelection('<h3>', '</h3>'),
-        accessibilityLabel: t('labels.format_heading', { level: '3' }),
+        key: 'h3',
+        icon: Images.h3,
+        label: t('labels.format_heading', { level: '3' }),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(3)),
+        active: editorState.headingLevel === 3,
+        disabled: !editorState.canToggleHeading,
       },
       {
-        label: '•',
-        onPress: () => insertSnippet('<ul>\n  <li></li>\n</ul>'),
-        accessibilityLabel: t('labels.format_bullet_list'),
+        key: 'blockquote',
+        icon: Images.quote,
+        label: t('labels.format_blockquote'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleBlockquote()),
+        active: editorState.isBlockquoteActive,
+        disabled: !editorState.canToggleBlockquote,
       },
       {
-        label: '1.',
-        onPress: () => insertSnippet('<ol>\n  <li></li>\n</ol>'),
-        accessibilityLabel: t('labels.format_numbered_list'),
+        key: 'code',
+        icon: Images.code,
+        label: t('labels.format_code'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleCode()),
+        active: editorState.isCodeActive,
+        disabled: !editorState.canToggleCode,
       },
       {
-        label: '❝',
-        onPress: () => wrapSelection('<blockquote>', '</blockquote>'),
-        accessibilityLabel: t('labels.format_blockquote'),
+        key: 'ordered',
+        icon: Images.orderedList,
+        label: t('labels.format_numbered_list'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleOrderedList()),
+        active: editorState.isOrderedListActive,
+        disabled: !editorState.canToggleOrderedList,
       },
       {
-        label: '</>',
-        onPress: () => wrapSelection('<code>', '</code>'),
-        accessibilityLabel: t('labels.format_code'),
+        key: 'bullet',
+        icon: Images.bulletList,
+        label: t('labels.format_bullet_list'),
+        onPress: () => restoreSelectionAndRun(() => editor.toggleBulletList()),
+        active: editorState.isBulletListActive,
+        disabled: !editorState.canToggleBulletList,
       },
       {
-        label: '🔗',
+        key: 'link',
+        icon: Images.link,
+        label: t('labels.format_link'),
         onPress: () => {
-          setValue((current) => {
-            const { start, end } = selectionRef.current;
-            const safeStart = Math.max(0, Math.min(start, current.length));
-            const safeEnd = Math.max(safeStart, Math.min(end, current.length));
-            const before = current.slice(0, safeStart);
-            const after = current.slice(safeEnd);
-            const selected =
-              current.slice(safeStart, safeEnd) ||
-              t('labels.format_link_default');
-            const href = 'https://';
-            const nextValue = `${before}<a href="${href}">${selected}</a>${after}`;
-            const cursor =
-              safeStart +
-              `<a href="${href}">`.length +
-              selected.length +
-              '</a>'.length;
-            const nextSelection = { start: cursor, end: cursor };
-            updateSelection(nextSelection);
-            return nextValue;
-          });
+          if (Platform.OS === 'android') {
+            const { from, to } = editorState.selection;
+            setTimeout(() => {
+              editor.focus();
+              editor.setSelection(from, to);
+            }, 0);
+          }
+          setPendingLink(editorState.activeLink ?? '');
+          setIsLinkMode(true);
         },
-        accessibilityLabel: t('labels.format_link'),
+        active: editorState.isLinkActive,
+        disabled: !editorState.isLinkActive && !editorState.canSetLink,
+      },
+      {
+        key: 'undo',
+        icon: Images.undo,
+        label: t('actions.undo'),
+        onPress: () => restoreSelectionAndRun(() => editor.undo()),
+        disabled: !editorState.canUndo,
+      },
+      {
+        key: 'redo',
+        icon: Images.redo,
+        label: t('actions.redo'),
+        onPress: () => restoreSelectionAndRun(() => editor.redo()),
+        disabled: !editorState.canRedo,
       },
     ];
-  }, [insertSnippet, t, updateSelection, wrapSelection]);
+  }, [editor, editorState, restoreSelectionAndRun, t]);
 
-  const handleSubmit = useCallback(() => {
-    const html = value.trim();
-    const text = stripHtmlTags(html).trim();
-    onSubmit({ html, text });
-  }, [onSubmit, value]);
+  const handleSubmit = useCallback(async () => {
+    if (!editorRef.current) return;
+    const payload = await fetchContent();
+    onSubmit(payload);
+  }, [fetchContent, onSubmit]);
+
+  const handleInsertLink = useCallback(
+    (link: string) => {
+      setIsLinkMode(false);
+      const trimmed = link.trim();
+      if (!trimmed) {
+        editor.setLink('');
+        editor.focus();
+        return;
+      }
+      editor.focus();
+      editor.setLink(trimmed);
+      setTimeout(() => {
+        void handleContentChange();
+      }, 0);
+    },
+    [editor, handleContentChange],
+  );
+
+  const handleCancelLink = useCallback(() => {
+    setIsLinkMode(false);
+    editor.focus();
+    setPendingLink('');
+  }, [editor]);
 
   return (
     <View
@@ -197,53 +351,109 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
           },
         ]}
       />
-      <ScrollView contentContainerStyle={{ padding: spacing.md }}>
-        <View
-          style={[
-            styles.toolbar,
-            {
-              borderColor: colors.border,
-              backgroundColor: colors.muted,
-              borderRadius: radius.lg,
-              padding: spacing.sm,
-            },
-          ]}
-        >
-          {toolbarActions.map((action) => (
-            <Button
-              key={action.label}
-              variant="ghost"
-              size="sm"
-              onPress={action.onPress}
-              accessibilityLabel={action.accessibilityLabel}
-              style={[styles.toolbarButton, { marginRight: spacing.xs }]}
-              textStyle={{ fontSize: type.size.sm }}
-            >
-              {action.label}
-            </Button>
-          ))}
-        </View>
-        <TextInput
-          multiline
-          value={value}
-          onChangeText={setValue}
-          onSelectionChange={handleSelectionChange}
-          selection={selection}
+      <View style={[styles.editorWrapper, { paddingHorizontal: spacing.md }]}>
+        <RichText
+          editor={editor}
           style={[
             styles.editor,
             {
+              backgroundColor: colors.muted,
               borderColor: colors.border,
-              color: colors.foreground,
-              fontSize: type.size.base,
               borderRadius: radius.lg,
               padding: spacing.md,
             },
           ]}
-          placeholder="<p>...</p>"
-          placeholderTextColor={colors.mutedForeground}
-          accessibilityLabel={t('labels.rich_text_editor')}
         />
-      </ScrollView>
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={[styles.toolbarContainer, { paddingBottom: spacing.md }]}
+      >
+        {isLinkMode ? (
+          <View
+            style={[
+              styles.linkBar,
+              {
+                backgroundColor: colors.muted,
+                borderColor: colors.border,
+                borderRadius: radius.lg,
+                marginHorizontal: spacing.md,
+              },
+            ]}
+          >
+            <Pressable
+              accessibilityLabel={t('labels.format_link')}
+              style={[styles.linkButton, { borderRightColor: colors.border }]}
+              onPress={handleCancelLink}
+            >
+              <Image source={Images.link} style={styles.linkIcon} />
+            </Pressable>
+            <TextInput
+              style={[styles.linkInput, { color: colors.foreground }]}
+              placeholder="https://"
+              placeholderTextColor={colors.mutedForeground}
+              autoFocus
+              value={pendingLink}
+              onChangeText={setPendingLink}
+              onSubmitEditing={() => handleInsertLink(pendingLink)}
+              returnKeyType="done"
+            />
+            <Pressable
+              style={[styles.linkDone, { borderLeftColor: colors.border }]}
+              onPress={() => handleInsertLink(pendingLink)}
+            >
+              <Text style={[styles.linkDoneText, { color: colors.primary }]}>
+                {t('actions.done')}
+              </Text>
+            </Pressable>
+          </View>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{ marginHorizontal: spacing.md }}
+            contentContainerStyle={[
+              styles.toolbar,
+              {
+                backgroundColor: colors.muted,
+                borderColor: colors.border,
+                borderRadius: radius.lg,
+              },
+            ]}
+          >
+            {toolbarButtons.map((button) => (
+              <Pressable
+                key={button.key}
+                style={({ pressed }: { pressed: boolean }) => [
+                  styles.toolbarButton,
+                  pressed && !button.disabled
+                    ? { backgroundColor: colors.card }
+                    : null,
+                  button.active
+                    ? { borderColor: colors.primary, borderWidth: 1 }
+                    : null,
+                  button.disabled ? styles.disabled : null,
+                ]}
+                android_ripple={{ color: colors.border }}
+                accessibilityRole="button"
+                accessibilityLabel={button.label}
+                onPress={button.onPress}
+                disabled={button.disabled}
+                hitSlop={4}
+              >
+                <Image
+                  source={button.icon}
+                  style={[
+                    styles.toolbarIcon,
+                    button.active ? { tintColor: colors.primary } : null,
+                    button.disabled ? styles.iconDisabled : null,
+                  ]}
+                />
+              </Pressable>
+            ))}
+          </ScrollView>
+        )}
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -252,19 +462,72 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  toolbar: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  toolbarButton: {
-    minWidth: 44,
+  editorWrapper: {
+    flex: 1,
+    paddingTop: 12,
   },
   editor: {
-    minHeight: 240,
     borderWidth: StyleSheet.hairlineWidth,
-    textAlignVertical: 'top',
+    minHeight: 320,
+  },
+  toolbarContainer: {
+    paddingTop: 12,
+  },
+  toolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    borderWidth: StyleSheet.hairlineWidth,
+    flexGrow: 0,
+  },
+  toolbarButton: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    marginHorizontal: 4,
+  },
+  toolbarIcon: {
+    width: 22,
+    height: 22,
+    resizeMode: 'contain',
+  },
+  disabled: {
+    opacity: 0.4,
+  },
+  iconDisabled: {
+    opacity: 0.4,
+  },
+  linkBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingVertical: 8,
+  },
+  linkButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRightWidth: StyleSheet.hairlineWidth,
+  },
+  linkIcon: {
+    width: 22,
+    height: 22,
+    resizeMode: 'contain',
+  },
+  linkInput: {
+    flex: 1,
+    paddingHorizontal: 12,
+    fontSize: 16,
+  },
+  linkDone: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+  },
+  linkDoneText: {
+    fontWeight: '600',
   },
 });
 

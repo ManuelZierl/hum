@@ -105,6 +105,8 @@
     "@types/react": "^19.1.12"
   },
   "dependencies": {
-    "jest-fixed-jsdom": "^0.0.10"
+    "@10play/tentap-editor": "^0.7.4",
+    "jest-fixed-jsdom": "^0.0.10",
+    "react-native-webview": "^13.12.2"
   }
 }

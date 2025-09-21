@@ -40,7 +40,9 @@ const SAFE_PROTOCOLS = ['http:', 'https:', 'mailto:', 'matrix:'];
 
 const COMMENT_PATTERN = /<!--([\s\S]*?)-->/g;
 const UNSAFE_CONTENT_PATTERN = new RegExp(
-  `<\\s*(?:${UNSAFE_CONTENT_TAGS.join('|')})[^>]*>[\\s\\S]*?<\\s*/\\s*(?:${UNSAFE_CONTENT_TAGS.join('|')})\\s*>`,
+  `<\\s*(?:${UNSAFE_CONTENT_TAGS.join('|')})[^>]*>[\\s\\S]*?<\\s*/\\s*(?:${UNSAFE_CONTENT_TAGS.join(
+    '|',
+  )})\\s*>`,
   'gi',
 );
 const UNSAFE_SELF_CLOSING_PATTERN = new RegExp(
@@ -122,7 +124,10 @@ export function sanitizeRichTextHtml(input: string): string {
 
 export function stripHtmlTags(input: string): string {
   if (!input) return '';
-  return input.replace(/<[^>]+>/g, '');
+  return input
+    .replace(/<br\s*\/?>(\r?\n)?/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\n{3,}/g, '\n\n');
 }
 
 export type SanitizedPayload = {

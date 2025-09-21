@@ -1,7 +1,7 @@
 import { PresenceState } from '@hum/hum-matrix-native';
 
 import { MockClient } from '../apps/mobile/src/hum/MockClient';
-import { createMatrixMessageContent } from '../apps/mobile/src/rich-text';
+import { createMatrixMessageContent } from '@hum/rich-text';
 
 describe('MockClient', () => {
   const BASE_TS = 1_700_000_000_000;

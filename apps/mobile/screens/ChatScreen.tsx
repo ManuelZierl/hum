@@ -20,7 +20,10 @@ import {
 } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
 import RichInputScreen from './RichInputScreen';
-import { createMatrixMessageContent } from '../src/rich-text';
+import {
+  createMatrixMessageContent,
+  sanitizeRichTextHtml,
+} from '@hum/rich-text';
 import { useHumClient } from '../src/hum/HumClientProvider';
 
 export interface ChatMessage extends MessageBubbleProps {
@@ -59,14 +62,21 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   const { sendMessage, getMessages } = useHumClient();
   const [value, setValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [richDraft, setRichDraft] = useState<{
+    html: string;
+    text: string;
+  } | null>(null);
 
   const handleSubmitRichInput = useCallback(
     async ({ html, text }: { html: string; text: string }) => {
       try {
         setIsSubmitting(true);
+        setRichDraft({ html, text });
+        setValue(text);
         const content = createMatrixMessageContent({ html, text });
         await sendMessage(roomId, content);
         setValue('');
+        setRichDraft(null);
         const updated = await getMessages(roomId);
         onMessagesUpdate?.(updated);
       } catch (error) {
@@ -79,17 +89,40 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     [close, getMessages, onMessagesUpdate, roomId, sendMessage],
   );
 
+  const handleComposerChange = useCallback(
+    ({ html, text }: { html: string; text: string }) => {
+      setRichDraft({ html, text });
+      setValue(text);
+    },
+    [],
+  );
+
   const handleOpenRichInput = useCallback(() => {
     if (isSubmitting) return;
-    const initialHtml = value ? `<p>${escapeHtml(value)}</p>` : '';
+    const startingHtml = richDraft?.html
+      ? sanitizeRichTextHtml(richDraft.html)
+      : value
+        ? `<p>${escapeHtml(value)}</p>`
+        : '';
+    const sanitizedInitial = sanitizeRichTextHtml(startingHtml);
+    const initialHtml = sanitizedInitial || '<p></p>';
     open(
       <RichInputScreen
         initialHtml={initialHtml}
         onCancel={close}
         onSubmit={handleSubmitRichInput}
+        onContentChange={handleComposerChange}
       />,
     );
-  }, [close, handleSubmitRichInput, isSubmitting, open, value]);
+  }, [
+    close,
+    handleComposerChange,
+    handleSubmitRichInput,
+    isSubmitting,
+    open,
+    richDraft?.html,
+    value,
+  ]);
 
   return (
     <View

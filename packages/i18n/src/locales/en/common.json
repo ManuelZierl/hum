@@ -21,7 +21,9 @@
     "outgoing_message": "Outgoing message",
     "incoming_message": "Incoming message",
     "toggle_mock": "Toggle Mock",
-    "done": "Done"
+    "done": "Done",
+    "undo": "Undo",
+    "redo": "Redo"
   },
   "labels": {
     "archived": "Archived",

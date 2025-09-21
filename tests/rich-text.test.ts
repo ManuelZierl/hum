@@ -3,7 +3,7 @@ import {
   isSafeUrl,
   sanitizeRichContent,
   sanitizeRichTextHtml,
-} from '../apps/mobile/src/rich-text';
+} from '@hum/rich-text';
 
 describe('sanitizeRichTextHtml', () => {
   it('removes disallowed tags and attributes', () => {

@@ -21,7 +21,9 @@
     "outgoing_message": "Ausgehende Nachricht",
     "incoming_message": "Eingehende Nachricht",
     "toggle_mock": "Mock umschalten",
-    "done": "Fertig"
+    "done": "Fertig",
+    "undo": "Rückgängig",
+    "redo": "Wiederholen"
   },
   "labels": {
     "archived": "Archiviert",

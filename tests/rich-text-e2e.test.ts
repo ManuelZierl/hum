@@ -1,5 +1,5 @@
 import { MockClient } from '../apps/mobile/src/hum/MockClient';
-import { createMatrixMessageContent } from '../apps/mobile/src/rich-text';
+import { createMatrixMessageContent } from '@hum/rich-text';
 
 describe('rich text messaging e2e', () => {
   it('stores sanitized matrix payloads', async () => {

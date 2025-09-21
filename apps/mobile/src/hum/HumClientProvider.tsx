@@ -17,7 +17,7 @@ import HumNative, {
 } from '@hum/hum-matrix-native';
 import type { Chat } from '@hum/ui-screens';
 import type { ChatMessage } from '../../screens/ChatScreen';
-import type { MatrixMessageContent } from '../rich-text';
+import type { MatrixMessageContent } from '@hum/rich-text';
 import Constants from 'expo-constants';
 
 type AppExtra = {

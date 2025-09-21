@@ -7,7 +7,7 @@ import {
   type UserSummary,
   type DeviceInfo,
 } from '@hum/hum-matrix-native';
-import type { MatrixMessageContent } from '../rich-text';
+import type { MatrixMessageContent } from '@hum/rich-text';
 import seedData from './mock-data.json';
 
 type SeedMessage = {
