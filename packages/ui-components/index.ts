@@ -19,6 +19,8 @@ export { SettingsItem } from './src/settings-item';
 export type { SettingsItemProps } from './src/settings-item';
 export { BottomNavigation } from './src/bottom-navigation';
 export type { BottomNavigationProps } from './src/bottom-navigation';
+export { SlideTransition } from './src/slide-transition';
+export type { SlideTransitionProps } from './src/slide-transition';
 export { ChatItem } from './src/chat-item';
 export type { ChatItemProps } from './src/chat-item';
 export { CallItem } from './src/call-item';

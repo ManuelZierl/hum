@@ -76,6 +76,13 @@ jest.mock('@hum/ui-components', () => {
       {children}
     </TouchableOpacity>
   );
+  const SlideTransition = ({
+    activeKey,
+    scenes,
+  }: {
+    activeKey: string;
+    scenes: Record<string, React.ReactNode>;
+  }) => <View testID={`slide-${activeKey}`}>{scenes[activeKey]}</View>;
   const BottomNavigation = ({
     onTabChange,
     activeTab,
@@ -111,6 +118,7 @@ jest.mock('@hum/ui-components', () => {
     ThemeProvider,
     OverlayProvider,
     Button,
+    SlideTransition,
     __themeState: themeState,
   };
 });

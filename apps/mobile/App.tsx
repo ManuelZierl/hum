@@ -6,6 +6,7 @@ import {
   BottomNavigation,
   ThemeProvider,
   OverlayProvider,
+  SlideTransition,
 } from '@hum/ui-components';
 import Constants from 'expo-constants';
 import {
@@ -26,6 +27,9 @@ import i18n from '@hum/i18n';
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [chatTransitionDirection, setChatTransitionDirection] = useState<
+    'forward' | 'backward'
+  >('forward');
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showDev, setShowDev] = useState(false);
   const enableDev = useMemo(() => {
@@ -38,6 +42,8 @@ function AppInner() {
   }, []);
   const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
+  const [settingsTransitionDirection, setSettingsTransitionDirection] =
+    useState<'forward' | 'backward'>('forward');
   const systemScheme = useColorScheme() ?? 'light';
   const resolvedScheme = theme === 'auto' ? systemScheme : theme;
   const { i18n: i18next } = useTranslation();
@@ -57,25 +63,52 @@ function AppInner() {
     };
   }, [selectedChat, getMessages]);
 
+  const handleNavigateToChat = (chat: Chat) => {
+    setChatTransitionDirection('forward');
+    setSelectedChat(chat);
+  };
+
+  const handleChatBack = () => {
+    setChatTransitionDirection('backward');
+    setSelectedChat(null);
+  };
+
+  const handleNavigateToTheme = () => {
+    setSettingsTransitionDirection('forward');
+    setSettingsView('theme');
+  };
+
+  const handleThemeBack = () => {
+    setSettingsTransitionDirection('backward');
+    setSettingsView('main');
+  };
+
   const renderCurrentScreen = () => {
     if (showDev) {
       return <DevNativeBridgeScreen onBack={() => setShowDev(false)} />;
     }
 
-    if (selectedChat) {
-      return (
-        <ChatScreen
-          chatName={selectedChat.name}
-          chatAvatar={selectedChat.avatar}
-          messages={chatMessages}
-          onBack={() => setSelectedChat(null)}
-        />
-      );
-    }
-
     switch (activeTab) {
       case 'chats':
-        return <ChatsFromProvider onNavigateToChat={setSelectedChat} />;
+        return (
+          <SlideTransition
+            activeKey={selectedChat ? 'chat' : 'list'}
+            direction={chatTransitionDirection}
+            scenes={{
+              list: (
+                <ChatsFromProvider onNavigateToChat={handleNavigateToChat} />
+              ),
+              chat: selectedChat ? (
+                <ChatScreen
+                  chatName={selectedChat.name}
+                  chatAvatar={selectedChat.avatar}
+                  messages={chatMessages}
+                  onBack={handleChatBack}
+                />
+              ) : null,
+            }}
+          />
+        );
       case 'calls':
         return <CallsScreen />;
       case 'payments':
@@ -83,16 +116,25 @@ function AppInner() {
         return <LightningScreen />;
       case 'settings':
       default:
-        return settingsView === 'theme' ? (
-          <ThemeSettingsScreen
-            theme={theme}
-            onBack={() => setSettingsView('main')}
-            onSelectTheme={setTheme}
-          />
-        ) : (
-          <MainSettingsScreen
-            theme={theme}
-            onNavigateToTheme={() => setSettingsView('theme')}
+        return (
+          <SlideTransition
+            activeKey={settingsView === 'theme' ? 'theme' : 'main'}
+            direction={settingsTransitionDirection}
+            scenes={{
+              main: (
+                <MainSettingsScreen
+                  theme={theme}
+                  onNavigateToTheme={handleNavigateToTheme}
+                />
+              ),
+              theme: (
+                <ThemeSettingsScreen
+                  theme={theme}
+                  onBack={handleThemeBack}
+                  onSelectTheme={setTheme}
+                />
+              ),
+            }}
           />
         );
     }
