@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { ThemeProvider } from './theme/theme-provider';
 import { ChatInputBar } from './chat-input-bar';
 
@@ -39,5 +40,33 @@ describe('ChatInputBar', () => {
     fireEvent.press(getByLabelText('Add attachment'));
 
     expect(onAttachmentPress).toHaveBeenCalled();
+  });
+
+  it('grows with content size and enables scrolling past the limit', () => {
+    const { getByLabelText, UNSAFE_getByType } = renderComponent();
+    expect(getByLabelText('Message input')).toBeTruthy();
+
+    let input = UNSAFE_getByType(TextInput);
+
+    expect(input.props.multiline).toBe(true);
+    expect(input.props.scrollEnabled).toBe(false);
+
+    fireEvent(input, 'contentSizeChange', {
+      nativeEvent: { contentSize: { height: 20 } },
+    });
+
+    input = UNSAFE_getByType(TextInput);
+    let flattened = StyleSheet.flatten(input.props.style);
+    expect(flattened.height).toBe(flattened.minHeight);
+    expect(input.props.scrollEnabled).toBe(false);
+
+    fireEvent(input, 'contentSizeChange', {
+      nativeEvent: { contentSize: { height: 300 } },
+    });
+
+    input = UNSAFE_getByType(TextInput);
+    flattened = StyleSheet.flatten(input.props.style);
+    expect(flattened.height).toBe(flattened.maxHeight);
+    expect(input.props.scrollEnabled).toBe(true);
   });
 });

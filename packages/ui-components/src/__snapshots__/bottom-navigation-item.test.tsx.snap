@@ -3,7 +3,7 @@
 exports[`BottomNavItem renders and matches snapshot 1`] = `
 <button
   aria-label="Inbox"
-  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci"
+  className="css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-flex-13awgt0 r-justifyContent-1777fci r-overflow-bztko3"
   dir={null}
   onBlur={[Function]}
   onClick={[Function]}
@@ -25,13 +25,24 @@ exports[`BottomNavItem renders and matches snapshot 1`] = `
   type="button"
 >
   <div
-    className="css-view-g5y9jx r-position-bnwqim"
+    className="css-view-g5y9jx r-overflow-bztko3 r-position-bnwqim"
     dir={null}
     ref={[Function]}
+    style={
+      {
+        "transform": "scale(1)",
+      }
+    }
   >
     <svg
+      color="#717182"
       fill="#717182"
       height={24}
+      style={
+        {
+          "overflow": "visible",
+        }
+      }
       width={24}
     />
   </div>

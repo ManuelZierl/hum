@@ -106,5 +106,15 @@
         "description": "Secure backup and recovery options for your Lightning wallet"
       }
     }
+  },
+  "text_size": {
+    "label": "Text size",
+    "extra_small": "Extra small",
+    "small": "Small",
+    "default": "Default",
+    "large": "Large",
+    "extra_large": "Extra large",
+    "preview_title": "Preview headline",
+    "preview_body": "This is an example paragraph showing how app text scales."
   }
 }
