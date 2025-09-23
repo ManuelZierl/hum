@@ -1,3 +1,4 @@
 export * from './sanitize';
 export * from './message';
-export * from './render-native';
+export type { RichTextTheme, RenderOptions } from './render-native';
+export { renderRichTextToNative, createDefaultTheme } from './render-native';
