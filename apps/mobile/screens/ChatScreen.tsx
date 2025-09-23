@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import RichInputScreen from './RichInputScreen';
 import {
   createMatrixMessageContent,
+  sanitizeRichContent,
   sanitizeRichTextHtml,
 } from '@hum/rich-text';
 import { useHumClient } from '../src/hum/HumClientProvider';
@@ -71,9 +72,12 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     async ({ html, text }: { html: string; text: string }) => {
       try {
         setIsSubmitting(true);
-        setRichDraft({ html, text });
-        setValue(text);
         const content = createMatrixMessageContent({ html, text });
+        setRichDraft({
+          html: content.formatted_body,
+          text: content.body,
+        });
+        setValue(content.body);
         await sendMessage(roomId, content);
         setValue('');
         setRichDraft(null);
@@ -91,8 +95,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
   const handleComposerChange = useCallback(
     ({ html, text }: { html: string; text: string }) => {
-      setRichDraft({ html, text });
-      setValue(text);
+      const { sanitizedHtml, plainText } = sanitizeRichContent(html, text);
+      setRichDraft({ html: sanitizedHtml, text: plainText });
+      setValue(plainText);
     },
     [],
   );

@@ -16,6 +16,7 @@ import {
   TextInput,
   Text,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TopBar, useTheme } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
 import type { EditorBridge } from '@10play/tentap-editor';
@@ -85,7 +86,22 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
   onContentChange,
 }) => {
   const { colors, spacing, radius } = useTheme();
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const translate = useCallback(
+    (
+      key: string,
+      fallback: string | ((options?: Record<string, string>) => string),
+      options?: Record<string, string>,
+    ) => {
+      const result = t(key, options);
+      if (result === key) {
+        return typeof fallback === 'function' ? fallback(options) : fallback;
+      }
+      return result;
+    },
+    [t],
+  );
   const sanitizedInitial = useMemo(
     () => sanitizeRichTextHtml(initialHtml || ''),
     [initialHtml],
@@ -142,7 +158,11 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
 
   useEffect(() => {
     if (!editorRef.current) return;
-    editorRef.current.setPlaceholder(t('placeholders.type_message'));
+    const placeholder = translate(
+      'placeholders.type_message',
+      'Type a message...',
+    );
+    editorRef.current.setPlaceholder(placeholder);
     if (!hasInitialisedContent.current) {
       hasInitialisedContent.current = true;
       if (sanitizedInitial) {
@@ -150,7 +170,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       }
     }
     void handleContentChange();
-  }, [editor, handleContentChange, sanitizedInitial, t]);
+  }, [editor, handleContentChange, sanitizedInitial, translate]);
 
   const restoreSelectionAndRun = useCallback(
     (run: () => void) => {
@@ -181,7 +201,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'bold',
         icon: Images.bold,
-        label: t('labels.format_bold'),
+        label: translate('labels.format_bold', 'Bold'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBold()),
         active: editorState.isBoldActive,
         disabled: !editorState.canToggleBold,
@@ -189,7 +209,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'italic',
         icon: Images.italic,
-        label: t('labels.format_italic'),
+        label: translate('labels.format_italic', 'Italic'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleItalic()),
         active: editorState.isItalicActive,
         disabled: !editorState.canToggleItalic,
@@ -197,7 +217,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'underline',
         icon: Images.underline,
-        label: t('labels.format_underline'),
+        label: translate('labels.format_underline', 'Underline'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleUnderline()),
         active: editorState.isUnderlineActive,
         disabled: !editorState.canToggleUnderline,
@@ -205,7 +225,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'strike',
         icon: Images.strikethrough,
-        label: t('labels.format_strikethrough'),
+        label: translate('labels.format_strikethrough', 'Strikethrough'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleStrike()),
         active: editorState.isStrikeActive,
         disabled: !editorState.canToggleStrike,
@@ -213,7 +233,11 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'h1',
         icon: Images.h1,
-        label: t('labels.format_heading', { level: '1' }),
+        label: translate(
+          'labels.format_heading',
+          (options) => `Heading ${options?.level ?? ''}`,
+          { level: '1' },
+        ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(1)),
         active: editorState.headingLevel === 1,
         disabled: !editorState.canToggleHeading,
@@ -221,7 +245,11 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'h2',
         icon: Images.h2,
-        label: t('labels.format_heading', { level: '2' }),
+        label: translate(
+          'labels.format_heading',
+          (options) => `Heading ${options?.level ?? ''}`,
+          { level: '2' },
+        ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(2)),
         active: editorState.headingLevel === 2,
         disabled: !editorState.canToggleHeading,
@@ -229,7 +257,11 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'h3',
         icon: Images.h3,
-        label: t('labels.format_heading', { level: '3' }),
+        label: translate(
+          'labels.format_heading',
+          (options) => `Heading ${options?.level ?? ''}`,
+          { level: '3' },
+        ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(3)),
         active: editorState.headingLevel === 3,
         disabled: !editorState.canToggleHeading,
@@ -237,7 +269,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'blockquote',
         icon: Images.quote,
-        label: t('labels.format_blockquote'),
+        label: translate('labels.format_blockquote', 'Blockquote'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBlockquote()),
         active: editorState.isBlockquoteActive,
         disabled: !editorState.canToggleBlockquote,
@@ -245,7 +277,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'code',
         icon: Images.code,
-        label: t('labels.format_code'),
+        label: translate('labels.format_code', 'Code'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleCode()),
         active: editorState.isCodeActive,
         disabled: !editorState.canToggleCode,
@@ -253,7 +285,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'ordered',
         icon: Images.orderedList,
-        label: t('labels.format_numbered_list'),
+        label: translate('labels.format_numbered_list', 'Numbered list'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleOrderedList()),
         active: editorState.isOrderedListActive,
         disabled: !editorState.canToggleOrderedList,
@@ -261,7 +293,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'bullet',
         icon: Images.bulletList,
-        label: t('labels.format_bullet_list'),
+        label: translate('labels.format_bullet_list', 'Bulleted list'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBulletList()),
         active: editorState.isBulletListActive,
         disabled: !editorState.canToggleBulletList,
@@ -269,7 +301,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'link',
         icon: Images.link,
-        label: t('labels.format_link'),
+        label: translate('labels.format_link', 'Link'),
         onPress: () => {
           if (Platform.OS === 'android') {
             const { from, to } = editorState.selection;
@@ -287,19 +319,19 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       {
         key: 'undo',
         icon: Images.undo,
-        label: t('actions.undo'),
+        label: translate('actions.undo', 'Undo'),
         onPress: () => restoreSelectionAndRun(() => editor.undo()),
         disabled: !editorState.canUndo,
       },
       {
         key: 'redo',
         icon: Images.redo,
-        label: t('actions.redo'),
+        label: translate('actions.redo', 'Redo'),
         onPress: () => restoreSelectionAndRun(() => editor.redo()),
         disabled: !editorState.canRedo,
       },
     ];
-  }, [editor, editorState, restoreSelectionAndRun, t]);
+  }, [editor, editorState, restoreSelectionAndRun, translate]);
 
   const handleSubmit = useCallback(async () => {
     if (!editorRef.current) return;
@@ -331,43 +363,37 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
     setPendingLink('');
   }, [editor]);
 
+  const title = translate('labels.rich_text_editor', 'Rich text editor');
+  const doneLabel = translate('actions.done', 'Done');
+  const linkLabel = translate('labels.format_link', 'Link');
+
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.background, paddingBottom: spacing.lg },
-      ]}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <TopBar
         backButton
         onBackPress={onCancel}
-        title={t('labels.rich_text_editor')}
+        title={title}
         rightItems={[
           {
             type: 'text',
-            label: t('actions.done'),
+            label: doneLabel,
             onPress: handleSubmit,
-            a11yLabel: t('actions.done'),
+            a11yLabel: doneLabel,
           },
         ]}
       />
-      <View style={[styles.editorWrapper, { paddingHorizontal: spacing.md }]}>
-        <RichText
-          editor={editor}
-          style={[
-            styles.editor,
-            {
-              backgroundColor: colors.muted,
-              borderColor: colors.border,
-              borderRadius: radius.lg,
-              padding: spacing.md,
-            },
-          ]}
-        />
-      </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={[styles.toolbarContainer, { paddingBottom: spacing.md }]}
+      <View
+        style={[
+          styles.content,
+          {
+            paddingHorizontal: spacing.md,
+            paddingBottom: Math.max(insets.bottom, spacing.lg),
+          },
+        ]}
       >
         {isLinkMode ? (
           <View
@@ -377,12 +403,12 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
                 backgroundColor: colors.muted,
                 borderColor: colors.border,
                 borderRadius: radius.lg,
-                marginHorizontal: spacing.md,
+                marginBottom: spacing.md,
               },
             ]}
           >
             <Pressable
-              accessibilityLabel={t('labels.format_link')}
+              accessibilityLabel={linkLabel}
               style={[styles.linkButton, { borderRightColor: colors.border }]}
               onPress={handleCancelLink}
             >
@@ -403,7 +429,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
               onPress={() => handleInsertLink(pendingLink)}
             >
               <Text style={[styles.linkDoneText, { color: colors.primary }]}>
-                {t('actions.done')}
+                {doneLabel}
               </Text>
             </Pressable>
           </View>
@@ -411,13 +437,13 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={{ marginHorizontal: spacing.md }}
             contentContainerStyle={[
               styles.toolbar,
               {
                 backgroundColor: colors.muted,
                 borderColor: colors.border,
                 borderRadius: radius.lg,
+                marginBottom: spacing.md,
               },
             ]}
           >
@@ -453,8 +479,23 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
             ))}
           </ScrollView>
         )}
-      </KeyboardAvoidingView>
-    </View>
+        <View style={[styles.editorWrapper, { marginTop: spacing.md }]}>
+          <RichText
+            editor={editor}
+            style={[
+              styles.editor,
+              {
+                backgroundColor: colors.muted,
+                borderColor: colors.border,
+                borderRadius: radius.lg,
+                padding: spacing.md,
+                color: colors.foreground,
+              },
+            ]}
+          />
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -462,16 +503,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  content: {
+    flex: 1,
+  },
   editorWrapper: {
     flex: 1,
-    paddingTop: 12,
   },
   editor: {
     borderWidth: StyleSheet.hairlineWidth,
     minHeight: 320,
-  },
-  toolbarContainer: {
-    paddingTop: 12,
+    flex: 1,
   },
   toolbar: {
     flexDirection: 'row',
