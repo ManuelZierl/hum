@@ -243,7 +243,7 @@ describe('RichInputScreen', () => {
       await capturedOnChange?.();
     });
 
-    fireEvent.press(getByText('Done'));
+    fireEvent.press(getByText('✓'));
 
     await waitFor(() => {
       expect(handleSubmit).toHaveBeenCalledWith({

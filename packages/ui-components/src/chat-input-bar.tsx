@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Icon } from './theme/icon';
 import { useTheme } from './theme/theme-provider';
+import { RichTextView } from './rich-text-view';
 
 type ContentSizeChangeEvent = {
   nativeEvent: {
@@ -32,6 +33,7 @@ export interface ChatInputBarProps {
   richInputAccessibilityLabel?: string;
   cameraAccessibilityLabel?: string;
   micAccessibilityLabel?: string;
+  richPreviewHtml?: string | null;
 }
 
 export const ChatInputBar: React.FC<ChatInputBarProps> = ({
@@ -47,6 +49,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   richInputAccessibilityLabel,
   cameraAccessibilityLabel,
   micAccessibilityLabel,
+  richPreviewHtml,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
@@ -199,6 +202,13 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
               multiline
               onContentSizeChange={handleContentSizeChange}
               scrollEnabled={isScrollEnabled}
+              placeholder={richPreviewHtml ? undefined : placeholder}
+              placeholderTextColor={colors.mutedForeground}
+              value={value}
+              onChangeText={onChangeText}
+              accessible
+              accessibilityLabel={inputAccessibilityLabel}
+              editable={!richPreviewHtml}
               style={[
                 styles.textInput,
                 themedStyles.textInput,
@@ -207,14 +217,24 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
                   maxHeight: maxInputHeight,
                   height: inputHeight,
                 },
+                richPreviewHtml ? styles.hiddenInput : null,
               ]}
-              placeholder={placeholder}
-              placeholderTextColor={colors.mutedForeground}
-              value={value}
-              onChangeText={onChangeText}
-              accessible
-              accessibilityLabel={inputAccessibilityLabel}
             />
+            {richPreviewHtml ? (
+              <Pressable
+                style={styles.richPreviewOverlay}
+                accessibilityRole={onRichInputPress ? 'button' : undefined}
+                accessibilityLabel={richInputAccessibilityLabel}
+                onPress={onRichInputPress}
+              >
+                <RichTextView
+                  html={richPreviewHtml}
+                  style={styles.richPreview}
+                  paragraphSpacing={4}
+                  testID="rich-preview"
+                />
+              </Pressable>
+            ) : null}
           </View>
           <Pressable
             accessibilityRole={onRichInputPress ? 'button' : undefined}
@@ -279,6 +299,17 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
+  richPreviewOverlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    justifyContent: 'center',
+  },
+  richPreview: {
+    flexShrink: 1,
+  },
   hiddenMeasureWrapper: {
     position: 'absolute',
     top: 0,
@@ -295,6 +326,9 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 0,
     textAlignVertical: 'top',
+  },
+  hiddenInput: {
+    opacity: 0,
   },
   disabledControl: {
     opacity: 0.4,

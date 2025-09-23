@@ -1,12 +1,10 @@
 import React, { type ReactElement } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
 import { ChatScreen } from '../ChatScreen';
 
 const openMock = jest.fn<(element: ReactElement) => void>();
 const closeMock = jest.fn();
-const sendMessageMock = jest.fn();
-const getMessagesMock = jest.fn();
 
 jest.mock('@hum/ui-components', () => ({
   __esModule: true,
@@ -18,18 +16,29 @@ jest.mock('@hum/ui-components', () => ({
   ),
   AvatarImage: () => <View />,
   ContactInline: () => <View />,
-  MessageBubble: ({ text }: { text: string }) => <Text>{text}</Text>,
+  MessageBubble: ({
+    text,
+    formattedBody,
+  }: {
+    text: string;
+    formattedBody?: string;
+  }) => <Text>{formattedBody ?? text}</Text>,
   ChatInputBar: ({
     value,
     onChangeText,
     onRichInputPress,
+    richPreviewHtml,
   }: {
     value: string;
     onChangeText: (text: string) => void;
     onRichInputPress?: () => void;
+    richPreviewHtml?: string | null;
   }) => (
     <View>
       <Text testID="chat-input-value">{value}</Text>
+      {richPreviewHtml ? (
+        <Text testID="chat-input-preview">{richPreviewHtml}</Text>
+      ) : null}
       <TouchableOpacity
         testID="set-text"
         onPress={() => onChangeText('Typed text')}
@@ -59,8 +68,8 @@ jest.mock('@hum/ui-components', () => ({
 jest.mock('../../src/hum/HumClientProvider', () => ({
   __esModule: true,
   useHumClient: () => ({
-    sendMessage: sendMessageMock,
-    getMessages: getMessagesMock,
+    sendMessage: jest.fn(),
+    getMessages: jest.fn(),
   }),
 }));
 
@@ -79,8 +88,6 @@ describe('ChatScreen rich text integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     openMock.mockImplementation(() => {});
-    getMessagesMock.mockResolvedValue([]);
-    sendMessageMock.mockResolvedValue(undefined);
   });
 
   it('propagates rich composer changes back to the input', () => {
@@ -110,20 +117,41 @@ describe('ChatScreen rich text integration', () => {
     expect(getByTestId('chat-input-value').props.children).toBe('Bold');
   });
 
-  it('sends sanitized rich content and resets state', async () => {
-    let overlayElement: ReactElement | null = null;
-    openMock.mockImplementationOnce((element: ReactElement) => {
-      overlayElement = element;
-    });
-
-    const onMessagesUpdate = jest.fn();
-    const { getByTestId } = render(
+  it('renders formatted messages when provided', () => {
+    const { getByText } = render(
       <ChatScreen
         roomId="!room:test"
         chatName="Test"
         chatAvatar=""
         onBack={jest.fn()}
-        onMessagesUpdate={onMessagesUpdate}
+        messages={[
+          {
+            id: '1',
+            text: 'Plain',
+            formattedBody: '<p><strong>Rich</strong></p>',
+            time: '10:00',
+            isOutgoing: true,
+            isRead: false,
+          },
+        ]}
+      />,
+    );
+
+    expect(getByText('<p><strong>Rich</strong></p>')).toBeTruthy();
+  });
+
+  it('stores sanitized rich content locally and closes overlay', async () => {
+    let overlayElement: ReactElement | null = null;
+    openMock.mockImplementationOnce((element: ReactElement) => {
+      overlayElement = element;
+    });
+
+    const { getByTestId, queryByTestId } = render(
+      <ChatScreen
+        roomId="!room:test"
+        chatName="Test"
+        chatAvatar=""
+        onBack={jest.fn()}
       />,
     );
 
@@ -137,19 +165,10 @@ describe('ChatScreen rich text integration', () => {
       });
     });
 
-    expect(sendMessageMock).toHaveBeenCalledWith(
-      '!room:test',
-      expect.objectContaining({
-        msgtype: 'm.text',
-        body: 'Hello',
-        formatted_body: '<p>Hello</p>',
-      }),
+    expect(queryByTestId('chat-input-preview')?.props.children).toBe(
+      '<p>Hello</p>',
     );
-    expect(getMessagesMock).toHaveBeenCalledWith('!room:test');
-    await waitFor(() => {
-      expect(onMessagesUpdate).toHaveBeenCalledWith([]);
-    });
     expect(closeMock).toHaveBeenCalled();
-    expect(getByTestId('chat-input-value').props.children).toBe('');
+    expect(getByTestId('chat-input-value').props.children).toBe('Hello');
   });
 });

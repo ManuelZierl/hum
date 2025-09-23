@@ -365,6 +365,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
 
   const title = translate('labels.rich_text_editor', 'Rich text editor');
   const doneLabel = translate('actions.done', 'Done');
+  const doneSymbol = '✓';
   const linkLabel = translate('labels.format_link', 'Link');
 
   return (
@@ -380,7 +381,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         rightItems={[
           {
             type: 'text',
-            label: doneLabel,
+            label: doneSymbol,
             onPress: handleSubmit,
             a11yLabel: doneLabel,
           },
@@ -518,7 +519,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 4,
-    paddingVertical: 4,
+    paddingVertical: 0,
     borderWidth: StyleSheet.hairlineWidth,
     flexGrow: 0,
   },

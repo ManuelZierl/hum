@@ -74,4 +74,15 @@ describe('ChatInputBar', () => {
     expect(flattened.height).toBe(flattened.maxHeight);
     expect(input.props.scrollEnabled).toBe(true);
   });
+
+  it('renders a rich preview when html is provided', () => {
+    const { getAllByLabelText, toJSON } = renderComponent({
+      richPreviewHtml: '<p><strong>Rich</strong></p>',
+      onRichInputPress: jest.fn(),
+      richInputAccessibilityLabel: 'Open rich editor',
+    });
+
+    expect(getAllByLabelText('Open rich editor')).toHaveLength(2);
+    expect(JSON.stringify(toJSON())).toContain('Rich');
+  });
 });

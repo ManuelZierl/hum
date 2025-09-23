@@ -20,12 +20,7 @@ import {
 } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
 import RichInputScreen from './RichInputScreen';
-import {
-  createMatrixMessageContent,
-  sanitizeRichContent,
-  sanitizeRichTextHtml,
-} from '@hum/rich-text';
-import { useHumClient } from '../src/hum/HumClientProvider';
+import { sanitizeRichContent, sanitizeRichTextHtml } from '@hum/rich-text';
 
 export interface ChatMessage extends MessageBubbleProps {
   id: string;
@@ -56,41 +51,26 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   messages = [],
   onMessagesUpdate,
 }) => {
+  void roomId;
+  void onMessagesUpdate;
   const { colors, spacing } = useTheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const { open, close } = useOverlay();
-  const { sendMessage, getMessages } = useHumClient();
   const [value, setValue] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [richDraft, setRichDraft] = useState<{
     html: string;
     text: string;
   } | null>(null);
 
   const handleSubmitRichInput = useCallback(
-    async ({ html, text }: { html: string; text: string }) => {
-      try {
-        setIsSubmitting(true);
-        const content = createMatrixMessageContent({ html, text });
-        setRichDraft({
-          html: content.formatted_body,
-          text: content.body,
-        });
-        setValue(content.body);
-        await sendMessage(roomId, content);
-        setValue('');
-        setRichDraft(null);
-        const updated = await getMessages(roomId);
-        onMessagesUpdate?.(updated);
-      } catch (error) {
-        console.warn('ChatScreen: failed to send rich message', error);
-      } finally {
-        setIsSubmitting(false);
-        close();
-      }
+    ({ html, text }: { html: string; text: string }) => {
+      const { sanitizedHtml, plainText } = sanitizeRichContent(html, text);
+      setRichDraft({ html: sanitizedHtml, text: plainText });
+      setValue(plainText);
+      close();
     },
-    [close, getMessages, onMessagesUpdate, roomId, sendMessage],
+    [close],
   );
 
   const handleComposerChange = useCallback(
@@ -103,7 +83,6 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
   );
 
   const handleOpenRichInput = useCallback(() => {
-    if (isSubmitting) return;
     const startingHtml = richDraft?.html
       ? sanitizeRichTextHtml(richDraft.html)
       : value
@@ -123,11 +102,17 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
     close,
     handleComposerChange,
     handleSubmitRichInput,
-    isSubmitting,
     open,
     richDraft?.html,
     value,
   ]);
+
+  const handlePlainChange = useCallback((text: string) => {
+    setValue(text);
+    if (text.length === 0) {
+      setRichDraft(null);
+    }
+  }, []);
 
   return (
     <View
@@ -186,6 +171,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           <MessageBubble
             key={m.id}
             text={m.text}
+            formattedBody={m.formattedBody}
             time={m.time}
             isOutgoing={m.isOutgoing}
             isRead={m.isRead}
@@ -200,11 +186,12 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       >
         <ChatInputBar
           value={value}
-          onChangeText={setValue}
+          onChangeText={handlePlainChange}
           placeholder={t('placeholders.type_message')}
           inputAccessibilityLabel={t('labels.message_input')}
           onRichInputPress={handleOpenRichInput}
           richInputAccessibilityLabel={t('labels.rich_text_editor')}
+          richPreviewHtml={richDraft?.html ?? null}
         />
       </KeyboardAvoidingView>
     </View>
