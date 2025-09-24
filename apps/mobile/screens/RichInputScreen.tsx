@@ -1,4 +1,4 @@
-import React, {
+﻿import React, {
   useCallback,
   useEffect,
   useMemo,
@@ -72,8 +72,10 @@ type ToolbarButtonConfig = {
   disabled?: boolean;
 };
 
-const shouldDisableToggle = (canToggle: boolean | undefined, isActive: boolean) =>
-  !canToggle && !isActive;
+const shouldDisableToggle = (
+  canToggle: boolean | undefined,
+  isActive: boolean,
+) => !canToggle && !isActive;
 
 export interface RichInputScreenProps {
   initialHtml?: string;
@@ -399,9 +401,8 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
     setPendingLink('');
   }, [editor]);
 
-  const title = translate('labels.rich_text_editor', 'Rich text editor');
   const doneLabel = translate('actions.done', 'Done');
-  const doneSymbol = '✓';
+  const doneSymbol = 'âœ“';
   const linkLabel = translate('labels.format_link', 'Link');
 
   return (
