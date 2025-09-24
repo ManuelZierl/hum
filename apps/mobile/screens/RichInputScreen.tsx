@@ -72,6 +72,9 @@ type ToolbarButtonConfig = {
   disabled?: boolean;
 };
 
+const shouldDisableToggle = (canToggle: boolean | undefined, isActive: boolean) =>
+  !canToggle && !isActive;
+
 export interface RichInputScreenProps {
   initialHtml?: string;
   onCancel: () => void;
@@ -204,7 +207,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_bold', 'Bold'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBold()),
         active: editorState.isBoldActive,
-        disabled: !editorState.canToggleBold,
+        disabled: shouldDisableToggle(
+          editorState.canToggleBold,
+          editorState.isBoldActive,
+        ),
       },
       {
         key: 'italic',
@@ -212,7 +218,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_italic', 'Italic'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleItalic()),
         active: editorState.isItalicActive,
-        disabled: !editorState.canToggleItalic,
+        disabled: shouldDisableToggle(
+          editorState.canToggleItalic,
+          editorState.isItalicActive,
+        ),
       },
       {
         key: 'underline',
@@ -220,7 +229,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_underline', 'Underline'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleUnderline()),
         active: editorState.isUnderlineActive,
-        disabled: !editorState.canToggleUnderline,
+        disabled: shouldDisableToggle(
+          editorState.canToggleUnderline,
+          editorState.isUnderlineActive,
+        ),
       },
       {
         key: 'strike',
@@ -228,7 +240,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_strikethrough', 'Strikethrough'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleStrike()),
         active: editorState.isStrikeActive,
-        disabled: !editorState.canToggleStrike,
+        disabled: shouldDisableToggle(
+          editorState.canToggleStrike,
+          editorState.isStrikeActive,
+        ),
       },
       {
         key: 'h1',
@@ -240,7 +255,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(1)),
         active: editorState.headingLevel === 1,
-        disabled: !editorState.canToggleHeading,
+        disabled: shouldDisableToggle(
+          editorState.canToggleHeading,
+          editorState.headingLevel === 1,
+        ),
       },
       {
         key: 'h2',
@@ -252,7 +270,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(2)),
         active: editorState.headingLevel === 2,
-        disabled: !editorState.canToggleHeading,
+        disabled: shouldDisableToggle(
+          editorState.canToggleHeading,
+          editorState.headingLevel === 2,
+        ),
       },
       {
         key: 'h3',
@@ -264,7 +285,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         ),
         onPress: () => restoreSelectionAndRun(() => editor.toggleHeading(3)),
         active: editorState.headingLevel === 3,
-        disabled: !editorState.canToggleHeading,
+        disabled: shouldDisableToggle(
+          editorState.canToggleHeading,
+          editorState.headingLevel === 3,
+        ),
       },
       {
         key: 'blockquote',
@@ -272,7 +296,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_blockquote', 'Blockquote'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBlockquote()),
         active: editorState.isBlockquoteActive,
-        disabled: !editorState.canToggleBlockquote,
+        disabled: shouldDisableToggle(
+          editorState.canToggleBlockquote,
+          editorState.isBlockquoteActive,
+        ),
       },
       {
         key: 'code',
@@ -280,7 +307,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_code', 'Code'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleCode()),
         active: editorState.isCodeActive,
-        disabled: !editorState.canToggleCode,
+        disabled: shouldDisableToggle(
+          editorState.canToggleCode,
+          editorState.isCodeActive,
+        ),
       },
       {
         key: 'ordered',
@@ -288,7 +318,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_numbered_list', 'Numbered list'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleOrderedList()),
         active: editorState.isOrderedListActive,
-        disabled: !editorState.canToggleOrderedList,
+        disabled: shouldDisableToggle(
+          editorState.canToggleOrderedList,
+          editorState.isOrderedListActive,
+        ),
       },
       {
         key: 'bullet',
@@ -296,7 +329,10 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
         label: translate('labels.format_bullet_list', 'Bulleted list'),
         onPress: () => restoreSelectionAndRun(() => editor.toggleBulletList()),
         active: editorState.isBulletListActive,
-        disabled: !editorState.canToggleBulletList,
+        disabled: shouldDisableToggle(
+          editorState.canToggleBulletList,
+          editorState.isBulletListActive,
+        ),
       },
       {
         key: 'link',
@@ -377,7 +413,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
       <TopBar
         backButton
         onBackPress={onCancel}
-        title={title}
+        dense
         rightItems={[
           {
             type: 'text',
@@ -438,8 +474,8 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={[
-              styles.toolbar,
+            style={[
+              styles.toolbarContainer,
               {
                 backgroundColor: colors.muted,
                 borderColor: colors.border,
@@ -447,6 +483,7 @@ export const RichInputScreen: React.FC<RichInputScreenProps> = ({
                 marginBottom: spacing.md,
               },
             ]}
+            contentContainerStyle={styles.toolbarContent}
           >
             {toolbarButtons.map((button) => (
               <Pressable
@@ -515,13 +552,16 @@ const styles = StyleSheet.create({
     minHeight: 320,
     flex: 1,
   },
-  toolbar: {
+  toolbarContainer: {
+    height: 44,
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingHorizontal: 4,
+    flexGrow: 0,
+    overflow: 'hidden',
+  },
+  toolbarContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 4,
-    paddingVertical: 0,
-    borderWidth: StyleSheet.hairlineWidth,
-    flexGrow: 0,
   },
   toolbarButton: {
     width: 44,

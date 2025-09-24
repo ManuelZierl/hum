@@ -26,7 +26,9 @@
       "@hum/lightning-client": ["packages/lightning-client/index.ts"],
       "@hum/lightning-client/*": ["packages/lightning-client/src/*"],
       "@hum/lightning-mocks": ["packages/lightning-mocks/index.ts"],
-      "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"]
+      "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"],
+      "@hum/rich-text": ["types/@hum__rich-text/index"],
+      "@hum/rich-text/*": ["types/@hum__rich-text/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
