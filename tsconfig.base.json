@@ -23,10 +23,10 @@
         "packages/ui-screens/*",
         "packages/ui-screens/src/*"
       ],
-      "@hum/lightning-client": ["packages/lightning-client/index.ts"],
-      "@hum/lightning-client/*": ["packages/lightning-client/src/*"],
-      "@hum/lightning-mocks": ["packages/lightning-mocks/index.ts"],
-      "@hum/lightning-mocks/*": ["packages/lightning-mocks/src/*"]
+      "@hum/payment-client": ["packages/payment-client/index.ts"],
+      "@hum/payment-client/*": ["packages/payment-client/src/*"],
+      "@hum/breeze-payment-client": ["packages/breeze-payment-client/index.ts"],
+      "@hum/breeze-payment-client/*": ["packages/breeze-payment-client/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

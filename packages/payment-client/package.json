@@ -1,6 +1,7 @@
 {
-  "name": "@hum/lightning-client",
-  "version": "0.1.0",
+  "name": "@hum/payment-client",
+  "version": "1.0.0",
+  "description": "Shared payment client interfaces and types",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -16,12 +17,5 @@
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-native": ">=0.75",
-    "@breeztech/react-native-breez-sdk": "0.8.1-rc3"
-  },
-  "devDependencies": {
-    "@types/react": "^19.1.12"
-  }
+  "license": "ISC"
 }

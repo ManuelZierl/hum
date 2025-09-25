@@ -11,7 +11,7 @@
     "format:check": "prettier --check '**/*.{ts,tsx,js,json}'",
     "lint:md": "remark ./docs --ext .md --frail",
     "lint:md:fix": "remark ./docs --ext .md --frail --output",
-    "prepare": "husky",
+    "prepare": "npm run build --workspace=@hum/payment-client && npm run build --workspace=@hum/breeze-payment-client && husky",
     "test": "jest --runInBand",
     "build": "npm run -ws --if-present build",
     "sync:version": "node scripts/sync-version.cjs",

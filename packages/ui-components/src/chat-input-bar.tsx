@@ -50,57 +50,69 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
+  const borderColor = colors.border;
+  const foregroundColor = colors.foreground;
+  const mutedColor = colors.muted;
+  const mutedForegroundColor = colors.mutedForeground;
+  const spacingMd = spacing.md;
+  const spacingSm = spacing.sm;
+  const spacingXs = spacing.xs;
+  const radiusXl = radius.xl;
+  const baseFontSize = type.size.base;
+  const displayFontSize = type.size['2xl'];
+  const relaxedLineHeight = type.lineHeight.relaxed;
+
   const { themedStyles, minInputHeight, maxInputHeight } = useMemo(() => {
-    const minHeight = type.lineHeight.relaxed + spacing.xs * 2;
+    const minHeight = relaxedLineHeight + spacingXs * 2;
     const maxHeight = minHeight * 4;
     return {
       minInputHeight: minHeight,
       maxInputHeight: maxHeight,
       themedStyles: {
         container: {
-          borderTopColor: colors.border,
-          paddingHorizontal: spacing.md,
-          paddingVertical: spacing.sm,
+          borderTopColor: borderColor,
+          paddingHorizontal: spacingMd,
+          paddingVertical: spacingSm,
         },
         attachmentButton: {
-          marginRight: spacing.sm,
+          marginRight: spacingSm,
         },
         attachmentText: {
-          color: colors.mutedForeground,
-          fontSize: type.size['2xl'],
-          lineHeight: type.size['2xl'],
+          color: mutedForegroundColor,
+          fontSize: displayFontSize,
+          lineHeight: displayFontSize,
         },
         inputContainer: {
-          backgroundColor: colors.muted,
-          borderRadius: radius.xl,
-          paddingHorizontal: spacing.md,
-          paddingVertical: spacing.xs,
+          backgroundColor: mutedColor,
+          borderRadius: radiusXl,
+          paddingHorizontal: spacingMd,
+          paddingVertical: spacingXs,
         },
         textInput: {
-          color: colors.foreground,
-          fontSize: type.size.base,
-          lineHeight: type.lineHeight.relaxed,
+          color: foregroundColor,
+          fontSize: baseFontSize,
+          lineHeight: relaxedLineHeight,
         },
         emojiButton: {
-          marginLeft: spacing.xs,
+          marginLeft: spacingXs,
         },
         actionButton: {
-          marginLeft: spacing.sm,
+          marginLeft: spacingSm,
         },
       },
     };
   }, [
-    colors.border,
-    colors.foreground,
-    colors.muted,
-    colors.mutedForeground,
-    radius.xl,
-    spacing.md,
-    spacing.sm,
-    spacing.xs,
-    type.lineHeight.relaxed,
-    type.size.base,
-    type.size['2xl'],
+    baseFontSize,
+    borderColor,
+    displayFontSize,
+    foregroundColor,
+    mutedColor,
+    mutedForegroundColor,
+    radiusXl,
+    relaxedLineHeight,
+    spacingMd,
+    spacingSm,
+    spacingXs,
   ]);
 
   const measurementText = useMemo(() => {

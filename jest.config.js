@@ -19,12 +19,11 @@ module.exports = {
     '^@hum/ui-screens(.*)$': '<rootDir>/packages/ui-screens$1',
     '^@hum/hum-matrix-native$':
       '<rootDir>/packages/hum-matrix-native/src/index.ts',
-    '^@hum/lightning-client$': '<rootDir>/packages/lightning-client/index.ts',
-    '^@hum/lightning-client/(.*)$':
-      '<rootDir>/packages/lightning-client/src/$1',
-    '^@hum/lightning-mocks$': '<rootDir>/packages/lightning-mocks/index.ts',
-    '^@hum/lightning-mocks/(.*)$': '<rootDir>/packages/lightning-mocks/src/$1',
     '^@hum/i18n$': '<rootDir>/packages/i18n/src/index.ts',
+    '^@hum/payment-client$': '<rootDir>/packages/payment-client/index.ts',
+    '^@hum/payment-client/(.*)$': '<rootDir>/packages/payment-client/src/$1',
+    '^@hum/breeze-payment-client$': '<rootDir>/packages/breeze-payment-client/index.ts',
+    '^@hum/breeze-payment-client/(.*)$': '<rootDir>/packages/breeze-payment-client/src/$1',
     '\\.svg$': '<rootDir>/tests/__mocks__/svgMock.tsx',
   },
   collectCoverage: true,
