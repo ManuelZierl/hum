@@ -154,6 +154,7 @@ function AppInner() {
                 />
               ) : null,
             }}
+            onSwipeBack={selectedChat ? handleChatBack : undefined}
           />
         );
       case 'calls':
@@ -182,6 +183,7 @@ function AppInner() {
                 />
               ),
             }}
+            onSwipeBack={settingsView === 'theme' ? handleThemeBack : undefined}
           />
         );
     }

@@ -127,4 +127,68 @@ describe('SlideTransition', () => {
     expect(findByScene('scene-detail')).toHaveLength(0);
     expect(findByScene('scene-list')).toHaveLength(1);
   });
+
+  it('calls onSwipeBack when swiping from the right edge', () => {
+    const onSwipeBack = jest.fn();
+
+    const screen = render(
+      <SlideTransition
+        activeKey="detail"
+        scenes={scenes}
+        direction="forward"
+        testID="transition"
+        initialWidth={200}
+        onSwipeBack={onSwipeBack}
+      />,
+    );
+
+    const container = screen.getByTestId('transition');
+
+    act(() => {
+      container.props.onLayout?.({
+        nativeEvent: { layout: { width: 200 } },
+      });
+    });
+
+    const startEvent = {
+      nativeEvent: {
+        locationX: 196,
+        locationY: 200,
+        pageX: 196,
+        pageY: 200,
+      },
+    } as any;
+
+    const shouldCapture =
+      container.props.onStartShouldSetResponder?.(startEvent) ?? false;
+    expect(shouldCapture).toBe(true);
+
+    act(() => {
+      container.props.onResponderGrant?.(startEvent);
+    });
+
+    const moveEvent = {
+      nativeEvent: {
+        pageX: 150,
+        pageY: 200,
+      },
+    } as any;
+
+    act(() => {
+      container.props.onResponderMove?.(moveEvent);
+    });
+
+    const releaseEvent = {
+      nativeEvent: {
+        pageX: 140,
+        pageY: 200,
+      },
+    } as any;
+
+    act(() => {
+      container.props.onResponderRelease?.(releaseEvent);
+    });
+
+    expect(onSwipeBack).toHaveBeenCalledTimes(1);
+  });
 });
