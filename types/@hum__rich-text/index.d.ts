@@ -39,7 +39,10 @@ declare module '@hum/rich-text' {
   export function isSafeUrl(url: string): boolean;
   export function sanitizeRichTextHtml(input: string): string;
   export function stripHtmlTags(input: string): string;
-  export function sanitizeRichContent(html: string, text?: string): SanitizedPayload;
+  export function sanitizeRichContent(
+    html: string,
+    text?: string,
+  ): SanitizedPayload;
   export function renderRichTextToNative(
     html: string,
     options: RenderOptions,
