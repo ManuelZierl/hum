@@ -5,6 +5,7 @@ declare module 'react-native' {
   export const Text: React.FC<any>;
   export const Image: React.FC<any>;
   export const Pressable: React.FC<any>;
+  export const TouchableOpacity: React.FC<any>;
   export const KeyboardAvoidingView: React.FC<any>;
   export const Modal: React.FC<any>;
   export const ScrollView: React.FC<any>;
@@ -34,6 +35,7 @@ declare module 'react-native' {
     style?: any;
     [key: string]: any;
   }
+  export interface TouchableOpacityProps extends PressableProps {}
   export const Platform: {
     OS: 'ios' | 'android';
   };

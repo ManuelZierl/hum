@@ -43,11 +43,15 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
   const [step, setStep] = useState<Step>('display');
   const [mnemonic, setMnemonic] = useState(() => generateMnemonic());
   const words = useMemo(() => mnemonic.split(' '), [mnemonic]);
+  const dictionary = useMemo(
+    () => (Array.isArray(WORDLIST) ? WORDLIST : []),
+    [],
+  );
   const [confirmedWords, setConfirmedWords] = useState<string[]>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [inputError, setInputError] = useState<string | null>(null);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle');
-  const copyTimer = useRef<NodeJS.Timeout | null>(null);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const expectedWord = words[confirmedWords.length] ?? null;
 
@@ -289,7 +293,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
     if (!prefix) {
       return [expectedWord];
     }
-    const matches = WORDLIST.filter((word) => word.startsWith(prefix));
+    const matches = dictionary.filter((word) => word.startsWith(prefix));
     const ordered = [expectedWord, ...matches];
     const unique: string[] = [];
     for (const word of ordered) {
@@ -299,7 +303,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
       if (unique.length >= 8) break;
     }
     return unique;
-  }, [currentInput, expectedWord]);
+  }, [currentInput, dictionary, expectedWord]);
 
   const isConfirmationValid = useMemo(
     () =>
