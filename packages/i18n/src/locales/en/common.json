@@ -40,71 +40,66 @@
     "search": "Search",
     "type_message": "Type a message..."
   },
-  "lightning": {
-    "hero": {
-      "title": "Lightning Payments",
-      "subtitle": "Fast, cheap Bitcoin payments for everyone"
-    },
-    "coming": {
-      "title": "Coming Soon",
-      "description": "Lightning payments will be available in a future update. Stay tuned for instant Bitcoin transactions!"
-    },
-    "why": {
-      "title": "Why Lightning?",
-      "bullets": {
-        "instant": "Lightning Network enables instant Bitcoin payments",
-        "low_fees": "Extremely low fees, often less than a penny",
-        "secure": "Built on Bitcoin's secure infrastructure",
-        "micro": "Perfect for microtransactions and everyday payments",
-        "global": "Global reach with 24/7 availability"
+  "payments": {
+    "title": "Payments",
+    "loading": "Loading your payment wallet…",
+    "activate": {
+      "title": "Activate payments",
+      "description": "Set up your Lightning wallet to start sending and receiving sats.",
+      "cta": "Activate payments",
+      "steps": {
+        "write_down": {
+          "title": "Write down your recovery phrase",
+          "subtitle": "Store these 12 words safely. They are the only way to recover your wallet."
+        },
+        "confirm": {
+          "title": "Confirm your recovery phrase",
+          "subtitle": "Retype the 12 words to make sure you saved them correctly."
+        }
+      },
+      "security_note": "Never share these words with anyone. Anyone with this phrase can access your funds.",
+      "self_custody_warning": "Hum cannot recover your wallet. Store these words safely offline—if you lose them, your sats are gone.",
+      "actions": {
+        "confirm_written": "I have written it down",
+        "finish": "Finish activation",
+        "copy": "Copy phrase",
+        "copied": "Copied!",
+        "regenerate": "Generate new phrase"
+      },
+      "confirmation": {
+        "prompt": "Retype your 12-word recovery phrase to confirm.",
+        "placeholder": "Start typing the next word",
+        "helper": "Enter the words in order. Suggestions appear after a few letters. {{remaining}} left.",
+        "invalid_word": "“{{word}}” does not match word {{expected}}. Check your spelling.",
+        "submit_word": "Submit word",
+        "add_word": "Add",
+        "use_suggestion": "Use suggestion {{word}}",
+        "remove_word": "Remove word {{index}}",
+        "progress": "{{entered}} / {{total}} words confirmed"
       }
     },
-    "beta": {
-      "title": "Get Early Access",
-      "message": "Be among the first to try Lightning payments when they launch.",
-      "button": "Join Beta Waitlist"
+    "balance": {
+      "title": "Wallet balance",
+      "empty": "No balance yet. Activate payments to start receiving sats."
     },
-    "features": {
-      "wallet": {
-        "title": "Lightning Wallet",
-        "description": "Manage your Lightning Bitcoin balance and make instant payments"
-      },
-      "send_receive": {
-        "title": "Send & Receive",
-        "description": "Scan QR codes or share payment links to send money instantly"
-      },
-      "history": {
-        "title": "Transaction History",
-        "description": "View all your Lightning payment history and receipts"
-      },
-      "methods": {
-        "title": "Payment Methods",
-        "description": "Connect your bank account or debit card to fund your wallet"
-      },
-      "settlements": {
-        "title": "Instant Settlements",
-        "description": "Settle payments in milliseconds with low fees"
-      },
-      "multicurrency": {
-        "title": "Multi-Currency Support",
-        "description": "Support for Bitcoin, sats, and other Lightning currencies"
-      },
-      "invoice": {
-        "title": "Invoice Generation",
-        "description": "Create and share payment invoices with custom amounts"
-      },
-      "routing": {
-        "title": "Payment Routing",
-        "description": "Automatic routing through the Lightning Network for optimal fees"
-      },
-      "channel": {
-        "title": "Channel Management",
-        "description": "Open and manage Lightning channels for better liquidity"
-      },
-      "backup": {
-        "title": "Backup & Recovery",
-        "description": "Secure backup and recovery options for your Lightning wallet"
-      }
+    "history": {
+      "title": "Recent activity",
+      "empty": "No transactions yet. Your history will appear here once you start transacting.",
+      "refresh": "Refresh"
+    },
+    "errors": {
+      "title": "Unable to load payments",
+      "missing_api_key": "Payments are disabled because no Breez API key was provided.",
+      "generic": "Something went wrong while loading payments.",
+      "retry": "Try again"
+    },
+    "status": {
+      "pending": "Pending",
+      "in_flight": "In flight",
+      "succeeded": "Succeeded",
+      "failed": "Failed",
+      "expired": "Expired",
+      "canceled": "Canceled"
     }
   },
   "text_size": {

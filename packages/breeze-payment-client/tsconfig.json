@@ -13,6 +13,6 @@
       "@hum/payment-client/*": ["../payment-client/dist/*"]
     }
   },
-  "include": ["src", "index.ts", "../../tests/breez-sdk-liquid.d.ts"],
+  "include": ["src", "index.ts", "../../types/breez-sdk-liquid.d.ts"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
 }

@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { ExpoConfig, ConfigContext } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -37,6 +39,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     assetBundlePatterns: rest.assetBundlePatterns ?? ['**/*'],
     extra: {
       ...(rest.extra ?? {}),
+      breezApiKey:
+        rest.extra?.breezApiKey ?? process.env.BREEZ_API_KEY ?? undefined,
       devFeatures:
         rest.extra?.devFeatures ??
         (process.env.DEV_FEATURES === '1' ||

@@ -188,9 +188,14 @@ jest.mock('@hum/ui-screens', () => {
         </TouchableOpacity>
       </View>
     ),
-    LightningScreen: () => (
-      <View testID="lightning-screen">
-        <Text>Lightning</Text>
+    PaymentScreen: ({
+      apiKey,
+    }: {
+      apiKey: string;
+      storage: { getItem: () => Promise<null>; setItem: () => Promise<void> };
+    }) => (
+      <View testID="payment-screen">
+        <Text>{apiKey ? 'Payments' : 'Payments (missing key)'}</Text>
       </View>
     ),
     CallsScreen: () => (
@@ -419,7 +424,7 @@ describe('App', () => {
     expect(getByTestId('calls-screen')).toBeTruthy();
 
     fireEvent.press(getByTestId('tab-payments'));
-    expect(getByTestId('lightning-screen')).toBeTruthy();
+    expect(getByTestId('payment-screen')).toBeTruthy();
 
     fireEvent.press(getByTestId('tab-settings'));
     expect(getByTestId('main-settings')).toBeTruthy();

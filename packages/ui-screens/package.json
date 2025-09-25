@@ -25,6 +25,8 @@
     "@types/react": "^19.1.12"
   },
   "dependencies": {
+    "@hum/payment-client": "file:../payment-client",
+    "@hum/breeze-payment-client": "file:../breeze-payment-client",
     "@hum/ui-components": "file:../ui-components",
     "react-i18next": "^13.2.2"
   }

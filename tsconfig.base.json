@@ -18,11 +18,8 @@
       "@native/*": ["native/*/src"],
       "@hum/ui-components": ["packages/ui-components/index.ts"],
       "@hum/ui-components/*": ["packages/ui-components/src/*"],
-      "@hum/ui-screens": ["packages/ui-screens"],
-      "@hum/ui-screens/*": [
-        "packages/ui-screens/*",
-        "packages/ui-screens/src/*"
-      ],
+      "@hum/ui-screens": ["packages/ui-screens/index.ts"],
+      "@hum/ui-screens/*": ["packages/ui-screens/src/*"],
       "@hum/payment-client": ["packages/payment-client/index.ts"],
       "@hum/payment-client/*": ["packages/payment-client/src/*"],
       "@hum/breeze-payment-client": ["packages/breeze-payment-client/index.ts"],

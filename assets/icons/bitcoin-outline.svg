@@ -1,6 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
-  <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.2" />
-  <path d="M5.75 3.5v9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-  <path d="M5.75 5.05h2.3a1.55 1.55 0 1 1 0 3.1h-2.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M5.75 8.4h2.55a1.55 1.55 0 1 1 0 3.1h-2.55" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <path d="M 5.5 13 L 5.5 14.25 C 5.5 14.388 5.612 14.5 5.75 14.5 L 6.75 14.5 C 6.888 14.5 7.612 14.5 7.75 14.5 L 8.75 14.5 C 8.888 14.5 9 14.388 9 14.25 L 9 13 L 9.084 13 C 11.076 13 12.5 11.967 12.5 10.18 C 12.5 8.678 11.493 7.857 10.314 7.74 L 10.314 7.652 C 11.284 7.41 11.997 6.678 11.997 5.462 C 11.997 3.93 10.847 3 9.092 3 L 9 3 L 9 1.75 C 9 1.612 8.888 1.5 8.75 1.5 L 7.75 1.5 C 7.612 1.5 6.815 1.5 6.677 1.5 L 5.75 1.5 C 5.612 1.5 5.5 1.612 5.5 1.75 L 5.5 3 L 3.502 3.011 C 3.364 3.011 3.252 3.123 3.252 3.261 L 3.252 4.25 C 3.252 4.387 3.362 4.5 3.5 4.5 L 4.255 4.495 C 4.667 4.498 5 4.833 5 5.245 L 5 10.75 C 5 11.164 4.664 11.5 4.25 11.5 L 3.502 11.511 C 3.364 11.511 3.252 11.623 3.252 11.761 L 3.252 12.761 C 3.252 12.899 3.364 13.011 3.502 13.011 L 5.5 13 Z M 6.927 4.487 L 8.646 4.487 C 9.552 4.487 10.084 4.985 10.084 5.799 C 10.084 6.67 9.509 7.161 8.207 7.161 L 6.927 7.161 L 6.927 4.487 Z M 6.927 8.538 L 8.767 8.538 C 9.904 8.538 10.523 9.118 10.523 10.062 C 10.523 11.015 9.897 11.512 8.365 11.512 L 6.927 11.512 L 6.927 8.538 Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"/>
+
 </svg>

@@ -509,7 +509,7 @@ export class BreezePaymentClientImpl implements PaymentClient {
     );
     try {
       const offset = filter?.cursor ? Number.parseInt(filter.cursor, 10) : 0;
-      const payments = await sdk.listPayments({
+      const payments: BreezPayment[] = await sdk.listPayments({
         offset: Number.isNaN(offset) ? 0 : offset,
         limit: filter?.limit,
         filters: filter?.direction
@@ -518,7 +518,9 @@ export class BreezePaymentClientImpl implements PaymentClient {
         states: filter?.status ? this.mapStatuses(filter.status) : undefined,
         sortAscending: false,
       });
-      const items = payments.map((p) => mapPayment(p, this.preferredAsset));
+      const items = payments.map((payment) =>
+        mapPayment(payment, this.preferredAsset),
+      );
       let nextCursor: string | undefined;
       if (filter?.limit && payments.length === filter.limit) {
         const base = Number.isNaN(offset) ? 0 : offset;
@@ -568,20 +570,22 @@ export class BreezePaymentClientImpl implements PaymentClient {
       this.loggerSubscription = null;
     }
     this.logger = logger;
-    this.loggerSubscription = await sdk.setLogger((entry) => {
-      try {
-        logger(levelToLoggerLevel(entry.level), entry.line);
-      } catch {
-        // Ignore listener errors
-      }
-    });
+    this.loggerSubscription = await sdk.setLogger(
+      (entry: { level: string; line: string }) => {
+        try {
+          logger(levelToLoggerLevel(entry.level), entry.line);
+        } catch {
+          // Ignore listener errors
+        }
+      },
+    );
   }
 
   private async ensureEventStream(): Promise<void> {
     if (!this.ready) return;
     if (this.breezListenerId) return;
     const sdk = await this.ensureSdk();
-    this.breezListenerId = await sdk.addEventListener((event) => {
+    this.breezListenerId = await sdk.addEventListener((event: SdkEvent) => {
       this.handleSdkEvent(event).catch(() => {
         /* swallow */
       });

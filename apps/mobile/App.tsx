@@ -13,7 +13,7 @@ import Constants from 'expo-constants';
 import {
   ChatsScreen,
   ChatScreen,
-  LightningScreen,
+  PaymentScreen,
   CallsScreen,
   type Chat,
 } from '@hum/ui-screens';
@@ -127,8 +127,18 @@ function AppInner() {
       case 'calls':
         return <CallsScreen />;
       case 'payments':
-      case 'lightning':
-        return <LightningScreen />;
+        return (
+          <PaymentScreen
+            apiKey={
+              (
+                Constants as unknown as {
+                  expoConfig?: { extra?: { breezApiKey?: string } };
+                }
+              ).expoConfig?.extra?.breezApiKey ?? ''
+            }
+            storage={AsyncStorage}
+          />
+        );
       case 'settings':
       default:
         return settingsView === 'theme' ? (
