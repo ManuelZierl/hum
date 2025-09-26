@@ -6,6 +6,8 @@ import React, {
   useState,
 } from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -64,7 +66,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
       content: {
         paddingHorizontal: spacing.lg,
         paddingTop: spacing.xl,
-        paddingBottom: spacing.xl + insets.bottom + 80,
+        paddingBottom: spacing.xl + insets.bottom,
         flexGrow: 1,
         gap: spacing.lg,
       } satisfies ViewStyle,
@@ -236,7 +238,6 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
         setInputError(
           t('payments.activate.confirmation.invalid_word', {
             word,
-            expected: words[confirmedWords.length],
           }),
         );
         setCurrentInput(word);
@@ -289,12 +290,11 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
 
   const suggestions = useMemo(() => {
     const prefix = currentInput.trim().toLowerCase();
-    if (!expectedWord) return [] as string[];
-    if (!prefix) {
-      return [expectedWord];
-    }
+    if (!expectedWord || !prefix) return [] as string[];
     const matches = dictionary.filter((word) => word.startsWith(prefix));
-    const ordered = [expectedWord, ...matches];
+    const ordered = matches.includes(expectedWord)
+      ? [expectedWord, ...matches]
+      : matches;
     const unique: string[] = [];
     for (const word of ordered) {
       if (!unique.includes(word)) {
@@ -322,7 +322,11 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
   }, [mnemonic, onActivated]);
 
   return (
-    <View style={[styles.container, themedStyles.screen]}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={[styles.container, themedStyles.screen]}
+      keyboardVerticalOffset={insets.top + 56}
+    >
       <TopBar
         backButton={!!onBack}
         onBackPress={onBack}
@@ -441,18 +445,9 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
                   placeholderTextColor={colors.mutedForeground}
                   style={[styles.textInput, themedStyles.textInput]}
                   returnKeyType="done"
+                  blurOnSubmit={false}
                   testID="mnemonic-confirm-input"
                 />
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  accessibilityLabel={t(
-                    'payments.activate.confirmation.submit_word',
-                  )}
-                  onPress={handleSubmitEditing}
-                >
-                  {t('payments.activate.confirmation.add_word')}
-                </Button>
               </View>
               {inputError ? (
                 <Text style={themedStyles.errorText}>{inputError}</Text>
@@ -492,7 +487,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
           </View>
         )}
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

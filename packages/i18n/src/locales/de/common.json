@@ -70,7 +70,7 @@
         "prompt": "Gib deine 12 Wörter erneut ein, um fortzufahren.",
         "placeholder": "Gib das nächste Wort ein",
         "helper": "Gib die Wörter in der richtigen Reihenfolge ein. Nach wenigen Buchstaben erscheinen Vorschläge. Noch {{remaining}} offen.",
-        "invalid_word": "„{{word}}“ entspricht nicht Wort {{expected}}. Bitte prüfe die Schreibweise.",
+        "invalid_word": "„{{word}}“ entspricht nicht deiner Wiederherstellungsphrase. Bitte prüfe die Schreibweise.",
         "submit_word": "Wort bestätigen",
         "add_word": "Hinzufügen",
         "use_suggestion": "Vorschlag {{word}} übernehmen",

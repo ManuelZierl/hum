@@ -70,7 +70,7 @@
         "prompt": "Retype your 12-word recovery phrase to confirm.",
         "placeholder": "Start typing the next word",
         "helper": "Enter the words in order. Suggestions appear after a few letters. {{remaining}} left.",
-        "invalid_word": "“{{word}}” does not match word {{expected}}. Check your spelling.",
+        "invalid_word": "“{{word}}” doesn't match your recovery phrase. Check your spelling.",
         "submit_word": "Submit word",
         "add_word": "Add",
         "use_suggestion": "Use suggestion {{word}}",
