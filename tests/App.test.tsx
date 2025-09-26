@@ -213,13 +213,20 @@ jest.mock('../apps/mobile/setting_screens', () => {
     __esModule: true,
     MainSettingsScreen: ({
       onNavigateToTheme,
+      onClearStorage,
     }: {
       onNavigateToTheme: () => void;
+      onClearStorage?: () => void;
     }) => (
       <View testID="main-settings">
         <TouchableOpacity testID="go-theme" onPress={onNavigateToTheme}>
           <Text>Theme</Text>
         </TouchableOpacity>
+        {onClearStorage ? (
+          <TouchableOpacity testID="clear-storage" onPress={onClearStorage}>
+            <Text>Clear</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
     ),
     ThemeSettingsScreen: ({
@@ -314,6 +321,25 @@ jest.mock('../apps/mobile/src/hum/HumClientProvider', () => {
 });
 
 import App from '../apps/mobile/App';
+
+const originalConsoleWarn = console.warn;
+let consoleWarnSpy: jest.SpyInstance;
+beforeAll(() => {
+  consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation((...args) => {
+    if (
+      args.length > 0 &&
+      typeof args[0] === 'string' &&
+      args[0].includes('props.pointerEvents is deprecated')
+    ) {
+      return;
+    }
+    originalConsoleWarn(...args);
+  });
+});
+
+afterAll(() => {
+  consoleWarnSpy.mockRestore();
+});
 
 describe('App', () => {
   const reactNative = require('react-native');

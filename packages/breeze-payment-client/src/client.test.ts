@@ -104,6 +104,7 @@ jest.mock(
   { virtual: true },
 );
 
+import * as ReactNative from 'react-native';
 import { createBreezePaymentClient } from '@hum/breeze-payment-client';
 import { PaymentError } from '@hum/payment-client';
 import type { PaymentEvent } from '@hum/payment-client';
@@ -179,6 +180,10 @@ const sdk = jest.requireMock(
   '@breeztech/react-native-breez-sdk-liquid',
 ) as unknown as BreezSdkMock;
 
+const { NativeModules } = ReactNative as unknown as {
+  NativeModules: Record<string, Record<string, unknown>>;
+};
+
 type ClientOptions = Parameters<typeof createBreezePaymentClient>[0];
 
 const defaultClientOptions: ClientOptions = {
@@ -193,6 +198,7 @@ describe('BreezePaymentClientImpl', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     sdk.__listeners.length = 0;
+    NativeModules.RNBreezSDKLiquid = NativeModules.RNBreezSDKLiquid ?? {};
   });
 
   it('initializes breez sdk and exposes balances', async () => {
@@ -209,6 +215,13 @@ describe('BreezePaymentClientImpl', () => {
       spendable: BigInt(1000),
       pending: BigInt(150),
     });
+  });
+
+  it('throws UNSUPPORTED error when native module is unavailable', () => {
+    delete NativeModules.RNBreezSDKLiquid;
+    expect(() => createClient()).toThrowErrorMatchingInlineSnapshot(
+      `"Breez payments require a custom native build. Run the app from a dev build or standalone build to enable payments."`,
+    );
   });
 
   it('creates and decodes invoices', async () => {

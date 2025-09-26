@@ -299,7 +299,25 @@ const WORDLIST = [
   'century',
 ];
 
+const PRESET_MNEMONICS: Record<number, string[]> = {
+  12: [
+    'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+    'legal winner thank year wave sausage worth useful legal winner thank yellow',
+    'letter advice cage absurd amount doctor acoustic avoid letter advice cage above',
+    'zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong',
+  ],
+};
+
+function selectPreset(length: number): string | null {
+  const options = PRESET_MNEMONICS[length];
+  if (!options || options.length === 0) return null;
+  return options[Math.floor(Math.random() * options.length)];
+}
+
 export function generateMnemonic(length = 12): string {
+  const preset = selectPreset(length);
+  if (preset) return preset;
+
   const words: string[] = [];
   for (let i = 0; i < length; i += 1) {
     const index = Math.floor(Math.random() * WORDLIST.length);

@@ -461,11 +461,24 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
                 {t('payments.balance.title')}
               </Text>
               {balanceSummary.map((bal) => (
-                <View key={bal.asset} style={styles.balanceRow}>
-                  <Text style={themedStyles.balanceAmount}>
+                <View
+                  key={bal.asset}
+                  style={styles.balanceRow}
+                  testID={`balance-row-${bal.asset}`}
+                >
+                  <Text
+                    style={themedStyles.balanceAmount}
+                    testID={`balance-amount-${bal.asset}`}
+                    accessibilityLabel={`${formatSats(bal.balance)} ${bal.asset}`}
+                  >
                     {formatSats(bal.balance)}
                   </Text>
-                  <Text style={themedStyles.balanceAsset}>{bal.asset}</Text>
+                  <Text
+                    style={themedStyles.balanceAsset}
+                    testID={`balance-asset-${bal.asset}`}
+                  >
+                    {bal.asset}
+                  </Text>
                 </View>
               ))}
               {balanceSummary.length === 0 && (
@@ -504,6 +517,7 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
                   <View
                     key={payment.id}
                     style={[styles.historyItemBase, themedStyles.historyItem]}
+                    testID={`payment-row-${payment.id}`}
                   >
                     <View style={styles.paymentRow}>
                       <View
@@ -521,7 +535,11 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
                               : colors.destructive
                           }
                         />
-                        <Text style={themedStyles.historyAmount}>
+                        <Text
+                          style={themedStyles.historyAmount}
+                          testID={`payment-amount-${payment.id}`}
+                          accessibilityLabel={formatSats(payment.amount.sats)}
+                        >
                           {formatSats(payment.amount.sats)}
                         </Text>
                       </View>

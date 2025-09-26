@@ -1,3 +1,4 @@
+import * as ReactNative from 'react-native';
 import type {
   Amount,
   AssetCode,
@@ -74,6 +75,35 @@ const TYPE_TO_DIRECTION: Record<PaymentType, PaymentDirection> = {
 
 const READY_TRUE_EVENT: PaymentEvent = { type: 'READY_CHANGED', ready: true };
 const READY_FALSE_EVENT: PaymentEvent = { type: 'READY_CHANGED', ready: false };
+
+const { NativeModules } = ReactNative as unknown as {
+  NativeModules: Record<string, unknown>;
+};
+
+const BREEZ_NATIVE_MODULE = 'RNBreezSDKLiquid';
+
+function isBreezNativeModuleLinked(): boolean {
+  const module = (NativeModules as Record<string, unknown>)[
+    BREEZ_NATIVE_MODULE
+  ];
+  if (module) return true;
+
+  const maybeTurboProxy = (
+    globalThis as { __turboModuleProxy?: (name: string) => unknown }
+  ).__turboModuleProxy;
+  if (typeof maybeTurboProxy === 'function') {
+    try {
+      const turboModule = maybeTurboProxy(BREEZ_NATIVE_MODULE);
+      if (turboModule) {
+        return true;
+      }
+    } catch {
+      // ignore turbo module resolution failures
+    }
+  }
+
+  return false;
+}
 
 function toLiquidNetwork(network: Network): LiquidNetwork {
   switch (network) {
@@ -683,5 +713,11 @@ export class BreezePaymentClientImpl implements PaymentClient {
 export function createBreezePaymentClient(
   options: BreezPaymentClientOptions,
 ): PaymentClient {
+  if (!isBreezNativeModuleLinked()) {
+    throw new PaymentError(
+      'UNSUPPORTED',
+      'Breez payments require a custom native build. Run the app from a dev build or standalone build to enable payments.',
+    );
+  }
   return new BreezePaymentClientImpl(options);
 }
