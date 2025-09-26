@@ -1,8 +1,14 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 
-// Header provided by the Rust FFI; copied by the Expo plugin to ios/include/
+#if __has_include("hum.h")
+#define HUM_NATIVE_HAS_FFI 1
 #import "hum.h"
+#else
+#define HUM_NATIVE_HAS_FFI 0
+#endif
+
+#if HUM_NATIVE_HAS_FFI
 
 static NSMutableDictionary<NSNumber *, struct HumClientHandle *> *sClients;
 static NSInteger sNextHandle = 1;
@@ -516,3 +522,197 @@ RCT_REMAP_METHOD(clientGetPresence,
 }
 
 @end
+
+#else
+
+static NSError *HumUnavailableError(void) {
+  NSDictionary *info = @{
+    NSLocalizedDescriptionKey :
+      @"Hum native FFI not available. Rebuild with Rust artifacts to enable native Matrix bridging."
+  };
+  return [NSError errorWithDomain:@"hum.native" code:-2 userInfo:info];
+}
+
+@interface HumNative : NSObject <RCTBridgeModule>
+@end
+
+@implementation HumNative
+
+RCT_EXPORT_MODULE(HumNative);
+
+#define HUM_STUB_METHOD(js_name, ...)                                                  \
+  RCT_REMAP_METHOD(js_name, __VA_ARGS__) {                                             \
+    NSError *error = HumUnavailableError();                                            \
+    reject(@"ERR_UNAVAILABLE", error.localizedDescription, error);                     \
+    return;                                                                            \
+  }
+
+HUM_STUB_METHOD(createClient,
+                createClientWithHs:(NSString *)hsUrl
+                storePath:(NSString *)storePath
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientFree,
+                clientFreeWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientLogin,
+                clientLoginWithHandle:(nonnull NSNumber *)hid
+                username:(NSString *)username
+                password:(NSString *)password
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientIsAuthenticated,
+                clientIsAuthenticatedWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientLogout,
+                clientLogoutWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientGetRooms,
+                clientGetRoomsWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientCreateRoom,
+                clientCreateRoomWithHandle:(nonnull NSNumber *)hid
+                name:(NSString *_Nullable)name
+                topic:(NSString *_Nullable)topic
+                isPublic:(BOOL)isPublic
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientJoinRoom,
+                clientJoinRoomWithHandle:(nonnull NSNumber *)hid
+                idOrAlias:(NSString *)idOrAlias
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientLeaveRoom,
+                clientLeaveRoomWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSendText,
+                clientSendTextWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                body:(NSString *)body
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSendReaction,
+                clientSendReactionWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                eventId:(NSString *)eventId
+                key:(NSString *)key
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientRedact,
+                clientRedactWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                eventId:(NSString *)eventId
+                reason:(NSString *_Nullable)reason
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSendReadReceipt,
+                clientSendReadReceiptWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                eventId:(NSString *)eventId
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSetTyping,
+                clientSetTypingWithHandle:(nonnull NSNumber *)hid
+                roomId:(NSString *)roomId
+                isTyping:(BOOL)isTyping
+                timeoutMs:(nonnull NSNumber *)timeoutMs
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientStartSyncLoop,
+                clientStartSyncLoopWithHandle:(nonnull NSNumber *)hid
+                timeoutMs:(nonnull NSNumber *)timeoutMs
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientStopSyncLoop,
+                clientStopSyncLoopWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSyncOnce,
+                clientSyncOnceWithHandle:(nonnull NSNumber *)hid
+                timeoutMs:(nonnull NSNumber *)timeoutMs
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientImportRecoveryKey,
+                clientImportRecoveryKeyWithHandle:(nonnull NSNumber *)hid
+                key:(NSString *)key
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSearchUsers,
+                clientSearchUsersWithHandle:(nonnull NSNumber *)hid
+                query:(NSString *)query
+                limit:(nonnull NSNumber *)limit
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientGetDevices,
+                clientGetDevicesWithHandle:(nonnull NSNumber *)hid
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientRenameDevice,
+                clientRenameDeviceWithHandle:(nonnull NSNumber *)hid
+                deviceId:(NSString *)deviceId
+                name:(NSString *)name
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientDeleteDevice,
+                clientDeleteDeviceWithHandle:(nonnull NSNumber *)hid
+                deviceId:(NSString *)deviceId
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientUploadMedia,
+                clientUploadMediaWithHandle:(nonnull NSNumber *)hid
+                dataBase64:(NSString *)dataBase64
+                mime:(NSString *)mime
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientDownloadMedia,
+                clientDownloadMediaWithHandle:(nonnull NSNumber *)hid
+                uri:(NSString *)uri
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientSetPresence,
+                clientSetPresenceWithHandle:(nonnull NSNumber *)hid
+                state:(nonnull NSNumber *)state
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+HUM_STUB_METHOD(clientGetPresence,
+                clientGetPresenceWithHandle:(nonnull NSNumber *)hid
+                userId:(NSString *)userId
+                resolver:(RCTPromiseResolveBlock)resolve
+                rejecter:(RCTPromiseRejectBlock)reject)
+
+#undef HUM_STUB_METHOD
+
+@end
+
+#endif

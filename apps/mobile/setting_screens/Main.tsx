@@ -13,11 +13,13 @@ import { View, Text, StyleSheet } from 'react-native';
 export type MainSettingsScreenProps = {
   theme: 'light' | 'dark' | 'auto';
   onNavigateToTheme: () => void;
+  onClearStorage?: () => Promise<void> | void;
 };
 
 export const MainSettingsScreen: React.FC<MainSettingsScreenProps> = ({
   theme,
   onNavigateToTheme,
+  onClearStorage,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
   const { scaleIndex, presets, setScaleIndex, preset } = useTypography();
@@ -32,7 +34,7 @@ export const MainSettingsScreen: React.FC<MainSettingsScreenProps> = ({
     [setScaleIndex],
   );
   return (
-    <SettingsScreen>
+    <SettingsScreen onClearStorage={onClearStorage}>
       <SettingsItem
         icon={<Icon name="palette" size={24} color={colors.humPrimary} />}
         title={t('labels.theme')}

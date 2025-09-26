@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import { TextInput } from 'react-native';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { PaymentScreen, type PaymentScreenProps } from './PaymentScreen';
-import type { Payment } from '@hum/payment-client';
+import type { Payment, PaymentEvent } from '@hum/payment-client';
 
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -169,5 +169,211 @@ describe('PaymentScreen', () => {
       );
     });
     expect(mockInit).toHaveBeenCalled();
+  });
+
+  it('refreshes balances and payments when the refresh button is pressed', async () => {
+    const storage = createStorage('seed words');
+    mockGetBalances.mockResolvedValueOnce([
+      { asset: 'L-BTC', spendable: 1n, pending: 0n },
+    ]);
+    mockListPayments.mockResolvedValueOnce({ items: [] });
+
+    const { getByLabelText } = renderScreen({ storage });
+
+    await waitFor(() =>
+      expect(getByLabelText('payments.history.refresh')).toBeTruthy(),
+    );
+
+    mockGetBalances.mockClear();
+    mockListPayments.mockClear();
+    mockGetBalances.mockResolvedValue([]);
+    mockListPayments.mockResolvedValue({ items: [] });
+
+    await act(async () => {
+      fireEvent.press(getByLabelText('payments.history.refresh'));
+    });
+
+    await waitFor(() => expect(mockGetBalances).toHaveBeenCalled());
+    expect(mockListPayments).toHaveBeenCalled();
+  });
+
+  it('retries initialization when retry is pressed on error', async () => {
+    const storage = {
+      getItem: jest
+        .fn()
+        .mockRejectedValueOnce(new Error('fail'))
+        .mockResolvedValueOnce(null),
+      setItem: jest.fn(),
+    } satisfies PaymentScreenProps['storage'];
+
+    const { getByLabelText } = renderScreen({ storage });
+
+    await waitFor(() =>
+      expect(getByLabelText('payments.errors.retry')).toBeTruthy(),
+    );
+
+    await act(async () => {
+      fireEvent.press(getByLabelText('payments.errors.retry'));
+    });
+
+    await waitFor(() => expect(storage.getItem).toHaveBeenCalledTimes(2));
+  });
+
+  it('reacts to balance and payment update events', async () => {
+    const storage = createStorage('seed words');
+    mockGetBalances.mockResolvedValueOnce([
+      { asset: 'L-BTC', spendable: 1n, pending: 0n },
+    ]);
+    mockListPayments.mockResolvedValueOnce({ items: [] });
+
+    const { findByLabelText } = renderScreen({ storage });
+
+    await waitFor(() => expect(mockOn).toHaveBeenCalled());
+    const listener = mockOn.mock.calls[0][0] as (event: PaymentEvent) => void;
+    await waitFor(() => {
+      expect(mockListPayments).toHaveBeenCalled();
+    });
+
+    await act(async () => {
+      listener({
+        type: 'BALANCE_CHANGED',
+        balances: [{ asset: 'L-BTC', spendable: 42n, pending: 0n }],
+      });
+    });
+
+    expect(await findByLabelText('42 sats L-BTC')).toBeTruthy();
+
+    const updatedPayment: Payment = {
+      id: 'p-1',
+      direction: 'OUTBOUND',
+      rail: 'lightning',
+      asset: 'L-BTC',
+      amount: { sats: 2n, asset: 'L-BTC' },
+      createdAt: 1,
+      updatedAt: 1,
+      status: 'SUCCEEDED',
+      raw: {},
+    };
+
+    await act(async () => {
+      listener({
+        type: 'PAYMENT_UPDATED',
+        payment: updatedPayment,
+      });
+    });
+
+    expect(await findByLabelText('2 sats')).toBeTruthy();
+  });
+
+  it('logs destroy errors during cleanup', async () => {
+    const storage = createStorage('seed words');
+    mockGetBalances.mockResolvedValueOnce([
+      { asset: 'L-BTC', spendable: 1n, pending: 0n },
+    ]);
+    mockListPayments.mockResolvedValueOnce({ items: [] });
+    mockDestroy.mockRejectedValueOnce(new Error('kaboom'));
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const { unmount } = renderScreen({ storage });
+
+    await waitFor(() => expect(mockInit).toHaveBeenCalled());
+    unmount();
+
+    await waitFor(() =>
+      expect(warnSpy).toHaveBeenCalledWith(
+        '[PaymentScreen] destroy failed',
+        expect.any(Error),
+      ),
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it('logs refresh failures', async () => {
+    const storage = createStorage('seed words');
+    mockGetBalances.mockResolvedValueOnce([
+      { asset: 'L-BTC', spendable: 1n, pending: 0n },
+    ]);
+    mockListPayments.mockResolvedValueOnce({ items: [] });
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const { getByLabelText } = renderScreen({ storage });
+    await waitFor(() => expect(mockInit).toHaveBeenCalled());
+
+    mockGetBalances.mockRejectedValueOnce(new Error('refresh fail'));
+    mockListPayments.mockRejectedValueOnce(new Error('refresh fail'));
+
+    await act(async () => {
+      fireEvent.press(getByLabelText('payments.history.refresh'));
+    });
+
+    await waitFor(() =>
+      expect(warnSpy).toHaveBeenCalledWith(
+        '[PaymentScreen] refresh failed',
+        expect.any(Error),
+      ),
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it('shows an error when retrying initialization fails', async () => {
+    const storage = {
+      getItem: jest
+        .fn()
+        .mockResolvedValueOnce('seed words')
+        .mockRejectedValueOnce(new Error('read fail')),
+      setItem: jest.fn(),
+    } satisfies PaymentScreenProps['storage'];
+    mockInit.mockRejectedValueOnce(new Error('initial fail'));
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const { getByLabelText } = renderScreen({ storage });
+
+    await waitFor(() =>
+      expect(getByLabelText('payments.errors.retry')).toBeTruthy(),
+    );
+
+    await act(async () => {
+      fireEvent.press(getByLabelText('payments.errors.retry'));
+    });
+
+    await waitFor(() =>
+      expect(warnSpy).toHaveBeenCalledWith(
+        '[PaymentScreen] retry failed',
+        expect.any(Error),
+      ),
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it('falls back to in-memory storage when none is provided', async () => {
+    const { getByLabelText } = render(
+      <ThemeProvider forcedScheme="light">
+        <PaymentScreen apiKey="test" />
+      </ThemeProvider>,
+    );
+
+    await waitFor(() =>
+      expect(getByLabelText('payments.activate.cta')).toBeTruthy(),
+    );
+  });
+
+  it('logs payment client errors reported during initialization', async () => {
+    const storage = createStorage('seed words');
+    mockInit.mockImplementationOnce(async ({ logger }) => {
+      logger?.('error', 'bad news');
+    });
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    renderScreen({ storage });
+
+    await waitFor(() => expect(mockInit).toHaveBeenCalled());
+    await waitFor(() =>
+      expect(warnSpy).toHaveBeenCalledWith('[PaymentClient]', 'bad news'),
+    );
+
+    warnSpy.mockRestore();
   });
 });

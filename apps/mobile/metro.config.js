@@ -8,12 +8,14 @@ const workspaceRoot = path.resolve(projectRoot, '..', '..');
 
 const config = getDefaultConfig(projectRoot);
 
-// Allow resolving symlinked packages in a monorepo and watch the workspace.
-config.watchFolders = [workspaceRoot];
+// Allow resolving symlinked packages in a monorepo and watch the workspace in addition
+// to the defaults Expo configures by default.
+config.watchFolders = Array.from(
+  new Set([...(config.watchFolders ?? []), workspaceRoot]),
+);
 
 config.resolver = {
   ...config.resolver,
-  unstable_enableSymlinks: true,
   nodeModulesPaths: [
     path.resolve(projectRoot, 'node_modules'),
     path.resolve(workspaceRoot, 'node_modules'),

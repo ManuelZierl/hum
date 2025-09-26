@@ -14,6 +14,19 @@ const InlineModal: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => <>{children}</>;
 InlineModal.displayName = 'InlineModal';
+const originalConsoleError = console.error;
+const consoleErrorSpy = jest
+  .spyOn(console, 'error')
+  .mockImplementation((...args) => {
+    if (
+      args.length > 0 &&
+      typeof args[0] === 'string' &&
+      args[0].includes('BackHandler is not supported on web')
+    ) {
+      return;
+    }
+    originalConsoleError(...args);
+  });
 beforeAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -23,6 +36,8 @@ afterAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   RNNS.Modal = OriginalModal;
+  consoleErrorSpy.mockRestore();
+  console.error = originalConsoleError;
 });
 
 function renderScreen(

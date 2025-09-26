@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
 import { SettingsItem } from '@hum/ui-components';
 import { ThemeProvider } from '@hum/ui-components/theme/theme-provider';
 import { SettingsScreen, type SettingsScreenProps } from './SettingsScreen';
@@ -57,5 +57,16 @@ describe('SettingsScreen', () => {
       </ThemeProvider>,
     );
     expect(getByLabelText('Search')).toBeOnTheScreen();
+  });
+
+  it('calls onClearStorage when button pressed', async () => {
+    const onClearStorage = jest.fn();
+    const { getByLabelText } = renderScreen('light', { onClearStorage });
+
+    await act(async () => {
+      fireEvent.press(getByLabelText('settings.actions.clear_storage'));
+    });
+
+    expect(onClearStorage).toHaveBeenCalled();
   });
 });

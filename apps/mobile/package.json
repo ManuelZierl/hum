@@ -19,18 +19,19 @@
   "dependencies": {
     "@babel/runtime": "7.28.3",
     "@hum/hum-matrix-native": "file:../../packages/hum-matrix-native",
+    "@hum/i18n": "file:../../packages/i18n",
     "@hum/ui-components": "file:../../packages/ui-components",
     "@hum/ui-screens": "file:../../packages/ui-screens",
-    "@hum/i18n": "file:../../packages/i18n",
     "@react-native-async-storage/async-storage": "2.2.0",
-    "expo": "54.0.7",
-    "expo-clipboard": "^6.0.3",
+    "@react-native-community/slider": "5.0.1",
+    "expo": "~54.0.10",
+    "expo-clipboard": "~8.0.7",
+    "expo-dev-client": "~6.0.12",
     "react": "19.1.0",
     "react-native": "0.81.4",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-svg": "15.12.1",
-    "@react-native-community/slider": "4.5.4"
+    "react-native-svg": "15.12.1"
   },
   "devDependencies": {
     "@expo/cli": "54.0.5",
