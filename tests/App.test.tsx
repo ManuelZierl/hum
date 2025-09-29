@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import type { Chat } from '@hum/ui-screens';
 
 const constantsMock = {
@@ -39,11 +39,27 @@ jest.mock('react-native-gesture-handler', () => {
   };
 });
 
+const asyncStorageMock = {
+  getItem: jest.fn<Promise<string | null>, [string]>(async () => null),
+  setItem: jest.fn<Promise<void>, [string, string]>(async () => undefined),
+  removeItem: jest.fn<Promise<void>, [string]>(async () => undefined),
+};
+
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  __esModule: true,
+  default: asyncStorageMock,
+}));
+
 jest.mock('@hum/ui-components', () => {
   const React = require('react');
   const { View, Text, TouchableOpacity } = require('react-native');
   const themeState = {
     forcedScheme: undefined as 'light' | 'dark' | undefined,
+  };
+  const typographyState = {
+    onScaleIndexChange: undefined as
+      | ((index: number, option: unknown) => void)
+      | undefined,
   };
   const ThemeProvider = ({
     children,
@@ -64,7 +80,9 @@ jest.mock('@hum/ui-components', () => {
     <View>{children}</View>
   );
   const TYPOGRAPHY_SCALE_OPTIONS = [
+    { id: 'sm', multiplier: 0.9, labelKey: 'text_size.small' },
     { id: 'md', multiplier: 1, labelKey: 'text_size.default' },
+    { id: 'lg', multiplier: 1.1, labelKey: 'text_size.large' },
   ] as const;
   const TypographyProvider = ({
     children,
@@ -86,6 +104,7 @@ jest.mock('@hum/ui-components', () => {
         );
         onScaleIndexChange(clamped, TYPOGRAPHY_SCALE_OPTIONS[clamped]);
       }
+      typographyState.onScaleIndexChange = onScaleIndexChange as any;
     }, [initialScaleIndex, onScaleIndexChange]);
     return <>{children}</>;
   };
@@ -140,6 +159,7 @@ jest.mock('@hum/ui-components', () => {
     TypographyProvider,
     TYPOGRAPHY_SCALE_OPTIONS,
     __themeState: themeState,
+    __typographyState: typographyState,
   };
 });
 
@@ -274,15 +294,17 @@ const i18nModule = {
   changeLanguage: jest.fn(),
 };
 
+const translationMock = {
+  t: (key: string) => key,
+  i18n: i18nModule,
+};
+
 jest.mock('react-i18next', () => ({
   __esModule: true,
   I18nextProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
-  useTranslation: () => ({
-    t: (key: string) => key,
-    i18n: i18nModule,
-  }),
+  useTranslation: () => translationMock,
   __mockI18n: i18nModule,
 }));
 
@@ -358,9 +380,20 @@ describe('App', () => {
         getMessages: jest.Mock<Promise<unknown[]>, [string]>;
       };
     };
-  const { __themeState } = require('@hum/ui-components') as {
-    __themeState: { forcedScheme: 'light' | 'dark' | undefined };
-  };
+  const { __themeState, __typographyState, TYPOGRAPHY_SCALE_OPTIONS } =
+    require('@hum/ui-components') as {
+      __themeState: { forcedScheme: 'light' | 'dark' | undefined };
+      __typographyState: {
+        onScaleIndexChange?: (index: number, option: unknown) => void;
+      };
+      TYPOGRAPHY_SCALE_OPTIONS: readonly {
+        id: string;
+        multiplier: number;
+        labelKey: string;
+      }[];
+    };
+  const asyncStorage = (require('@react-native-async-storage/async-storage')
+    .default ?? asyncStorageMock) as typeof asyncStorageMock;
   const { __mockI18n } = require('react-i18next') as {
     __mockI18n: { changeLanguage: jest.Mock };
   };
@@ -376,6 +409,10 @@ describe('App', () => {
     });
     __themeState.forcedScheme = undefined;
     __mockI18n.changeLanguage.mockReset();
+    asyncStorage.getItem.mockResolvedValue(null);
+    asyncStorage.setItem.mockResolvedValue(undefined);
+    asyncStorage.removeItem.mockResolvedValue(undefined);
+    __typographyState.onScaleIndexChange = undefined;
   });
 
   afterAll(() => {
@@ -500,5 +537,72 @@ describe('App', () => {
     fireEvent.press(getByTestId('dev-back'));
     await waitFor(() => expect(queryByTestId('dev-screen')).toBeNull());
     expect(getByTestId('bottom-nav')).toBeTruthy();
+  });
+
+  it('restores and persists typography scale changes', async () => {
+    asyncStorage.getItem.mockResolvedValueOnce('7');
+
+    render(<App />);
+
+    await waitFor(() =>
+      expect(asyncStorage.getItem).toHaveBeenCalledWith(
+        'settings.typography.scaleIndex',
+      ),
+    );
+
+    const change = __typographyState.onScaleIndexChange;
+    expect(change).toBeDefined();
+
+    await act(async () => {
+      change?.(0, TYPOGRAPHY_SCALE_OPTIONS[0]);
+    });
+    await waitFor(() =>
+      expect(asyncStorage.setItem).toHaveBeenCalledWith(
+        'settings.typography.scaleIndex',
+        '0',
+      ),
+    );
+
+    await act(async () => {
+      change?.(999, TYPOGRAPHY_SCALE_OPTIONS[2] ?? TYPOGRAPHY_SCALE_OPTIONS[0]);
+    });
+    await waitFor(() =>
+      expect(asyncStorage.setItem).toHaveBeenCalledWith(
+        'settings.typography.scaleIndex',
+        '2',
+      ),
+    );
+  });
+
+  it('clears payments storage and handles failures', async () => {
+    const screen = render(<App />);
+    const getByTestId = (id: string) =>
+      screen.UNSAFE_getByProps({ testID: id });
+
+    fireEvent.press(getByTestId('tab-settings'));
+    const clearButton = await waitFor(() =>
+      screen.UNSAFE_getByProps({ testID: 'clear-storage' }),
+    );
+    fireEvent.press(clearButton);
+
+    await waitFor(() =>
+      expect(asyncStorage.removeItem).toHaveBeenCalledWith('payments.mnemonic'),
+    );
+    await waitFor(() =>
+      expect(getByTestId('active-tab').props.children).toBe('payments'),
+    );
+
+    asyncStorage.removeItem.mockRejectedValueOnce(new Error('fail'));
+    fireEvent.press(getByTestId('tab-settings'));
+    const retryButton = await waitFor(() =>
+      screen.UNSAFE_getByProps({ testID: 'clear-storage' }),
+    );
+    fireEvent.press(retryButton);
+    await waitFor(() =>
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[App] clear payments storage failed',
+        expect.any(Error),
+      ),
+    );
   });
 });
