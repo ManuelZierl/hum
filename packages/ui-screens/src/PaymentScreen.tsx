@@ -188,6 +188,11 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
       counterparty: {
         color: colors.mutedForeground,
       } satisfies TextStyle,
+      buttonLabel: {
+        color: colors.humPrimaryForeground,
+        fontSize: type.size.base,
+        fontWeight: type.weight.bold,
+      } satisfies TextStyle,
     }),
     [colors, insets.bottom, radius, spacing, type],
   );
@@ -426,7 +431,9 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
             }}
             testID="activate-payments"
           >
-            <Text style={styles.buttonLabel}>{t('payments.activate.cta')}</Text>
+            <Text style={themedStyles.buttonLabel}>
+              {t('payments.activate.cta')}
+            </Text>
           </Button>
         </View>
       )}
@@ -442,7 +449,9 @@ export const PaymentScreen: React.FC<PaymentScreenProps> = ({
             accessibilityLabel={t('payments.errors.retry')}
             onPress={handleRetry}
           >
-            <Text style={styles.buttonLabel}>{t('payments.errors.retry')}</Text>
+            <Text style={themedStyles.buttonLabel}>
+              {t('payments.errors.retry')}
+            </Text>
           </Button>
         </View>
       )}
@@ -593,10 +602,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     gap: 16,
-  },
-  buttonLabel: {
-    color: '#FFFFFF',
-    fontWeight: '600',
   },
   cardBase: {
     borderWidth: 1,
