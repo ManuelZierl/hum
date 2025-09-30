@@ -308,10 +308,58 @@ const PRESET_MNEMONICS: Record<number, string[]> = {
   ],
 };
 
+type CryptoWithRandomValues = Pick<Crypto, 'getRandomValues'>;
+
+function getCrypto(): CryptoWithRandomValues | null {
+  if (
+    typeof globalThis !== 'undefined' &&
+    globalThis.crypto &&
+    typeof globalThis.crypto.getRandomValues === 'function'
+  ) {
+    return globalThis.crypto;
+  }
+
+  return null;
+}
+
+function getSecureRandomNumber(max: number): number {
+  if (max <= 0 || !Number.isSafeInteger(max)) {
+    throw new Error('`max` must be a positive safe integer');
+  }
+
+  const cryptoApi = getCrypto();
+  if (!cryptoApi) {
+    throw new Error(
+      'Secure random number generation is not available in this environment',
+    );
+  }
+
+  const maxUint32 = 0x100000000;
+  const threshold = Math.floor(maxUint32 / max) * max;
+  const randomBuffer = new Uint32Array(1);
+
+  while (true) {
+    cryptoApi.getRandomValues(randomBuffer);
+    const randomValue = randomBuffer[0];
+    if (randomValue < threshold) {
+      return randomValue % max;
+    }
+  }
+}
+
+function secureRandomChoice<T>(options: readonly T[]): T {
+  if (options.length === 0) {
+    throw new Error('Cannot choose from an empty list of options');
+  }
+
+  const index = getSecureRandomNumber(options.length);
+  return options[index];
+}
+
 function selectPreset(length: number): string | null {
   const options = PRESET_MNEMONICS[length];
   if (!options || options.length === 0) return null;
-  return options[Math.floor(Math.random() * options.length)];
+  return secureRandomChoice(options);
 }
 
 export function generateMnemonic(length = 12): string {
@@ -320,8 +368,7 @@ export function generateMnemonic(length = 12): string {
 
   const words: string[] = [];
   for (let i = 0; i < length; i += 1) {
-    const index = Math.floor(Math.random() * WORDLIST.length);
-    words.push(WORDLIST[index]);
+    words.push(secureRandomChoice(WORDLIST));
   }
   return words.join(' ');
 }
