@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -167,6 +166,11 @@ export const ConfirmMnemonicScreen: React.FC<ConfirmMnemonicScreenProps> = ({
         backgroundColor: colors.background,
         marginBottom: keyboardVisible ? 0 : bottomOffset,
       } satisfies ViewStyle,
+      buttonLabel: {
+        color: colors.humPrimaryForeground,
+        fontSize: type.size.base,
+        fontWeight: type.weight.bold,
+      } satisfies TextStyle,
     }),
     [
       bottomOffset,
@@ -424,7 +428,7 @@ export const ConfirmMnemonicScreen: React.FC<ConfirmMnemonicScreenProps> = ({
           onPress={onComplete}
           testID="activate-wallet"
         >
-          <Text style={styles.buttonLabel}>
+          <Text style={themedStyles.buttonLabel}>
             {t('payments.activate.actions.finish')}
           </Text>
         </Button>
@@ -432,12 +436,5 @@ export const ConfirmMnemonicScreen: React.FC<ConfirmMnemonicScreenProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonLabel: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-});
 
 export default ConfirmMnemonicScreen;

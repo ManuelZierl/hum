@@ -95,6 +95,12 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
       wordBadge: {
         gap: spacing.xs,
       } satisfies ViewStyle,
+      wordContent: {
+        backgroundColor: colors.muted,
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.md,
+        borderRadius: radius.lg,
+      } satisfies ViewStyle,
       wordIndex: {
         color: colors.mutedForeground,
         fontSize: type.size.sm,
@@ -129,6 +135,11 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
         backgroundColor: colors.background,
         marginBottom: BOTTOM_BAR_HEIGHT,
       } satisfies ViewStyle,
+      buttonLabel: {
+        color: colors.humPrimaryForeground,
+        fontSize: type.size.base,
+        fontWeight: type.weight.bold,
+      } satisfies TextStyle,
     }),
     [colors, insets.bottom, radius, spacing, type],
   );
@@ -215,7 +226,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
                     <Text style={themedStyles.wordIndex}>
                       {(index + 1).toString().padStart(2, '0')}
                     </Text>
-                    <View style={styles.wordContent}>
+                    <View style={themedStyles.wordContent}>
                       <Text style={themedStyles.wordValue}>{word}</Text>
                     </View>
                   </View>
@@ -261,7 +272,7 @@ export const ActivatePaymentScreen: React.FC<ActivatePaymentScreenProps> = ({
               )}
               onPress={handleContinue}
             >
-              <Text style={styles.buttonLabel}>
+              <Text style={themedStyles.buttonLabel}>
                 {t('payments.activate.actions.confirm_written')}
               </Text>
             </Button>
@@ -284,16 +295,6 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   wordBadge: {
     minWidth: 110,
-  },
-  wordContent: {
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-  },
-  buttonLabel: {
-    color: '#FFFFFF',
-    fontWeight: '600',
   },
 });
 
