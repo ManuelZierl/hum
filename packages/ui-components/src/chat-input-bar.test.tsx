@@ -32,14 +32,19 @@ describe('ChatInputBar', () => {
 
   it('invokes action handlers when provided', () => {
     const onAttachmentPress = jest.fn();
+    const onRichInputPress = jest.fn();
     const { getByLabelText } = renderComponent({
       onAttachmentPress,
+      onRichInputPress,
       attachmentAccessibilityLabel: 'Add attachment',
+      richInputAccessibilityLabel: 'Open rich editor',
     });
 
     fireEvent.press(getByLabelText('Add attachment'));
+    fireEvent.press(getByLabelText('Open rich editor'));
 
     expect(onAttachmentPress).toHaveBeenCalled();
+    expect(onRichInputPress).toHaveBeenCalled();
   });
 
   it('grows with content size and enables scrolling past the limit', () => {
@@ -68,5 +73,16 @@ describe('ChatInputBar', () => {
     flattened = StyleSheet.flatten(input.props.style);
     expect(flattened.height).toBe(flattened.maxHeight);
     expect(input.props.scrollEnabled).toBe(true);
+  });
+
+  it('renders a rich preview when html is provided', () => {
+    const { getAllByLabelText, toJSON } = renderComponent({
+      richPreviewHtml: '<p><strong>Rich</strong></p>',
+      onRichInputPress: jest.fn(),
+      richInputAccessibilityLabel: 'Open rich editor',
+    });
+
+    expect(getAllByLabelText('Open rich editor')).toHaveLength(2);
+    expect(JSON.stringify(toJSON())).toContain('Rich');
   });
 });

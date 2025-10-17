@@ -24,6 +24,8 @@ module.exports = {
       '<rootDir>/packages/lightning-client/src/$1',
     '^@hum/lightning-mocks$': '<rootDir>/packages/lightning-mocks/index.ts',
     '^@hum/lightning-mocks/(.*)$': '<rootDir>/packages/lightning-mocks/src/$1',
+    '^@hum/rich-text$': '<rootDir>/packages/rich-text/index.ts',
+    '^@hum/rich-text/(.*)$': '<rootDir>/packages/rich-text/src/$1',
     '^@hum/i18n$': '<rootDir>/packages/i18n/src/index.ts',
     '\\.svg$': '<rootDir>/tests/__mocks__/svgMock.tsx',
   },

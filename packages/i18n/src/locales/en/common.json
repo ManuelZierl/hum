@@ -20,7 +20,10 @@
     "back": "Go back",
     "outgoing_message": "Outgoing message",
     "incoming_message": "Incoming message",
-    "toggle_mock": "Toggle Mock"
+    "toggle_mock": "Toggle Mock",
+    "done": "Done",
+    "undo": "Undo",
+    "redo": "Redo"
   },
   "labels": {
     "archived": "Archived",
@@ -34,7 +37,19 @@
     "your_name": "Your Name",
     "profile_status_default": "Hey there! I am using Hum.",
     "dev_bridge": "Dev Bridge",
-    "backend": "Backend"
+    "backend": "Backend",
+    "rich_text_editor": "Rich text editor",
+    "format_bold": "Bold",
+    "format_italic": "Italic",
+    "format_underline": "Underline",
+    "format_strikethrough": "Strikethrough",
+    "format_heading": "Heading {{level}}",
+    "format_bullet_list": "Bulleted list",
+    "format_numbered_list": "Numbered list",
+    "format_blockquote": "Blockquote",
+    "format_code": "Code",
+    "format_link": "Link",
+    "format_link_default": "Link text"
   },
   "placeholders": {
     "search": "Search",

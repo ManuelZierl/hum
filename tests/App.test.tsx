@@ -25,6 +25,7 @@ jest.mock('react-native-safe-area-context', () => {
     SafeAreaProvider: ({ children }: { children: React.ReactNode }) => (
       <React.Fragment>{children}</React.Fragment>
     ),
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
   };
 });
 
@@ -45,6 +46,24 @@ jest.mock('@hum/ui-components', () => {
   const themeState = {
     forcedScheme: undefined as 'light' | 'dark' | undefined,
   };
+  const themeValue = {
+    colors: {
+      background: '#fff',
+      foreground: '#111',
+      border: '#ccc',
+      muted: '#f5f5f5',
+      mutedForeground: '#666',
+      humPrimary: '#000',
+      humPrimaryForeground: '#fff',
+    },
+    spacing: { xs: 2, sm: 4, md: 8, xl: 16 },
+    radius: { xl: 12 },
+    type: {
+      size: { base: 16, sm: 14, '2xl': 24 },
+      lineHeight: { relaxed: 20 },
+      weight: { medium: '500' },
+    },
+  };
   const ThemeProvider = ({
     children,
     forcedScheme,
@@ -59,6 +78,10 @@ jest.mock('@hum/ui-components', () => {
         {children}
       </View>
     );
+  };
+  const overlayHandlers = {
+    open: jest.fn(),
+    close: jest.fn(),
   };
   const OverlayProvider = ({ children }: { children: React.ReactNode }) => (
     <View>{children}</View>
@@ -131,14 +154,42 @@ jest.mock('@hum/ui-components', () => {
       </TouchableOpacity>
     </View>
   );
+  const Avatar = ({ children }: { children?: React.ReactNode }) => (
+    <View>{children}</View>
+  );
+  const AvatarImage = ({
+    accessibilityLabel,
+  }: {
+    accessibilityLabel?: string;
+  }) => <Text>{accessibilityLabel ?? 'avatar'}</Text>;
+  const ContactInline = ({ name }: { name: string }) => <Text>{name}</Text>;
+  const MessageBubble = ({ text }: { text: string }) => (
+    <Text testID="message-bubble">{text}</Text>
+  );
+  const TopBar = ({ onBackPress }: { onBackPress?: () => void }) => (
+    <TouchableOpacity testID="top-bar-back" onPress={onBackPress}>
+      <Text>Back</Text>
+    </TouchableOpacity>
+  );
+  const ChatInputBar = () => <View testID="chat-input-bar" />;
+  const useTheme = () => themeValue;
+  const useOverlay = () => overlayHandlers;
   return {
     __esModule: true,
     BottomNavigation,
     ThemeProvider,
     OverlayProvider,
+    Avatar,
+    AvatarImage,
+    ContactInline,
+    MessageBubble,
+    TopBar,
+    ChatInputBar,
     Button,
     TypographyProvider,
     TYPOGRAPHY_SCALE_OPTIONS,
+    useTheme,
+    useOverlay,
     __themeState: themeState,
   };
 });
@@ -393,11 +444,12 @@ describe('App', () => {
     fireEvent.press(getByTestId('open-first-chat'));
 
     await waitFor(() => expect(getMessages).toHaveBeenCalledWith('chat-1'));
-    expect(getByTestId('chat-screen')).toBeTruthy();
-    expect(getByTestId('message-count').props.children).toBe(1);
+    const bubbles = screen.UNSAFE_getAllByProps({ testID: 'message-bubble' });
+    expect(bubbles).toHaveLength(1);
+    expect(getByTestId('chat-input-bar')).toBeTruthy();
     expect(queryByTestId('bottom-nav')).toBeNull();
 
-    fireEvent.press(getByTestId('chat-back'));
+    fireEvent.press(getByTestId('top-bar-back'));
 
     await waitFor(() => expect(getByTestId('chats-screen')).toBeTruthy());
     expect(getByTestId('bottom-nav')).toBeTruthy();

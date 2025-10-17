@@ -74,4 +74,14 @@ describe('MessageBubble', () => {
       expect.arrayContaining([expect.objectContaining({ color: '#717182' })]),
     );
   });
+
+  it('renders formatted body when provided', () => {
+    const { toJSON } = renderBubble('light', {
+      formattedBody: '<p><strong>Hello</strong></p>',
+      text: 'Fallback',
+    });
+
+    const tree = toJSON();
+    expect(JSON.stringify(tree)).toContain('message-rich-text');
+  });
 });

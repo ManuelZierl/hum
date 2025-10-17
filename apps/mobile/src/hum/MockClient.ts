@@ -7,6 +7,7 @@ import {
   type UserSummary,
   type DeviceInfo,
 } from '@hum/hum-matrix-native';
+import type { MatrixMessageContent } from '@hum/rich-text';
 import seedData from './mock-data.json';
 
 type SeedMessage = {
@@ -33,6 +34,7 @@ type TimelineMessage = {
   body: string;
   ts: number;
   isOutgoing: boolean;
+  formattedBody?: string;
 };
 
 const SEED: SeedData = seedData as SeedData;
@@ -59,6 +61,28 @@ export class MockClient implements Client {
   private messages = new Map<string, TimelineMessage[]>();
   private authed = false;
   private presence = new Map<string, PresenceState>();
+
+  private appendMessage(roomId: string, entry: TimelineMessage) {
+    const existing = this.messages.get(roomId) ?? [];
+    const timeline = [...existing, entry];
+    this.messages.set(roomId, timeline);
+
+    const room = this.rooms.find((r) => r.id === roomId);
+    if (room) {
+      room.lastMessage = entry.body;
+      room.lastMessageTs = entry.ts;
+      room.unreadCount = 0;
+    } else {
+      this.rooms.push({
+        id: roomId,
+        name: roomId,
+        lastMessage: entry.body,
+        lastMessageTs: entry.ts,
+      });
+    }
+
+    this.rooms.sort((a, b) => (b.lastMessageTs ?? 0) - (a.lastMessageTs ?? 0));
+  }
 
   constructor(_hsUrl: string, _storePath: string) {
     const now = Date.now();
@@ -113,25 +137,22 @@ export class MockClient implements Client {
       ts,
       isOutgoing: true,
     };
-    const existing = this.messages.get(roomId) ?? [];
-    const timeline = [...existing, entry];
-    this.messages.set(roomId, timeline);
+    this.appendMessage(roomId, entry);
+  }
 
-    const room = this.rooms.find((r) => r.id === roomId);
-    if (room) {
-      room.lastMessage = body;
-      room.lastMessageTs = ts;
-      room.unreadCount = 0;
-    } else {
-      this.rooms.push({
-        id: roomId,
-        name: roomId,
-        lastMessage: body,
-        lastMessageTs: ts,
-      });
-    }
-
-    this.rooms.sort((a, b) => (b.lastMessageTs ?? 0) - (a.lastMessageTs ?? 0));
+  async sendMessage(
+    roomId: string,
+    content: MatrixMessageContent,
+  ): Promise<void> {
+    const ts = Date.now();
+    const entry: TimelineMessage = {
+      id: `${roomId}-${ts}`,
+      body: content.body,
+      formattedBody: content.formatted_body,
+      ts,
+      isOutgoing: true,
+    };
+    this.appendMessage(roomId, entry);
   }
 
   async getMessages(roomId: string): Promise<TimelineMessage[]> {

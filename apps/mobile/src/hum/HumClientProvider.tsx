@@ -16,7 +16,8 @@ import HumNative, {
   type PresenceState,
 } from '@hum/hum-matrix-native';
 import type { Chat } from '@hum/ui-screens';
-import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
+import type { ChatMessage } from '../../screens/ChatScreen';
+import type { MatrixMessageContent } from '@hum/rich-text';
 import Constants from 'expo-constants';
 
 type AppExtra = {
@@ -55,6 +56,7 @@ export interface HumContextValue {
   refreshRooms: () => Promise<void>;
   login: (username: string, password: string) => Promise<void>;
   sendText: (roomId: string, body: string) => Promise<void>;
+  sendMessage: (roomId: string, content: MatrixMessageContent) => Promise<void>;
   logout: () => Promise<void>;
   startSyncLoop: (timeoutMs: number) => Promise<void>;
   stopSyncLoop: () => Promise<void>;
@@ -147,7 +149,13 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
             this: Client,
             roomId: string,
           ) => Promise<
-            Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
+            Array<{
+              id: string;
+              body: string;
+              ts: number;
+              isOutgoing: boolean;
+              formattedBody?: string;
+            }>
           >)
         | undefined;
       if (typeof fn === 'function') {
@@ -156,6 +164,7 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
           return msgs.map((m) => ({
             id: m.id,
             text: m.body,
+            formattedBody: m.formattedBody,
             time: formatTime(m.ts),
             isOutgoing: m.isOutgoing,
             isRead: true,
@@ -184,6 +193,25 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       const c = await createClient();
       if (!c) return;
       await c.sendText(roomId, body);
+    },
+    [createClient],
+  );
+
+  const sendMessage = useCallback(
+    async (roomId: string, content: MatrixMessageContent) => {
+      const c = await createClient();
+      if (!c) return;
+      const maybe = c as unknown as {
+        sendMessage?: (
+          roomId: string,
+          payload: MatrixMessageContent,
+        ) => Promise<void>;
+      };
+      if (typeof maybe.sendMessage === 'function') {
+        await maybe.sendMessage(roomId, content);
+        return;
+      }
+      await c.sendText(roomId, content.body);
     },
     [createClient],
   );
@@ -391,6 +419,7 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       getMessages,
       login,
       sendText,
+      sendMessage,
       logout,
       startSyncLoop,
       stopSyncLoop,
@@ -421,6 +450,7 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       getMessages,
       login,
       sendText,
+      sendMessage,
       logout,
       startSyncLoop,
       stopSyncLoop,

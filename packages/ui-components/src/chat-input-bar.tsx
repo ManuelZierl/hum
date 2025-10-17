@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Icon } from './theme/icon';
 import { useTheme } from './theme/theme-provider';
+import { RichTextView } from './rich-text-view';
 
 type ContentSizeChangeEvent = {
   nativeEvent: {
@@ -25,13 +26,14 @@ export interface ChatInputBarProps {
   placeholder?: string;
   inputAccessibilityLabel?: string;
   onAttachmentPress?: () => void;
-  onEmojiPress?: () => void;
+  onRichInputPress?: () => void;
   onCameraPress?: () => void;
   onMicPress?: () => void;
   attachmentAccessibilityLabel?: string;
-  emojiAccessibilityLabel?: string;
+  richInputAccessibilityLabel?: string;
   cameraAccessibilityLabel?: string;
   micAccessibilityLabel?: string;
+  richPreviewHtml?: string | null;
 }
 
 export const ChatInputBar: React.FC<ChatInputBarProps> = ({
@@ -40,18 +42,23 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   placeholder,
   inputAccessibilityLabel,
   onAttachmentPress,
-  onEmojiPress,
+  onRichInputPress,
   onCameraPress,
   onMicPress,
   attachmentAccessibilityLabel,
-  emojiAccessibilityLabel,
+  richInputAccessibilityLabel,
   cameraAccessibilityLabel,
   micAccessibilityLabel,
+  richPreviewHtml,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
 
+  const baseFontSize = type.size.base;
+  const doubleXlFontSize = type.size['2xl'];
+  const relaxedLineHeight = type.lineHeight.relaxed;
+
   const { themedStyles, minInputHeight, maxInputHeight } = useMemo(() => {
-    const minHeight = type.lineHeight.relaxed + spacing.xs * 2;
+    const minHeight = relaxedLineHeight + spacing.xs * 2;
     const maxHeight = minHeight * 4;
     return {
       minInputHeight: minHeight,
@@ -67,8 +74,8 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         },
         attachmentText: {
           color: colors.mutedForeground,
-          fontSize: type.size['2xl'],
-          lineHeight: type.size['2xl'],
+          fontSize: doubleXlFontSize,
+          lineHeight: doubleXlFontSize,
         },
         inputContainer: {
           backgroundColor: colors.muted,
@@ -78,10 +85,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         },
         textInput: {
           color: colors.foreground,
-          fontSize: type.size.base,
-          lineHeight: type.lineHeight.relaxed,
+          fontSize: baseFontSize,
+          lineHeight: relaxedLineHeight,
         },
-        emojiButton: {
+        richInputButton: {
           marginLeft: spacing.xs,
         },
         actionButton: {
@@ -98,9 +105,9 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     spacing.md,
     spacing.sm,
     spacing.xs,
-    type.lineHeight.relaxed,
-    type.size.base,
-    type.size['2xl'],
+    relaxedLineHeight,
+    baseFontSize,
+    doubleXlFontSize,
   ]);
 
   const measurementText = useMemo(() => {
@@ -195,6 +202,13 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
               multiline
               onContentSizeChange={handleContentSizeChange}
               scrollEnabled={isScrollEnabled}
+              placeholder={richPreviewHtml ? undefined : placeholder}
+              placeholderTextColor={colors.mutedForeground}
+              value={value}
+              onChangeText={onChangeText}
+              accessible
+              accessibilityLabel={inputAccessibilityLabel}
+              editable={!richPreviewHtml}
               style={[
                 styles.textInput,
                 themedStyles.textInput,
@@ -203,27 +217,37 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
                   maxHeight: maxInputHeight,
                   height: inputHeight,
                 },
+                richPreviewHtml ? styles.hiddenInput : null,
               ]}
-              placeholder={placeholder}
-              placeholderTextColor={colors.mutedForeground}
-              value={value}
-              onChangeText={onChangeText}
-              accessible
-              accessibilityLabel={inputAccessibilityLabel}
             />
+            {richPreviewHtml ? (
+              <Pressable
+                style={styles.richPreviewOverlay}
+                accessibilityRole={onRichInputPress ? 'button' : undefined}
+                accessibilityLabel={richInputAccessibilityLabel}
+                onPress={onRichInputPress}
+              >
+                <RichTextView
+                  html={richPreviewHtml}
+                  style={styles.richPreview}
+                  paragraphSpacing={4}
+                  testID="rich-preview"
+                />
+              </Pressable>
+            ) : null}
           </View>
           <Pressable
-            accessibilityRole={onEmojiPress ? 'button' : undefined}
-            accessibilityLabel={emojiAccessibilityLabel}
-            onPress={onEmojiPress}
-            disabled={!onEmojiPress}
+            accessibilityRole={onRichInputPress ? 'button' : undefined}
+            accessibilityLabel={richInputAccessibilityLabel}
+            onPress={onRichInputPress}
+            disabled={!onRichInputPress}
             hitSlop={spacing.xs}
             style={[
-              themedStyles.emojiButton,
-              !onEmojiPress && styles.disabledControl,
+              themedStyles.richInputButton,
+              !onRichInputPress && styles.disabledControl,
             ]}
           >
-            <Icon name="emoji-smile" size={20} color={colors.mutedForeground} />
+            <Icon name="file-text" size={20} color={colors.mutedForeground} />
           </Pressable>
         </View>
 
@@ -275,6 +299,17 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
+  richPreviewOverlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    justifyContent: 'center',
+  },
+  richPreview: {
+    flexShrink: 1,
+  },
   hiddenMeasureWrapper: {
     position: 'absolute',
     top: 0,
@@ -291,6 +326,9 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 0,
     textAlignVertical: 'top',
+  },
+  hiddenInput: {
+    opacity: 0,
   },
   disabledControl: {
     opacity: 0.4,

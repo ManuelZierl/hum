@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renderRichTextToNative renders basic paragraph content 1`] = `
+<div
+  className="css-text-146c3p1"
+  dir="auto"
+  ref={[Function]}
+  style={
+    {
+      "color": "rgba(17,17,17,1.00)",
+      "marginBottom": "8px",
+    }
+  }
+>
+  Hello 
+  <span
+    className="css-textHasAncestor-1jxf684"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "fontWeight": "700",
+      }
+    }
+  >
+    world
+  </span>
+</div>
+`;
+
+exports[`renderRichTextToNative renders lists and blockquotes 1`] = `
+[
+  <div
+    className="css-view-g5y9jx r-borderLeftWidth-ms8t9i r-paddingLeft-f727ji"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "borderLeftColor": "rgba(204,204,204,1.00)",
+        "marginBottom": "8px",
+      }
+    }
+  >
+    <div
+      className="css-text-146c3p1"
+      dir="auto"
+      ref={[Function]}
+      style={
+        {
+          "color": "rgba(17,17,17,1.00)",
+        }
+      }
+    >
+      <span
+        className="css-textHasAncestor-1jxf684"
+        dir={null}
+        ref={[Function]}
+      >
+        Quote
+      </span>
+    </div>
+  </div>,
+  <div
+    className="css-view-g5y9jx"
+    dir={null}
+    ref={[Function]}
+    style={
+      {
+        "marginBottom": "8px",
+      }
+    }
+  >
+    <div
+      className="css-view-g5y9jx r-alignItems-1habvwh r-flexDirection-18u37iz r-marginBottom-15zivkp"
+      dir={null}
+      ref={[Function]}
+    >
+      <div
+        className="css-text-146c3p1 r-marginRight-1kb76zh"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(102,102,102,1.00)",
+          }
+        }
+      >
+        •
+      </div>
+      <div
+        className="css-text-146c3p1 r-flex-13awgt0"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(17,17,17,1.00)",
+          }
+        }
+      >
+        First
+      </div>
+    </div>
+    <div
+      className="css-view-g5y9jx r-alignItems-1habvwh r-flexDirection-18u37iz r-marginBottom-p1pxzi"
+      dir={null}
+      ref={[Function]}
+    >
+      <div
+        className="css-text-146c3p1 r-marginRight-1kb76zh"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(102,102,102,1.00)",
+          }
+        }
+      >
+        •
+      </div>
+      <div
+        className="css-text-146c3p1 r-flex-13awgt0"
+        dir="auto"
+        ref={[Function]}
+        style={
+          {
+            "color": "rgba(17,17,17,1.00)",
+          }
+        }
+      >
+        Second
+      </div>
+    </div>
+  </div>,
+]
+`;

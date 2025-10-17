@@ -12,12 +12,11 @@ import {
 import Constants from 'expo-constants';
 import {
   ChatsScreen,
-  ChatScreen,
   LightningScreen,
   CallsScreen,
   type Chat,
 } from '@hum/ui-screens';
-import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
+import ChatScreen, { type ChatMessage } from './screens/ChatScreen';
 import { MainSettingsScreen, ThemeSettingsScreen } from './setting_screens';
 import DevNativeBridgeScreen from './src/DevNativeBridgeScreen';
 import { DevToolsOverlay } from './src/DevToolsOverlay';
@@ -113,10 +112,12 @@ function AppInner() {
     if (selectedChat) {
       return (
         <ChatScreen
+          roomId={selectedChat.id}
           chatName={selectedChat.name}
           chatAvatar={selectedChat.avatar}
           messages={chatMessages}
           onBack={() => setSelectedChat(null)}
+          onMessagesUpdate={setChatMessages}
         />
       );
     }

@@ -2,10 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from './theme/theme-provider';
 import { useTranslation } from 'react-i18next';
+import { RichTextView } from './rich-text-view';
 
 export interface MessageBubbleProps {
   /** Message text */
   text: string;
+  /** Optional formatted HTML body */
+  formattedBody?: string;
   /** Time string like 14:15 */
   time: string;
   /** Whether the message is outgoing */
@@ -16,6 +19,7 @@ export interface MessageBubbleProps {
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({
   text,
+  formattedBody,
   time,
   isOutgoing,
   isRead,
@@ -45,20 +49,36 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           },
         ]}
       >
-        <Text
-          style={[
-            styles.text,
-            {
-              color: isOutgoing
-                ? colors.humPrimaryForeground
-                : colors.foreground,
-              fontSize: type.size.base,
-              fontWeight: type.weight.medium,
-            },
-          ]}
-        >
-          {text}
-        </Text>
+        {formattedBody ? (
+          <RichTextView
+            html={formattedBody}
+            style={styles.richText}
+            textStyle={[
+              {
+                color: isOutgoing
+                  ? colors.humPrimaryForeground
+                  : colors.foreground,
+                fontWeight: type.weight.medium,
+              },
+            ]}
+            testID="message-rich-text"
+          />
+        ) : (
+          <Text
+            style={[
+              styles.text,
+              {
+                color: isOutgoing
+                  ? colors.humPrimaryForeground
+                  : colors.foreground,
+                fontSize: type.size.base,
+                fontWeight: type.weight.medium,
+              },
+            ]}
+          >
+            {text}
+          </Text>
+        )}
         <View
           style={[
             styles.metaRow,
@@ -110,6 +130,9 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   text: {},
+  richText: {
+    flexShrink: 1,
+  },
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',

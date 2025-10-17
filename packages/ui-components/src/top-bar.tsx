@@ -30,6 +30,7 @@ export interface TopBarProps {
   leftItems?: TopBarItem[];
   rightItems?: TopBarItem[];
   testID?: string;
+  dense?: boolean;
   // Optional search row
   showSearch?: boolean;
   searchPlaceholder?: string;
@@ -46,6 +47,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   leftItems = [],
   rightItems = [],
   testID,
+  dense = false,
   showSearch = false,
   searchPlaceholder,
   searchValue,
@@ -111,8 +113,8 @@ export const TopBar: React.FC<TopBarProps> = ({
       style={[
         styles.container,
         {
-          paddingTop: insets.top + spacing.sm,
-          paddingBottom: spacing.sm,
+          paddingTop: insets.top + (dense ? spacing.xs : spacing.sm),
+          paddingBottom: dense ? spacing.xs : spacing.sm,
           paddingHorizontal: spacing.md,
           backgroundColor: colors.background,
         },
