@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - develop
+      - staging
   pull_request:
     branches:
       - main
       - develop
+      - staging
 
 permissions:
   contents: read
@@ -68,7 +70,7 @@ jobs:
   node:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.base_ref == 'main' || github.base_ref == 'staging' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -109,7 +111,7 @@ jobs:
   markdown:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.markdown == 'true' || needs.changes.outputs.ci == 'true'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.base_ref == 'main' || github.base_ref == 'staging' || needs.changes.outputs.markdown == 'true' || needs.changes.outputs.ci == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -127,7 +129,7 @@ jobs:
   rust:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.rust == 'true' || needs.changes.outputs.ci == 'true'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.base_ref == 'main' || github.base_ref == 'staging' || needs.changes.outputs.rust == 'true' || needs.changes.outputs.ci == 'true' }}
     defaults:
       run:
         working-directory: native/rust
@@ -206,7 +208,7 @@ jobs:
   storybook-e2e:
     needs: changes
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.storybook == 'true' || needs.changes.outputs.ci == 'true'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.base_ref == 'main' || github.base_ref == 'staging' || needs.changes.outputs.storybook == 'true' || needs.changes.outputs.ci == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -259,3 +261,188 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
         run: SB_STATIC=1 npm run test:sb:e2e
+
+  mobile-android-staging:
+    name: Build Android preview (staging)
+    needs:
+      - node
+      - rust
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && needs.node.result == 'success' && (needs.rust.result == 'success' || needs.rust.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate required secrets
+        run: |
+          missing=()
+          if [ -z "${EXPO_TOKEN:-}" ]; then
+            missing+=("EXPO_TOKEN")
+          fi
+          if [ -z "${GOOGLE_SERVICE_ACCOUNT_KEY:-}" ]; then
+            missing+=("GOOGLE_SERVICE_ACCOUNT_KEY")
+          fi
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'Missing required secret(s): %s\n' "${missing[*]}" >&2
+            exit 1
+          fi
+
+      - name: Prepare Google Play credentials
+        if: env.GOOGLE_SERVICE_ACCOUNT_KEY != ''
+        working-directory: apps/mobile
+        run: |
+          mkdir -p credentials
+          node -e "const fs = require('fs'); fs.writeFileSync('credentials/google-service-account.json', process.env.GOOGLE_SERVICE_ACCOUNT_KEY);"
+
+      - name: Build Android app (preview)
+        working-directory: apps/mobile
+        run: |
+          npx eas build --platform android --profile preview --non-interactive --json | tee build-android.json
+
+      - name: Download Android artifact
+        id: download-android
+        run: |
+          build_url=$(jq -r '.[0].artifacts.applicationArchiveUrl // .[0].artifacts.buildUrl' apps/mobile/build-android.json)
+          if [ -z "$build_url" ] || [ "$build_url" = "null" ]; then
+            echo "Unable to find Android artifact url" >&2
+            cat apps/mobile/build-android.json
+            exit 1
+          fi
+          mkdir -p artifacts/android
+          filename=$(basename "$build_url")
+          curl -fL "$build_url" -o "artifacts/android/$filename"
+          echo "file=artifacts/android/$filename" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-staging
+          path: ${{ steps.download-android.outputs.file }}
+          if-no-files-found: error
+
+      - name: Submit Android build to Play Internal track
+        working-directory: apps/mobile
+        run: |
+          archive="${{ github.workspace }}/${{ steps.download-android.outputs.file }}"
+          if [ ! -f "$archive" ]; then
+            echo "Expected build artifact at $archive" >&2
+            exit 1
+          fi
+          npx eas submit --platform android --profile preview --path "$archive" --non-interactive
+
+  mobile-ios-staging:
+    name: Build iOS preview (staging)
+    needs:
+      - node
+      - rust
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && needs.node.result == 'success' && (needs.rust.result == 'success' || needs.rust.result == 'skipped') }}
+    runs-on: macos-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
+      EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
+      EXPO_APPLE_TEAM_ID: ${{ secrets.EXPO_APPLE_TEAM_ID }}
+      EXPO_APPLE_APP_STORE_CONNECT_API_KEY: ${{ secrets.EXPO_APPLE_APP_STORE_CONNECT_API_KEY }}
+      EXPO_ASC_APP_ID: ${{ secrets.EXPO_ASC_APP_ID }}
+      TESTFLIGHT_GROUPS: ${{ secrets.TESTFLIGHT_GROUPS }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate required secrets
+        run: |
+          missing=()
+          if [ -z "${EXPO_TOKEN:-}" ]; then
+            missing+=("EXPO_TOKEN")
+          fi
+          if [ -z "${EXPO_APPLE_APP_STORE_CONNECT_API_KEY:-}" ]; then
+            if [ -z "${EXPO_APPLE_ID:-}" ]; then
+              missing+=("EXPO_APPLE_ID (or provide EXPO_APPLE_APP_STORE_CONNECT_API_KEY)")
+            fi
+            if [ -z "${EXPO_APPLE_TEAM_ID:-}" ]; then
+              missing+=("EXPO_APPLE_TEAM_ID (or provide EXPO_APPLE_APP_STORE_CONNECT_API_KEY)")
+            fi
+            if [ -z "${EXPO_APPLE_APP_SPECIFIC_PASSWORD:-}" ]; then
+              missing+=("EXPO_APPLE_APP_SPECIFIC_PASSWORD (or provide EXPO_APPLE_APP_STORE_CONNECT_API_KEY)")
+            fi
+          fi
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'Missing required secret(s):\n' >&2
+            for secret in "${missing[@]}"; do
+              printf '  - %s\n' "$secret" >&2
+            done
+            exit 1
+          fi
+
+      - name: Inject App Store Connect app id
+        if: env.EXPO_ASC_APP_ID != ''
+        working-directory: apps/mobile
+        run: |
+          node -e "const fs = require('fs'); const path = 'eas.json'; const data = JSON.parse(fs.readFileSync(path, 'utf8')); data.submit = data.submit || {}; data.submit.preview = data.submit.preview || {}; data.submit.preview.ios = data.submit.preview.ios || {}; data.submit.preview.ios.ascAppId = process.env.EXPO_ASC_APP_ID; fs.writeFileSync(path, JSON.stringify(data, null, 2));"
+
+      - name: Build iOS app (preview)
+        working-directory: apps/mobile
+        run: |
+          npx eas build --platform ios --profile preview --non-interactive --json | tee build-ios.json
+
+      - name: Download iOS artifact
+        id: download-ios
+        run: |
+          build_url=$(jq -r '.[0].artifacts.applicationArchiveUrl // .[0].artifacts.buildUrl' apps/mobile/build-ios.json)
+          if [ -z "$build_url" ] || [ "$build_url" = "null" ]; then
+            echo "Unable to find iOS artifact url" >&2
+            cat apps/mobile/build-ios.json
+            exit 1
+          fi
+          mkdir -p artifacts/ios
+          filename=$(basename "$build_url")
+          curl -fL "$build_url" -o "artifacts/ios/$filename"
+          echo "file=artifacts/ios/$filename" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-staging
+          path: ${{ steps.download-ios.outputs.file }}
+          if-no-files-found: error
+
+      - name: Submit iOS build to TestFlight
+        working-directory: apps/mobile
+        env:
+          GROUP_FLAGS: ${{ env.TESTFLIGHT_GROUPS }}
+        run: |
+          archive="${{ github.workspace }}/${{ steps.download-ios.outputs.file }}"
+          if [ ! -f "$archive" ]; then
+            echo "Expected build artifact at $archive" >&2
+            exit 1
+          fi
+          if [ -n "$GROUP_FLAGS" ]; then
+            IFS=',' read -ra groups <<< "$GROUP_FLAGS"
+            args=()
+            for group in "${groups[@]}"; do
+              trimmed=$(echo "$group" | xargs)
+              if [ -n "$trimmed" ]; then
+                args+=("-g" "$trimmed")
+              fi
+            done
+            npx eas submit --platform ios --profile preview --path "$archive" --non-interactive "${args[@]}"
+          else
+            npx eas submit --platform ios --profile preview --path "$archive" --non-interactive
+          fi
