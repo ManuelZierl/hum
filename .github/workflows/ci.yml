@@ -65,7 +65,7 @@ jobs:
             markdown:
               - '**/*.md'
 
-  node:
+  node_lint:
     needs: changes
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
@@ -84,11 +84,43 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Format
+        run: npm run format:check
+
+  node_typecheck:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Format
-        run: npm run format:check
+  node_tests:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Test
         run: npm test
@@ -105,6 +137,85 @@ jobs:
 
       - name: Build packages
         run: npm run -ws --if-present build
+
+  node_npm_audit:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit (prod-only, high+)
+        run: npm audit --production --audit-level=high
+
+  node_npm_check:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main' || needs.changes.outputs.node == 'true' || needs.changes.outputs.ci == 'true'
+    env:
+      NODE_OPTIONS: --require global-agent/bootstrap
+      GLOBAL_AGENT_HTTP_PROXY: ${{ env.HTTPS_PROXY || '' }}
+      NPM_CONFIG_LOGLEVEL: silent
+      CI: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm-check (root & workspaces)
+        run: |
+          mkdir -p artifacts
+          node <<'NODE'
+          const fs = require('fs');
+          const {execSync} = require('child_process');
+          const env = {
+            ...process.env,
+            NODE_OPTIONS: process.env.NODE_OPTIONS || '',
+            GLOBAL_AGENT_HTTP_PROXY: process.env.GLOBAL_AGENT_HTTP_PROXY || '',
+            npm_config_loglevel: process.env.NPM_CONFIG_LOGLEVEL || 'silent',
+            CI: '1',
+          };
+          function runCheck(cwd, name, file) {
+            const result = execSync('npx npm-check --skip-unused --no-color', {
+              cwd,
+              env,
+              stdio: ['ignore', 'pipe', 'inherit'],
+            });
+            fs.writeFileSync(file, result.toString());
+            process.stdout.write(result.toString());
+          }
+          runCheck(process.cwd(), 'root', 'artifacts/npm-check-root.txt');
+          const workspaces = JSON.parse(execSync('npm query .workspace --json', {
+            cwd: process.cwd(),
+            env,
+            stdio: ['ignore', 'pipe', 'inherit'],
+          }));
+          for (const workspace of workspaces) {
+            const safeName = workspace.name.replace(/[^a-zA-Z0-9_-]/g, '_');
+            runCheck(workspace.path, workspace.name, `artifacts/npm-check-${safeName}.txt`);
+          }
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-check-reports
+          path: artifacts/
 
   markdown:
     needs: changes

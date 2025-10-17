@@ -1,0 +1,17 @@
+{
+  "depcheck": {
+    "ignoreMatches": [
+      "@hum/*",
+      "react",
+      "react-native",
+      "react-native-svg",
+      "expo",
+      "start-server-and-test",
+      "remark-cli",
+      "remark-preset-lint-recommended",
+      "remark-validate-links"
+    ]
+  },
+  "ignoreDev": false,
+  "skipUnused": false
+}

@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@hum/ui-components": "file:../ui-components",
-    "react-i18next": "^13.2.2"
+    "react-i18next": "^15.7.3"
   }
 }

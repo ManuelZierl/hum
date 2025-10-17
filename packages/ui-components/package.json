@@ -41,6 +41,6 @@
     "@types/react": "^19.1.12"
   },
   "dependencies": {
-    "react-i18next": "^13.2.2"
+    "react-i18next": "^15.7.3"
   }
 }
