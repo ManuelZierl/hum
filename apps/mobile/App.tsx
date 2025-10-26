@@ -6,6 +6,7 @@ import {
   BottomNavigation,
   ThemeProvider,
   OverlayProvider,
+  SlideTransition,
   TypographyProvider,
   TYPOGRAPHY_SCALE_OPTIONS,
 } from '@hum/ui-components';
@@ -44,6 +45,9 @@ const clampTypographyIndex = (value: number) =>
 function AppInner() {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [chatTransitionDirection, setChatTransitionDirection] = useState<
+    'forward' | 'backward'
+  >('forward');
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showDev, setShowDev] = useState(false);
   const enableDev = useMemo(() => {
@@ -56,6 +60,8 @@ function AppInner() {
   }, []);
   const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
   const [settingsView, setSettingsView] = useState<'main' | 'theme'>('main');
+  const [settingsTransitionDirection, setSettingsTransitionDirection] =
+    useState<'forward' | 'backward'>('forward');
   const [typographyScaleIndex, setTypographyScaleIndex] = useState<number>(
     DEFAULT_TYPOGRAPHY_INDEX,
   );
@@ -78,6 +84,25 @@ function AppInner() {
     };
   }, [selectedChat, getMessages]);
 
+  const handleNavigateToChat = (chat: Chat) => {
+    setChatTransitionDirection('forward');
+    setSelectedChat(chat);
+  };
+
+  const handleChatBack = () => {
+    setChatTransitionDirection('backward');
+    setSelectedChat(null);
+  };
+
+  const handleNavigateToTheme = () => {
+    setSettingsTransitionDirection('forward');
+    setSettingsView('theme');
+  };
+
+  const handleThemeBack = () => {
+    setSettingsTransitionDirection('backward');
+    setSettingsView('main');
+  };
   React.useEffect(() => {
     let isMounted = true;
     AsyncStorage.getItem(TYPOGRAPHY_SCALE_STORAGE_KEY)
@@ -110,20 +135,28 @@ function AppInner() {
       return <DevNativeBridgeScreen onBack={() => setShowDev(false)} />;
     }
 
-    if (selectedChat) {
-      return (
-        <ChatScreen
-          chatName={selectedChat.name}
-          chatAvatar={selectedChat.avatar}
-          messages={chatMessages}
-          onBack={() => setSelectedChat(null)}
-        />
-      );
-    }
-
     switch (activeTab) {
       case 'chats':
-        return <ChatsFromProvider onNavigateToChat={setSelectedChat} />;
+        return (
+          <SlideTransition
+            activeKey={selectedChat ? 'chat' : 'list'}
+            direction={chatTransitionDirection}
+            scenes={{
+              list: (
+                <ChatsFromProvider onNavigateToChat={handleNavigateToChat} />
+              ),
+              chat: selectedChat ? (
+                <ChatScreen
+                  chatName={selectedChat.name}
+                  chatAvatar={selectedChat.avatar}
+                  messages={chatMessages}
+                  onBack={handleChatBack}
+                />
+              ) : null,
+            }}
+            onSwipeBack={selectedChat ? handleChatBack : undefined}
+          />
+        );
       case 'calls':
         return <CallsScreen />;
       case 'payments':
@@ -131,16 +164,26 @@ function AppInner() {
         return <LightningScreen />;
       case 'settings':
       default:
-        return settingsView === 'theme' ? (
-          <ThemeSettingsScreen
-            theme={theme}
-            onBack={() => setSettingsView('main')}
-            onSelectTheme={setTheme}
-          />
-        ) : (
-          <MainSettingsScreen
-            theme={theme}
-            onNavigateToTheme={() => setSettingsView('theme')}
+        return (
+          <SlideTransition
+            activeKey={settingsView === 'theme' ? 'theme' : 'main'}
+            direction={settingsTransitionDirection}
+            scenes={{
+              main: (
+                <MainSettingsScreen
+                  theme={theme}
+                  onNavigateToTheme={handleNavigateToTheme}
+                />
+              ),
+              theme: (
+                <ThemeSettingsScreen
+                  theme={theme}
+                  onBack={handleThemeBack}
+                  onSelectTheme={setTheme}
+                />
+              ),
+            }}
+            onSwipeBack={settingsView === 'theme' ? handleThemeBack : undefined}
           />
         );
     }
