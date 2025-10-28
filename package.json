@@ -28,11 +28,7 @@
     "sb:build": "npm run storybook:build",
     "sb:ios": "npm run storybook:ios",
     "sb:android": "npm run storybook:android",
-    "i18n:missing": "node scripts/i18n-missing.cjs",
-    "rust:test": "cargo test --manifest-path native/rust/Cargo.toml",
-    "rust:format": "cargo fmt --all --manifest-path native/rust/Cargo.toml",
-    "rust:lint": "cargo clippy --manifest-path native/rust/Cargo.toml --all-targets --all-features -- -D warnings",
-    "rust:check": "cargo check --manifest-path native/rust/Cargo.toml"
+    "i18n:missing": "node scripts/i18n-missing.cjs"
   },
   "keywords": [],
   "author": "",
@@ -50,17 +46,12 @@
     ],
     "**/*.md": [
       "bash -lc 'npm run lint:md --'"
-    ],
-    "*": [
-      "bash -lc 'cargo fmt --all --manifest-path native/rust/Cargo.toml'",
-      "bash -lc 'cargo check --manifest-path native/rust/Cargo.toml'"
     ]
   },
   "private": true,
   "workspaces": [
     "packages/*",
-    "apps/*",
-    "native/*"
+    "apps/*"
   ],
   "devDependencies": {
     "@eslint/js": "^9.34.0",

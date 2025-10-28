@@ -20,14 +20,14 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-jest.mock('@hum/hum-matrix-native', () => ({
+jest.mock('../apps/mobile/src/hum/nativeClient', () => ({
   __esModule: true,
   default: {
     createClient: jest.fn(),
   },
 }));
 
-import HumNative from '@hum/hum-matrix-native';
+import HumNative from '../apps/mobile/src/hum/nativeClient';
 import DevNativeBridgeScreen from '../apps/mobile/src/DevNativeBridgeScreen';
 
 const renderWithProviders = (ui: React.ReactElement): RenderAPI => {

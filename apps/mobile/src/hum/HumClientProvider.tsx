@@ -7,14 +7,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import HumNative, {
-  type Client,
-  type RoomSummary,
-  type CreateRoomOptions,
-  type UserSummary,
-  type DeviceInfo,
-  type PresenceState,
-} from '@hum/hum-matrix-native';
+import HumNative from './nativeClient';
+import type { Client, RoomSummary, CreateRoomOptions } from './types';
 import type { Chat } from '@hum/ui-screens';
 import type { ChatMessage } from '@hum/ui-screens/ChatScreen';
 import Constants from 'expo-constants';
@@ -70,15 +64,6 @@ export interface HumContextValue {
     isTyping: boolean,
     timeoutMs?: number,
   ) => Promise<void>;
-  importRecoveryKey: (key: string) => Promise<void>;
-  searchUsers: (query: string, limit?: number) => Promise<UserSummary[]>;
-  getDevices: () => Promise<DeviceInfo[]>;
-  renameDevice: (deviceId: string, name: string) => Promise<void>;
-  deleteDevice: (deviceId: string) => Promise<void>;
-  uploadMedia: (data: Uint8Array, mime: string) => Promise<string | undefined>;
-  downloadMedia: (uri: string) => Promise<Uint8Array | undefined>;
-  setPresence: (state: PresenceState) => Promise<void>;
-  getPresence: (userId: string) => Promise<PresenceState | undefined>;
   getMessages: (roomId: string) => Promise<ChatMessage[]>;
 }
 
@@ -141,28 +126,17 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
     async (roomId: string): Promise<ChatMessage[]> => {
       const c = await createClient();
       if (!c) return [];
-      const anyC = c as unknown as Record<string, unknown>;
-      const fn = anyC.getMessages as
-        | ((
-            this: Client,
-            roomId: string,
-          ) => Promise<
-            Array<{ id: string; body: string; ts: number; isOutgoing: boolean }>
-          >)
-        | undefined;
-      if (typeof fn === 'function') {
-        try {
-          const msgs = await fn.call(c, roomId);
-          return msgs.map((m) => ({
-            id: m.id,
-            text: m.body,
-            time: formatTime(m.ts),
-            isOutgoing: m.isOutgoing,
-            isRead: true,
-          }));
-        } catch (e) {
-          console.warn('HumClientProvider: getMessages failed', e);
-        }
+      try {
+        const msgs = await c.getMessages(roomId);
+        return msgs.map((m) => ({
+          id: m.id,
+          text: m.body,
+          time: formatTime(m.ts),
+          isOutgoing: m.isOutgoing,
+          isRead: true,
+        }));
+      } catch (e) {
+        console.warn('HumClientProvider: getMessages failed', e);
       }
       return [];
     },
@@ -282,84 +256,6 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
     [createClient],
   );
 
-  const importRecoveryKey = useCallback(
-    async (key: string) => {
-      const c = await createClient();
-      if (!c) return;
-      await c.importRecoveryKey(key);
-    },
-    [createClient],
-  );
-
-  const searchUsers = useCallback(
-    async (query: string, limit?: number) => {
-      const c = await createClient();
-      if (!c) return [] as UserSummary[];
-      return c.searchUsers(query, limit);
-    },
-    [createClient],
-  );
-
-  const getDevices = useCallback(async () => {
-    const c = await createClient();
-    if (!c) return [] as DeviceInfo[];
-    return c.getDevices();
-  }, [createClient]);
-
-  const renameDevice = useCallback(
-    async (deviceId: string, name: string) => {
-      const c = await createClient();
-      if (!c) return;
-      await c.renameDevice(deviceId, name);
-    },
-    [createClient],
-  );
-
-  const deleteDevice = useCallback(
-    async (deviceId: string) => {
-      const c = await createClient();
-      if (!c) return;
-      await c.deleteDevice(deviceId);
-    },
-    [createClient],
-  );
-
-  const uploadMedia = useCallback(
-    async (data: Uint8Array, mime: string) => {
-      const c = await createClient();
-      if (!c) return undefined;
-      return c.uploadMedia(data, mime);
-    },
-    [createClient],
-  );
-
-  const downloadMedia = useCallback(
-    async (uri: string) => {
-      const c = await createClient();
-      if (!c) return undefined;
-      return c.downloadMedia(uri);
-    },
-    [createClient],
-  );
-
-  const setPresence = useCallback(
-    async (state: PresenceState) => {
-      const c = await createClient();
-      if (!c) return;
-      await c.setPresence(state);
-    },
-    [createClient],
-  );
-
-  const getPresence = useCallback(
-    async (userId: string) => {
-      const c = await createClient();
-      if (!c) return undefined;
-      return c.getPresence(userId);
-    },
-    [createClient],
-  );
-
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -402,15 +298,6 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       redact,
       sendReadReceipt,
       setTyping,
-      importRecoveryKey,
-      searchUsers,
-      getDevices,
-      renameDevice,
-      deleteDevice,
-      uploadMedia,
-      downloadMedia,
-      setPresence,
-      getPresence,
     }),
     [
       ready,
@@ -432,15 +319,6 @@ export const HumClientProvider: React.FC<{ children: React.ReactNode }> = ({
       redact,
       sendReadReceipt,
       setTyping,
-      importRecoveryKey,
-      searchUsers,
-      getDevices,
-      renameDevice,
-      deleteDevice,
-      uploadMedia,
-      downloadMedia,
-      setPresence,
-      getPresence,
     ],
   );
 

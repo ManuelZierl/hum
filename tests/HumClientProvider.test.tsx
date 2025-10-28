@@ -12,7 +12,7 @@ jest.mock('expo-constants', () => ({
   },
 }));
 
-jest.mock('@hum/hum-matrix-native', () => ({
+jest.mock('../apps/mobile/src/hum/nativeClient', () => ({
   __esModule: true,
   default: {
     createClient: (...args: unknown[]) => createClientMock(...args),
@@ -46,25 +46,6 @@ jest.mock('../apps/mobile/src/hum/MockClient', () => ({
     async stopSyncLoop() {}
     async syncOnce() {}
     async dispose() {}
-    async importRecoveryKey() {}
-    async searchUsers() {
-      return [];
-    }
-    async getDevices() {
-      return [];
-    }
-    async renameDevice() {}
-    async deleteDevice() {}
-    async uploadMedia() {
-      return '';
-    }
-    async downloadMedia() {
-      return new Uint8Array();
-    }
-    async setPresence() {}
-    async getPresence() {
-      return 0;
-    }
   },
 }));
 
@@ -139,15 +120,7 @@ describe('HumClientProvider', () => {
       startSyncLoop: jest.fn().mockResolvedValue(undefined),
       stopSyncLoop: jest.fn().mockResolvedValue(undefined),
       syncOnce: jest.fn().mockResolvedValue(undefined),
-      importRecoveryKey: jest.fn().mockResolvedValue(undefined),
-      searchUsers: jest.fn().mockResolvedValue([{ userId: '@alice:server' }]),
-      getDevices: jest.fn().mockResolvedValue([{ deviceId: 'device-1' }]),
-      renameDevice: jest.fn().mockResolvedValue(undefined),
-      deleteDevice: jest.fn().mockResolvedValue(undefined),
-      uploadMedia: jest.fn().mockResolvedValue('mxc://media'),
-      downloadMedia: jest.fn().mockResolvedValue(new Uint8Array([1, 2, 3])),
-      setPresence: jest.fn().mockResolvedValue(undefined),
-      getPresence: jest.fn().mockResolvedValue(0),
+      dispose: jest.fn().mockResolvedValue(undefined),
       getMessages: jest.fn().mockResolvedValue(messages),
     };
 
@@ -193,10 +166,6 @@ describe('HumClientProvider', () => {
       await result.current.stopSyncLoop();
       await result.current.syncOnce(1000);
       await result.current.leaveRoom('room1');
-      await result.current.importRecoveryKey('recovery-key');
-      await result.current.renameDevice('device-1', 'Phone');
-      await result.current.deleteDevice('device-1');
-      await result.current.setPresence(0);
     });
 
     expect(client.sendText).toHaveBeenCalledWith('room1', 'hello');
@@ -208,41 +177,18 @@ describe('HumClientProvider', () => {
     expect(client.stopSyncLoop).toHaveBeenCalled();
     expect(client.syncOnce).toHaveBeenCalledWith(1000);
     expect(client.leaveRoom).toHaveBeenCalledWith('room1');
-    expect(client.importRecoveryKey).toHaveBeenCalledWith('recovery-key');
-    expect(client.renameDevice).toHaveBeenCalledWith('device-1', 'Phone');
-    expect(client.deleteDevice).toHaveBeenCalledWith('device-1');
-    expect(client.setPresence).toHaveBeenCalledWith(0);
-
     let createdRoom: string | undefined;
     let joinedRoom: string | undefined;
-    let uploaded: string | undefined;
-    let downloaded: Uint8Array | undefined;
-    let presence: unknown;
-    let devices: unknown;
-    let users: unknown;
     let chatsMessages: unknown;
 
     await act(async () => {
       createdRoom = await result.current.createRoom({ name: 'New Room' });
       joinedRoom = await result.current.joinRoom('#alias:server');
-      uploaded = await result.current.uploadMedia(
-        new Uint8Array([9]),
-        'text/plain',
-      );
-      downloaded = await result.current.downloadMedia('mxc://file');
-      presence = await result.current.getPresence('@alice:server');
-      devices = await result.current.getDevices();
-      users = await result.current.searchUsers('alice', 5);
       chatsMessages = await result.current.getMessages('room1');
     });
 
     expect(createdRoom).toBe('created-room');
     expect(joinedRoom).toBe('joined-room');
-    expect(uploaded).toBe('mxc://media');
-    expect(downloaded).toEqual(new Uint8Array([1, 2, 3]));
-    expect(presence).toBe(0);
-    expect(devices).toEqual([{ deviceId: 'device-1' }]);
-    expect(users).toEqual([{ userId: '@alice:server' }]);
     expect(chatsMessages).toEqual([
       expect.objectContaining({
         id: 'msg1',

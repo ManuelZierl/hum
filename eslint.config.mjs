@@ -8,7 +8,7 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', "**/native/rust/**", "**/storybook-static/**"],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/storybook-static/**'],
   },
   js.configs.recommended,
   ...tsPlugin.configs['flat/recommended'],

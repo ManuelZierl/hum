@@ -3,10 +3,8 @@ import {
   type Client,
   type RoomSummary,
   type CreateRoomOptions,
-  PresenceState,
-  type UserSummary,
-  type DeviceInfo,
-} from '@hum/hum-matrix-native';
+  type TimelineMessage,
+} from './types';
 import seedData from './mock-data.json';
 
 type SeedMessage = {
@@ -26,13 +24,6 @@ type SeedRoom = {
 
 type SeedData = {
   rooms: SeedRoom[];
-};
-
-type TimelineMessage = {
-  id: string;
-  body: string;
-  ts: number;
-  isOutgoing: boolean;
 };
 
 const SEED: SeedData = seedData as SeedData;
@@ -58,7 +49,6 @@ export class MockClient implements Client {
   private rooms: RoomSummary[];
   private messages = new Map<string, TimelineMessage[]>();
   private authed = false;
-  private presence = new Map<string, PresenceState>();
 
   constructor(_hsUrl: string, _storePath: string) {
     const now = Date.now();
@@ -206,42 +196,6 @@ export class MockClient implements Client {
 
   async dispose(): Promise<void> {
     // no-op
-  }
-
-  async importRecoveryKey(_key: string): Promise<void> {
-    // no-op
-  }
-
-  async searchUsers(_query: string, _limit = 20): Promise<UserSummary[]> {
-    return [];
-  }
-
-  async getDevices(): Promise<DeviceInfo[]> {
-    return [];
-  }
-
-  async renameDevice(_deviceId: string, _name: string): Promise<void> {
-    // no-op
-  }
-
-  async deleteDevice(_deviceId: string): Promise<void> {
-    // no-op
-  }
-
-  async uploadMedia(_data: Uint8Array, _mime: string): Promise<string> {
-    return 'mxc://mock';
-  }
-
-  async downloadMedia(_uri: string): Promise<Uint8Array> {
-    return new Uint8Array();
-  }
-
-  async setPresence(state: PresenceState): Promise<void> {
-    this.presence.set('me', state);
-  }
-
-  async getPresence(userId: string): Promise<PresenceState> {
-    return this.presence.get(userId) ?? PresenceState.Online;
   }
 }
 
