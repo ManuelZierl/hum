@@ -3,10 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme, Button } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
-import HumNative, {
-  type Client,
-  type RoomSummary,
-} from '@hum/hum-matrix-native';
+import HumNative from './hum/nativeClient';
+import type { Client, RoomSummary } from './hum/types';
 
 export const DevNativeBridgeScreen: React.FC<{ onBack?: () => void }> = ({
   onBack,

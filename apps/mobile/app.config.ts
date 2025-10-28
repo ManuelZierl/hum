@@ -42,12 +42,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         (process.env.DEV_FEATURES === '1' ||
           process.env.DEV_FEATURES === 'true'),
     },
-    plugins: [
-      ...(rest.plugins ?? []),
-      ...(process.env.WITH_HUM_RUST === 'true'
-        ? ['./plugins/with-hum-rust']
-        : []),
-    ],
+    plugins: rest.plugins ?? [],
     // NOTE: Do NOT set sdkVersion here. Expo derives it from the installed "expo" package.
   };
 };

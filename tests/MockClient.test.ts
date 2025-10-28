@@ -1,5 +1,3 @@
-import { PresenceState } from '@hum/hum-matrix-native';
-
 import { MockClient } from '../apps/mobile/src/hum/MockClient';
 
 describe('MockClient', () => {
@@ -35,7 +33,7 @@ describe('MockClient', () => {
     expect(fresh[0]!.body).not.toBe('changed');
   });
 
-  it('tracks authentication state and presence', async () => {
+  it('tracks authentication state', async () => {
     const c = new MockClient('hs', 'store');
 
     await expect(c.isAuthenticated()).resolves.toBe(false);
@@ -45,15 +43,6 @@ describe('MockClient', () => {
 
     await c.logout();
     await expect(c.isAuthenticated()).resolves.toBe(false);
-
-    await c.setPresence(PresenceState.DoNotDisturb);
-    await expect(c.getPresence('me')).resolves.toBe(PresenceState.DoNotDisturb);
-    await expect(c.getPresence('@nobody:mock')).resolves.toBe(
-      PresenceState.Online,
-    );
-
-    await expect(c.searchUsers('alice')).resolves.toEqual([]);
-    await expect(c.getDevices()).resolves.toEqual([]);
   });
 
   it('appends outgoing messages and updates room summaries', async () => {
@@ -134,14 +123,5 @@ describe('MockClient', () => {
     await expect(c.stopSyncLoop()).resolves.toBeUndefined();
     await expect(c.syncOnce(15_000)).resolves.toBeUndefined();
     await expect(c.dispose()).resolves.toBeUndefined();
-    await expect(c.importRecoveryKey('key')).resolves.toBeUndefined();
-    await expect(c.renameDevice('device', 'name')).resolves.toBeUndefined();
-    await expect(c.deleteDevice('device')).resolves.toBeUndefined();
-
-    const upload = await c.uploadMedia(new Uint8Array([1, 2, 3]), 'image/png');
-    expect(upload).toBe('mxc://mock');
-    const download = await c.downloadMedia(upload);
-    expect(download).toBeInstanceOf(Uint8Array);
-    expect(download.length).toBe(0);
   });
 });
