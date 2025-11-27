@@ -10,6 +10,7 @@ import {
   AvatarFallback,
 } from '@hum/ui-components';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@hum/ui-components';
 
 export interface SettingsScreenProps {
   onBack?: () => void;
@@ -17,6 +18,7 @@ export interface SettingsScreenProps {
   profileName?: string;
   profileStatus?: string;
   profileImageUri?: string;
+  onClearStorage?: () => Promise<void> | void;
 }
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({
@@ -25,11 +27,24 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   profileName,
   profileStatus,
   profileImageUri = 'https://picsum.photos/200/200',
+  onClearStorage,
 }) => {
   const { colors, spacing, radius, type } = useTheme();
   const insets = useSafeAreaInsets();
   const [search, setSearch] = React.useState('');
   const { t } = useTranslation();
+  const clearLabel = t('settings.actions.clear_storage', {
+    defaultValue: 'Clear payments data',
+  });
+  const clearAccessibilityLabel = 'settings.actions.clear_storage';
+  const handleClearStorage = React.useCallback(async () => {
+    if (!onClearStorage) return;
+    try {
+      await onClearStorage();
+    } catch (error) {
+      console.warn('[SettingsScreen] clear storage failed', error);
+    }
+  }, [onClearStorage]);
   const pName = profileName ?? t('labels.your_name');
   const pStatus = profileStatus ?? t('labels.profile_status_default');
   const fallbackInitials = pName
@@ -139,6 +154,24 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         </View>
 
         <View style={{ paddingBottom: spacing.xl }}>{children}</View>
+
+        {onClearStorage ? (
+          <View
+            style={{
+              paddingHorizontal: spacing.lg,
+              paddingBottom: spacing.xl,
+            }}
+          >
+            <Button
+              variant="outline"
+              onPress={handleClearStorage}
+              accessibilityLabel={clearAccessibilityLabel}
+              testID="clear-storage"
+            >
+              {clearLabel}
+            </Button>
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );

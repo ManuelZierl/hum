@@ -16,14 +16,67 @@ export default defineConfig({
   plugins: [
     svgr({ include: '**/*.svg', svgrOptions: { exportType: 'default' } }),
     react(),
+    {
+      name: 'expo-clipboard-paste-button-jsx-fix',
+      enforce: 'pre',
+      transform(code, id) {
+        if (
+          id.includes(
+            'node_modules/expo-clipboard/build/ClipboardPasteButton.js',
+          )
+        ) {
+          return {
+            code: code.replace(
+              'return <ExpoClipboardPasteButton onPastePressed={onPastePressed} {...restProps}/>;',
+              'return React.createElement(ExpoClipboardPasteButton, { onPastePressed, ...restProps });',
+            ),
+            map: null,
+          };
+        }
+        return null;
+      },
+    },
+    {
+      name: 'expo-ensure-native-modules-polyfill',
+      enforce: 'pre',
+      transform(code, id) {
+        if (
+          id.includes('node_modules/expo-modules-core/src/') &&
+          code.includes("import { TurboModuleRegistry } from 'react-native';")
+        ) {
+          return {
+            code: code.replace(
+              "import { TurboModuleRegistry } from 'react-native';",
+              'const TurboModuleRegistry = { get: () => null };',
+            ),
+            map: null,
+          };
+        }
+        return null;
+      },
+    },
   ],
   resolve: {
     alias: {
-      'react-native': 'react-native-web',
+      'react-native': r('./src/polyfills/react-native-web.ts'),
       '@hum/ui-components': r('../../packages/ui-components/src'),
       '@hum/ui-components/': r('../../packages/ui-components/src/'),
       '@hum/ui-screens': r('../../packages/ui-screens'),
       '@hum/ui-screens/': r('../../packages/ui-screens/'),
+      '@hum/breeze-payment-client': r(
+        '../../packages/breeze-payment-client/index.ts',
+      ),
+      '@hum/breeze-payment-client/': r(
+        '../../packages/breeze-payment-client/src/',
+      ),
+      '@hum/payment-client': r('../../packages/payment-client/index.ts'),
+      '@hum/payment-client/': r('../../packages/payment-client/src/'),
+      'expo-modules-core/src/ensureNativeModulesAreInstalled': r(
+        './src/polyfills/expoEnsureNativeModulesAreInstalled.ts',
+      ),
+      'expo-modules-core/build/ensureNativeModulesAreInstalled': r(
+        './src/polyfills/expoEnsureNativeModulesAreInstalled.ts',
+      ),
       'react-native-safe-area-context': r(
         './react-native-safe-area-context.tsx',
       ),

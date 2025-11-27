@@ -13,7 +13,7 @@ import Constants from 'expo-constants';
 import {
   ChatsScreen,
   ChatScreen,
-  LightningScreen,
+  PaymentScreen,
   CallsScreen,
   type Chat,
 } from '@hum/ui-screens';
@@ -31,6 +31,8 @@ const DEFAULT_TYPOGRAPHY_INDEX = Math.max(
   0,
   TYPOGRAPHY_SCALE_OPTIONS.findIndex((option) => option.id === 'md'),
 );
+
+const PAYMENTS_MNEMONIC_KEY = 'payments.mnemonic';
 
 const clampTypographyIndex = (value: number) =>
   Math.min(
@@ -105,6 +107,15 @@ function AppInner() {
     });
   }, []);
 
+  const handleClearPaymentsStorage = React.useCallback(async () => {
+    try {
+      await AsyncStorage.removeItem(PAYMENTS_MNEMONIC_KEY);
+      setActiveTab('payments');
+    } catch (error) {
+      console.warn('[App] clear payments storage failed', error);
+    }
+  }, []);
+
   const renderCurrentScreen = () => {
     if (showDev) {
       return <DevNativeBridgeScreen onBack={() => setShowDev(false)} />;
@@ -127,8 +138,18 @@ function AppInner() {
       case 'calls':
         return <CallsScreen />;
       case 'payments':
-      case 'lightning':
-        return <LightningScreen />;
+        return (
+          <PaymentScreen
+            apiKey={
+              (
+                Constants as unknown as {
+                  expoConfig?: { extra?: { breezApiKey?: string } };
+                }
+              ).expoConfig?.extra?.breezApiKey ?? ''
+            }
+            storage={AsyncStorage}
+          />
+        );
       case 'settings':
       default:
         return settingsView === 'theme' ? (
@@ -141,6 +162,7 @@ function AppInner() {
           <MainSettingsScreen
             theme={theme}
             onNavigateToTheme={() => setSettingsView('theme')}
+            onClearStorage={handleClearPaymentsStorage}
           />
         );
     }

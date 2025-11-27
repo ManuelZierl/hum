@@ -40,71 +40,66 @@
     "search": "Suchen",
     "type_message": "Nachricht eingeben..."
   },
-  "lightning": {
-    "hero": {
-      "title": "Lightning-Zahlungen",
-      "subtitle": "Schnelle, günstige Bitcoin-Zahlungen für alle"
-    },
-    "coming": {
-      "title": "Kommt bald",
-      "description": "Lightning-Zahlungen werden in einem zukünftigen Update verfügbar sein. Bleib dran für sofortige Bitcoin-Transaktionen!"
-    },
-    "why": {
-      "title": "Warum Lightning?",
-      "bullets": {
-        "instant": "Lightning-Netzwerk ermöglicht sofortige Bitcoin-Zahlungen",
-        "low_fees": "Sehr niedrige Gebühren, oft weniger als ein Cent",
-        "secure": "Auf der sicheren Bitcoin-Infrastruktur aufgebaut",
-        "micro": "Perfekt für Mikrotransaktionen und tägliche Zahlungen",
-        "global": "Globale Reichweite mit 24/7-Verfügbarkeit"
+  "payments": {
+    "title": "Zahlungen",
+    "loading": "Zahlungswallet wird geladen…",
+    "activate": {
+      "title": "Zahlungen aktivieren",
+      "description": "Richte dein Lightning-Wallet ein, um Sats zu senden und zu empfangen.",
+      "cta": "Zahlungen aktivieren",
+      "steps": {
+        "write_down": {
+          "title": "Schreibe deine Wiederherstellungsphrase auf",
+          "subtitle": "Bewahre diese 12 Wörter sicher auf. Sie sind der einzige Weg, dein Wallet wiederherzustellen."
+        },
+        "confirm": {
+          "title": "Bestätige deine Wiederherstellungsphrase",
+          "subtitle": "Gib die 12 Wörter erneut ein, um sicherzugehen, dass du sie korrekt notiert hast."
+        }
+      },
+      "security_note": "Teile diese Wörter niemals mit anderen. Wer die Phrase kennt, hat Zugriff auf dein Guthaben.",
+      "self_custody_warning": "Hum speichert deine Wiederherstellungsphrase nicht. Wenn du sie verlierst, sind deine Sats unwiederbringlich weg.",
+      "actions": {
+        "confirm_written": "Ich habe sie notiert",
+        "finish": "Aktivierung abschließen",
+        "copy": "Phrase kopieren",
+        "copied": "Kopiert!",
+        "regenerate": "Neue Phrase erzeugen"
+      },
+      "confirmation": {
+        "prompt": "Gib deine 12 Wörter erneut ein, um fortzufahren.",
+        "placeholder": "Gib das nächste Wort ein",
+        "helper": "Gib die Wörter in der richtigen Reihenfolge ein. Nach wenigen Buchstaben erscheinen Vorschläge. Noch {{remaining}} offen.",
+        "invalid_word": "„{{word}}“ entspricht nicht deiner Wiederherstellungsphrase. Bitte prüfe die Schreibweise.",
+        "submit_word": "Wort bestätigen",
+        "add_word": "Hinzufügen",
+        "use_suggestion": "Vorschlag {{word}} übernehmen",
+        "remove_word": "Wort {{index}} entfernen",
+        "progress": "{{entered}} / {{total}} Wörter bestätigt"
       }
     },
-    "beta": {
-      "title": "Frühen Zugriff erhalten",
-      "message": "Sei einer der Ersten, die Lightning-Zahlungen ausprobieren, sobald sie starten.",
-      "button": "Beta-Warteliste beitreten"
+    "balance": {
+      "title": "Wallet-Guthaben",
+      "empty": "Noch kein Guthaben vorhanden. Aktiviere Zahlungen, um Sats zu empfangen."
     },
-    "features": {
-      "wallet": {
-        "title": "Lightning Wallet",
-        "description": "Verwalte dein Lightning-Bitcoin-Guthaben und tätige sofortige Zahlungen"
-      },
-      "send_receive": {
-        "title": "Senden & Empfangen",
-        "description": "Scanne QR-Codes oder teile Zahlungslinks, um sofort Geld zu senden"
-      },
-      "history": {
-        "title": "Transaktionsverlauf",
-        "description": "Sieh dir deinen gesamten Lightning-Zahlungsverlauf und Quittungen an"
-      },
-      "methods": {
-        "title": "Zahlungsmethoden",
-        "description": "Verbinde dein Bankkonto oder deine Debitkarte, um dein Wallet aufzuladen"
-      },
-      "settlements": {
-        "title": "Sofortige Abrechnung",
-        "description": "Begleiche Zahlungen in Millisekunden mit geringen Gebühren"
-      },
-      "multicurrency": {
-        "title": "Multiwährungsunterstützung",
-        "description": "Unterstützung für Bitcoin, Sats und andere Lightning-Währungen"
-      },
-      "invoice": {
-        "title": "Rechnungsstellung",
-        "description": "Erstelle und teile Zahlungsrechnungen mit individuellen Beträgen"
-      },
-      "routing": {
-        "title": "Zahlungsrouting",
-        "description": "Automatisches Routing durch das Lightning-Netzwerk für optimale Gebühren"
-      },
-      "channel": {
-        "title": "Kanalverwaltung",
-        "description": "Öffne und verwalte Lightning-Kanäle für bessere Liquidität"
-      },
-      "backup": {
-        "title": "Backup & Wiederherstellung",
-        "description": "Sichere Backup- und Wiederherstellungsoptionen für dein Lightning-Wallet"
-      }
+    "history": {
+      "title": "Letzte Aktivitäten",
+      "empty": "Noch keine Transaktionen. Sobald es Zahlungen gibt, erscheinen sie hier.",
+      "refresh": "Aktualisieren"
+    },
+    "errors": {
+      "title": "Zahlungen konnten nicht geladen werden",
+      "missing_api_key": "Es wurde kein Breez-API-Schlüssel hinterlegt. Zahlungen sind deaktiviert.",
+      "generic": "Beim Laden der Zahlungen ist ein Fehler aufgetreten.",
+      "retry": "Erneut versuchen"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "in_flight": "Unterwegs",
+      "succeeded": "Erfolgreich",
+      "failed": "Fehlgeschlagen",
+      "expired": "Abgelaufen",
+      "canceled": "Abgebrochen"
     }
   },
   "text_size": {

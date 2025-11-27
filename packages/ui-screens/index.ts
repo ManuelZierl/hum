@@ -1,8 +1,12 @@
 export { ChatScreen } from './src/ChatScreen';
 export { ChatsScreen } from './src/ChatsScreen';
 export type { ChatsScreenProps, Chat } from './src/ChatsScreen';
-export { LightningScreen } from './src/LightningScreen';
-export type { LightningScreenProps } from './src/LightningScreen';
+export { PaymentScreen } from './src/PaymentScreen';
+export type { PaymentScreenProps } from './src/PaymentScreen';
+export { ActivatePaymentScreen } from './src/ActivatePaymentScreen';
+export { ConfirmMnemonicScreen } from './src/ConfirmMnemonicScreen';
+export type { ActivatePaymentScreenProps } from './src/ActivatePaymentScreen';
+export type { ConfirmMnemonicScreenProps } from './src/ConfirmMnemonicScreen';
 export { CallsScreen } from './src/CallsScreen';
 export type { CallsScreenProps } from './src/CallsScreen';
 export { mockCalls } from './src/CallsScreen';

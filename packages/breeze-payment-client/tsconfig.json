@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "lib": ["ES2022"],
+    "types": ["node", "jest"],
+    "typeRoots": ["../../tests", "../../node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "@hum/payment-client": ["../payment-client/dist/index"],
+      "@hum/payment-client/*": ["../payment-client/dist/*"]
+    }
+  },
+  "include": ["src", "index.ts", "../../types/breez-sdk-liquid.d.ts"],
+  "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "rootDir": ".",
+    "outDir": "dist",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "typeRoots": ["../../tests", "../../node_modules/@types"],
+    "module": "commonjs"
+  },
+  "include": ["src", "index.ts"],
+  "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]
+}
